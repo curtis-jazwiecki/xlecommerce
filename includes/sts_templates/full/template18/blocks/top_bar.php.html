@@ -1,0 +1,84 @@
+<script type="text/javascript">
+    var tba = jQuery.noConflict();
+
+    tba(document).ready(function () {
+        var scroll_pos = 0;
+
+        tba(document).scroll(function () {
+            //alert("hello");
+            scroll_pos = tba(this).scrollTop();
+            if (scroll_pos > 25) {
+                tba("#mj-topbar").css('background-color', '#008080');
+                tba("#mj-topbar").css('background-image', 'url("/includes/sts_templates/full/template18/ext/images/topbar-bggr.png") repeat scroll 0 0 transparent');
+                tba("#mj-topbar a").css('color', '#FFFFFF');
+                tba("#mj-topbar i").css('color', '#FFFFFF');
+                tba("#mj-topbar div").css('color', '#FFFFFF');
+                //tba("#mj-topbar li").css('background', 'url("images/topbar-arrow-white.png") no-repeat scroll right center transparent');
+                tba("#mj-topbar li:last-child").css('background', 'none');
+            }
+            else
+            {
+                tba("#mj-topbar").css('background', 'url("/includes/sts_templates/full/template18/ext/images/topbar-bg.png") repeat scroll 0 0 transparent');
+                tba("#mj-topbar a").css('color', '#008080');
+                tba("#mj-topbar i").css('color', '#008080');
+                tba("#mj-topbar div").css('color', '#008080');
+                //tba("#mj-topbar li").css('background', 'url("images/icons/<?php echo $_SESSION['themecolor_com']."-arrow.png" ?>") no-repeat scroll right center transparent');
+                tba("#mj-topbar li:last-child").css('background', 'none');
+            }
+        });
+    });
+</script>
+<div id="mj-topbar" ><!-- mj-topabar -->
+    <div class="mj-subcontainer"><!-- mj-subcontainer -->
+        <div class="mj-grid16 mj-lspace">CALL US-8888888888</div>             	
+        <div class="mj-grid80 mj-rspace" id="headerShortcuts">
+            <ul class="menu"> 
+                <li>
+                    <i class="fa fa-angle-right fa-2x menu_bar">
+                        <span class="menu_txt">
+                            <span class="tdbLink">
+                                <a href="$urlcataloglogo">Home</a>
+                            </span>
+                        </span>
+                    </i>
+                </li>
+                <li>
+                    <i class="fa fa-angle-right fa-2x menu_bar">
+                        <span class="menu_txt">
+                            <span class="tdbLink">
+                                $loginofflogo
+                            </span>
+                        </span>
+                    </i>
+                </li>
+                <li>
+                    <i class="fa fa-angle-right fa-2x menu_bar">
+                        <span class="menu_txt">
+                            <span class="tdbLink">
+                                <a href="$urlmyaccount">My Account</a>
+                            </span>
+                        </span>
+                    </i>
+                </li>
+                <li>
+                    <i class="fa fa-angle-right fa-2x menu_bar">
+                        <span class="menu_txt">
+                            <span class="tdbLink">
+                                <a href="$urlcheckout" id="tdb3">Checkout</a>
+                            </span>
+                        </span>
+                    </i>
+                </li>
+                <li>
+                    <i class="fa fa-angle-right fa-2x menu_bar">
+                        <span class="menu_txt">
+                            <span class="tdbLink">
+                                <a href="$urlcartcontents" id="tdb4">Cart Contents ($cart_items_count)</a>  
+                            </span>
+                        </span>
+                    </i>
+                </li>
+            </ul>
+        </div>
+    </div><!-- mj-subcontainer End -->
+</div>

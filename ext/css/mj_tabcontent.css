@@ -1,0 +1,84 @@
+﻿/* Tab Content - menucool.com */
+
+.mj-productinfo .mj_prodinfo_tabcontent ul.tabs
+{
+    font-size: 0;
+    margin:0;
+    list-style-type: none;
+    text-align: left; /*set to left, center, or right to align the tabs as desired*/
+}
+
+.mj-productinfo span.title {
+    border-bottom: medium none;
+    margin: 0;
+    padding: 0;
+}
+.mj-productinfo ul.tabs li a
+{
+	height:auto;
+	}
+.mj-productinfo .mj_prodinfo_tabcontent ul.tabs li
+{
+    display: inline;
+    margin: 0;
+    margin-right:3px; /*distance between tabs*/
+}
+        
+.mj-productinfo .mj_prodinfo_tabcontent ul.tabs li a
+{
+    font: normal 12px Verdana;
+    text-decoration: none;
+    position: relative;
+    padding: 5px 16px;
+    border: 1px solid #CCC;
+    border-bottom-color:#B7B7B7;
+    color: #000;
+    background: url("../images/sidebox-bg.png") repeat-x scroll 0 0 hsla(0, 0%, 0%, 0);
+    border-radius: 3px 3px 0 0;
+    outline:none;
+}
+        
+.mj-productinfo .mj_prodinfo_tabcontent ul.tabs li a:visited
+{
+    color: #000;
+}
+        
+.mj-productinfo .mj_prodinfo_tabcontent ul.tabs li a:hover
+{
+    border: 1px solid #B7B7B7;
+    background:#F0F0F0 url("../images/sidebox-bg.png") repeat-x scroll 0 0;
+}
+        
+.mj-productinfo .mj_prodinfo_tabcontent ul.tabs li.selected a, .mj-productinfo .mj_prodinfo_tabcontent ul.tabs li.selected a:hover
+{
+    position: relative;
+    top: 0px;
+    font-weight:bold;
+    background: white;
+    border: 1px solid #B7B7B7;
+    border-bottom-color: white;
+}
+        
+        
+.mj-productinfo .mj_prodinfo_tabcontent ul.tabs li.selected a:hover
+{
+    text-decoration: none;
+}
+     
+
+
+.mj-productinfo .mj_prodinfo_tabcontent div.tabcontents {
+    background-color: hsl(0, 0%, 100%);
+    border: 1px solid hsl(0, 0%, 72%);
+    border-radius: 0 3px 3px;
+    padding: 2%;
+    width: 95%;
+	margin-top:-1px;
+}
+
+.mj-productinfo .mj_prodinfo_tabcontent {
+    display: inline-block;
+    float: left;
+    width: 100%;
+	margin-top:50px
+}

@@ -1,0 +1,10 @@
+.box-twitter{ width:300px}
+.jcarousel-skin-tango .jcarousel-container-vertical { height:310px;}
+.jcarousel-skin-tango .jcarousel-clip-vertical {   height:310px;}
+#mycarousel .jcarousel-item { height:90px}
+.jcarousel-skin-tango .jcarousel-clip {
+    overflow: hidden;
+}
+.box-twitter .twitter-marker a{font-style: italic;}
+#footer_higher .twitter-marker p{margin: 0 0 5px}
+

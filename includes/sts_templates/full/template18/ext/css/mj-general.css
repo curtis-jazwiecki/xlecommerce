@@ -1,0 +1,120 @@
+/**
+* @package Mozen - Responsive Zencart Template
+* @copyright (C) 2012 by Dasinfomedia - All rights reserved!
+* CSS Document
+*/
+@charset "utf-8";
+
+
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td
+{ 
+	margin:0;
+	padding:0;
+}
+fieldset,img
+{ 
+	border:0;
+}
+address,caption,cite,code,dfn,em,strong,th,var
+{
+	font-style:normal;
+	font-weight:normal;
+}
+ol,ul
+{
+	list-style:none;
+}
+caption,th
+{
+	text-align:left;
+}
+q:before,q:after
+{
+	content:'';
+}
+abbr,acronym
+{ 
+	border:0;
+}
+a {
+	text-decoration: none;
+}
+/*//////////////////////Master reset Ends////////////////////////////*/
+#mj-container {
+	width: 100%;
+}
+
+.mj-subcontainer {
+	margin: 0 auto;
+	width: 92%;
+}
+.mj-full {
+	float: left;
+	width: 100%;
+}
+.mj-grid8, .mj-grid16, .mj-grid24, .mj-grid32, .mj-grid40, .mj-grid48,
+.mj-grid56, .mj-grid64, .mj-grid72, .mj-grid80, .mj-grid88, .mj-grid96 {
+	float: left;
+	margin-left: 1%;
+	margin-right: 1%;
+}
+/* For 1 column grid */
+.mj-grid8 {
+	width: 6.333%;;
+}
+/* For 2 column grid */
+.mj-grid16 {
+	width: 14.666%;
+}
+/* For 3 column grid */
+.mj-grid24 {
+	width: 23%;
+}
+/* For 4 column grid */
+.mj-grid32 {
+	width: 31.333%;
+}
+/* For 5 column grid */
+.mj-grid40 {
+	width: 39.666%;
+}
+/* For 6 column grid */
+.mj-grid48 {
+	width: 48%;
+}
+/* For 7 column grid */
+.mj-grid56 {
+	width: 56.333%;
+}
+/* For 8 column grid */
+.mj-grid64 {
+	width: 64.666%;
+}
+/* For 9 column grid */
+.mj-grid72 {
+	width: 73%;
+}
+/* For 10 column grid */
+.mj-grid80 {
+	width: 81.333%;
+}
+/* For 11 column grid */
+.mj-grid88 {
+	width: 89.666%;
+}
+/* For 12 column grid */
+.mj-grid96 {
+	width: 98%;
+}
+.mj-lspace {
+	margin-left: 0;
+}
+.mj-rspace {
+	margin-right: 0;
+}
+.custom.mj-grid8, .custom.mj-grid16, .custom.mj-grid24, .custom.mj-grid32, .custom.mj-grid40, .custom.mj-grid48, 
+.custom.mj-grid56, .custom.mj-grid64, .custom.mj-grid72, .custom.mj-grid80, .custom.mj-grid88, .custom.mj-grid96 {
+	margin-left: 0;
+	margin-right: 0;
+	width: auto;
+}

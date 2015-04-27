@@ -1,0 +1,716 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+$headertags
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<base href="https://www.guns-r-us.co/">
+<!-- start get_javascript(applicationtop2header) //-->
+<script type="text/javascript" language="javascript" src="ext/jQuery/jQuery.js"></script>
+<script type="text/javascript" language="javascript" src="ext/jQuery/jQuery.ajaxq.js"></script>
+<script type="text/javascript" language="javascript" src="ext/jQuery/jQuery.pstrength.js"></script>
+<script type="text/javascript" language="javascript" src="ext/jQuery/jQuery.ui.js"></script>
+<script type="text/javascript" language="javascript" src="includes/checkout/checkout.js"></script>
+<style>
+	.pstrength-minchar {
+		font-size : 10px;
+	}
+</style>
+
+   <script language="javascript"><!--
+    function selectRowEffect(object, buttonSelect, vendor) {
+		var test = 'defaultSelected_' + vendor;//set aside defaultSelected_' . $vendor_id . '
+		var el = document.getElementsByTagName('tr');//all the tr elements
+		for (var i = 0; i < el.length; i++) {
+			var p = el[i].id.replace(test, '').replace(/\d/g, '');//strip the $radio_buttons value
+			if (p == '_') {//the only thing left is an underscore
+				el[i].className = "moduleRow";//make the matching elements normal
+			}
+		}
+
+		object.className = "moduleRowSelected";//override el[i].className and highlight the clicked row
+		var field = document.getElementById('shipping_radio_' + buttonSelect + '_' + vendor);
+
+		if (document.getElementById) {
+			var field = document.getElementById('shipping_radio_' + buttonSelect + '_' + vendor);
+		} else {
+			var field = document.all['shipping_radio_' + buttonSelect + '_' + vendor];
+		}
+    }
+
+	function rowOverEffect(object) {
+
+		if (object.className == 'moduleRow')
+
+			object.className = 'moduleRowOver';
+
+	}
+
+    function rowOutEffect(object) {
+
+		if (object.className == 'moduleRowOver')
+			object.className = 'moduleRow';
+
+	}
+    
+    function CVVPopUpWindow(url) {
+        window.open(url, 'popupWindow', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no,copyhistory=no,width=600,height=233,screenX=150,screenY=150,top=150,left=150')
+
+    }
+
+    function CVVPopUpWindowEx(url) {
+         window.open(url, 'popupWindow', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no,copyhistory=no,width=600,height=510,screenX=150,screenY=150,top=150,left=150')
+
+    }
+
+	var onePage = checkout;
+
+	onePage.initializing = true;
+
+	onePage.ajaxCharset = 'iso-8859-1';
+
+	onePage.loggedIn = true;
+
+	onePage.autoshow = true;
+
+	onePage.stateEnabled = true;
+
+	onePage.telephoneEnabled = true;
+
+	onePage.showAddressInFields = false;
+
+	onePage.showMessagesPopUp = true;
+
+	onePage.ccgvInstalled = true;
+	//BOF KGT
+	onePage.kgtInstalled = false;
+    //EOF KGT
+
+    //BOF POINTS
+    onePage.pointsInstalled = true;
+    //EOF POINTS
+
+    onePage.shippingEnabled = true;
+
+    onePage.pageLinks = {
+		checkout: 'https://www.guns-r-us.co/checkout.php?OBNsid=<?php echo session_id(); ?>&rType=ajax',
+		shoppingCart: 'http://www.guns-r-us.co/shopping_cart.php'
+	}
+
+    function getFieldErrorCheck($element) {
+
+            var rObj = {};
+
+            switch ($element.attr('name')) {
+
+                case 'billing_firstname':
+
+                case 'shipping_firstname':
+
+                    rObj.minLength = 2;
+
+                    rObj.errMsg = 'Your First Name must contain a minimum of 2 characters.';
+
+                    break;
+
+                case 'billing_lastname':
+
+                case 'shipping_lastname':
+
+                    rObj.minLength = 2;
+
+                    rObj.errMsg = 'Your Last Name must contain a minimum of 2 characters.';
+
+                    break;
+
+                case 'billing_email_address':
+
+                    rObj.minLength = 6;
+
+                    rObj.errMsg = 'Your E-Mail Address must contain a minimum of 6 characters.';
+
+                    break;
+
+                case 'billing_street_address':
+
+                case 'shipping_street_address':
+
+                    rObj.minLength = 5;
+
+                    rObj.errMsg = 'Your Street Address must contain a minimum of 5 characters.';
+
+                    break;
+
+                case 'billing_zipcode':
+
+                case 'shipping_zipcode':
+
+                    rObj.minLength = 4;
+
+                    rObj.errMsg = 'Your Post Code must contain a minimum of 4 characters.';
+
+                    break;
+
+                case 'billing_city':
+
+                case 'shipping_city':
+
+                    rObj.minLength = 3;
+
+                    rObj.errMsg = 'Your City must contain a minimum of 3 characters.';
+
+                    break;
+
+                case 'billing_dob':
+
+                    rObj.minLength = 10;
+
+                    rObj.errMsg = 'Your Date of Birth must be in this format: MM/DD/YYYY (eg 05/21/1970)';
+
+                    break;
+
+                case 'billing_telephone':
+
+                    rObj.minLength = 3;
+
+                    rObj.errMsg = 'Your Telephone Number must contain a minimum of 3 characters.';
+
+                    break;
+
+                case 'billing_country':
+
+                case 'shipping_country':
+
+                    rObj.errMsg = 'You must select a country from the Countries pull down menu.';
+
+                    break;
+
+                case 'billing_state':
+
+                case 'delivery_state':
+
+                    rObj.minLength = 2;
+
+                    rObj.errMsg = 'Your State must contain a minimum of 2 characters.';
+
+                    break;
+
+                case 'password':
+
+                case 'confirmation':
+
+                    rObj.minLength = 5;
+
+                    rObj.errMsg = 'Your Password must contain a minimum of 5 characters.';
+
+                    break;
+
+            }
+
+            return rObj;
+	}
+
+    $(document).ready(function() {
+            $('#pageContentContainer').show();
+
+            $('#ajaxMessages').dialog({
+                    shadow: true,
+                    modal: true,
+                    width: 400,
+                    height: 100,
+                    open: function(event, ui) {
+                        $(this).parent().children().children('.ui-dialog-title').hide();
+                        $(this).parent().children().children('.ui-dialog-titlebar').hide();
+                        $(this).parent().children().children('.ui-dialog-titlebar-close').hide();
+                    }
+             });
+
+            var loginBoxOpened = false;
+
+            $('#loginButton').click(function() {
+                if (loginBoxOpened) {
+                    $('#loginBox').dialog('open');
+                    return false;
+                }
+
+                $('#loginBox').dialog({
+                    resizable: false,
+                    shadow: false,
+                    open: function() {
+
+                        var $dialog = this;
+
+                        $('input', $dialog).keypress(function(e) {
+                            if (e.which == 13) {
+                                $('#loginWindowSubmit', $dialog).click();
+                            }
+                        });
+
+                        $('#loginWindowSubmit', $dialog).hover(function() {
+                            this.style.cursor = 'pointer';
+                        }, function() {
+                            this.style.cursor = 'default';
+                        }).click(function() {
+                            var $this = $(this);
+                            $this.hide();
+                            var email = $('input[name="email_address"]', $dialog).val();
+                            var pass = $('input[name="password"]', $dialog).val();
+                            onePage.queueAjaxRequest({
+                                url: onePage.pageLinks.checkout,
+                                data: 'action=processLogin&email=' + email + '&pass=' + pass,
+                                dataType: 'json',
+                                type: 'post',
+                                beforeSend: function() {
+                                   onePage.showAjaxMessage('Refreshing Shopping Cart');
+                                    if ($('#loginStatus', $this.parent()).size() <= 0) {
+                                        $('<div>')
+                                                .attr('id', 'loginStatus')
+                                                .html('Processing Login')
+                                                .attr('align', 'center')
+                                                .insertAfter($this);
+                                    }
+                                },
+                                success: function(data) {
+									if (data.success == true) {
+                                        $('#loginStatus', $dialog).html(data.msg);
+                                        $('#logInRow').hide();
+                                        $('#changeBillingAddressTable').show();
+                                        $('#changeShippingAddressTable').show();
+                                        $('#newAccountEmail').remove();
+                                        $('#diffShipping').parent().parent().parent().remove();
+                                        onePage.updateAddressHTML('billing');
+                                        onePage.updateAddressHTML('shipping');
+                                        $('#shippingAddress').show();
+                                        var updateTotals = true;
+                                        onePage.updateCartView();
+                                        onePage.updateFinalProductListing();
+                                        onePage.updatePaymentMethods(true);
+                                        onePage.updatePayment();
+                                        if ($(':radio[name="payment"]:checked').size() > 0) {
+                                            onePage.setPaymentMethod($(':radio[name="payment"]:checked'));
+                                            updateTotals = false;
+                                        }
+
+                                        onePage.updateShippingMethods();
+
+                                        if ($(':radio[name="shipping"]:checked').size() > 0) {
+                                            //onePage.setShippingMethod($(':radio[name="shipping"]:checked').val());
+                                            onePage.setShippingMethod($(':radio[name="shipping"]:checked'));
+                                            updateTotals = false;
+                                        }
+
+                                        if (updateTotals == true) {
+                                            onePage.updateOrderTotals();
+                                        }
+
+                                        $('#loginBox').dialog('destroy');
+                                    } else {
+
+                                        $('#logInRow').show();
+                                        $('#loggedInRow').hide();
+                                        $('#loginStatus', $dialog).html(data.msg);
+                                        setTimeout(function() {
+                                            $('#loginStatus').remove();
+                                            $('#loginWindowSubmit').show();
+                                        }, 6000);
+                                        setTimeout(function() {
+                                            $('#loginStatus').html('Try again in 3');
+                                        }, 3000);
+
+                                        setTimeout(function() {
+                                            $('#loginStatus').html('Try again in 2');
+                                        }, 4000);
+                                        setTimeout(function() {
+                                            $('#loginStatus').html('Try again in 1');
+                                        }, 5000);
+                                    }
+                                },
+								errorMsg: 'There was an error logging in, please inform ShedsForLessDirect about this error.'
+                            });
+                        });
+                    }
+                });
+
+                loginBoxOpened = true;
+                return false;
+
+            });
+
+            $('#changeBillingAddress, #changeShippingAddress').click(function(event) {
+                event.preventDefault();
+                var addressType = 'billing';
+
+                if ($(this).attr('id') == 'changeShippingAddress') {
+                    addressType = 'shipping';
+                }
+
+                $('#addressBook').clone().show().appendTo(document.body).dialog({
+                    shadow: false,
+                    width: 550,
+                    // height: 450,
+
+                    minWidth: 550,
+
+                    //minHeight: 500,
+
+                    beforeclose: function() {
+
+                        var $this = $(this);
+
+                        var action = $('input[name="action"]', $this).val();
+
+                        //alert($(':input, :select, :radio, :checkbox', this).serialize());
+
+                        if (action == 'selectAddress') {
+
+                            //$this.dialog('close');
+
+                        } else if (action == 'addNewAddress' || action == 'saveAddress') {
+
+                            onePage.loadAddressBook($this, addressType);
+
+                            return false;
+
+                        }
+
+                    },
+
+                    open: function() {
+
+                        onePage.loadAddressBook($(this), addressType);
+
+                    },
+
+                    buttons: {
+
+                        'Cancel': function() {
+
+                            var $this = $(this);
+
+                            var action = $('input[name="action"]', $this).val();
+
+                            //alert($(':input, :select, :radio, :checkbox', this).serialize());
+
+                            if (action == 'selectAddress') {
+
+                                $this.dialog('close');
+
+                            } else if (action == 'addNewAddress' || action == 'saveAddress') {
+
+                                onePage.loadAddressBook($this, addressType);
+
+                            }
+
+                            //onePage.updatePaymentMethods();
+
+                            //onePage.updatePayment();
+
+                            //onePage.updateOrderTotals();
+
+                        },
+
+                        'Continue': function() {
+
+                            var $this = $(this);
+
+                            var action = $('input[name="action"]', $this).val();
+
+                            //alert($(':input, :select, :radio, :checkbox', this).serialize());
+
+                            if (action == 'selectAddress') {
+
+                                onePage.queueAjaxRequest({
+
+                                    url: onePage.pageLinks.checkout,
+
+                                    beforeSendMsg: 'Setting Address',
+
+                                    dataType: 'json',
+
+                                    data: $(':input, :radio', this).serialize(),
+
+                                    type: 'post',
+
+                                    success: function(data) {
+
+                                        $this.dialog('close');
+
+                                        if (addressType == 'shipping') {
+
+                                            onePage.updateAddressHTML('shipping');
+
+                                            onePage.updateShippingMethods(true);
+
+                                            //onePage.loadAddressBook($this, 'shipping');
+
+                                            onePage.updatePaymentMethods();
+
+                                            onePage.updatePayment();
+
+                                            onePage.updateOrderTotals();
+
+                                        } else {
+
+                                            onePage.updateAddressHTML('billing');
+
+                                            //onePage.loadAddressBook($this, 'billing');
+
+                                            //								onePage.processBillingAddress();
+
+                                            onePage.updatePaymentMethods();
+
+                                            onePage.updatePayment();
+
+                                            onePage.updateOrderTotals();
+
+                                        }
+
+                                    },
+
+                                    errorMsg: 'There was an error saving your address, please inform ShedsForLessDirect about this error.'
+
+                                });
+
+                            } else if (action == 'addNewAddress') {
+
+                                onePage.queueAjaxRequest({
+
+                                    url: onePage.pageLinks.checkout,
+
+                                    beforeSendMsg: 'Saving New Address',
+
+                                    dataType: 'json',
+
+                                    data: $(':input, :select, :radio, :checkbox', this).serialize(),
+
+                                    type: 'post',
+
+                                    success: function(data) {
+
+                                        onePage.loadAddressBook($this, addressType);
+
+                                    },
+
+                                    errorMsg: 'There was an error saving your address, please inform ShedsForLessDirect about this error.'
+
+                                });
+
+                            } else if (action == 'saveAddress') {
+
+                                onePage.queueAjaxRequest({
+
+                                    url: onePage.pageLinks.checkout,
+
+                                    beforeSendMsg: 'Updating Address',
+
+                                    dataType: 'json',
+
+                                    data: $(':input, :select, :radio, :checkbox', this).serialize(),
+
+                                    type: 'post',
+
+                                    success: function(data) {
+
+                                        onePage.loadAddressBook($this, addressType);
+
+                                    },
+
+                                    errorMsg: 'There was an error saving your address, please inform ShedsForLessDirect about this error.'
+
+                                });
+
+                            }
+
+                        },
+
+                                'New Address': function() {
+
+                                    var $this = $(this);
+
+                                    onePage.queueAjaxRequest({
+
+                                        url: onePage.pageLinks.checkout,
+
+                                        data: 'action=getNewAddressForm',
+
+                                        type: 'post',
+
+                                        beforeSendMsg: 'Loading New Address Form',
+
+                                        success: function(data) {
+
+                                            $this.html(data);
+
+                                            onePage.addCountryAjaxEdit($('select[name="country"]', $this), 'state', 'stateCol');
+
+                                        },
+
+                                        errorMsg: 'There was an error loading new address form, please inform ShedsForLessDirect about this error.'
+
+                                    });
+
+                                },
+
+                                'Edit Address': function() {
+
+                                    var $this = $(this);
+
+                                    onePage.queueAjaxRequest({
+
+                                        url: onePage.pageLinks.checkout,
+
+                                        data: 'action=getEditAddressForm&addressID=' + $(':radio[name="address"]:checked', $this).val(),
+
+                                        type: 'post',
+
+                                        beforeSendMsg: 'Loading Edit Address Form',
+
+                                        success: function(data) {
+
+                                            $this.html(data);
+
+                                            onePage.addCountryAjaxEdit($('select[name="country"]', $this), 'state', 'stateCol');
+
+                                            $('select[name="country"]', $this).trigger('change');
+
+                                        },
+
+                                        errorMsg: 'There was an error loading edit address form, please inform ShedsForLessDirect about this error.'
+
+                                    });
+
+                                }
+
+                    }
+
+                });
+
+                return false;
+
+            });
+
+            onePage.initCheckout();
+            /*$('input[name="payment"]').each(function(){
+                if (!$(this).attr('checked')){
+                    id = $(this).val();
+                    $('div#' + id).css('display', 'none');
+                }
+            });*/
+        
+	});
+
+	function clearRadeos() {
+		document.checkout.cot_gv.checked = !document.checkout.cot_gv.checked;
+	}
+    //-->
+</script>
+<!-- end get_javascript(applicationtop2header) //-->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="ext/jQuery/themes/smoothness/ui.all.css">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script>
+	var jQuery = jQuery.noConflict();
+</script>
+<link rel="stylesheet" type="text/css" href="includes/sts_templates/full/template18/stylesheet.css" />
+<style type="text/css">
+	.left_column + table {
+		width: 100%;
+	}
+</style>
+$template18_stylesheet1
+	</head>
+    <body class="checkout">
+        <div id="mj-container">
+            $top_bar
+            $header
+            $navigation_menu
+            <div id="mj-slidetitle"> <!-- mj-slidetitle starts -->
+                <div class="mj-subcontainer"> <!-- mj-subcontainer starts -->
+                    <div class="moduletable mj-grid96 breadcrumb">	<!-- mj-grid96 starts -->
+                        <div class="breadcrumbs mj-grid96 breadcrumb"> 
+                            <div id="navBreadCrumb">
+                                $breadcrumbs
+                                <!--<ul><li><a class="headerNavigation" href="http://localhost/osmart/index.php">Catalog</a></li> <li><a class="headerNavigation" href="http://localhost/osmart/login.php">Login</a></li></ul>-->
+                            </div> 
+                        </div>
+                    </div> <!-- mj-grid96 ends -->
+                </div> <!-- mj-subcontainer ends -->
+            </div>
+
+
+            <div id="mj-maincontent">
+  
+		<div class="wrapper">
+        <div id="loginBox" title="Log Into My Account" style="display:none;"><table cellpadding="2" cellspacing="0" border="0">
+                <tr>
+                    <td class="main"><?php echo ENTRY_EMAIL_ADDRESS; ?></td>
+                    <td><?php echo tep_draw_input_field('email_address'); ?></td>
+                </tr>
+                <tr>
+                    <td class="main"><?php echo ENTRY_PASSWORD; ?></td>
+                    <td><?php echo tep_draw_password_field('password'); ?></td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="right" class="main"><a href="<?php echo tep_href_link(FILENAME_PASSWORD_FORGOTTEN, '', 'SSL'); ?>"><?php echo TEXT_PASSWORD_FORGOTTEN; ?></a></td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="right"><?php echo tep_image_button('button_login.gif', IMAGE_BUTTON_LOGIN, 'id="loginWindowSubmit"'); ?></td>
+                </tr>
+            </table></div>
+            <div id="addressBook" title="Address Book" style="display:none"></div>
+<div id="newAddress" title="New Address" style="display:none"></div>
+			
+                        
+    <div id="mj-maincontent">
+                <div class="mj-subcontainer">
+                    <div id="mj-contentarea" class="mj-grid64 mj-lspace">
+                    
+                    
+                    
+     
+$message
+
+
+
+$content
+
+                
+			
+                        </div>
+                    
+		<div id="mj-left" class="mj-grid16 mj-lspace">                            
+                        <div class="ui-widget infoBoxContainer mj-categoriessidebox">
+                            $categorybox
+                        </div>                        
+                        <div class="ui-widget infoBoxContainer mj-whatsnew">
+                            $whatsnewbox
+                        </div>   
+                        <div class="ui-widget infoBoxContainer mj-information">
+                            $informationbox
+                        </div>
+                    </div>
+                    <div id="mj-right" class="mj-grid16 mj-lspace mj-rspace">
+                        <div class="ui-widget infoBoxContainer">
+                            $product_related_items
+                        </div>                        
+                    </div>
+                    <!--sku end-->
+                </div>
+
+            </div>
+		</div>
+            </div>
+
+
+            <div id="mj-footer"> <!-- mj-footer starts -->
+                <div class="mj-subcontainer"> <!-- mj-subcontainer starts -->
+                    $footer_box_01
+                    $footer_box_02
+                    $footer_box_03
+                    $footer_box_04
+                </div>
+            </div>
+            $footer_copyright
+        </div>
+    </body>
+</html>

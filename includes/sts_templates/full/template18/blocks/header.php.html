@@ -1,0 +1,61 @@
+<div id="mj-header">
+    <div class="mj-subcontainer">
+        <!-- mj-subcontainer starts -->
+        <div id="mj-logo"> <!-- mj-logo starts -->
+            <a href="index.php"><img src="images/tpl/logo_tpl18.png"></a>                      
+        </div> <!-- mj-logo ends -->
+        <div class="mj-grid16 mj-rspace mj-lspace"> <!-- mj-grid16 starts -->
+             <div id="mj-languagebar">
+                $languagebox
+            </div> <!-- mj-languagebar ends -->
+             
+        </div> <!-- mj-grid16 ends -->
+
+        <div class="mj-grid32 mj-lspace"> <!-- mj-grid32 starts -->
+            <form method="get" action="advanced_search_result.php" name="search">                                    <div class="search"> 
+                    <input type="text" onfocus="if (this.value == ' Search entire store...')
+                                            this.value = ''" onblur="if (this.value == '')
+                                                        this.value = ' Search entire store...'" value=" Search entire store..." style="width:100%;" class="go" name="keywords">
+                    <button type="submit" id="search-button"><span>Search</span></button>
+                </div> 
+            </form>   
+        </div> <!-- mj-grid32 ends -->
+        <script type="text/javascript">
+            jQuery(document).ready(function(){
+				jQuery('input:checkbox[name^="columns_"]').click(function(){
+					var product_id = jQuery(this).val();
+					var action = (jQuery(this).is(':checked') ? 'add' : 'remove'); 
+					jQuery.ajax({
+					   url: 'register_product_for_comparison.php', 
+					   method: 'post', 
+					   data: {
+							action: action, 
+							id: product_id
+					   }, 
+					   success: function(response){
+							if (response=='added'){
+								alert('Product added for comparison');
+							} else if (response=='removed'){
+								alert('Product removed from comparison');
+							}
+					   },
+					   error: function(xhr, textStatus, errorThrown) {
+							alert(errorThrown);
+					   }
+					});
+				});
+        	});
+			
+			var jqheader = jQuery.noConflict();
+            jqheader(document).ready(function () {
+                jqheader('#store_li').click(function () {
+                    jqheader(".navbar .nav > li").show();
+                });
+                jqheader('#cate_li').click(function () {
+                    jqheader(".navbar .nav > li").show();
+                });
+            });
+        </script>
+    </div>
+
+</div>

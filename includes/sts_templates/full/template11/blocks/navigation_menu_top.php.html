@@ -1,0 +1,53 @@
+<style type="text/css">
+  ul {list-style: none;padding: 0px;margin: 0px;}
+  ul li {display: block;position: relative;float: left;border:1px solid #000}
+  li ul {display: none;}
+  ul li a {display: block;background: #000;padding: 5px 10px 5px 10px;text-decoration: none;
+           white-space: nowrap;color: #fff; font-weight:bold;}
+  ul li a:hover {color:green; text-decoration:none; background: linear-gradient(to bottom, rgba(11, 16, 22, 0.85) 0%, rgba(11, 16, 22, 0.85) 1%, rgba(17, 14, 11, 0.85) 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);}
+  li:hover ul {display: block; position: absolute;}
+  li:hover li {float: none;}
+  li:hover a {}
+  li:hover li a:hover {background: #000;}
+#drop-nav ul {
+    font-size: 12px;
+    font-weight: normal;
+border-right:1px solid #5f0202;
+border-left:1px solid #5f0202;
+
+border-bottom:1px solid #5f0202;
+}
+#drop-nav ul li a:hover
+{
+background: linear-gradient(to bottom, rgba(11, 16, 22, 0.85) 0%, rgba(11, 16, 22, 0.85) 1%, rgba(17, 14, 11, 0.85) 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+  #drop-nav li ul li {border-top: 0px;}
+#drop-nav li ul{
+z-index:999;
+}
+#drop-nav li li a{
+font-size:12px;
+ font: inherit;
+}
+</style>
+<ul id="drop-nav">
+  <li><a href="index.php">Home</a></li>
+  <li><a href="shop.php">Products</a>
+$categories_html
+  </li>
+  <li><a href="information.php?info_id=8">About Us</a>
+<ul>
+<li><a href="information.php?info_id=8">About Us</a></li>
+<li><a href="information.php?info_id=19">Why BEAMSHOT Is Better</a></li>
+<li><a href="information.php?info_id=20">Tactical Tips, & Techniques</a></li>
+<li><a href="information.php?info_id=21">Laser Sighting Procedures</a></li>
+<li><a href="information.php?info_id=22">Law Enforcement Testimonials</a></li>
+<li><a href="information.php?info_id=23">Catalog/User Manuals</a></li>
+<li><a href="information.php?info_id=24">In the Press</a></li>
+<li><a href="information.php?info_id=25">Videos</a></li>
+<li><a href="information.php?info_id=26">Mounts & Accessories</a></li>
+</ul>
+</li>
+<li><a href="#">Find A Dealer</a></li>   
+<li><a href="contact_us.php">Contact Us</a></li>  
+</ul>

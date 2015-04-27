@@ -1,0 +1,22 @@
+type,file,variable,key,value,description
+data,,,template_name,mobile_view,
+data,,,template_osc_code,full/template6,
+data,,,template_id,6,
+file,stylesheet.css,,,,Stylesheet
+file,boxes/catalog_shopping_cart.php.html,,,,Shopping Cart
+file,boxes/infobox.php.html,,,,Info Box
+file,boxes/infobox_information.php.html,,,,Information Info box 
+file,boxes/infobox_information_header.php.html,,,,Information Info Box Header
+file,boxes/infobox_special.php.html,,,,Special box
+file,boxes/infobox_special_header.php.html,,,,Special box header
+file,sts_template.html,,,,
+file,index.php.html,,,,Main template
+file,product_info.php,,,,Product Info Page
+file,product_listing.php,,,,
+file,product_listing_column.php,,,,Column Layout
+file,product_listing_large.php,,,,Large Picture Layout
+file,product_listing_large_description.php,,,,Large descriptive layout
+file,product_listing_standard.php,,,,Standard Layout
+file,checkout_payment.php,,,,
+file,checkout_confirmation.php,,,,
+file,checkout_success.php,,,,

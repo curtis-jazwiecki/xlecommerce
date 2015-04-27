@@ -1,0 +1,525 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<!--$headcontent-->
+
+$stylesheet
+<style type="text/css">
+
+body {
+	background-color: #666666;
+	font-family:Arial, Helvetica, sans-serif;
+	color:#330033;
+	margin-top:0;
+	margin-left:0;
+	margin-right:0;
+	background-image:url(/includes/sts_templates/full/template4/images/background_fade.jpg);
+	background-repeat:repeat-x;
+}
+
+/* NEW MENU */
+
+
+
+   ul.topnav {  
+
+
+
+       list-style: none;  
+
+
+
+       padding: 0 20px;  
+
+
+
+       margin: 0;  
+
+
+
+       float: left;  
+
+
+
+       width: 858px;  
+
+
+
+       background: #222;  
+
+
+
+       font-size: 1.0em;  
+
+
+
+       background: url(images/topnav_bg.gif) repeat-x;
+
+	   border-left: 1px solid #FFFFFF;
+
+	   border-right: 1px solid #FFFFFF;
+
+
+
+   }  
+
+
+
+   ul.topnav li {  
+
+
+
+       float: left;  
+
+
+
+       margin: 0;  
+
+
+
+       padding: 0 15px 0 0;  
+
+
+
+       position: relative; /*--Declare X and Y axis base for sub navigation--*/  
+
+
+
+   }  
+
+
+
+   ul.topnav li a{  
+
+
+
+       padding: 10px 5px 0px 5px;  
+
+
+
+       color: #fff;  
+
+
+
+       display: block;  
+
+
+
+       text-decoration: none;  
+
+
+
+       float: left;  
+
+
+
+   }  
+
+
+
+   ul.topnav li a:hover{  
+
+
+
+       background: url(images/topnav_hover.gif) no-repeat center top;  
+
+
+
+   }  
+
+
+
+   ul.topnav li span { /*--Drop down trigger styles--*/  
+
+
+
+       width: 17px;  
+
+
+
+       height: 35px;  
+
+
+
+       float: left;  
+
+
+
+       background: url(images/subnav_btn.gif) no-repeat center top;  
+
+
+
+   }  
+
+
+
+   ul.topnav li span.subhover
+
+
+
+    {background-position: center bottombottom; cursor: pointer;} /*--Hover effect for trigger--*/
+
+
+
+
+
+
+
+   ul.topnav li ul.subnav {
+
+
+
+     font-size: 12px;
+
+
+
+     list-style: none;
+
+
+
+     position: absolute; /*--Important - Keeps subnav from affecting main navigation flow--*/
+
+
+
+     left: 0px; top: 35px;
+
+
+
+     background: #333;
+
+
+
+     margin: 0; padding: 0;
+
+
+
+     text-align: left;
+
+
+
+     display: none;
+
+
+
+     float: left;
+
+
+
+     width: 200px;
+
+
+
+     border: 1px solid #111;
+
+
+
+ }
+
+
+
+
+
+
+
+   ul.topnav li ul.subnav2 {
+
+
+
+     font-size: 12px;
+
+
+
+     list-style: none;
+
+
+
+     position: absolute; /*--Important - Keeps subnav from affecting main navigation flow--*/
+
+
+
+     left: -92px; top: 35px;/*--moves drop down--*/
+
+
+
+     background: #333;
+
+
+
+     margin: 0; padding: 0;
+
+
+
+     text-align: left;
+
+
+
+     display: none;
+
+
+
+     float: left;
+
+
+
+     width: 900px;
+
+
+
+     border: 1px solid #111;
+
+
+
+ }
+
+
+
+
+
+
+
+ ul.topnav li ul.subnav li{  
+
+
+
+     margin: 0; padding: 0;  
+
+
+
+     border-top: 1px solid #252525; /*--Create bevel effect--*/  
+
+
+
+     border-bottom: 1px solid #444; /*--Create bevel effect--*/  
+
+
+
+     clear: both;
+
+
+
+     width: 200px;  
+
+
+
+ }
+
+
+
+ 
+
+
+
+ ul.topnav li ul.subnav2 li.line_break{
+
+
+
+     margin: 0; padding: 0;  
+
+
+
+     border-top: 1px solid #252525; /*--Create bevel effect--*/  
+
+
+
+	 display: block;
+
+
+
+     width: 150px;  
+
+
+
+ }
+
+
+
+
+
+
+
+ html ul.topnav li ul.subnav li a {  
+
+
+
+     float: left;  
+
+
+
+     width: 175px;  
+
+
+
+     background: #333 url(images/dropdown_linkbg.gif) no-repeat 10px center;  
+
+
+
+     padding-left: 20px;  
+
+
+
+ }
+
+
+
+ html ul.topnav li ul.subnav li a:hover { /*--Hover effect for subnav links--*/  
+
+
+
+     background: #222 url(images/dropdown_linkbg.gif) no-repeat 10px center;  
+
+
+
+ }
+
+
+
+ html ul.topnav li ul.subnav2 li a {  
+
+
+
+     float: left;  
+
+
+
+     width: 125px;  
+
+
+
+     background: #333 url(images/dropdown_linkbg.gif) no-repeat 10px center;  
+
+
+
+     padding-left: 20px;  
+
+
+
+ }
+
+
+
+ html ul.topnav li ul.subnav2 li a:hover { /*--Hover effect for subnav links--*/  
+
+
+
+     background: #222 url(images/dropdown_linkbg.gif) no-repeat 10px center;  
+
+
+
+ }  
+
+
+
+/* END NEW MENU */
+
+</style><!--$headcontent-->
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+
+<script type="text/javascript">
+ $(document).ready(function(){
+
+ $("ul.subnav").parent().append("<span></span>"); //Only shows drop down trigger when js is enabled - Adds empty span tag after ul.subnav
+
+ $("ul.topnav li span").hover(function() { //When trigger is clicked...
+
+ //Following events are applied to the subnav itself (moving subnav up and down)
+ $(this).parent().find("ul.subnav").slideDown('slow').show(); //Drop down the subnav on click
+
+ $(this).parent().hover(function() {
+ }, function(){
+ $(this).parent().find("ul.subnav").slideUp('slow'); //When the mouse hovers out of the subnav, move it back up
+ });
+ //Following events are applied to the trigger (Hover events for the trigger)
+ }).hover(function() {
+ $(this).addClass("subhover"); //On hover over, add class "subhover"
+ }, function(){ //On Hover Out
+ $(this).removeClass("subhover"); //On hover out, remove class "subhover"
+ });
+});
+
+ $(document).ready(function(){
+
+ $("ul.subnav2").parent().append("<span></span>"); //Only shows drop down trigger when js is enabled - Adds empty span tag after ul.subnav
+
+ $("ul.topnav li span").hover(function() { //When trigger is clicked...
+
+ //Following events are applied to the subnav itself (moving subnav up and down)
+ $(this).parent().find("ul.subnav2").slideDown('slow').show(); //Drop down the subnav on click
+
+ $(this).parent().hover(function() {
+ }, function(){
+ $(this).parent().find("ul.subnav2").slideUp('slow'); //When the mouse hovers out of the subnav, move it back up
+ });
+ //Following events are applied to the trigger (Hover events for the trigger)
+ }).hover(function() {
+ $(this).addClass("subhover"); //On hover over, add class "subhover"
+ }, function(){ //On Hover Out
+ $(this).removeClass("subhover"); //On hover out, remove class "subhover"
+ });
+});
+</script> 
+
+
+</head>
+<body>
+    <table width="900" border="0" cellspacing="0" cellpadding="0" align="center">
+      <tr>
+        <td><a href="index.php"><img src="/includes/sts_templates/full/template4/images/headerL.png" border="0" /></a></td>
+        <td background="/includes/sts_templates/full/template4/images/headerR.png" width="450">
+       <table width="440" align="center">
+        <tr>
+        <td colspan="3" align="right">$myaccountlogoff&nbsp;|&nbsp;$cartcontents&nbsp;|&nbsp;$checkout</td>
+        </tr>
+       <tr>
+       <td align="right" width="270"><?php echo tep_draw_form('quick_find', tep_href_link(FILENAME_ADVANCED_SEARCH_RESULT, '', 'NONSSL', false), 'get').tep_draw_input_field('keywords', '', 'size="10" maxlength="30" valign="middle" value="Search Here" style="width: ' . (BOX_WIDTH-30) . 'px"') . '</td><td  valign="middle" align="left" width="25" style="padding-bottom:0px;" >' . tep_hide_session_id() . tep_image_submit('button_quick_find1.gif', BOX_HEADING_SEARCH);?></td>
+		<td></form><div align="left"><a class="headerNavigation" href="/advanced_search.php">Advanced Search</a></div></td>
+        </tr>
+        </table>
+        </td>
+  </tr>
+</table>
+</td>
+      </tr>
+    </table>
+    <table width="900" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#00FF99">
+      <tr>
+        <td>$drop_down_menu</td>
+      </tr>
+    </table>
+    <table width="900" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#00FF99">
+      <tr>
+        <td></td>
+      </tr>
+    </table>
+    <table width="900" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF">
+      <tr>
+       <td width="158" height="235" align="center" valign="top" bgcolor="#ffffff">
+          <table width="148" border="0" cellspacing="0" cellpadding="0" >
+            <tr>
+   	        <td><br />$search_filterbox</td>
+       	    </tr>
+             <tr>
+              <td><br />$specialbox</td>
+            </tr>
+            <tr>
+              <td>$cartbox</td>
+            </tr>
+          </table>
+        </td> 
+      <td width="742" valign="top" align="left" height="500"><div class="link3" align="right"><span style="font-size:10px">$breadcrumbs</span></div><div style="padding-left:2px; padding-right:2px">$content</div></td> 
+      </tr>
+      <tr>
+    </table>
+    <table width="900" border="0" cellspacing="0" cellpadding="0" align="center">
+    <tr>
+    <td><img src="/includes/sts_templates/full/template4/images/footer.png" /></td>
+    </tr>
+      <tr>
+        <td colspan="3" valign="middle" align="center"><span style="font-size:10px; color:#FF0000">Copyright  2009 <a href="http://www.outdoorbusinessnetwork.com" target="_blank">Outdoor Business Network</a> | Powered by <a href="http://www.go4outdoors.com" target="_blank">OBN</a> | <a href="privacy.php">Privacy</a></font></span></td>
+      </tr>
+    </table>
+ </body>
+</html>

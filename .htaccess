@@ -1,0 +1,140 @@
+#php_flag register_globals on
+# $Id: .htaccess,v 1.3 2003/06/12 10:53:20 hpdl Exp $
+#
+# This is used with Apache WebServers
+#
+# For this to work, you must include the parameter 'Options' to
+# the AllowOverride configuration
+#
+# Example:
+#
+# <Directory "/usr/local/apache/htdocs">
+#   AllowOverride Options
+# </Directory>
+#
+# 'All' with also work. (This configuration is in the
+# apache/conf/httpd.conf file)
+
+# The following makes adjustments to the SSL protocol for Internet
+# Explorer browsers
+
+# Uncomment for Maintenance Mode
+#  # be sure to whitelist IP and change maintenance.html html to whatever
+# <IfModule mod_rewrite.c>
+#  RewriteEngine on
+#  RewriteCond %{REMOTE_ADDR} !^72.241.99.64
+#  RewriteCond %{REQUEST_URI} !/maintenance.html$ [NC]
+#  RewriteCond %{REQUEST_URI} !\.(jpe?g?|png|gif) [NC]
+#  RewriteRule .* /maintenance.html [R=302,L]
+# </IfModule>
+
+#AuthName "admin"
+#AuthUserFile "/home/obnv6/.htpasswds/public_html/ad_version6/passwd"
+#AuthType Basic
+#require valid-user
+
+
+<IfModule mod_setenvif.c>
+  <IfDefine SSL>
+    SetEnvIf User-Agent ".*MSIE.*" \
+             nokeepalive ssl-unclean-shutdown \
+             downgrade-1.0 force-response-1.0
+  </IfDefine>
+</IfModule>
+
+# If Search Engine Friendly URLs do not work, try enabling the
+# following Apache configuration parameter
+#
+# AcceptPathInfo On
+
+# Fix certain PHP values
+# (commented out by default to prevent errors occuring on certain
+# servers)
+#
+#<IfModule mod_php4.c>
+#  php_value session.use_trans_sid 0
+#  php_value register_globals 1
+#</IfModule>
+
+Options +FollowSymLinks
+RewriteEngine On 
+RewriteBase /
+
+RewriteRule ^(.*)-p-(.*).html$ product_info.php?products_id=$2&%{QUERY_STRING}
+RewriteRule ^(.*)-c-(.*).html$ shop.php?cPath=$2&%{QUERY_STRING}
+RewriteRule ^(.*)-m-(.*).html$ shop.php?manufacturers_id=$2&%{QUERY_STRING}
+RewriteRule ^(.*)-pi-(.*).html$ popup_image.php?pID=$2&%{QUERY_STRING}
+RewriteRule ^(.*)-t-(.*).html$ articles.php?tPath=$2&%{QUERY_STRING}
+RewriteRule ^(.*)-a-(.*).html$ article_info.php?articles_id=$2&%{QUERY_STRING}
+RewriteRule ^(.*)-pr-(.*).html$ product_reviews.php?products_id=$2&%{QUERY_STRING}
+RewriteRule ^(.*)-pri-(.*).html$ product_reviews_info.php?products_id=$2&%{QUERY_STRING}
+RewriteRule ^(.*)-i-(.*).html$ information.php?info_id=$2&%{QUERY_STRING}
+
+ErrorDocument 404 /error.php
+
+<Files ~ "includes\configure.php$">
+deny from all
+</Files>
+
+<Files ~ "^\.ht">
+Order allow,deny
+Deny from all
+Satisfy All
+</Files>
+
+<FilesMatch "\.(inc|tpl|h|ihtml|ini|conf|c|bin|spd|theme|module|exe)$">
+deny from all
+</FilesMatch>
+
+RewriteCond %{HTTP_USER_AGENT} libwww-perl [OR]
+RewriteCond %{QUERY_STRING} tool25 [OR]
+RewriteCond %{QUERY_STRING} cmd.txt [OR]
+RewriteCond %{QUERY_STRING} cmd.gif [OR]
+RewriteCond %{QUERY_STRING} r57shell [OR]
+RewriteCond %{QUERY_STRING} c99 [OR]
+
+SetEnvIfNoCase User-Agent "^libwww-perl*" block_bad_bots
+Deny from env=block_bad_bots
+
+deny from 119.47.92.9
+deny from 125.164.18.218
+deny from 114.79.19.152
+deny from 125.167.17.230
+deny from 184.106.150.219
+deny from 125.167.45.96
+deny from 114.79.23.20
+deny from 125.164.6.131
+deny from 114.79.22.72
+deny from 180.246.224.3
+deny from 125.164.7.217
+deny from 125.163.26.59
+deny from 114.79.22.49
+deny from 114.79.58.180
+deny from 125.164.13.127
+deny from 202.152.201.37
+deny from 110.139.58.151
+deny from 110.138.225.19
+deny from 193.104.113.28
+deny from 125.164.220.9
+deny from 110.139.67.142
+deny from 66.63.162.11
+deny from 125.164.12.223
+deny from 61.94.216.32
+deny from 118.96.74.98
+deny from 114.79.16.53
+deny from 195.244.235.212
+
+######
+# 1) add these lines to your .htaccess file
+# 2) create an index_error.php file with whatever content you want to be displayed.
+
+Options +FollowSymLinks
+RewriteEngine On 
+RewriteCond %{QUERY_STRING} base64_encode.*\(.*\) [OR]
+RewriteCond %{QUERY_STRING} (\<|%3C).*script.*(\>|%3E) [NC,OR]
+RewriteCond %{QUERY_STRING} (\<|%3C).*iframe.*(\>|%3E) [NC,OR]
+RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
+RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
+RewriteRule ^(.*)$ index_error.php [F,L]
+RewriteCond %{REQUEST_METHOD} ^(TRACE|TRACK)
+RewriteRule .* - [F]

@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<!--$headcontent-->
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<style type="text/css">
+
+body {
+	background-color: #000000;
+	font-family:Arial, Helvetica, sans-serif;
+	color:#3366ff;
+	margin-top:0;
+	margin-left:0;
+	margin-right:0;
+	background-image:url(../../../../images/template/background.jpg);
+	background-position:top center;
+	background-repeat:no-repeat;
+}
+
+a:link {
+	color: #333333;
+}
+
+a:visited {
+	color: #333333;
+}
+
+
+
+.link3 a:link {
+	color:#e20000;
+}
+
+.link3 a:visited {
+	color: #e20000;
+}
+
+.link3 a:hover{
+    color:#333333;
+    text-decoration:underline
+}
+.link4 a:link {
+	color:#FFFFFF;
+}
+
+.link4 a:visited {
+	color: #FFFFFF;
+}
+
+.link4 a:hover{
+    color:#FFFFFF;
+    text-decoration:underline
+}
+
+
+
+.style1 {
+
+	font-family: "Times New Roman", Times, serif;
+
+	font-size: 10px;
+
+	color: #3366ff;
+
+}
+
+.style2 {
+
+	font-size: 14px;
+
+	color: #993300;
+
+	font-weight: bold;
+
+}
+
+.style3 {	font-size: 16px;
+
+	font-family: Arial, Helvetica, sans-serif;
+
+	font-weight: bold;
+
+	color: #000000;
+
+	text-align:center
+
+}
+
+div.wrapper {
+
+width:940px;
+
+margin:0 auto;
+
+text-align: center;
+
+background-image:url(../../../images/template/wrapper_bg.png);
+
+background-repeat: repeat-y;
+
+}
+
+$stylesheet
+
+</style>
+
+</head>
+<body>
+  <div class="wrapper">
+    <table width="900" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF">
+      <tr>
+        <td colspan="3" align="center" ><img src="../../../../images/template/header1.jpg" border="0" usemap="#Map"/></td>
+      </tr>
+    </table>
+    <table width="900" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF">
+      <tr>
+        <td width="168" height="235" align="center" valign="top" bgcolor="#961e20" style="border-right: 1px solid #e6ac17;">
+          <table width="148" border="0" cellspacing="0" cellpadding="0" >
+            <tr>
+              <td align="left"><br /><div class="link4">$searchbox</div></td>
+            </tr>
+            <tr>
+   	          <td align="left"><div class="link4">$search_filterbox</div></td>
+       	    </tr>
+            <tr>
+              <td align="left"><div class="link4">$categorybox</div></td>
+            </tr>
+            <tr>
+              <td align="left"><div class="link4">$informationbox</div></td>
+            </tr>
+             <tr>
+              <td align="left"><div class="link4">$specialbox</div></td>
+            </tr>
+            <tr>
+              <td>$cartbox</td>
+            </tr>
+          </table>
+        </td>
+        <td width="752" valign="top" align="left"><div class="link3" align="right"><span style="font-size:12px; color:#CCCCCC">$myaccountlogoff -</span><span style="font-size:12px; color:#CCCCCC"> $cartcontents -</span><span style="font-size:12px; color:#CCCCCC"> $checkout </span></div>
+        
+  <table width="100%" border="0">
+
+  <tr>
+
+    <td>
+
+ 
+
+    </td>
+
+  </tr>
+
+  <tr>
+
+    <td><?php
+ 
+
+
+?></td>
+
+  </tr>
+
+</table>      
+        
+        
+        <span style="font-size:10px">&nbsp;$breadcrumbs</span><div style="padding-left:2px; padding-right:2px">$content</div></td> 
+      </tr>
+      <tr>
+    </table>
+    <table width="900" border="0" cellspacing="0" cellpadding="0" align="center">
+      <tr>
+        <td colspan="3" valign="middle" align="center" background="../../../../images/template/footer1.jpg" height="35"><span style="font-size:10px; color:#FF0000">Copyright  2009 <a href="http://www.outdoorbusinessnetwork.com" target="_blank">Outdoor Business Network</a> | Powered by <a href="http://www.go4outdoors.com" target="_blank">OBN</a> | <a href="privacy.php">Privacy</a></span></td>
+      </tr>
+    </table>
+    </div>
+
+<map name="Map" id="Map"><area shape="rect" coords="6,165,97,200" href="index.php" /><area shape="rect" coords="129,163,231,202" href="shop.php" /><area shape="rect" coords="273,162,404,203" href="specials.php" /><area shape="rect" coords="451,164,553,200" href="about-us-i-8.html" /><area shape="rect" coords="599,162,728,204" href="contact_us.php" /></map></body>
+</script>
+<div id="loginBox" title="Log Into My Account" style="display:none;"><table cellpadding="2" cellspacing="0" border="0">
+
+ <tr>
+
+  <td class="main"><?php echo ENTRY_EMAIL_ADDRESS;?></td>
+
+  <td><?php echo tep_draw_input_field('email_address');?></td>
+
+ </tr>
+
+ <tr>
+
+  <td class="main"><?php echo ENTRY_PASSWORD;?></td>
+
+  <td><?php echo tep_draw_password_field('password');?></td>
+
+ </tr>
+
+ <tr>
+
+  <td colspan="2" align="right" class="main"><a href="<?php echo tep_href_link(FILENAME_PASSWORD_FORGOTTEN, '', 'SSL');?>"><?php echo TEXT_PASSWORD_FORGOTTEN;?></a></td>
+
+ </tr>
+
+ <tr>
+
+  <td colspan="2" align="right"><?php echo tep_image_button('button_login.gif', IMAGE_BUTTON_LOGIN, 'id="loginWindowSubmit"');?></td>
+
+ </tr>
+
+</table></div>
+
+<div id="addressBook" title="Address Book" style="display:none"></div>
+
+<div id="newAddress" title="New Address" style="display:none"></div>
+
+<?php
+
+if(ONEPAGE_CHECKOUT_LOADER_POPUP == 'True')
+
+{?>
+
+<div id="ajaxMessages" style="display:none;"></div>
+
+<?php
+}
+?>
+
+</html>

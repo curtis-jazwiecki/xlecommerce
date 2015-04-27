@@ -1,0 +1,24 @@
+#search_shopomania input[type="text"]{
+    line-height: 35px
+}
+
+.newsletter_footer_input input{
+    line-height: 24px
+}
+.product_img_wrapper img.scale-with-grid,
+.product-image-wrapper img.scale-with-grid,
+.img_conteiner img.scale-with-grid{
+    width: 100%;
+    height: auto!important;
+}
+
+#nav_first .nav_block_dropdown a {
+    font: 12px/35px Arial,Helvetica,sans-serif;
+}
+
+.form_1{top:5px}
+
+#drop-box, .drop-box-subcat, .drop-box-subsubcat, .drop-box-3subcat, .drop-box-4subcat{
+    border: 1px solid #eee
+}
+

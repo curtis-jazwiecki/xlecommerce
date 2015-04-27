@@ -1,0 +1,171 @@
+/**
+* @package Mozen - Responsive Zencart Template
+* @copyright (C) 2012 by Dasinfomedia - All rights reserved!
+* CSS Document
+* CSS For IE-7 and lower version
+*/
+@charset "utf-8";
+
+*+html .mj-grid32 {
+	width: 30%;
+}
+
+*+html .mj-grid16 {
+    width: 13.666%;
+}
+
+*+html .mj-grid72 {
+    width: 70%;
+}
+
+*+html .mj-grid24 {
+    width: 22%;
+}
+
+*+html .mj-grid88 {
+    width: 89.60%;
+}
+
+*+html .mj-grid8 {
+    width: 6.30%;
+}
+
+*+html .nspCol3 {
+    width: 32.3%;
+}
+
+*+html #mj-contentarea
+{
+
+right:0% !important;
+position:relative !important;
+}
+
+*+html #shopping_items .mj-grid16 {
+width: 16.666% !important;
+float:left!important;
+}
+
+
+*+html #mj-right {
+position:relative !important;
+right: 0;
+}
+*+html #productListing{
+	float:none;
+}
+*+html #shopping_items #mj-left
+{
+	vertical-align:top !important;
+}
+*+html #mj-contentarea{
+position: relative !important;
+left:17%;
+}
+*+html #mj-left {
+position:relative !important;
+left: -68% !important;
+}
+*+html .mj-subcontainer {
+position: relative !important;
+}
+*+html #mj-slidetitle .mj-title{
+	float:none;
+	width:0%;
+}
+*+html #mj-slidetitle{
+	padding-bottom:30px;
+}
+*+html .productListing-data {
+    float: left !important;
+    width: auto !important;
+}
+*+html #shoppingCartDefault .buttonRow,*+html #createAcctSuccess .buttonRow, *+html #addressBookDefault .buttonRow, *+html #checkoutShipping .buttonRow, *+html #checkoutPayment .buttonRow, *+html #checkoutConfirmDefault .buttonRow{
+	float:left;
+	margin-right:3px;
+}
+*+html input[type="radio"], *+html input[type="checkbox"] {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+*+html #mj-logo
+{
+		width:21.9% !important;
+}
+
+*+html #mj-header #mj-righttop
+{
+		width:76.1% !important;
+}
+*+html textarea:focus,
+*+html input[type="text"]:focus,
+*+html input[type="password"]:focus,
+*+html input[type="datetime"]:focus,
+*+html input[type="datetime-local"]:focus,
+*+html input[type="date"]:focus,
+*+html input[type="month"]:focus,
+*+html input[type="time"]:focus,
+*+html input[type="week"]:focus,
+*+html input[type="number"]:focus,
+*+html input[type="email"]:focus,
+*+html input[type="url"]:focus,
+*+html input[type="search"]:focus,
+*+html input[type="tel"]:focus,
+*+html input[type="color"]:focus,
+*+html .uneditable-input:focus {
+	outline: thin dotted;
+}
+*+html .dropdown-menu {
+	border-right-width: 2px;
+  	border-bottom-width: 2px;
+}
+*+html .dropdown-toggle {
+  margin-bottom: -3px;
+}
+*+html .dropdown-menu .divider {
+	width: 100%;
+	margin: -5px 0 5px;
+}
+*+html .open {
+  z-index: 1000;
+}
+*+html .btn{
+	display: inline;
+	margin-left: .3em;
+	line-height: 20px;
+	background-color: #e6e6e6;
+	border: 0;
+	zoom: 1;
+}
+*+html .btn:hover,
+*+html .btn:active,
+*+html .btn.active,
+*+html .btn.disabled,
+*+html .btn[disabled] {
+	background-color: #d9d9d9;
+}
+
+*+html .btn:active,
+*+html .btn.active {
+  background-color: #cccccc;
+}
+
+*+html .btn:first-child {
+  margin-left: 0;
+}
+*+html .btn:hover {
+	background-color: #d9d9d9;
+}
+
+*+html #mj-contentarea
+{
+	float:left !important;
+}
+*+html .centerBoxContentsNew
+{
+	margin-bottom:20px !important;
+}
+*+html .also_purchased_products
+{
+	margin-bottom:40px;
+}

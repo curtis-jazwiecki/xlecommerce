@@ -1,0 +1,35 @@
+#mj-contentarea {
+position: relative;
+right: 15.8%;
+}
+#mj-slidetitle
+{
+	display:none;
+}
+#mj-right {
+position: relative;
+right: -65.5%;
+}
+
+.mj-subcontainer {
+position: relative;
+}
+#shopping_items .mj-grid64
+{
+	width:64.666%;
+}
+#whatsNew .centerBoxWrapperContents .centerBoxContentsNew, #specialsDefault .centerBoxWrapperContents .centerBoxContentsSpecials, #featuredProducts .centerBoxWrapperContents .centerBoxContentsFeatured
+{
+	width:95.4% !important;
+	margin-left:2px;
+	margin-top:-8px;
+}
+/*#mj-contentarea h2{
+	padding-left:17px;
+}*/
+#moduleMenu-wrapper span{
+	margin-left:17px;
+}
+ #mj-maincontent{
+	padding: 30px 0 24px;
+}

@@ -1,0 +1,79 @@
+<style type="text/css">
+    ul#drop-nav > li{
+        width: 142px;
+        height: 100%;
+    }
+    ul#drop-nav {list-style: none;padding: 0px;margin: 0px;height: 40px;}
+    ul#drop-nav li {display: block;position: relative;float: left;}
+    #drop-nav li ul {display: none;}
+    ul#drop-nav li a {
+        display: block;
+        padding: 5px 10px 5px 10px;
+        text-decoration: none;
+        white-space: nowrap;
+        color: #fff;
+        font-weight:bold;
+    }
+    /*ul#drop-nav li a:hover {color:green; text-decoration:none; background: linear-gradient(to bottom, rgba(11, 16, 22, 0.85) 0%, rgba(11, 16, 22, 0.85) 1%, rgba(17, 14, 11, 0.85) 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);}*/
+    ul#drop-nav li:hover ul {display: block; position: absolute; border: 10px solid #999;background: #fff;}
+    ul#drop-nav li:hover li {float: none;}
+    ul#drop-nav > li:hover {
+        background-color:#999999;
+    }
+   /* ul#drop-nav li:hover li a:hover {background: #000;}*/
+    #drop-nav ul {
+        font-size: 12px;
+        font-weight: normal;        
+    }
+    #drop-nav > ul{}
+    #drop-nav li ul li {border-top: 0px; text-align: left;}
+    #drop-nav li ul{
+        z-index:999;
+        padding-left: 0;
+    }
+    #drop-nav li li a{
+        font-size:12px;
+        font: inherit;
+        color:#999;
+    }
+    #drop-nav > li:not(:last-child){
+        border-image: linear-gradient(to left, black, white) 1 54% 1 54%;
+        border-style: solid;
+        border-width: 0 2px 0 0;
+        border:-webkit-gradient(linear, 100% 0, 0 0, from(black), to(white)) 1 54%;
+        -webkit-border-image:
+            -webkit-linear-gradient(left, black, rgba(0, 0, 0, 0)) 1 54%;
+        -moz-border-image:
+            -moz-linear-gradient(left, black, rgba(0, 0, 0, 0)) 1 54%;
+        -o-border-image:
+            -o-linear-gradient(left, black, rgba(0, 0, 0, 0)) 1 54%;
+        border-image:
+            linear-gradient(to left, black, white) 1 54%;
+    }
+    ul#drop-nav > li > a{
+        padding-top: 10px;
+    }
+</style>
+<ul id="drop-nav">
+    <li><a href="shop.php">All Departments &#9660;</a>
+      $categories_html
+    </li>
+    <li><a href="index.php">Home</a></li>
+    <li><a href="shop.php">Products</a>
+        $categories_html
+    </li>
+    <li><a href="information.php?info_id=8">About Us</a>
+        <ul>
+            <li><a href="information.php?info_id=8">About Us</a></li>
+            <li><a href="information.php?info_id=90">Tactical Tips, & Techniques</a></li>
+            <li><a href="information.php?info_id=91">Laser Sighting Procedures</a></li>
+            <li><a href="information.php?info_id=92">Law Enforcement Testimonials</a></li>
+            <li><a href="information.php?info_id=93">Catalog/User Manuals</a></li>
+            <li><a href="information.php?info_id=94">In the Press</a></li>
+            <li><a href="information.php?info_id=95">Videos</a></li>
+            <li><a href="information.php?info_id=96">Mounts & Accessories</a></li>
+        </ul>
+    </li>
+    <li><a href="information.php?info_id=97">Find A Dealer</a></li>   
+    <li><a href="contact_us.php">Contact Us</a></li>  
+</ul>
