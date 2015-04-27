@@ -109,12 +109,12 @@
 		} elseif (isset($sts->infobox['default_content'])) { // 
 			$template = $sts->infobox['default_header']; // Default box already in memory, get it from there
 		}	else { // Otherwise read it from file and save it
-			//if (file_exists(STS_TEMPLATE_DIR."boxes/infobox_header.php.html")){
+			if (file_exists(STS_TEMPLATE_DIR."boxes/infobox_header.php.html")){
 			 $template=sts_read_template_file (STS_TEMPLATE_DIR."boxes/infobox_header.php.html");
 			 $sts->infobox['default_header'] = $template;
-             //} else {
-              //  $template='';
-             //}
+             } else {
+                $template='';
+             }
 		}
 		$sts->infobox_header_template = $template;
 		$sts->infobox_headertext = $headertext;
