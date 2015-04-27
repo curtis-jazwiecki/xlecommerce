@@ -1827,6 +1827,7 @@ function set_query_telephone_numbers_compatible(&$val){
 	if (strrpos($category_filter, '_')!==false){
 	   $category_filter = substr($category_filter, strrpos($category_filter, '_')+1 );
 	}
+//modification to add specifications filters
    $spec_name_query = tep_db_query("select distinct psv.specification_name_id as specification_id, ps.specification_id as specification_value_id, psn.name as specification_name, psv.value as specification_value from product_specifications ps inner join product_specification_values psv on ps.specification_id=psv.id inner join product_specification_names psn on psv.specification_name_id=psn.id inner join products p on ps.products_id=p.products_id " . (!empty($category_filter) ? " inner join products_to_categories p2c on p.products_id=p2c.products_id " : "") . (!empty($manufacturers_id) ? " inner join manufacturers m on p.manufacturers_id=m.manufacturers_id " : "") . " where 1=1 " . (!empty($category_filter) ? " and p2c.categories_id='" . (int)$category_filter . "' " : "") . (!empty($manufacturers_id) ? " and m.manufacturers_id='" . (int)$manufacturers_id . "' " : "") . " order by psn.name" );
        
 	while($entry = tep_db_fetch_array($spec_name_query)){
@@ -1842,7 +1843,7 @@ function set_query_telephone_numbers_compatible(&$val){
             }
 	}
 
-	
+	//products attributes filters
         $specs_query = tep_db_query("select pa.options_id as specification_id, po.products_options_name as specification from products_attributes pa inner join products_options po on (pa.options_id=po.products_options_id) " . (!empty($category_filter) ? " inner join products_to_categories p2c on pa.products_id=p2c.products_id " : "") . (!empty($manufacturers_id) ? " inner join products p on pa.products_id=p.products_id inner join manufacturers m on p.manufacturers_id=m.manufacturers_id " : "") . " where " . (!empty($category_filter) ? "  p2c.categories_id='" . (int)$category_filter . "' " : "") . (!empty($manufacturers_id) ? " and m.manufacturers_id='" . (int)$manufacturers_id . "' " : "") . " group by pa.options_id order by po.products_options_name");
        
 	while($entry = tep_db_fetch_array($specs_query)){
