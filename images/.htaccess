@@ -1,4 +1,0 @@
-<Files ~ ".*\.(php|sql|inc|js|zip|html|htm)$">
-Order deny,allow
-Deny from all
-</Files>
