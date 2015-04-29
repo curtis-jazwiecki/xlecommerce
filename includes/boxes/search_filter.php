@@ -98,9 +98,13 @@ ob_start();
 ?>
 <?php
         if (isset($HTTP_GET_VARS['categories_id'])) $_SESSION['filter_c'] = $HTTP_GET_VARS['categories_id'];
-        if (isset($HTTP_GET_VARS['manufacturers_id'])) $_SESSION['filter_m'] = $HTTP_GET_VARS['manufacturers_id'];
+        if (!isset($_POST['m_'])) $_SESSION['filter_m'] = null;
+        if (isset($_GET['manufacturers_id'])) $_SESSION['filter_m'] = $_GET['manufacturers_id'];
+
         //if (!empty($_SESSION['filter_c'])) $_SESSION['filter_m'] = null;
         $specifications = getDistinctSpecifications($_SESSION['filter_c'], $_SESSION['filter_m']);
+//print_r($specifications);
+//exit;
         if (sizeof($specifications) > 0) {
         foreach($specifications as $specification => $info){ 
 ?>
@@ -129,7 +133,7 @@ ob_start();
 }
 ?>
 <?php
-//if (empty($_SESSION['filter_m'])){
+if (!isset($_GET['manufacturers_id'])){
 	if (!empty($_SESSION['filter_c'])){
 		$manufacturers_query = tep_db_query("select p.manufacturers_id, m.manufacturers_name from products p inner join manufacturers m on p.manufacturers_id=m.manufacturers_id inner join products_to_categories p2c on p.products_id=p2c.products_id where p2c.categories_id='" . $_SESSION['filter_c'] . "' and p.manufacturers_id!=0 group by p.manufacturers_id order by m.manufacturers_name");
 	} else {
@@ -156,7 +160,7 @@ ob_start();
 <?php
         }
     }
-//}
+}
 ?>
 </table>
 <input type="hidden" name="c_" value="<?php echo $_SESSION['filter_c']; ?>" />

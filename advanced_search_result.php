@@ -355,9 +355,10 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
 
                             $from_str .= ", " . TABLE_PRODUCTS_DESCRIPTION . " pd, " . TABLE_CATEGORIES . " c, " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c";
 
-                            if (!empty($_SESSION['filter_s'])){
-                                //$from_str .= " , products_attributes pa ";
-                            }
+                           if (!empty($_SESSION['filter_s'])) {
+                               $from_str .= " , product_specifications ps ";
+
+                           }
 
 
                             $attributes_query_raw = "select distinct products_options_values_id from products_options_values where";
@@ -365,6 +366,7 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
 
                             $where_str = " where c.categories_status = '1' and p.products_status = '1' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' and p.products_id = p2c.products_id and p2c.categories_id = c.categories_id ";
 
+                           /*
                             if (isset($HTTP_GET_VARS['attributes_name']) && isset($HTTP_GET_VARS['attributes_value'])) {
                                 $products_specifications_array = explode(" ", $HTTP_GET_VARS['attributes_value']);
                                 $products_specifications_array = explode(" ", $HTTP_GET_VARS['attributes_name']);
@@ -372,7 +374,7 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
                                     $where_str = $where_str . " AND (pd.products_specifications LIKE '%" . mysql_real_escape_string($HTTP_GET_VARS['attributes_value']) . "%' AND pd.products_specifications LIKE '%" . mysql_real_escape_string($HTTP_GET_VARS['attributes_name']) . "%')";
                                 }
                             }
-
+*/
                             if (isset($HTTP_GET_VARS['categories_id']) && tep_not_null($HTTP_GET_VARS['categories_id'])) {
                                 if (isset($HTTP_GET_VARS['inc_subcat']) && ($HTTP_GET_VARS['inc_subcat'] == '1')) {
                                     $subcategories_array = array();
@@ -569,11 +571,32 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
                                     $ids[] = $entry['id'];
                                 }
                             }*/
+                            if (!empty($_SESSION['filter_s'])){
 
+                             $option_value_pair = '';
+    
+                            foreach($_SESSION['filter_s'] as $val){
+
+                             $temp = explode('|', $val);
+
+                             $option_value_pair .= " (ps.specification_id='" . (int)$temp[1] . "' ) or ";
+
+                            }
+
+
+                        if (!empty($option_value_pair)){
+
+                          $option_value_pair = " and p.products_id=ps.products_id and (" . substr($option_value_pair, 0, -4) . ") "; 
+                         }
+
+                        $where_str .= $option_value_pair;
+
+                         }
                             $listing_sql = $select_str . $from_str . $where_str . (!empty($ids) ? " and p.products_id in (" . implode(',', $ids) . ") " : "") .  $order_str;
                             //$listing_sql = $select_str . $from_str . $where_str . $order_str;
 
                            // echo $listing_sql;
+                          //  exit;
                             require (DIR_WS_MODULES . FILENAME_PRODUCT_LISTING);
                             ?>
                         </td>

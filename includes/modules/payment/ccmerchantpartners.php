@@ -230,8 +230,8 @@
      $resultTempVars = explode("=", rtrim($result[$i]));
      $resultVars[$resultTempVars[0]] = $resultTempVars[1];
      }
-	print_r($result);
-	exit;
+	//print_r($result);
+	//exit;
      if ($resultVars[Status] != "Accepted") {
      tep_redirect(tep_href_link(FILENAME_CHECKOUT_PAYMENT, 'payment_error=' . $this->code . '&error=' . $resultVars['Declined'] . $fatal_error, 'SSL', true));
      }

@@ -2,45 +2,45 @@ type,file,variable,key,value,description
 data,,,template_name,blank_3,
 data,,,template_osc_code,full/template15,
 data,,,template_id,15,
-file,stylesheet.css,$stylesheet,,,
-file,index.php.html,$index,,,
-file,blocks/block_infobox.php.html,$block_infobox,,,
-file,blocks/block_infobox_01.php.html,$block_infobox_01,,,
-file,blocks/block_infobox_02.php.html,$block_infobox_02,,,
-file,blocks/block_infobox_03.php.html,$block_infobox_03,,,
-file,blocks/block_infobox_04.php.html,$block_infobox_04,,,
-file,blocks/block_infobox_05.php.html,$block_infobox_05,,,
-file,blocks/block_infobox_06.php.html,$block_infobox_06,,,
-file,blocks/block_infobox_07.php.html,$block_infobox_07,,,
-file,blocks/block_infobox_08.php.html,$block_infobox_08,,,
-file,blocks/block_infobox_09.php.html,$block_infobox_09,,,
-file,blocks/block_infobox_10.php.html,$block_infobox_10,,,
-file,blocks/block_infobox_11.php.html,$block_infobox_11,,,
-file,blocks/block_infobox_12.php.html,$block_infobox_12,,,
-file,blocks/block_infobox_13.php.html,$block_infobox_13,,,
-file,blocks/block_infobox_14.php.html,$block_infobox_14,,,
-file,blocks/block_infobox_15.php.html,$block_infobox_15,,,
-file,blocks/block_infobox_16.php.html,$block_infobox_16,,,
-file,blocks/block_infobox_17.php.html,$block_infobox_17,,,
-file,blocks/block_infobox_18.php.html,$block_infobox_18,,,
-file,blocks/deals.php.html,$deals,,,
-file,blocks/footer.php.html,$footer.php.html,,,
-file,blocks/footer_box_01.php.html,$footer_box_01,,,
-file,blocks/footer_box_02.php.html,$footer_box_02,,,
-file,blocks/footer_box_03.php.html,$footer_box_03,,,
-file,blocks/footer_box_04.php.html,$footer_box_04,,,
-file,blocks/footer_box_05.php.html,$footer_box_05,,,
-file,blocks/header_logo.php.html,$header_logo,,,
-file,blocks/infobox_01.php.html,$infobox_01,,,
-file,blocks/infobox_02.php.html,$infobox_02,,,
-file,blocks/infobox_03.php.html,$infobox_03,,,
-file,blocks/infobox_04.php.html,$infobox_04,,,
-file,blocks/infobox_05.php.html,$infobox_05,,,
-file,blocks/infobox_06.php.html,$infobox_06,,,
-file,blocks/navigation_menu_top.php.html,$navigation_menu_top,,,
-file,blocks/password_reset.php.html,$password_reset,,,
-file,blocks/quick_links.php.html,$quick_links,,,
-file,blocks/search_box.php.html,$search_box,,,
-file,blocks/shop_now.php.html,$shop_now,,,
-file,blocks/trending_collections.php.html,$trending_collections,,,
-file,boxes/infobox.php.html,$infobox,,,
+file,stylesheet.css,,,,Stylesheet
+file,index.php.html,,,,Main template
+file,blocks/block_infobox.php.html,$block_infobox,,,Block Infobox
+file,blocks/block_infobox_01.php.html,$block_infobox_01,,,Block Infobox 01
+file,blocks/block_infobox_02.php.html,$block_infobox_02,,,Block Infobox 02
+file,blocks/block_infobox_03.php.html,$block_infobox_03,,,Block Infobox 03
+file,blocks/block_infobox_04.php.html,$block_infobox_04,,,Block Infobox 04
+file,blocks/block_infobox_05.php.html,$block_infobox_05,,,Block Infobox 05
+file,blocks/block_infobox_06.php.html,$block_infobox_06,,,Block Infobox 06
+file,blocks/block_infobox_07.php.html,$block_infobox_07,,,Block Infobox 07
+file,blocks/block_infobox_08.php.html,$block_infobox_08,,,Block Infobox 08
+file,blocks/block_infobox_09.php.html,$block_infobox_09,,,Block Infobox 09
+file,blocks/block_infobox_10.php.html,$block_infobox_10,,,Block Infobox 10
+file,blocks/block_infobox_11.php.html,$block_infobox_11,,,Block Infobox 11
+file,blocks/block_infobox_12.php.html,$block_infobox_12,,,Block Infobox 12
+file,blocks/block_infobox_13.php.html,$block_infobox_13,,,Block Infobox 13
+file,blocks/block_infobox_14.php.html,$block_infobox_14,,,Block Infobox 14
+file,blocks/block_infobox_15.php.html,$block_infobox_15,,,Block Infobox 15
+file,blocks/block_infobox_16.php.html,$block_infobox_16,,,Block Infobox 16
+file,blocks/block_infobox_17.php.html,$block_infobox_17,,,Block Infobox 17
+file,blocks/block_infobox_18.php.html,$block_infobox_18,,,Block Infobox 18
+file,blocks/deals.php.html,$deals,,,Deals
+file,blocks/footer.php.html,$footer.php.html,,,Footer
+file,blocks/footer_box_01.php.html,$footer_box_01,,,Footer Box 01
+file,blocks/footer_box_02.php.html,$footer_box_02,,,Footer Box 02
+file,blocks/footer_box_03.php.html,$footer_box_03,,,Footer Box 03
+file,blocks/footer_box_04.php.html,$footer_box_04,,,Footer Box 04
+file,blocks/footer_box_05.php.html,$footer_box_05,,,Footer Box 05
+file,blocks/header_logo.php.html,$header_logo,,,Header Logo
+file,blocks/infobox_01.php.html,$infobox_01,,,Infobox 01
+file,blocks/infobox_02.php.html,$infobox_02,,,Infobox 02
+file,blocks/infobox_03.php.html,$infobox_03,,,Infobox 03
+file,blocks/infobox_04.php.html,$infobox_04,,,Infobox 04
+file,blocks/infobox_05.php.html,$infobox_05,,,Infobox 05
+file,blocks/infobox_06.php.html,$infobox_06,,,Infobox 06
+file,blocks/navigation_menu_top.php.html,$navigation_menu_top,,,Navigation Menu Top
+file,blocks/password_reset.php.html,$password_reset,,,Password Reset
+file,blocks/quick_links.php.html,$quick_links,,,Quick Links
+file,blocks/search_box.php.html,$search_box,,,Search Box
+file,blocks/shop_now.php.html,$shop_now,,,Shop Now
+file,blocks/trending_collections.php.html,$trending_collections,,,Trending Collections
+file,boxes/infobox.php.html,$infobox,,,Infobox

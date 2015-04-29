@@ -1821,33 +1821,38 @@ function set_query_telephone_numbers_compatible(&$val){
 }
 //EOF:fraud_prevention
 
-   function getDistinctSpecifications($category_filter = '', $manufacturers_id = ''){
+  function getDistinctSpecifications($category_filter = '', $manufacturers_id = ''){
 	$response = array();
         if ($category_filter == '' && $manufacturers_id == '') return false;
 	if (strrpos($category_filter, '_')!==false){
 	   $category_filter = substr($category_filter, strrpos($category_filter, '_')+1 );
 	}
-//modification to add specifications filters
-   $spec_name_query = tep_db_query("select distinct psv.specification_name_id as specification_id, ps.specification_id as specification_value_id, psn.name as specification_name, psv.value as specification_value from product_specifications ps inner join product_specification_values psv on ps.specification_id=psv.id inner join product_specification_names psn on psv.specification_name_id=psn.id inner join products p on ps.products_id=p.products_id " . (!empty($category_filter) ? " inner join products_to_categories p2c on p.products_id=p2c.products_id " : "") . (!empty($manufacturers_id) ? " inner join manufacturers m on p.manufacturers_id=m.manufacturers_id " : "") . " where 1=1 " . (!empty($category_filter) ? " and p2c.categories_id='" . (int)$category_filter . "' " : "") . (!empty($manufacturers_id) ? " and m.manufacturers_id='" . (int)$manufacturers_id . "' " : "") . " order by psn.name" );
-       
+  $spec_name_query = tep_db_query("select distinct(specification_id), psv.value, psn.name, psn.id as name_id from product_specifications ps left join product_specification_values psv on ps.specification_id=psv.id left join product_specification_names psn on psv.specification_name_id=psn.id inner join products p on ps.products_id=p.products_id " . (!empty($category_filter) ? " inner join " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c on p.products_id=p2c.products_id " : "") . " inner join manufacturers m on p.manufacturers_id=m.manufacturers_id  where 1=1 and (m.manufacturers_status='1' or m.manufacturers_status is null) and p.products_quantity>='1' and p.products_status='1' " . (!empty($category_filter) ? " and p2c.categories_id='" . (int)$category_filter . "' " : "") . (!empty($manufacturers_id) ? " and m.manufacturers_id='" . (int)$manufacturers_id . "' " : "") . " order by psn.name" );
+   
+  
 	while($entry = tep_db_fetch_array($spec_name_query)){
           
-            if (!array_key_exists($entry['specification_name'], $response)){
-                $response[$entry['specification_name']] = array(
-                    'id' => $entry['specification_id'], 
+            if (!array_key_exists($entry['name'], $response)){
+                $response[$entry['name']] = array(
+                    'id' => $entry['name_id'], 
                     'values' => array(), 
                 );
             }
-            if (!array_key_exists($entry['specification_value'], $response[$entry['specification_name']]['values'])){
-                $response[$entry['specification_name']]['values'][$entry['specification_value']] = $entry['specification_value_id'];
+            if (!array_key_exists($entry['value'], $response[$entry['name']]['values'])){
+                $response[$entry['name']]['values'][$entry['value']] = $entry['specification_id'];
             }
 	}
 
-	//products attributes filters
-        $specs_query = tep_db_query("select pa.options_id as specification_id, po.products_options_name as specification from products_attributes pa inner join products_options po on (pa.options_id=po.products_options_id) " . (!empty($category_filter) ? " inner join products_to_categories p2c on pa.products_id=p2c.products_id " : "") . (!empty($manufacturers_id) ? " inner join products p on pa.products_id=p.products_id inner join manufacturers m on p.manufacturers_id=m.manufacturers_id " : "") . " where " . (!empty($category_filter) ? "  p2c.categories_id='" . (int)$category_filter . "' " : "") . (!empty($manufacturers_id) ? " and m.manufacturers_id='" . (int)$manufacturers_id . "' " : "") . " group by pa.options_id order by po.products_options_name");
+
+	//$specs_query = tep_db_query("select pa.options_id as specification_id, po.products_options_name as specification from products_attributes pa inner join products_options po on (pa.options_id=po.products_options_id and po.language_id='1') where (pa.options_values_id is null or pa.options_values_id <=0) group by pa.options_id order by po.products_options_name");
+	
+	//$specs_query = tep_db_query("select pa.options_id as specification_id, po.products_options_name as specification from products_attributes pa inner join products_options po on (pa.options_id=po.products_options_id and po.language_id='1') " . (!empty($category_filter) ? " inner join products_to_categories p2c on pa.products_id=p2c.products_id " : "") . " where (pa.options_values_id is null or pa.options_values_id <=0) " . (!empty($category_filter) ? " and p2c.categories_id='" . (int)$category_filter . "' " : "") . " group by pa.options_id order by po.products_options_name");
+        $specs_query = tep_db_query("select pa.options_id as specification_id, po.products_options_name as specification from products_attributes pa inner join products_options po on (pa.options_id=po.products_options_id) " . (!empty($category_filter) ? " inner join products_to_categories p2c on pa.products_id=p2c.products_id " : "") . " inner join products p on pa.products_id=p.products_id inner join manufacturers m on p.manufacturers_id=m.manufacturers_id where p.products_status='1' and (m.manufacturers_status='1' or m.manufacturers_status is null) and p.products_quantity>='1' " . (!empty($category_filter) ? "   and p2c.categories_id='" . (int)$category_filter . "' " : "")  . (!empty($manufacturers_id) ? "  and m.manufacturers_id='" . (int)$manufacturers_id . "' " : "") . " group by pa.options_id order by po.products_options_name");
        
 	while($entry = tep_db_fetch_array($specs_query)){
-
+	
+		//$values_query = tep_db_query("select pa.options_values_id as value_id, pov.products_options_values_name as value_name from products_attributes pa inner join products_options_values pov on (pa.options_values_id=pov.products_options_values_id and pov.language_id='1' ) where pa.options_id='" . (int)$entry['specification_id'] . "' group by pa.options_values_id limit 0, 10");
+            //$values_query = tep_db_query("select pa.options_values_id as value_id, pov.products_options_values_name as value_name from products_attributes pa inner join products_options_values pov on (pa.options_values_id=pov.products_options_values_id and pov.language_id='1') " . (!empty($category_filter) ? " inner join products_to_categories p2c on pa.products_id=p2c.products_id " : "") . " where pa.options_id='" . (int)$entry['specification_id'] . "' " . (!empty($category_filter) ? " and p2c.categories_id='" . (int)$category_filter . "' " : "") . " group by pa.options_values_id");
             $values_query = tep_db_query("select pa.options_values_id as value_id, pov.products_options_values_name as value_name from products_attributes pa inner join products_options_values pov on (pa.options_values_id=pov.products_options_values_id and pov.language_id='1') " . (!empty($category_filter) ? " inner join products_to_categories p2c on pa.products_id=p2c.products_id " : "") . (!empty($manufacturers_id) ? " inner join products p on pa.products_id=p.products_id inner join manufacturers m on p.manufacturers_id=m.manufacturers_id " : "") . " where pa.options_id='" . (int)$entry['specification_id'] . "' " . (!empty($category_filter) ? " and p2c.categories_id='" . (int)$category_filter . "' " : "") . (!empty($manufacturers_id) ? " and m.manufacturers_id='" . (int)$manufacturers_id . "' " : "") . " group by pa.options_values_id");
 		
 		if (tep_db_num_rows($values_query)){
@@ -1865,7 +1870,6 @@ function set_query_telephone_numbers_compatible(&$val){
 	}
 	return $response;
   }
-
 
 //function created for registering authorization output for authorize.net and fastcharge. after successfull integration comment function's code
 function debug_register_order_authorization_details($order_id, $details){

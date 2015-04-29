@@ -2,49 +2,49 @@ type,file,variable,key,value,description
 data,,,template_name,zapper,
 data,,,template_osc_code,full/template12,
 data,,,template_id,12,
-file,stylesheet.css,$stylesheet,,,
-file,index.php.html,$index,,,
-file,product_info.php.html,$product_info,,,
-file,blocks/alphabetical_brand_index.php.html,$alphabetical_brand_index,,,
-file,blocks/bottom_box_right_to_slider.php.html,$bottom_box_right_to_slider,,,
-file,blocks/box_left_to_featured_products.php.html,$box_left_to_featured_products,,,
-file,blocks/brand_block.php.html,$brand_block,,,
-file,blocks/customer_reviews.php.html,$customer_reviews,,,
-file,blocks/featured_products.php.html,$featured_products,,,
-file,blocks/footer.php.html,$footer,,,
-file,blocks/footer_box_01.php.html,$footer_box_01,,,
-file,blocks/footer_box_02.php.html,$footer_box_02,,,
-file,blocks/footer_box_03.php.html,$footer_box_03,,,
-file,blocks/footer_box_04.php.html,$footer_box_04,,,
-file,blocks/header_logo.php.html,$header_logo,,,
-file,blocks/infobox_01.php.html,$infobox_01,,,
-file,blocks/infobox_02.php.html,$infobox_02,,,
-file,blocks/infobox_03.php.html,$infobox_03,,,
-file,blocks/infobox_04.php.html,$infobox_04,,,
-file,blocks/infobox_05.php.html,$infobox_05,,,
-file,blocks/infobox_06.php.html,$infobox_06,,,
-file,blocks/infobox_07.php.html,$infobox_07,,,
-file,blocks/main_content.php.html,$main_content,,,
-file,blocks/medium_box_right_to_slider.php.html,$medium_box_right_to_slider,,,
-file,blocks/navigation_menu_top.php.html,$navigation_menu_top,,,
-file,blocks/newsletter_signup_block.php.html,$newsletter_signup_block,,,
-file,blocks/promo_block.php.html,$promo_block,,,
-file,blocks/sale_clearance.php.html,$sale_clearance,,,
-file,blocks/search_box.php.html,$search_box,,,
-file,blocks/shipping_retun.php.html,$shipping_retun,,,
-file,blocks/shopping_cart.php.html,$shopping_cart,,,
-file,blocks/shopping_cart_item_block.php.html,$shopping_cart_item_block,,,
-file,blocks/slider.php.html,$slider,,,
-file,blocks/top_box_right_to_slider.php.html,$top_box_right_to_slider,,,
-file,boxes/infobox.php.html,$infobox,,,
-file,brand_search.php.html,$brand_search,,,
-file,checkout.php.html,$checkout,,,
-file,create_account.php.html,$create_account,,,
-file,login.php.html,$login,,,
-file,product_listing.php,$product_listing,,,
-file,product_listing_column.php,$product_listing_column,,,
-file,product_listing_large.php,$product_listing_large,,,
-file,product_listing_large_description.php,$product_listing_large_description,,,
-file,product_listing_standard.php,$product_listing_standard,,,
-file,shopping_cart.php.html,$shopping_cart,,,
-file,termsNconditions.php.html,$termsNconditions,,,
+file,stylesheet.css,,,,Stylesheet
+file,index.php.html,,,,Main template
+file,product_info.php.html,,,,Product Info
+file,blocks/alphabetical_brand_index.php.html,$alphabetical_brand_index,,,Alphabetical Brand Index
+file,blocks/bottom_box_right_to_slider.php.html,$bottom_box_right_to_slider,,,Bottom Box to slider
+file,blocks/box_left_to_featured_products.php.html,$box_left_to_featured_products,,,Left Box
+file,blocks/brand_block.php.html,$brand_block,,,Brands
+file,blocks/customer_reviews.php.html,$customer_reviews,,,Customer_Reviews
+file,blocks/featured_products.php.html,$featured_products,,,Featured Products
+file,blocks/footer.php.html,$footer,,,Footer
+file,blocks/footer_box_01.php.html,$footer_box_01,,,Footer Box 01
+file,blocks/footer_box_02.php.html,$footer_box_02,,,Footer Box 02
+file,blocks/footer_box_03.php.html,$footer_box_03,,,Footer Box 03
+file,blocks/footer_box_04.php.html,$footer_box_04,,,Footer Box 04
+file,blocks/header_logo.php.html,$header_logo,,,Header Logo
+file,blocks/infobox_01.php.html,$infobox_01,,,Infobox 01
+file,blocks/infobox_02.php.html,$infobox_02,,,Infobox 02
+file,blocks/infobox_03.php.html,$infobox_03,,,Infobox 03
+file,blocks/infobox_04.php.html,$infobox_04,,,Infobox 04
+file,blocks/infobox_05.php.html,$infobox_05,,,Infobox 05
+file,blocks/infobox_06.php.html,$infobox_06,,,Infobox 06
+file,blocks/infobox_07.php.html,$infobox_07,,,Infobox 07
+file,blocks/main_content.php.html,$main_content,,,Main content
+file,blocks/medium_box_right_to_slider.php.html,$medium_box_right_to_slider,,,Medium box to slider
+file,blocks/navigation_menu_top.php.html,$navigation_menu_top,,,Navigation Menu Top
+file,blocks/newsletter_signup_block.php.html,$newsletter_signup_block,,,Newsletter Signup
+file,blocks/promo_block.php.html,$promo_block,,,Promo Block
+file,blocks/sale_clearance.php.html,$sale_clearance,,,Sale Clearance
+file,blocks/search_box.php.html,$search_box,,,Search Box
+file,blocks/shipping_retun.php.html,$shipping_retun,,,Shipping Return
+file,blocks/shopping_cart.php.html,$shopping_cart,,,Shopping cart
+file,blocks/shopping_cart_item_block.php.html,$shopping_cart_item_block,,,Shopping Cart Item Block
+file,blocks/slider.php.html,$slider,,,Slider
+file,blocks/top_box_right_to_slider.php.html,$top_box_right_to_slider,,,Top box to slider
+file,boxes/infobox.php.html,$infobox,,,Infobox
+file,brand_search.php.html,,,,Brand Search
+file,checkout.php.html,,,,Checkout
+file,create_account.php.html,,,,Create Account
+file,login.php.html,,,,Login
+file,product_listing.php,,,,Product Listing
+file,product_listing_column.php,,,,Product Listing Column
+file,product_listing_large.php,,,,Product Listing Large
+file,product_listing_large_description.php,,,,Product Listing Large Description
+file,product_listing_standard.php,,,,Product Listing Standard
+file,shopping_cart.php.html,,,,Shopping cart
+file,termsNconditions.php.html,,,,Terms and Conditions

@@ -9,7 +9,7 @@ file,boxes/infobox_information.php.html,,,,Information Info box
 file,boxes/infobox_information_header.php.html,,,,Information Info Box Header
 file,boxes/infobox_special.php.html,,,,Special box
 file,boxes/infobox_special_header.php.html,,,,Special box header
-file,modules_/featuredCategory.php.html,,,,
+file,modules_/featuredCategory.php.html,,,,Featured Category
 file,modules_/featuredManufacturers.php.html,,,,Current:Fetured Manufacturers Items Box
 file,modules_/hot_products.php.html,,,,Current:Hot Items box
 file,modules_/popular_products.php.html,,,,Current:Popular Items box
@@ -17,11 +17,11 @@ file,modules_/recomended.php.html,,,,Current:Recommended Items Box
 file,modules_/xsell_products.php.html,,,,Current:Related Items Box
 file,checkout.php.html,,,,Checkout
 file,contact_us.php.html,,,,Contact Us
-file,sts_template.html,,,,
+file,sts_template.html,,,,STS Template
 file,termsNconditions.php.html,,,,Terms and Conditions
 file,index.php.html,,,,Main template
 file,product_info.php,,,,Product Info Page
-file,product_listing.php,,,,
+file,product_listing.php,,,,Product Listing Page
 file,product_listing_column.php,,,,Column Layout
 file,product_listing_large.php,,,,Large Picture Layout
 file,product_listing_large_description.php,,,,Large descriptive layout

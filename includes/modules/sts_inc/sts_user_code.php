@@ -1328,6 +1328,8 @@ function show_search_filter(&$script){
 
             
 
+        } elseif (isset($_GET['manufacturers_id'])) {
+            return true;
         }
 
         return false;
