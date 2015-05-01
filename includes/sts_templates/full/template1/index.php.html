@@ -1,78 +1,1675 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
 <html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-		<!--$headcontent-->
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-		<script>
-			var jQuery = jQuery.noConflict();
-		</script>
-		<style type="text/css">
-			$stylesheet
-		</style>
-	</head>
-	<body>
-		<div class="wrapper">
-			<table width="900" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF">
-				<tr>
-					<td colspan="3" align="center" >
-						<img src="images/template/header1.jpg" border="0" usemap="#Map"/>
-					</td>
-				</tr>
-			</table>
-			<table width="900" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF">
-				<tr>
-					<td width="168" height="235" align="center" valign="top" bgcolor="#961e20" style="border-right: 1px solid #e6ac17;">
-						<table width="148" border="0" cellspacing="0" cellpadding="0" >
-							<tr>
-								<td align="left"><br /><div class="link4">$searchbox</div></td>
-							</tr>
-							<tr>
-								<td align="left"><div class="link4">$search_filterbox</div></td>
-							</tr>
-							<tr>
-								<td align="left"><div class="link4">$categorybox</div></td>
-							</tr>
-							<tr>
-								<td align="left"><div class="link4">$informationbox</div></td>
-							</tr>
-							<tr>
-								<td align="left"><div class="link4">$specialbox</div></td>
-							</tr>
-							<tr>
-								<td>$cartbox</td>
-							</tr>
-						</table>
-					</td>
-					<td width="752" valign="top" align="left">
-						<div class="link3" align="right">
-							<span style="font-size:12px; color:#CCCCCC">$myaccountlogoff -</span>
-							<span style="font-size:12px; color:#CCCCCC"> $cartcontents -</span>
-							<span style="font-size:12px; color:#CCCCCC"> $checkout </span>
-						</div>
-						<table width="100%" border="0">
-							<tr><td></td></tr>
-							<tr><td></td></tr>
-						</table>      
-						<span style="font-size:10px">&nbsp;$breadcrumbs</span>
-						<div style="padding-left:2px; padding-right:2px">$content</div>
-					</td> 
-				</tr>
-			</table>
-			<table width="900" border="0" cellspacing="0" cellpadding="0" align="center">
-				<tr>
-					<td colspan="3" valign="middle" align="center" background="../../../../images/template/footer1.jpg" height="35">
-						<span style="font-size:10px; color:#FF0000">Copyright  2009 <a href="http://www.outdoorbusinessnetwork.com" target="_blank">Outdoor Business Network</a> | Powered by <a href="http://www.go4outdoors.com" target="_blank">OBN</a> | <a href="privacy.php">Privacy</a></span>
-					</td>
-				</tr>
-			</table>
-		</div>
-		<map name="Map" id="Map">
-			<area shape="rect" coords="6,165,97,200" href="index.php" />
-			<area shape="rect" coords="129,163,231,202" href="shop.php" />
-			<area shape="rect" coords="273,162,404,203" href="specials.php" />
-			<area shape="rect" coords="451,164,553,200" href="about-us-i-8.html" />
-			<area shape="rect" coords="599,162,728,204" href="contact_us.php" />
-		</map>
-	</body>
-</html>
+
+<head>
+
+<!--$headcontent-->
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<style type="text/css">
+
+
+
+body {
+
+	background-color: #FFFFFF;
+
+	font-family: Arial;
+
+	color: #FFFFFF;
+
+	margin-top: 0;
+
+	margin-left: 0;
+
+	margin-right: 0;
+
+	/*background-image: url(../../../../images/backgroundimage_name.jpg);*/
+
+	background-position: top center;
+
+	background-repeat: no-repeat;
+
+	background-attachment: scroll;
+
+}
+
+	
+
+.boxText{font-family: Arial; font-size: 11px; color:#000000; font-weight:bold; line-height:1.5em; text-align:left;}
+
+.boxText a{font-family: Arial; font-size: 11px; color:#000000; font-weight:bold; line-height:1.5em; text-align: left;}
+
+	
+
+*:focus{
+
+	outline: none;
+
+	outline-width: 0;
+
+	background-repeat: no-repeat;
+
+	margin-right: auto;
+
+}
+
+
+
+a:link {color: #000000;}
+
+a:visited {color: #000000;}
+
+
+
+.link3 a:link {color:#000000;}
+
+.link3 a:visited {color: #000000;}
+
+.link3 a:hover{color:#666666;text-decoration:underline}
+
+
+
+.link4 a:link {color:#000000;}
+
+.link4 a:visited {color: #000000;}
+
+.link4 a:hover{color:#a60707; text-decoration:underline}
+
+
+
+.rounded-corners {
+
+     -moz-border-radius: 0px 0px 10px 10px;
+
+    -webkit-border-radius: 0px 0px 10px 10px;
+
+    -khtml-border-radius: 0px 0px 10px 10px;
+
+    border-radius: 0px 0px 0px 0px;
+
+	/*box-shadow: 1px 1px 1px;*/
+
+	border: 1px solid #000000;
+
+}
+
+
+
+.borders{
+
+	border: 1px solid #000000;
+
+}
+
+
+
+div.wrapper {
+
+	width:1150px;
+
+	text-align: center;
+
+	margin-top: 0;
+
+	margin-right: auto;
+
+	margin-bottom: 0;
+
+	margin-left: auto;
+
+	padding-bottom: 25px;}
+
+
+
+$stylesheet
+
+
+
+#apDiv1 {
+
+	position:absolute;
+
+	width:1150px;
+
+	z-index:-10;
+
+	padding-top: -75px;
+
+	padding-bottom: -50px;}
+
+	
+
+#apDiv2 {
+
+	position: relative;
+
+	width: 100%
+
+	z-index: 100;
+
+	background-repeat: repeat-x;
+
+	background-position: center;
+
+	bottom: 0px;
+
+	margin-top: -10px;
+
+	margin-left: auto;
+
+	margin-right: auto;
+
+	text-align: center;
+
+	width: 100%;}
+
+
+
+	
+
+/* NEW MENU */
+
+        ul.topnav {
+
+        list-style: none;
+
+        padding: 0 20px;
+
+        margin: 00;
+
+        float: left;
+
+        width: 800px;
+
+        font-size: .8em; }
+
+       
+
+	    ul.topnav li {
+
+        float: left;
+
+        margin: 0;
+
+        padding: 0 37px 0 0;
+
+        position: relative; /*--Declare X and Y axis base for sub navigation--*/ }
+
+       
+
+	    ul.topnav li a{
+
+        padding: 5px 5px 0px 5px;
+
+        color: #000;
+
+        display: block;
+
+        text-decoration: none;
+
+        float: left;}
+
+      
+
+	    ul.topnav li a2{
+
+        padding: 10px 5px 0px 5px;
+
+        color: #000000;
+
+        display: block;
+
+        text-decoration: none;
+
+        float: left; }
+
+      
+
+	    ul.topnav li a:hover{  }
+
+       
+
+	    ul.topnav li span { /*--Drop down trigger styles--*/
+
+        background: url(images/subnav_btn.gif) no-repeat center top;
+
+        width: 15px;
+
+        height: 35px;
+
+        float: left;
+
+		 /*background: url(https://getgear.us/images/subnav_btn.gif) no-repeat center top;*/ }
+
+		 
+
+        ul.topnav li span.subhover
+
+       
+
+	    {background-position: center bottombottom; cursor: pointer;} /*--Hover effect for trigger--*/
+
+        
+
+         ul.topnav li ul.subnav {
+
+        background: #cccccc;
+
+        font-size: 12px;
+
+        list-style: none;
+
+        position: absolute; /*--Important - Keeps subnav from affecting main navigation flow--*/
+
+        left: 0px; top: 35px;
+
+        margin: 0;
+
+        padding: 3px;
+
+        text-align: left;
+
+        display: none;
+
+        float: left;
+
+        width: 175px;
+
+        z-index: 1003;
+
+        /*-- border: 1px solid #cccccc;--*/ }
+
+      
+
+	    ul.topnav li ul.subnav2 {
+
+        background: #cccccc;
+
+        font-size: 12px;
+
+        list-style: none;
+
+        position: absolute; /*--Important - Keeps subnav from affecting main navigation flow--*/
+
+        left: -80px; top: 35px;/*--moves drop down--*/
+
+        margin: 0;
+
+        padding: 6px;
+
+        text-align: left;
+
+        display: none;
+
+        float: left;
+
+        width: 750px;
+
+        z-index: 1003; }
+
+       
+
+	    ul.topnav li ul.subnav li{
+
+        margin: 0; padding: 0;
+
+        clear: both;
+
+        width: 200px;
+
+        z-index: 1003; }
+
+       
+
+	    ul.topnav li ul.subnav2 li.line_break{
+
+        margin: 0; padding: 0;
+
+        display: block;
+
+        width: 150px;
+
+        /*background: #1156a4;*/
+
+        background: #cccccc;
+
+        height: 45px;
+
+        z-index: 1003;   }
+
+       
+
+	    html ul.topnav li ul.subnav li a {
+
+        float: left;
+
+        width: 150px;
+
+        /*background: #1156a4;*/
+
+         padding-left: 20px;
+
+        z-index: 1003; 
+
+		border-bottom: 1px solid #e9e9e9;}
+
+       
+
+	    html ul.topnav li ul.subnav li a:hover { /*--Hover effect for subnav links--*/
+
+        /* background: #0e4686 url(images/dropdown_linkbg.gif) no-repeat 10px center;  */
+
+        text-decoration: none;
+
+        color: #cccccc;
+
+        z-index: 1003; }
+
+      
+
+	    html ul.topnav li ul.subnav2 li a {
+
+        float: left;
+
+        width: 125px;
+
+        /*background: #1156a4;*/
+
+        background: #cccccc;
+
+        padding-left: 20px;  }
+
+       
+
+	    html ul.topnav li ul.subnav2 li a:hover { /*--Hover effect for subnav links--*/
+
+        /* background: #0e4686 url(images/dropdown_linkbg.gif) no-repeat 10px center;  */
+
+        text-decoration: underline;
+
+        color: #e9e9e9;  }
+
+        /* END NEW MENU */
+
+		
+
+		
+
+			#menu {
+
+			position:relative;
+
+    list-style:none;
+
+    width:1140px;
+
+    margin:30px auto 0px auto;
+
+    height:43px;
+
+    padding:0px 20px 0px 20px;
+
+ 
+
+    /* Background color and gradients */
+
+     
+
+    background: #f40e0e;
+
+    background: -moz-linear-gradient(top, #f40e0e, #a40707);
+
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f40e0e), to(#a40707));
+
+	top:-7px;
+
+	left:-250px;
+
+	z-index:3000;
+
+	border:1px solid #000000;
+
+
+
+}
+
+
+
+#menu li.mainlinks {
+
+	
+
+    float:left;
+
+    text-align:center;
+
+    position:relative;
+
+    padding: 4px 9px 4px 10px;
+
+    margin-right:30px;
+
+    margin-top:7px;
+
+    border:none;
+
+	border-right: 1px solid #000000;
+
+	font-weight:600;
+
+}
+
+
+
+
+
+#menu li {
+
+	
+
+    float:left;
+
+    text-align:center;
+
+    position:relative;
+
+    padding: 4px 10px 4px 10px;
+
+    margin-right:30px;
+
+    margin-top:7px;
+
+    border:none;
+
+	font-weight:600;
+
+}
+
+
+
+#menu li:hover {
+
+    border-left: 1px solid #dd0101;
+
+    padding: 4px 9px 4px 9px;
+
+     
+
+    /* Background color and gradients */
+
+     
+
+	top:0px;
+
+	
+
+}
+
+
+
+#menu li a {
+
+    font-family:Arial, Helvetica, sans-serif;
+
+    font-size:16px; 
+
+    color: #fff;
+
+    display:block;
+
+    outline:0;
+
+    text-decoration:none;
+
+	
+
+}
+
+
+
+/*On mouse hover, as the background is grey, we'll use a darker color (#161616) for the links and the white color for the text shadow :*/
+
+
+
+#menu li:hover a {
+
+    color:#ccc;
+
+}
+
+
+
+/* Finally, we need a way to indicate if there's a drop down or not by using a simple arrow image as background, it will be positioned on the right using padding and the top margin will align to it properly. On hover this top margin will be set to 7 pixels instead of 8 as we have an additional border appearing on mouse hover (otherwise, the arrow would be pushed 1 pixel down on hover) :*/
+
+
+
+#menu li .drop {
+
+    padding-right:21px;
+
+}
+
+#menu li:hover .drop {
+
+
+
+}
+
+
+
+
+
+/* Drop Down */
+
+.dropdown_1column, 
+
+.dropdown_2columns, 
+
+.dropdown_3columns, 
+
+.dropdown_4columns,
+
+.dropdown_5columns {
+
+    margin:4px auto;
+
+    float:left;
+
+    position:absolute;
+
+    left:-999em; /* Hides the drop down */
+
+    text-align:left;
+
+    padding:10px 5px 10px 5px;
+
+    border:1px solid #e9e9e9;
+
+    border-top:none;
+
+     
+
+    /* Gradient background */
+
+    background:#F4F4F4;
+
+    background: -moz-linear-gradient(top, #EEEEEE, #BBBBBB);
+
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#EEEEEE), to(#BBBBBB));
+
+ 
+
+    /* Rounded Corners */
+
+    -moz-border-radius: 0px 5px 5px 5px;
+
+    -webkit-border-radius: 0px 5px 5px 5px;
+
+    border-radius: 0px 5px 5px 5px;
+
+}
+
+
+
+/*n order to have a perfect drop down container, we need to specify the width for each one :*/
+
+.dropdown_1column {width: 140px;}
+
+.dropdown_2columns {width: 280px;}
+
+.dropdown_3columns {width: 220px;}
+
+.dropdown_4columns {width: 560px;}
+
+.dropdown_5columns {width: 700px;}
+
+
+
+/*And to show the drop downs on mouse hover, we'll simply use :*/
+
+#menu li:hover .dropdown_1column, 
+
+#menu li:hover .dropdown_2columns, 
+
+#menu li:hover .dropdown_3columns,
+
+#menu li:hover .dropdown_4columns,
+
+#menu li:hover .dropdown_5columns {
+
+    left:-1px;
+
+	top:auto;
+
+}
+
+
+
+/* Columns */
+
+.col_1,
+
+.col_2,
+
+.col_3,
+
+.col_4,
+
+.col_5 {
+
+    display:inline;
+
+    float: left;
+
+    position: relative;
+
+    margin-left: 5px;
+
+    margin-right: 5px;
+
+}
+
+.col_1 {width:130px;}
+
+.col_2 {width:270px;}
+
+.col_3 {width:410px;}
+
+.col_4 {width:550px;}
+
+.col_5 {width:690px;}
+
+
+
+
+
+
+
+/* Drop Down Content Stylings */
+
+ 
+
+#menu p, #menu h2, #menu h3, #menu ul li {
+
+    font-family:Arial, Helvetica, sans-serif;
+
+    line-height:21px;
+
+    font-size:12px;
+
+    text-align:left;
+
+	font-weight:600
+
+}
+
+#menu h2 {
+
+    font-size:21px;
+
+    font-weight:400;
+
+    letter-spacing:-1px;
+
+    margin:7px 0 14px 0;
+
+    padding-bottom:14px;
+
+    border-bottom:1px solid #666666;
+	color:#000000;
+
+}
+
+#menu h3 {
+
+    font-size:14px;
+
+    margin:7px 0 14px 0;
+
+    padding-bottom:7px;
+
+    border-bottom:1px solid #888888;
+
+}
+
+#menu p {
+
+    line-height:18px;
+
+    margin:0 0 10px 0;
+	color:#000000;
+
+}
+
+ 
+
+#menu li:hover div a {
+
+    font-size:12px;
+
+    color:#000000;
+
+}
+
+#menu li:hover div a:hover {
+
+    color:#a60808;
+
+}
+
+.strong {
+
+    font-weight:bold;
+
+}
+
+.italic {
+
+    font-style:italic;
+
+}
+
+.imgshadow {
+
+    background:#FFFFFF;
+
+    padding:4px;
+
+    border:1px solid #777777;
+
+    margin-top:5px;
+
+    -moz-box-shadow:0px 0px 5px #666666;
+
+    -webkit-box-shadow:0px 0px 5px #666666;
+
+    box-shadow:0px 0px 5px #666666;
+
+}
+
+.img_left { /* Image sticks to the left */
+
+    width:auto;
+
+    float:left;
+
+    margin:5px 15px 5px 5px;
+
+}
+
+#menu li .black_box {
+
+    background-color:#333333;
+
+    color: #eeeeee;
+
+    text-shadow: 1px 1px 1px #000;
+
+    padding:4px 6px 4px 6px;
+
+ 
+
+    /* Rounded Corners */
+
+    -moz-border-radius: 5px;
+
+    -webkit-border-radius: 5px;
+
+    border-radius: 5px;
+
+ 
+
+    /* Shadow */
+
+    -webkit-box-shadow:inset 0 0 3px #000000;
+
+    -moz-box-shadow:inset 0 0 3px #000000;
+
+    box-shadow:inset 0 0 3px #000000;
+
+}
+
+#menu li ul {
+
+    list-style:none;
+
+    padding:0;
+
+    margin:0 0 12px 0;
+
+}
+
+#menu li ul li {
+
+    font-size:12px;
+
+    line-height:24px;
+
+    position:relative;
+
+    padding:0;
+
+    margin:0;
+
+    float:none;
+
+    text-align:left;
+
+    width:130px;
+
+}
+
+#menu li ul li:hover {
+
+    background:none;
+
+    border:none;
+
+    padding:0;
+
+    margin:0;
+
+}
+
+#menu li .greybox li {
+
+    background:#F4F4F4;
+
+    border:1px solid #bbbbbb;
+
+    margin:0px 0px 4px 0px;
+
+    padding:4px 6px 4px 6px;
+
+    width:116px;
+
+ 
+
+    /* Rounded Corners */
+
+    -moz-border-radius: 5px;
+
+    -webkit-border-radius: 5px;
+
+    border-radius: 5px;
+
+}
+
+#menu li .greybox li:hover {
+
+    background:#ffffff;
+
+    border:1px solid #aaaaaa;
+
+    padding:4px 6px 4px 6px;
+
+    margin:0px 0px 4px 0px;
+
+}
+
+</style>
+
+<script type="text/javascript" src="http://72.52.177.29/jquery-latest.js"></script>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"> </script>
+
+
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+
+
+
+<script type="text/javascript">
+
+
+
+ $(document).ready(function(){
+
+
+
+ $("ul.subnav").parent().append("<span></span>"); //Only shows drop down trigger when js is enabled - Adds empty span tag after ul.subnav
+
+
+
+ $("ul.topnav li span").hover(function() { //When trigger is clicked...
+
+
+
+ //Following events are applied to the subnav itself (moving subnav up and down)
+
+
+
+ $(this).parent().find("ul.subnav").slideDown('slow').show(); //Drop down the subnav on click
+
+
+
+ $(this).parent().hover(function() {
+
+
+
+ }, function(){
+
+
+
+ $(this).parent().find("ul.subnav").slideUp('slow'); //When the mouse hovers out of the subnav, move it back up
+
+
+
+ });
+
+
+
+ //Following events are applied to the trigger (Hover events for the trigger)
+
+
+
+ }).hover(function() {
+
+
+
+ $(this).addClass("subhover"); //On hover over, add class "subhover"
+
+
+
+ }, function(){ //On Hover Out
+
+
+
+ $(this).removeClass("subhover"); //On hover out, remove class "subhover"
+
+
+
+ });
+
+
+
+});
+
+
+
+ $(document).ready(function(){
+
+
+
+ $("ul.subnav2").parent().append("<span></span>"); //Only shows drop down trigger when js is enabled - Adds empty span tag after ul.subnav
+
+
+
+ $("ul.topnav li span").hover(function() { //When trigger is clicked...
+
+
+
+ //Following events are applied to the subnav itself (moving subnav up and down)
+
+
+
+ $(this).parent().find("ul.subnav2").slideDown('slow').show(); //Drop down the subnav on click
+
+
+
+ $(this).parent().hover(function() {
+
+
+
+ }, function(){
+
+
+
+ $(this).parent().find("ul.subnav2").slideUp('slow'); //When the mouse hovers out of the subnav, move it back up
+
+
+
+ });
+
+
+
+ //Following events are applied to the trigger (Hover events for the trigger)
+
+
+
+ }).hover(function() {
+
+
+
+ $(this).addClass("subhover"); //On hover over, add class "subhover"
+
+
+
+ }, function(){ //On Hover Out
+
+
+
+ $(this).removeClass("subhover"); //On hover out, remove class "subhover"
+
+
+
+ });
+
+
+
+});
+
+
+
+</script>
+
+
+
+<link rel='stylesheet' type='text/css' href='/vert_menu.css' />
+
+
+
+<script type="text/javascript" src="/js/modernizr.js"></script>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/hoverIntent.js"></script> 
+
+<script type="text/javascript" src="http://72.52.177.29/jquery-latest.js"></script>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"> </script>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+
+
+
+<title></title></head>
+
+<body>
+
+
+
+        <table width="100%" height="200px" border="0" align="center" cellpadding="0" cellspacing="0" ><tr><td align="center" >
+
+  <img src="images/header.png" style=" z-index: 2000;" alt="" width="1100"  usemap="#Map" border="0"/></td></tr></table>
+
+<div style="margin-top:15px;">
+
+ <table width="1100px" border="0" cellspacing="0" cellpadding="0" align="center" valign="top" ><tr><td width="148px" valign="top"><div style="position: relative; width="100%" >
+
+ 
+
+<div style="position: absolute; top: -210px; left: 550px;"> <table width="100%" border="0" cellspacing="0" cellpadding="0">  <tr> <td>
+
+<?php echo tep_draw_form('quick_find', tep_href_link(FILENAME_ADVANCED_SEARCH_RESULT, '', 'NONSSL', false), 'get').tep_draw_input_field('keywords', '', 'size="10" maxlength="30" valign="middle" placeholder="Search..." style="width: 130px; height: 10px; padding: 10px 5px 5px 5px; margin: 10px 0 10px 0; background: #a60707; background: -moz-linear-gradient(top, #e9e9e9 0%, #FFFFFF 20%);background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e9e9e9), color-stop(20%,#e9e9e9));border-radius: 3px 0px 0px 3px; -moz-border-radius: 3px 0px 0px 3px; -webkit-border-radius: 3px 0px 0px 3px; font-family: "Viga",Arial,Helvetica; font-size: 16px; font-weight: bold; color: #4E6170; text-shadow: 1px 1px 0 a60707;"') . '</td><td  valign="center" align="right" width="25"   >' . tep_hide_session_id() . tep_image_submit('button_quick_find.png', BOX_HEADING_SEARCH);?></td></form></td> </tr></table></div></div>    
+
+
+
+<div style="position: relative; width="100%" ><div style="position: absolute; top: -65px; left: 250px;"> <table width="100%" border="0" cellspacing="0" cellpadding="0">  <tr> 
+
+<td><ul id="menu">
+
+
+
+    <li class="mainlinks"><a href="#" class="drop">Home</a><!-- Begin Home Item -->
+
+     
+
+    </li><!-- End Home Item -->
+
+    <li class="mainlinks"><a href="#" class="drop">Shop</a><!-- Begin Shop -->
+
+     
+
+         <div class="dropdown_4columns"><!-- Begin Shop container -->
+
+         
+
+           
+
+            <div class="col_1">
+
+                <ul>
+
+                    <li><a href="#">Airguns</a></li>
+
+                    <li><a href="#">Ammunition</a></li>
+
+                    <li><a href="#">Barrels/choke Tubes</a></li>
+
+                    <li><a href="#">Binoculars</a></li>
+
+                    <li><a href="#">Books/software</a></li>
+
+                    <li><a href="#">Cleaning Equipment</a></li>
+
+                    <li><a href="#">Clothing</a></li>
+
+                    <li><a href="#">Electronics</a></li>
+
+                    <li><a href="#">Flashlights & Batteries</a></li>
+
+                </ul>   
+
+                  
+
+            </div>
+
+     
+
+            <div class="col_1">
+
+                <ul>
+
+                    <li><a href="#">Food Products</a></li>
+
+                    <li><a href="#">Grips/pads/stocks</a></li>
+
+                    <li><a href="#">Handguns</a></li>
+
+                    <li><a href="#">Hard Gun Cases</a></li>
+
+                    <li><a href="#">High Capacity Mags</a></li>
+
+                    <li><a href="#">Holsters</a></li>
+
+                    <li><a href="#">Knives</a></li>
+
+                    <li><a href="#">Magazines</a></li>
+
+                    <li><a href="#">Misc. Accessories</a></li>
+
+                </ul>   
+
+                  
+
+            </div>
+
+     
+
+            <div class="col_1">
+
+                <ul>
+
+                    <li><a href="#">Non-lethal Defense</a></li>
+
+                    <li><a href="#">Optical Accessories</a></li>
+
+                    <li><a href="#">Parts</a></li>
+
+                    <li><a href="#">Reloading Equipment</a></li>
+
+                    <li><a href="#">Safes/security</a></li>
+
+                    <li><a href="#">Safety/protection</a></li>
+
+                    <li><a href="#">Scope Mounts</a></li>
+
+                    <li><a href="#">Scopes</a></li>
+
+                    <li><a href="#">Sights/lasers/lights</a></li>
+
+                    <li><a href="#">Slings/swivels</a></li>
+
+                </ul>   
+
+                  
+
+            </div>
+
+     
+
+            <div class="col_1">
+
+                <ul>
+
+                    <li><a href="#">Soft Gun Cases</a></li>
+
+                    <li><a href="#">Sporting Long Guns</a></li>
+
+                    <li><a href="#">Spotting Scopes</a></li>
+
+                    <li><a href="#">Targets</a></li>
+
+                    <li><a href="#">Tasers</a></li>
+
+                    <li><a href="#">Upper Receivers/<br>conv Kits</a></li>
+
+                    <li><a href="#">Upper/conv <br>Kits-high Cap</a></li>
+
+                    <li><a href="#">Used Handguns</a></li>
+
+                </ul>   
+
+                  
+
+            </div>
+
+             
+
+        </div><!-- End Shop container -->
+
+     
+
+     
+
+    </li><!-- End shop Item -->
+
+ 
+
+    <li class="mainlinks"><a href="#" class="drop">Extra Catergory</a><!-- Begin Extra Category Item -->
+
+     
+
+         <div class="dropdown_2columns"><!-- Begin Extra Category container -->
+
+     
+
+            <div class="col_2">
+
+                <p>Information on this category on it's products and our services offered. .</p>             
+
+                           
+
+            </div>
+
+     
+
+            <div class="col_2">
+
+                <h2>Check out our gallery!</h2>
+
+            </div>
+
+             
+
+            <div class="col_1">
+
+                 <img src="images/guncoating2.jpg" width="125" height="94" alt=""/>
+
+            </div>
+
+             
+
+            <div class="col_1">
+
+                <p>Pricing and Services.<br><a href="#">Click Here</a></p>
+
+                <p>Gallery<br><a href="#">Click Here</a></p>
+
+            </div>
+
+           
+
+        </div><!-- End Extra Category container -->
+
+    </li><!-- End Extra Category Item -->
+
+ 
+
+    <li class="mainlinks"><a href="#" class="drop">Extra Catergory 2</a>
+
+     
+
+        <div class="dropdown_1column align_right">
+
+         
+
+                <div class="col_1">
+
+                 
+
+                    <ul class="simple">
+
+                        <li><a href="#">General Pricing</a></li>
+
+                        <li><a href="#">Capabilities</a></li>
+
+                        <li><a href="#">Create Special Project</a></li>
+
+                    </ul>   
+
+                      
+
+                </div>
+
+                
+
+        </div>
+
+         
+
+    </li>
+
+ 
+
+    <li class="menu_right"><a href="#" class="drop">Contact</a><!-- Begin contact Item -->
+
+     
+
+        <div class="dropdown_3columns align_right"><!-- Begin contact container -->
+
+
+
+     <p>
+
+              Company Name<br>
+
+Address<br>
+
+City and state<br>
+
+Number<br>
+
+Email<br>
+
+   
+
+     </p>
+
+            
+
+             
+
+          <p>Shop Hours<br>
+
+Days of the week<br>
+
+Hours<br>
+
+Weekend<br>
+
+Hours<br><br>
+
+For service outside posted hours <br>please call to set up an appointment.<br>
+
+Phone Number here<br><br>
+
+To ensure that you get the personalized service you deserve, we work by individual appointments.
+
+Please call to set up your appointment.</p>
+
+                    
+
+        </div><!-- End contact container -->
+
+         
+
+    </li><!-- End contact Item -->
+
+ 
+
+ 
+
+</ul></td></td></tr></table></div></div>        
+
+        
+
+       <table width="148px" cellspacing="0" cellpadding="0" class="borders">
+
+       <tr><td align="left"><a href="#"><img src="http://67.227.151.243/images/information.jpg" width="148" height="35" title="Information" border="0"/></a><br/></td></tr>
+
+       <tr><td align="left"><div class="link4">$informationbox</div></td></tr>
+
+       <tr><td align="left"><a href="#"><img src="http://67.227.151.243/images/manufacturers.jpg" width="148" height="35" title="Manufacturers" border="0"/></a><br/></td></tr>
+
+           <tr><td align="left"><div class="link4">$manufacturerbox</div></td></tr>
+
+       <tr><td align="left"><a href="#"><img src="http://67.227.151.243/images/categories.jpg" width="148" height="35" title="Categories" border="0"/></a><br/></td></tr>
+
+       
+
+       <tr><td align="center">
+
+       
+
+           <div class="link4">$categorybox</div></td></tr>
+
+            
+
+              <tr><td align="left"><a href="#"><img src="http://67.227.151.243/images/specials.jpg" width="148" height="35" title="specials" border="0"/></a><br/><br /></td></tr>
+
+              <tr><td align="left"><div class="link4">$search_filterbox</div></td></tr>
+
+           <tr><td align="left"><a href="#"><img src="http://67.227.151.243/images/shopping_cart.jpg" width="148" height="35" title="Shopping Cart" border="0"/></a><br/></td></tr>
+
+           <tr><td>$cartbox</td></tr></table>
+
+        
+
+      </td><td width="20"></td>
+
+         
+
+         
+
+ <td width="" valign="top" bgcolor="#ffffff" align="left" class="rounded-corners"><br><span style="font-size:11px;"> <font face="Verdana, Arial"><br/><b>$breadcrumbs</b><br/></font></span><div style="padding-left:15px; padding-right:15px">
+
+ <link rel='stylesheet' id='style-css'  href='/diapo/diapo.css' type='text/css' media='all'> 
+
+<br>
+
+
+
+
+
+
+
+<?php
+
+if (!($_SERVER['PHP_SELF'] == "/index.php"))
+
+{ ?>
+
+
+
+<?php }
+
+if($_SERVER['PHP_SELF'] == "/index.php")
+
+{
+
+?>
+
+
+
+
+<!--STOP!!!! EDIT MESSAGE BELOW!!!-->
+
+
+
+<center>
+
+<marquee direction="left" behavior="scroll" scrollamount="4" width="1000px">
+
+
+
+<font size="+3" color="#000000">
+
+
+
+
+
+<!--BELOW IS WHERE YOU UPDATE MESSAGE!! JUST CHANGE THE TEXT!-->
+
+
+
+Welcome to this template. This is a ticker tape if you wish to request one.</font>
+
+
+
+</marquee>
+
+
+
+</center>
+
+
+
+    <?php 
+
+}
+
+?>
+
+<br />
+
+
+
+
+
+$content <br/></div></td></tr></table><br/></td></tr></table></div>
+
+
+
+<div id="apDiv2">
+
+  <table width="1000px" height="65" border="0" align="center" cellpadding="0" cellspacing="0" > <tr>
+
+<td colspan="3" valign="top" align="center" ><br />
+
+  <table width="975" border="0">
+
+    <tr>
+
+      <td width="195" align="left" valign="top"><a href="#" target="_blank" class="style1"><font size="-1">About Us</font></a><br />
+
+          <a href="#" target="_blank" class="style1"><font size="-1">Directions</font></a><br />
+
+          <a href="#" target="_blank" class="style1"><font size="-1">Blog</font></a><br />    
+
+      <br /></td>
+
+      <td width="195" align="left" valign="top">  
+
+     <a href="#" target="_blank" class="style1"><font size="-1">Pricing</font></a><br />  
+
+       <a href="#" target="_blank" class="style1"><font size="-1">Shipping</font></a><br />       
+
+      <a href="#" target="_blank" class="style1"><font size="-1">Contact Us</font>
+</a> <br /><br />
+
+        <br /><br /><br /><br /><br /></td>
+
+      <td width="195" align="left" valign="top">
+
+      
+
+      <font size="-1" color="#000000">Company name<br />
+
+Address<br />
+
+City and State<br />
+
+Number<br />
+
+email<br />
+
+      <br /> 
+      </font>
+      
+
+        </font>
+
+      
+
+      
+
+      
+
+       
+
+      </td>
+
+      <td width="195" align="left" valign="top">
+
+      
+
+      <font size="-1" color="#000000">Shop Hours<br />
+
+Days of the weekend<br />
+
+hours<br />
+
+weekend<br />
+
+hours<br />
+
+<br />
+
+For service outside posted hours please call to set up an appointment.<br />
+
+</font>
+
+      
+
+      
+
+       </td>
+
+      <td width="195" align="left" valign="top">
+
+      
+
+      <center>
+
+      <a href="#"><img src="images/facebook.gif" /></a>
+      &nbsp;&nbsp;&nbsp;
+
+      <a href="#"><img src="images/socialmedia01.gif" /></a>
+       &nbsp;&nbsp;&nbsp;
+
+      <a href="#"><img src="images/twitter_red.png" /></a>
+
+      </center>
+
+      
+
+      
+
+     </td>
+
+    </tr>
+
+  </table>
+
+  <br />
+
+  <p><span class="link3" style="font-size:10px; color:#000">Copyright  2015 Outdoor Business Network | Powered by <a href="http://www.outdoorbusinessnetwork.com" target="_blank">OBN</a></span></p>
+
+  <br></td> 
+
+</tr> </table> </div>
+
+
+
+
+
+
+
+<map name="Map" id="Map">
+
+  <area shape="rect" coords="749,8,875,48" href="advanced_search.php" title="Advanced Search"  />
+
+  <area shape="rect" coords="1044,18,1091,43" href="checkout_shipping.php" title="Checkout" />
+
+  <area shape="rect" coords="895,16,965,44" href="account.php" title="My Account" />
+
+  <area shape="rect" coords="975,16,1032,42" href="shopping_cart.php" title="My Cart" />
+
+  <area shape="rect" coords="23,61,423,164" href="index.php"  title="Company name"/>
+
+</map>
+
+
+
+<map name="Map2" id="Map2">
+
+  <area shape="rect" coords="3,0,66,25" href="index.php" title="home" />
+
+  <area shape="rect" coords="79,0,131,25"href="shop.php" title="shop" />
+
+  <area shape="rect" coords="151,0,225,25" href="specials.php" title="specials" />
+
+  <area shape="rect" coords="253,0,353,25"href="/contact_us.php" title="Contact Us" />
+
+  <area shape="rect" coords="377,0,458,25"  href="about-us-i-8.html" title="about us"  />
+
+</map>
+
+</body></html>

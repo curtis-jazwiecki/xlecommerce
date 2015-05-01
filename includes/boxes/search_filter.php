@@ -134,8 +134,9 @@ ob_start();
 ?>
 <?php
 if (!isset($_GET['manufacturers_id'])){
-	if (!empty($_SESSION['filter_c'])){
-		$manufacturers_query = tep_db_query("select p.manufacturers_id, m.manufacturers_name from products p inner join manufacturers m on p.manufacturers_id=m.manufacturers_id inner join products_to_categories p2c on p.products_id=p2c.products_id where p2c.categories_id='" . $_SESSION['filter_c'] . "' and p.manufacturers_id!=0 group by p.manufacturers_id order by m.manufacturers_name");
+		if (!empty($_SESSION['filter_c'])){
+		$manufacturers_query = tep_db_query("select p.manufacturers_id, m.manufacturers_name from products p inner join manufacturers m on p.manufacturers_id=m.manufacturers_id inner join " . TABLE_PRODUCTS_TO_CATEGORIES. " p2c on p.products_id=p2c.products_id where p.products_status='1' and m.manufacturers_status='1' and p.products_quantity >= '" . (int)STOCK_MINIMUM_VALUE . "' and p2c.categories_id='" . $_SESSION['filter_c'] . "' and p.manufacturers_id!=0 group by p.manufacturers_id order by m.manufacturers_name");
+
 	} else {
 		$manufacturers_query = tep_db_query("select p.manufacturers_id, m.manufacturers_name from products p inner join manufacturers m on p.manufacturers_id=m.manufacturers_id where p.manufacturers_id!=0 group by p.manufacturers_id order by m.manufacturers_name");
 	}

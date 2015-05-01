@@ -104,6 +104,6 @@ define('HTKA_PRODUCT_REVIEWS_WRITE_ON','1');
 define('HTDA_PRODUCT_REVIEWS_WRITE_ON','1');
 define('HEAD_TITLE_TAG_PRODUCT_REVIEWS_WRITE','Guns-R-Us | OBN Demonstration Website');
 define('HEAD_DESC_TAG_PRODUCT_REVIEWS_WRITE','Guns-R-Us | OBN Demonstration Website');
-define('HEAD_KEY_TAG_PRODUCT_REVIEWS_WRITE','Guns-R-Us | OBN Demonstration Website');
+define('HEAD_KEY_TAG_PRODUCT_REVIEWS_WRITE','Guns-R-Us | OBN Demonstrationn Website');
 
 ?>
