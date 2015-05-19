@@ -61,7 +61,23 @@
             $sts->restart_capture ($getarray['title'], 'box');
 
 	  }elseif(($getarray['module_boxes_file'] == 'search_filter.php')){
+	       $include = true;
+	       if (basename($PHP_SELF) == 'shop.php') {
+	           if (isset($_GET['cPath'])){
+                 $category = $_GET['cPath'];
+                 if (strrpos($category, '_')!==false){
+                   $category = substr($category, strrpos($category, '_')+1 );
+                }
+              $sql = tep_db_query("select count(*) as count from " . TABLE_CATEGORIES . " where parent_id='" . (int)$category . "'");
+              $info = tep_db_fetch_array($sql);
+              if ($info['count']> 0){
+               $include = false;
+              }            
+             } 
+	       }
 
+        if (basename($PHP_SELF) == 'index.php') $include = false;
+        if ($include) {
 			ob_start();
 
 			require(DIR_WS_BOXES . $getarray['module_boxes_file']);
@@ -71,6 +87,7 @@
 			ob_end_clean();
 
 		    $sts->template['search_filterbox'] = $search_filterbox;
+            }
 
 	  }else if(($getarray['module_boxes_file'] == 'manufacturer_info.php') && (isset($HTTP_GET_VARS['products_id']))){
 

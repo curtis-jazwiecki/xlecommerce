@@ -24,6 +24,10 @@ if (!empty($sts_modules_inc)) {
   }
 }
 
+ if ($sts->display_template_output == 1) {
+    $sts->read_template_file();
+    }
+    
 $sts->template["content"] = str_replace("\$featuredproducts", $sts->template["featuredproducts"], $sts->template["content"]);
 
 

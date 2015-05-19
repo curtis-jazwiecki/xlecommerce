@@ -389,6 +389,14 @@ if (!empty($current_template)){
         $script = strtolower( basename( $PHP_SELF ) );
 
         switch($template_id){
+            case '1':
+             $show_search_filter = show_search_filter($script);
+
+                if ($script=='index.php' || !$show_search_filter){
+
+                    $sts->template['search_filterbox'] = '';
+
+                } 
 
             case '11':
 
@@ -1312,7 +1320,7 @@ function show_search_filter(&$script){
 
             }
 
-            $sql = tep_db_query("select count(*) as count from categories where parent_id='" . (int)$category . "'");
+            $sql = tep_db_query("select count(*) as count from " . TABLE_CATEGORIES . " where parent_id='" . (int)$category . "'");
 
             $info = tep_db_fetch_array($sql);
 

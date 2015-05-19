@@ -47,7 +47,7 @@
 if ($_SERVER['HTTPS'] != "on")
   {
     if ($feed_status)
-	  { $image = tep_small_image($random_product['products_image'], $random_product['products_name'], '', '','class="subcatimages"'); }
+	  { $image = tep_small_image($random_product['products_image'], $random_product['products_name'], '', '','class="boximages"'); }
 	else
 	  { $image = tep_image(DIR_WS_IMAGES . $random_product['products_image'], $random_product['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT); }   
   }

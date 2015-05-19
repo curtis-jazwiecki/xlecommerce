@@ -481,8 +481,17 @@ COMPARE_PRODUCTS_SIDEBYSIDE_MINIMUM);
 <!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html <?php echo HTML_PARAMS; ?>>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=<?php echo CHARSET; ?>">
+  <?php
+// BOF: Header Tag Controller v2.6.0
+if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
+  require(DIR_WS_INCLUDES . 'header_tags.php');
+} else {
+?> 
 <title><?php echo TITLE; ?></title>
+<?php
+}
+// EOF: Header Tag Controller v2.6.0
+?>
 <base href="<?php echo (($request_type == 'SSL') ? HTTPS_SERVER : HTTP_SERVER) . DIR_WS_CATALOG; ?>">
 <link rel="stylesheet" type="text/css" href="stylesheet.css">
 <script language="javascript"><!--

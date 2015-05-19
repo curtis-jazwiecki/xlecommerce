@@ -449,7 +449,7 @@ if(mobile_site=='True' && checkmobile2()==true)
     //echo '<style>/*SKU*/ img{ width:100%!important;}</style>';    
 }
 echo '<!-- EOF: Generated Meta Tags -->' . "\n";
-
+echo '<base href="' . (($request_type == 'SSL') ? HTTPS_SERVER : HTTP_SERVER) . DIR_WS_CATALOG . '">';
 if ($sts->display_template_output) {
   $sts->restart_capture ('headertags'); // Capture header from the actual script, needed to take out javascript
 } 

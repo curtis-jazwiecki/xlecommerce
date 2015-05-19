@@ -524,7 +524,17 @@ function fixSeoLink($url) {
 
         <meta http-equiv="Content-Type" content="text/html; charset=<?php echo CHARSET; ?>">
 
-        <title>Checkout</title>
+       <?php
+// BOF: Header Tag Controller v2.6.0
+if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
+  require(DIR_WS_INCLUDES . 'header_tags.php');
+} else {
+?> 
+ <title>Checkout</title>
+<?php
+}
+// EOF: Header Tag Controller v2.6.0
+?>
 
         <base href="<?php echo (($request_type == 'SSL') ? HTTPS_SERVER : HTTP_SERVER) . DIR_WS_CATALOG; ?>">
 
@@ -947,8 +957,10 @@ if (ONEPAGE_CHECKOUT_LOADER_POPUP == 'True') {
                                         }
 
                                         onePage.updateShippingMethods();
+										
+										//alert("call from checkout page");
 
-                                        if ($(':radio[name="shipping"]:checked').size() > 0) {
+                                        /*if ($(':radio[name="shipping"]:checked').size() > 0) {
 
                                             //onePage.setShippingMethod($(':radio[name="shipping"]:checked').val());
 
@@ -956,11 +968,11 @@ if (ONEPAGE_CHECKOUT_LOADER_POPUP == 'True') {
 
                                             updateTotals = false;
 
-                                        }
+                                        }*/
 
                                         if (updateTotals == true) {
 
-                                            onePage.updateOrderTotals();
+                                            //onePage.updateOrderTotals();
 
                                         }
 
@@ -1360,6 +1372,11 @@ if (MODULE_ORDER_TOTAL_COUPON_STATUS == 'true') {
 }
 
 ?>
+
+function callshippingMethod(){
+	onePage.setShippingMethod();
+	onePage.updateOrderTotals();
+}
 
         //-->
 
@@ -1967,7 +1984,7 @@ if ($onepage['shippingEnabled'] === true) {
 
                             ?></td>
 
-                                                        <td class="main" align="right"><?php if (ONEPAGE_CHECKOUT_LOADER_POPUP == 'False') { ?><div id="ajaxMessages" style="display:none;"></div><?php } ?><div id="checkoutButtonContainer"><?php echo tep_image_submit('button_confirm_order.gif', IMAGE_BUTTON_CONTINUE, 'id="checkoutButton" formUrl="' . tep_href_link(FILENAME_CHECKOUT_PROCESS, '', $request_type) . '"'); ?><input type="hidden" name="formUrl" id="formUrl" value=""></div><div id="paymentHiddenFields" style="display:none;"></div></td>
+                                                        <td class="main" align="right"><?php if (ONEPAGE_CHECKOUT_LOADER_POPUP == 'False') { ?><div id="ajaxMessages" style="display:none;"></div><?php } ?><div id="checkoutButtonContainer"><?php echo tep_image_submit('button_confirm_order.gif', IMAGE_BUTTON_CONTINUE, 'id="checkoutButton" formUrl="' . tep_href_link(FILENAME_CHECKOUT_PROCESS, '', $request_type) . '"'); ?><input type="hidden" name="formUrl" id="formUrl" value=""><div id="checkoutContainerMessage"></div></div><div id="paymentHiddenFields" style="display:none;"></div></td>
 
                                                         <td width="10"><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
 

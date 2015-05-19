@@ -38,6 +38,7 @@
         while (list(, $value) = each($this->modules)) {
           $class = substr($value, 0, strrpos($value, '.'));
           if ($GLOBALS[$class]->enabled) {
+            $GLOBALS[$class]->output = array();
             $GLOBALS[$class]->process();
 
             for ($i=0, $n=sizeof($GLOBALS[$class]->output); $i<$n; $i++) {
@@ -63,8 +64,8 @@
         while (list(, $value) = each($this->modules)) {
           $class = substr($value, 0, strrpos($value, '.'));
           if ($GLOBALS[$class]->enabled) {
-            $GLOBALS[$class]->output = array();
-            $GLOBALS[$class]->process();
+           // $GLOBALS[$class]->output = array();
+          //  $GLOBALS[$class]->process();
             $size = sizeof($GLOBALS[$class]->output);
             for ($i=0; $i<$size; $i++) {
               $output_string .= '              <tr>' . "\n" .

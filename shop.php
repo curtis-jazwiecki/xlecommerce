@@ -45,8 +45,8 @@
     }
   }
 // Add-on - Information Pages Unlimited
- // require_once(DIR_WS_FUNCTIONS . 'information.php');
-  //tep_information_shop_define(); // Should be called before the Default Language is defined
+  require_once(DIR_WS_FUNCTIONS . 'information.php');
+  tep_information_shop_define(); // Should be called before the Default Language is defined
   
   require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_DEFAULT);
 ?>

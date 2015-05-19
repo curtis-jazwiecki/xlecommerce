@@ -38,7 +38,7 @@ global $PHP_SELF, $order, $currencies;
 
         if ($od_amount > 0) {
                 $order->info['total'] = $order->info['total'] - $od_amount;
-                $this->output[] = array('title' => $this->title . ':' . $this->coupon_code .':','text' => '<b>-' . $currencies->format($od_amount) . '</b>', 'value' => $od_amount); //Fred added hyphen
+                $this->output[] = array('title' => $this->title . ':' . $this->coupon_code .':' ,'text' => '<b>-' . $currencies->format($od_amount) . '</b>', 'value' => $od_amount); //Fred added hyphen
         }
 }
 
@@ -257,6 +257,7 @@ global $customer_id, $order, $cc_id;
                         }
                 if ($od_amount>$amount) $od_amount = $amount;
                 }
+  
         return tep_round($od_amount,2);
 }
 
