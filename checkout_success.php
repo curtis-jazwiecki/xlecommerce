@@ -124,7 +124,7 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
 	</td></tr>
 		
 		
-		<div align="center"><h2 style="color:#FF0000">Site for demonstration purposes only. No orders will be processed or shipped.</h2></div>
+		<!--<div align="center"><h2 style="color:#FF0000">Site for demonstration purposes only. No orders will be processed or shipped.</h2></div>-->
 		
 		<tr><td width="5" height="20" align="left" background="images/template/infoboxbg.jpg" class="infoBoxHeadingLoginl"><img src="images/template/infoboxbgL.jpg"></td><td class="infoBoxHeadingLogin"><b><?php echo 'Checkout Success'; ?></b></td><td width="5" height="20" class="infoBoxHeadingLogin2" align="right" background="images/template/infoboxbg.jpg"><img src="images/template/infoboxbgR.jpg"></td></tr>
 		

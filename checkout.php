@@ -68,7 +68,8 @@ if (!isset($_GET['rType']) && !isset($_GET['action']) && !isset($_POST['action']
 
 //BOF KGT
 
-if (MODULE_ORDER_TOTAL_DISCOUNT_COUPON_STATUS == 'true') { //if order breakup is set to hold coupon code value, set session variable and populate with appropriate value, if exists
+if (MODULE_ORDER_TOTAL_DISCOUNT_COUPON_STATUS == 'true') {
+	 //if order breakup is set to hold coupon code value, set session variable and populate with appropriate value, if exists
 
     if (isset($_POST['code'])) {
 
@@ -102,7 +103,7 @@ if (!tep_session_is_registered('cartID'))
 
     tep_session_register('cartID');
 
-$cartID = $cart->cartID;
+	$cartID = $cart->cartID;
 
 // if the order contains only virtual products, forward the customer to the billing page as
 
@@ -253,8 +254,7 @@ if (tep_not_null($action)) {
             break;
 
         case 'process':
-
-            echo $onePageCheckout->processCheckout();
+			echo $onePageCheckout->processCheckout();
             break;
 
         case 'countrySelect':
@@ -459,17 +459,13 @@ if (tep_not_null($action)) {
     ob_end_clean();
 
     if ($action == 'process')
-
         echo $content;
-
     else
-
         echo utf8_encode($content);
 
     tep_session_close();
 
     tep_exit();
-
 }
 
 $breadcrumb->add(NAVBAR_TITLE_1, tep_href_link(FILENAME_CHECKOUT, '', $request_type));

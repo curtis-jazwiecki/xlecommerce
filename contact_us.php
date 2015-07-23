@@ -206,7 +206,7 @@ for($p=0;sizeof($contact_us_template_0) > $p; $p++){
                                                     <?php echo tep_draw_input_field('order_id'); ?><br />
                                                     <?php
                                                     //if (CONTACT_US_LIST !=''){
-                                                        echo SEND_TO_TEXT . '<br>';
+                                                       // echo SEND_TO_TEXT . '<br>';
                                                         
                                                         /*if(SEND_TO_TYPE=='radio'){
                                                             foreach(explode("," ,CONTACT_US_LIST) as $k => $v) {
@@ -234,7 +234,7 @@ for($p=0;sizeof($contact_us_template_0) > $p; $p++){
                                                                 'text' => $department['department_name'], 
                                                             );
                                                         }
-                                                        echo tep_draw_pull_down_menu('send_to',  $departments_col);
+                                                        //echo tep_draw_pull_down_menu('send_to',  $departments_col);
                                                     ?>
                                                     <?php echo ENTRY_ENQUIRY; ?><BR>
                                                     <?php echo tep_draw_textarea_field('enquiry', 'soft', 50, 15, tep_sanitize_string($_POST['enquiry']), '', false); ?>

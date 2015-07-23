@@ -19,14 +19,11 @@ $.fn.focusNextInputField = function() {
 };
 
 
-
 document.onkeydown = keydown;
 
 document.onmousedown = mousedown;
 
 isTab = false;
-
-
 
 function keydown(event) {
 
@@ -70,19 +67,11 @@ function keydown(event) {
 
     }
 
-
-
-    function mousedown(event) {
+function mousedown(event) {
 
     	isTab = false;
 
     }
-
-
-
-
-
-
 
 var submitter = null;
 
@@ -655,7 +644,7 @@ var checkout = {
 
 		//$('input,select[name="billing_country"], ', $('#billingAddress')).each(function (){
 
-		  $('input,select[name="billing_country"]', $('#billingAddress')).each(function (){
+		$('input,select[name="billing_country"]', $('#billingAddress')).each(function (){
 
 			var processFunction = function (){
 
@@ -806,9 +795,7 @@ var checkout = {
 
 		});
 
-		if(checkoutClass.stateEnabled == true)
-
-		{
+		if(checkoutClass.stateEnabled == true){
 
 
 
@@ -1206,9 +1193,7 @@ var checkout = {
 
 	},
 
-	checkPoints: function()
-
-	{
+	checkPoints: function(){
 
 		var checkoutClass = this;
 
@@ -1246,9 +1231,7 @@ var checkout = {
 
 	},
 
-	clearPoints: function()
-
-	{
+	clearPoints: function(){
 
 		var checkoutClass = this;
 
@@ -1522,7 +1505,7 @@ var checkout = {
 
 	},
 
-        setShippingMethod: function ($button){
+    setShippingMethod: function ($button){
 
             //alert("in shipping method");
 			
@@ -1940,7 +1923,7 @@ var checkout = {
 	},
 
 	processBillingAddress: function (skipUpdateTotals){
-
+		
 		var hasError = false;
 
 		var checkoutClass = this;
@@ -1968,7 +1951,7 @@ var checkout = {
 		
 
 		if ($('#diffShipping:checked').size() <= 0 && this.loggedIn != true){
-
+			
 			this.setSendTo(false);
 
 		}else{
@@ -2162,36 +2145,23 @@ var checkout = {
 	initCheckout: function (){
 
 		var checkoutClass = this;
-
-
-
+		
 		if (this.loggedIn == false){
-
 			$('#shippingAddress').hide();
-
 			$('#shippingMethods').html('');
-
 		}
 
-
-
 		$('#checkoutNoScript').remove();
-
+		
 		$('#checkoutYesScript').show();
 
-
-
 		$('.removeFromCart').each(function (){
-
 			checkoutClass.addCartRemoveMethod($(this));
-
 		});
 
 
-
-
-
-if(this.autoshow == true &&  this.loggedIn == false){
+		if(this.autoshow == true &&  this.loggedIn == false){
+			
 
 
 
@@ -2215,34 +2185,33 @@ if(this.autoshow == true &&  this.loggedIn == false){
 
             $('#noPaymentAddress').css('display','none');
 
-    }else{
+    
+		}else{
+				
+	
+			if(this.loggedIn == false){
+		
+				$('#noPaymentAddress').css('display','');
+		
+				$('#pay2').css('display','none');
+		
+			}
+	
+			this.updateFinalProductListing();
+	
+			this.setShippingMethod();   
+			this.updateOrderTotals();  
+
+		}
 
 
 
-	if(this.loggedIn == false){
-
-		$('#noPaymentAddress').css('display','');
-
-        $('#pay2').css('display','none');
-
-    }
-
-	this.updateFinalProductListing();
-
-	this.updateOrderTotals();    
-
-}
-
-
-
-if ($(':radio[name="payment"]').length == 1)
-
-	$(':radio[name="payment"]').click();
-
-
+	if ($(':radio[name="payment"]').length == 1)
+		$(':radio[name="payment"]').click();
 
 		$('#diffShipping').click(function (){
 
+			
 			if (this.checked){
 
 				$('#shippingAddress').show();
@@ -2281,76 +2250,71 @@ if ($(':radio[name="payment"]').length == 1)
 
 		});
 
-
-
 		// commented out because it wasn't working with PWA
 
 		//if (this.loggedIn == true){ 
 
-			
+		checkoutClass.setPaymentMethod($(':radio[name="payment"]:checked'));
 
-			checkoutClass.setPaymentMethod($(':radio[name="payment"]:checked'));
+		$('.shippingRow, .paymentRow').each(function (){
 
-			$('.shippingRow, .paymentRow').each(function (){
+			checkoutClass.addRowMethods($(this));
 
-				checkoutClass.addRowMethods($(this));
+		});
+
+
+
+		$('input[name="payment"]').each(function (){
+
+			$(this).click(function (){				
+
+				checkoutClass.setPaymentMethod($(this));
+
+				checkoutClass.updateOrderTotals();
+
+				checkoutClass.updatePayment();
 
 			});
 
+		});
 
 
-			$('input[name="payment"]').each(function (){
 
-				$(this).click(function (){				
+		if (this.shippingEnabled == true){
 
-					checkoutClass.setPaymentMethod($(this));
+			//BOF:mvs_internal_mod
+
+			/*
+
+			//EOF:mvs_internal_mod
+
+			$('input[name="shipping"]').each(function (){
+
+			//BOF:mvs_internal_mod
+
+			*/
+
+			$('input:radio[name^="shipping"]').each(function (){
+
+			//EOF:mvs_internal_mod
+
+				$(this).click(function (){
+
+					checkoutClass.setShippingMethod($(this));
 
 					checkoutClass.updateOrderTotals();
 
-                    checkoutClass.updatePayment();
+					checkoutClass.updatePayment();
 
 				});
 
 			});
 
+		}
 
+	
 
-			if (this.shippingEnabled == true){
-
-				//BOF:mvs_internal_mod
-
-				/*
-
-				//EOF:mvs_internal_mod
-
-				$('input[name="shipping"]').each(function (){
-
-				//BOF:mvs_internal_mod
-
-				*/
-
-				$('input:radio[name^="shipping"]').each(function (){
-
-				//EOF:mvs_internal_mod
-
-					$(this).click(function (){
-
-						checkoutClass.setShippingMethod($(this));
-
-						checkoutClass.updateOrderTotals();
-
-                        checkoutClass.updatePayment();
-
-					});
-
-				});
-
-			}
-
-		
-
-		//}
-
+	//}
 
 
 		if ($('#paymentMethods').is(':visible')){
@@ -2358,8 +2322,6 @@ if ($(':radio[name="payment"]').length == 1)
 			this.clickButton('payment');
 
 		}
-
-
 
 		if (this.shippingEnabled == true){
 
@@ -2370,14 +2332,6 @@ if ($(':radio[name="payment"]').length == 1)
 			}
 
 		}
-
-		
-
-
-
-
-
-
 
 		$('input, password', $('#billingAddress')).each(function (){
 
@@ -2800,9 +2754,8 @@ if ($(':radio[name="payment"]').length == 1)
 
 		});
 
-		if(checkoutClass.stateEnabled == true)
-
-		{
+		if(checkoutClass.stateEnabled == true){
+			
 
 			$('select[name="shipping_country"], select[name="billing_country"]').each(function (){
 
@@ -2870,9 +2823,11 @@ if ($(':radio[name="payment"]').length == 1)
 
 			});
 
+		
 		}
 
 		$('#updateCartButton').click(function (){
+			
 
 			checkoutClass.showAjaxLoader();
 
@@ -2922,9 +2877,8 @@ if ($(':radio[name="payment"]').length == 1)
 
 			return false;
 
+		
 		});
-
-
 
 		function checkAllErrors(){
 

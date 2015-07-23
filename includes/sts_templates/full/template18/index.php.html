@@ -1,253 +1,210 @@
 <!DOCTYPE HTML>
 
-<html>
 
-    <head>
+
+<html> <head>
+
     $headertags
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        $template18_stylesheet1
+  $template18_stylesheet1
 
         <script type="text/javascript">
 
-            var jqqqnoconf = jQuery.noConflict();
+  var jqqqnoconf = jQuery.noConflict();
 
 // fix jQuery 1.8.0 and jQuery UI 1.8.22 bug with dialog buttons; http://bugs.jqueryui.com/ticket/8484
 
-            if (jqqqnoconf.attrFn) {
+  if (jqqqnoconf.attrFn) {
 
-                jqqqnoconf.attrFn.text = true;
+     jqqqnoconf.attrFn.text = true;
 
             }
+ </script>
 
-        </script>
+  <script type="text/javascript">
 
-        <script type="text/javascript">
+ var tba = jQuery.noConflict();
 
-            var tba = jQuery.noConflict();
+ tba(document).ready(function () {
+
+  //SKU BOF
+ tba('.bestsellers').html('<i class="fa fa-chevron-circle-right"></i>');
+tba('.category_cell table').addClass('categoryListBoxContents subproduct_name onlycat');
+ tba('body.password_forgotten').find('.pageHeading').eq(0).wrapInner('<h1></h1>');  
+ tba('body.shopping_cart .productListing-tr').addClass('tablecontent').removeClass('productListing-odd productListing-even productListing-tr');
+  //tba('body.checkout').find('h2.margin').addClass('acc_trigger active');
+  //SKU EOF
+   var scroll_pos = 0;
+  tba(document).scroll(function () {
+  //alert("hello");
+  scroll_pos = tba(this).scrollTop();
+  if (scroll_pos > 25) {
+  tba("#mj-topbar").css('background-color', '#008080');
+  tba("#mj-topbar").css('background-image', 'url("images/topbar-bg.png") repeat scroll 0 0 transparent');
+ tba("#mj-topbar a").css('color', '#FFFFFF');
+ tba("#mj-topbar i").css('color', '#FFFFFF');
+ tba("#mj-topbar div").css('color', '#FFFFFF');
+ //tba("#mj-topbar li").css('background', 'url("images/topbar-arrow-white.png") no-repeat scroll right center transparent');
+ tba("#mj-topbar li:last-child").css('background', 'none');
+  }
+   else
+  {
+ tba("#mj-topbar").css('background', 'url("images/topbar-bg.png") repeat scroll 0 0 transparent');
+  tba("#mj-topbar a").css('color', '#008080');
+  tba("#mj-topbar i").css('color', '#008080');
+   tba("#mj-topbar div").css('color', '#008080');
+ //tba("#mj-topbar li").css('background', 'url("images/icons/<?php echo $_SESSION['themecolor_com']."-arrow.png" ?>") no-repeat scroll right center transparent');
+ tba("#mj-topbar li:last-child").css('background', 'none');
+ } });  });</script>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" > 
+    
+    <meta name="description" content=""> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+    <link rel='stylesheet' id='camera-css'  href='http://67.227.172.91/camera/css/camera.css' type='text/css' media='all'> 
+    <style>
+		body {
+			margin: 0;
+			padding: 0;
+		}
+		a {
+			color: #09f;
+		}
+		a:hover {
+			text-decoration: none;
+		}
+		#back_to_camera {
+			clear: both;
+			display: block;
+			height: 80px;
+			line-height: 40px;
+			padding: 20px;
+		}
+		.fluid_container {
+			margin: 0 auto;
+			max-width: 1000px;
+			width: 90%;
+		}
+	</style>
 
 
+    
+    <script type='text/javascript' src='http://67.227.172.91/camera/scripts/jquery.min.js'></script>
+    <script type='text/javascript' src='http://67.227.172.91/camera/scripts/jquery.mobile.customized.min.js'></script>
+    <script type='text/javascript' src='http://67.227.172.91/camera/scripts/jquery.easing.1.3.js'></script> 
+    <script type='text/javascript' src='http://67.227.172.91/camera/scripts/camera.min.js'></script> 
+    
+    <script>
+		jQuery(function(){
+			
+			jQuery('#camera_wrap_1').camera({
+				thumbnails: true
+			});
 
-            tba(document).ready(function () {
-
-                //SKU BOF
-
-                tba('.bestsellers').html('<i class="fa fa-chevron-circle-right"></i>');
-
-                tba('.category_cell table').addClass('categoryListBoxContents subproduct_name onlycat');
-
-                tba('body.password_forgotten').find('.pageHeading').eq(0).wrapInner('<h1></h1>');  
-
-                tba('body.shopping_cart .productListing-tr').addClass('tablecontent').removeClass('productListing-odd productListing-even productListing-tr');
-
-                //tba('body.checkout').find('h2.margin').addClass('acc_trigger active');
-
-                //SKU EOF
-
-                var scroll_pos = 0;
-
-
-
-                tba(document).scroll(function () {
-
-                    //alert("hello");
-
-                    scroll_pos = tba(this).scrollTop();
-
-                    if (scroll_pos > 25) {
-
-                        tba("#mj-topbar").css('background-color', '#008080');
-
-                        tba("#mj-topbar").css('background-image', 'url("images/topbar-bg.png") repeat scroll 0 0 transparent');
-
-                        tba("#mj-topbar a").css('color', '#FFFFFF');
-
-                        tba("#mj-topbar i").css('color', '#FFFFFF');
-
-                        tba("#mj-topbar div").css('color', '#FFFFFF');
-
-                        //tba("#mj-topbar li").css('background', 'url("images/topbar-arrow-white.png") no-repeat scroll right center transparent');
-
-                        tba("#mj-topbar li:last-child").css('background', 'none');
-
-                    }
-
-                    else
-
-                    {
-
-                        tba("#mj-topbar").css('background', 'url("images/topbar-bg.png") repeat scroll 0 0 transparent');
-
-                        tba("#mj-topbar a").css('color', '#008080');
-
-                        tba("#mj-topbar i").css('color', '#008080');
-
-                        tba("#mj-topbar div").css('color', '#008080');
-
-                        //tba("#mj-topbar li").css('background', 'url("images/icons/<?php echo $_SESSION['themecolor_com']."-arrow.png" ?>") no-repeat scroll right center transparent');
-
-                        tba("#mj-topbar li:last-child").css('background', 'none');
-
-                    }
-
-                });
-
-            });
-
-        </script>
+			jQuery('#camera_wrap_2').camera({
+				height: '400px',
+				loader: 'bar',
+				pagination: false,
+				thumbnails: true
+			});
+		});
+	</script>
 
             $stylesheet
+ </head>
 
-    </head>
+
 
     <body class="$script">
-
-        <div id="mj-container">
-
-            $top_bar
-
-            $header
-
+ <div id="mj-container">
+ $top_bar
+   $header
             $navigation_menu
-
-            <div id="mj-slidetitle"> <!-- mj-slidetitle starts -->
-
-                <div class="mj-subcontainer"> <!-- mj-subcontainer starts -->
-
-                    <div class="moduletable mj-grid96 breadcrumb">	<!-- mj-grid96 starts -->
-
+  <div id="mj-slidetitle"> <!-- mj-slidetitle starts -->
+ <div class="mj-subcontainer"> <!-- mj-subcontainer starts -->
+  <div class="moduletable mj-grid96 breadcrumb">	<!-- mj-grid96 starts -->
                         <div class="breadcrumbs mj-grid96 breadcrumb"> 
+ <div id="navBreadCrumb">
+  $breadcrumbs
 
-                            <div id="navBreadCrumb">
 
-                                $breadcrumbs
 
                                 <!--<ul><li><a class="headerNavigation" href="http://localhost/osmart/index.php">Catalog</a></li> <li><a class="headerNavigation" href="http://localhost/osmart/login.php">Login</a></li></ul>-->
 
-                            </div> 
-
-                        </div>
-
-                    </div> <!-- mj-grid96 ends -->
-
-                </div> <!-- mj-subcontainer ends -->
-
+</div> 
+ </div>
+ </div> <!-- mj-grid96 ends -->
+  </div> <!-- mj-subcontainer ends -->
+ </div>
+ $free_shipping_banner
+<div id="mj-maincontent">
+ <div class="mj-subcontainer">
+<div id="mj-contentarea" class="mj-grid64 mj-lspace">
+ <?php
+if($_SERVER['PHP_SELF'] == "/index.php")
+{
+?>
+<table width="100%" border="0" cellspacing="0" cellpadding="10" style="background-color:#fff"><tr>
+  <td valign="center" align="center"><section> 
+    
+	<div class="fluid_container">
+	
+    	
+        <div class="camera_wrap camera_azure_skin" id="camera_wrap_1">
+          <div data-thumb="http://67.227.172.91/camera/images/slides/thumbs/bridge.jpg" data-src="http://67.227.172.91/camera/images/slides/bridge.jpg">
+               
             </div>
-
-            $free_shipping_banner
-
-
-
-            <div id="mj-maincontent">
-
-                <div class="mj-subcontainer">
-
-                    <div id="mj-contentarea" class="mj-grid64 mj-lspace">
-
-                        <!--sku start-->
-
-                        $content      
-
-
-
-                        <!--sku end-->
-
-                    </div>
-
-                    <div id="mj-left" class="mj-grid16 mj-lspace">                            
-
-                        <div class="ui-widget infoBoxContainer mj-categoriessidebox">
-
-                            $categorybox
-
-                        </div>   
-
-                        <div class="ui-widget infoBoxContainer mj-categoriessidebox">
-
-                            $search_filterbox
-
-                        </div> 
-
-                        <div class="ui-widget infoBoxContainer mj-whatsnew">
-
-                            $whatsnewbox
-
-                        </div>   
-
-                        <div class="ui-widget infoBoxContainer mj-information">
-
-                            $informationbox
-
-                        </div>
-
-                    </div>
-
-                    <div id="mj-right" class="mj-grid16 mj-lspace mj-rspace">
-
-                        <div class="ui-widget infoBoxContainer mj-cartbox">
-
-                            $cartbox
-
-                        </div>
-
-                        <div class="ui-widget infoBoxContainer mj-bestsellersbox">
-
-                            $bestsellersbox
-
-                        </div>
-
-                        <div class="ui-widget infoBoxContainer mj-reviewbox">
-
-                            $reviewsbox
-
-                        </div>
-
-                        <div class="ui-widget infoBoxContainer mj-currenciesbox">
-
-                            $currenciesbox
-
-                        </div>                           
-
-                    </div>
-
+            <div data-thumb="http://67.227.172.91/camera/images/slides/thumbs/leaf.jpg" data-src="http://67.227.172.91/camera/images/slides/leaf.jpg">
+           
+            </div>
+            <div data-thumb="http://67.227.172.91/camera/images/slides/thumbs/road.jpg" data-src="http://67.227.172.91/camera/images/slides/road.jpg">
+                
+            </div>
+            <div data-thumb="http://67.227.172.91/camera/images/slides/thumbs/sea.jpg" data-src="http://67.227.172.91/camera/images/slides/sea.jpg">
+                <div class="camera_caption fadeFromBottom">
+                    Captions can be added.
                 </div>
-
             </div>
-
-        </div>
-
-        <div id="mj-footertop">
-
-            <div class="mj-subcontainer">
-
-                $brands
-
-                $newsletter
-
+            <div data-thumb="http://67.227.172.91/camera/images/slides/thumbs/shelter.jpg" data-src="http://67.227.172.91/camera/images/slides/shelter.jpg">
+               
             </div>
-
-        </div>
-
-        
-
-        <div id="mj-footer"> <!-- mj-footer starts -->
-
-            <div class="mj-subcontainer"> <!-- mj-subcontainer starts -->
-
-                $footer_box_01
-
-                $footer_box_02
-
-                $footer_box_03
-
-                $footer_box_04
-
+            <div data-thumb="http://67.227.172.91/camera/images/slides/thumbs/tree.jpg" data-src="http://67.227.172.91/camera/images/slides/tree.jpg">
+                
             </div>
+      </div>
+</section></td></tr></table><br><br>   <?php 
+}
+?>
 
-        </div>
 
-        $footer_copyright
-
-    </body>
-
-</html>
+   <!--sku start-->
+  $content       <!--sku end-->
+</div>
+<div id="mj-left" class="mj-grid16 mj-lspace">                            
+  <div class="ui-widget infoBoxContainer mj-categoriessidebox">
+ $categorybox
+  </div>   
+ <div class="ui-widget infoBoxContainer mj-categoriessidebox">
+   $search_filterbox
+   </div>  <div class="ui-widget infoBoxContainer mj-whatsnew">
+ $whatsnewbox </div>   
+<div class="ui-widget infoBoxContainer mj-information">
+  $informationbox </div> </div><div id="mj-right" class="mj-grid16 mj-lspace mj-rspace">
+ <div class="ui-widget infoBoxContainer mj-cartbox">
+  $cartbox  </div> <div class="ui-widget infoBoxContainer mj-bestsellersbox">
+ $bestsellersbox  </div> <div class="ui-widget infoBoxContainer mj-reviewbox">
+   $reviewsbox  </div> <div class="ui-widget infoBoxContainer mj-currenciesbox">
+  $currenciesbox </div>   </div> </div>
+ </div> </div> <div id="mj-footertop">
+<div class="mj-subcontainer">
+  $brands  $newsletter </div>   </div>  <div id="mj-footer"> <!-- mj-footer starts -->
+ <div class="mj-subcontainer"> <!-- mj-subcontainer starts -->
+   $footer_box_01
+  $footer_box_02
+  $footer_box_03
+   $footer_box_04
+  </div> </div>
+ $footer_copyright
+ </body></html>

@@ -3,6 +3,7 @@
 $category_query = tep_db_query("select configuration_value from " . TABLE_CONFIGURATION . " where configuration_key = 'CATEGORY_LISTING_TEMPLATE'");
 $category_rows = tep_db_fetch_array($category_query);
 $selected_category_template = $category_rows['configuration_value'];
+
 // Get selected template
 $row_count='';
 if($selected_category_template == 0){
@@ -69,15 +70,16 @@ if($selected_category_template == 0){
     echo $category_image_query . '<br />' . '<table cellpadding="0" cellspacing="" width="100%" align="center" style="background: #fff; text-align: center;" class="catlisting_3"><tr>';
     $number_of_categories = tep_db_num_rows($categories_query);
     $rows = 0;
-    while ($categories = tep_db_fetch_array($categories_query)){
+	while ($categories = tep_db_fetch_array($categories_query)){
         $rows++;
 		$display_image = '';
         $cPath_new = tep_get_path($categories['categories_id']);
         $width = (100 / 3) . '%';
         $deespest_category  = tep_get_deepest_category($categories['categories_id']);
-
-        $products_in_category = tep_count_products_in_category($deespest_category);
-        if (((!tep_not_null($categories['categories_image'])) || $categories['categories_image'] == '') && $products_in_category > 0){
+		
+		$products_in_category = tep_count_products_in_category($deespest_category);
+        if (((tep_not_null($categories['categories_image'])) || $categories['categories_image'] == '') && $products_in_category > 0){
+			
 			if($categories['categories_image'] != ''){
                 $display_image = '<img src="images/'.$categories['categories_image'].'" class="subcatimages" border="0" />';
 			} else {
@@ -113,6 +115,7 @@ if($selected_category_template == 0){
 					$count++;
 				}
 			}
+		
 		}
 		echo '<td width="' . $width . '" valign="top" align="center" class="category_cell">';
 		echo '  <table cellpadding="2" cellspacing="0" width="100%" align="left">';

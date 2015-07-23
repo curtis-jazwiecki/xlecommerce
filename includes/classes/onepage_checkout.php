@@ -2134,18 +2134,12 @@ else
 
     //BOF KGT
 
-    if(MODULE_ORDER_TOTAL_DISCOUNT_COUPON_STATUS=='true')
-
-    {
+    if(MODULE_ORDER_TOTAL_DISCOUNT_COUPON_STATUS=='true'){
 
       $onepage['info']['coupon'] = $order->info['coupon'];
-
       //$onepage['info']['applied_discount'] = $order->info['applied_discount'];
-
       //$onepage['info']['subtotal'] = $order->info['subtotal'];
-
       //end kgt - discount coupons
-
     }
 
     //EOF KGT
@@ -2159,10 +2153,13 @@ else
 
 
     if (tep_session_is_registered('customer_id')){
+		
 
       $onepage['createAccount'] = false;
 
-    }else{
+    
+	}else{
+		
 
       if (tep_not_null($_POST['password'])){
 
@@ -2182,13 +2179,12 @@ else
 
       }
 
-    }
+    
+	}
 
     $payment_modules->update_status();
 
     $paymentMethod = $onepage['info']['payment_method'];
-
-
 
     if ((USE_POINTS_SYSTEM == 'true') && (USE_REDEEM_SYSTEM == 'true')) {
 
@@ -2317,7 +2313,8 @@ else
     }
 
 	
-
+echo "before payment method";
+	
 	
 
     if ($paymentMethod != '' && $paymentMethod != 'credit_covers'){
@@ -2325,15 +2322,13 @@ else
       $GLOBALS[$paymentMethod]->pre_confirmation_check();
 
     }
+	
 
     $hiddenFields = '';
 
-    if($paymentMethod != '' && $paymentMethod != 'credit_covers')
-
-    {
+    if($paymentMethod != '' && $paymentMethod != 'credit_covers'){
 
       $GLOBALS[$paymentMethod]->confirmation();
-
 
 
       if (tep_session_is_registered('cart_PayPal_IPN_ID')){
@@ -2361,8 +2356,7 @@ else
 
 
       $hiddenFields = $GLOBALS[$paymentMethod]->process_button();
-
-      if (!tep_not_null($hiddenFields)){
+	  if (!tep_not_null($hiddenFields)){
 
         foreach($_POST as $varName => $val){
 
@@ -2386,36 +2380,8 @@ else
 
     }
 
-
-
-    $html .= '<form name="redirectForm" action="' . $formUrl . '" method="POST">' .
-
-           //'<noscript>' .
-
-    //$infoMsg .
-
-////    tep_image_submit('button_continue.gif', IMAGE_CONTINUE) .
-
-    //'</noscript>' .
-
-    //tep_image_submit('button_continue.gif', IMAGE_CONTINUE, 'style="display:none;"') .
-
-    $hiddenFields .
-
-    //'<script>' . 
-
-    //       'document.write(\'<div style="width:100%;height:100%;margin-left:auto;margin-top:auto;text-align:center"><img src="' . DIR_WS_HTTPS_CATALOG.DIR_WS_IMAGES . 'ajax-loader.gif"><br>Processing Order, Please Wait...</div>\');' . 
-
-            //'setTimeout("redirectForm.submit()", 3000);' .    
-
-           //'</script>' .  
-
-            '</form>';
-
-
-
+    $html .= '<form name="redirectForm" action="' . $formUrl . '" method="POST">' .$hiddenFields.'</form>';
     return $html;
-
   }
 
 

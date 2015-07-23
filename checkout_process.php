@@ -1,5 +1,4 @@
 <?php
-
 /*
 
   $Id: checkout_process.php,v 1.128 2003/05/28 18:00:29 hpdl Exp $
@@ -24,8 +23,6 @@
 
   include('includes/application_top.php');
 
-
-
 	//BOF:one_page_checkout
 
 if (ONEPAGE_CHECKOUT_ENABLED == 'True'){
@@ -49,9 +46,7 @@ if (ONEPAGE_CHECKOUT_ENABLED == 'True'){
 // if the customer is not logged on, redirect them to the login page
 
 	if (!tep_session_is_registered('customer_id')) {
-
 		$navigation->set_snapshot(array('mode' => 'SSL', 'page' => FILENAME_CHECKOUT_PAYMENT));
-
 		tep_redirect(tep_href_link(FILENAME_LOGIN, '', 'SSL'));
 
 	}
@@ -63,17 +58,14 @@ if (ONEPAGE_CHECKOUT_ENABLED == 'True'){
 //EOF:one_page_checkout
 
  if (!tep_session_is_registered('shipping') || !tep_session_is_registered('sendto')) {
-
-    tep_redirect(tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL'));
+    //tep_redirect(tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL'));
 
   }
 
 
 
   if ( (tep_not_null(MODULE_PAYMENT_INSTALLED)) && (!tep_session_is_registered('payment')) ) {
-
     tep_redirect(tep_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL'));
-
  }
 
 
@@ -83,7 +75,8 @@ if (ONEPAGE_CHECKOUT_ENABLED == 'True'){
   if (isset($cart->cartID) && tep_session_is_registered('cartID')) {
 
     if ($cart->cartID != $cartID) {
-
+echo "dipak";
+exit;
       tep_redirect(tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL'));
 
     }
@@ -213,8 +206,7 @@ if (ONEPAGE_CHECKOUT_ENABLED == 'True'){
   $order_totals = $order_total_modules->process();
 
   
-
-  
+	
 
  
 

@@ -463,7 +463,9 @@ if (count($columns) >= COMPARE_PRODUCTS_SIDEBYSIDE_MINIMUM) {
 	else
       {
 		 //$buy_now = tep_draw_form('cart_quantity', tep_href_link(FILENAME_PRODUCT_INFO, 'action=add_product')) . '<center>'.tep_image_submit('button_in_cart.gif', IMAGE_BUTTON_IN_CART, '') . '</center>' . '<input type="hidden" value="'.$columns[$k].'" name="products_id">' . '&nbsp;</form>';
-            $buy_now = tep_draw_form('cart_quantity', tep_href_link(FILENAME_PRODUCT_INFO, 'action=add_product')) . '<center>' . tep_image_submit('button_in_cart.gif', IMAGE_BUTTON_IN_CART, '') . '<input type="submit" value="add to cart" class="addtocart_btn"></center>' . '<input type="hidden" value="'.$columns[$k].'" name="products_id">' . '&nbsp;</form>';
+            //$buy_now = tep_draw_form('cart_quantity', tep_href_link(FILENAME_PRODUCT_INFO, 'action=add_product')) . '<center>' . tep_image_submit('button_in_cart.gif', IMAGE_BUTTON_IN_CART, '') . '<input type="submit" value="add to cart" class="addtocart_btn"></center>' . '<input type="hidden" value="'.$columns[$k].'" name="products_id">' . '&nbsp;</form>';
+			
+			$buy_now = tep_draw_form('cart_quantity', tep_href_link(FILENAME_PRODUCT_INFO, 'action=add_product')) . '<center> <input type="submit" value="add to cart" class="addtocart_btn"></center>' . '<input type="hidden" value="'.$columns[$k].'" name="products_id">' . '&nbsp;</form>';
    	  }
      $list_box_contents[$cur_row][] = array('align' => "left",
                                             'params' => 'class="compareListing-data" valign="top"',

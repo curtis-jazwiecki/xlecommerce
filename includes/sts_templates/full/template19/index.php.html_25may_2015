@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><html lang="en"> <![endif]-->
+
+<html dir="ltr" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="images/favicon.png" rel="icon" />
+        <title>Dresscode</title>
+        <!-- Mobile Specific Metas
+               ================================================== -->
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <base href="$basehref" />
+        <link rel="stylesheet" type="text/css" href="$templatedirurl/ext/jquery/ui/redmond/jquery-ui-1.10.4.min.css" />
+        <!--[if lt IE 9]>
+                <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+                <![endif]-->
+
+        <script type="text/javascript" src="$templatedirurl/ext/jquery/jquery-1.11.1.min.js"></script>
+        <script type="text/javascript" src="$templatedirurl/ext/jquery/ui/jquery-ui-1.10.4.min.js"></script>
+        <script type="text/javascript" src="$templatedirurl/ext/photoset-grid/jquery.photoset-grid.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="$templatedirurl/ext/colorbox/colorbox.css" />
+        <script type="text/javascript" src="$templatedirurl/ext/colorbox/jquery.colorbox-min.js"></script>
+        <link rel="stylesheet" type="text/css" href="$templatedirurl/ext/960gs/960_24_col.css" />
+        <link rel="stylesheet" type="text/css" href="stylesheet.css" />
+        <link rel="stylesheet" type="text/css" href="$templatedirurl/dresscode_theme/dresscode_styles/base.css" />
+        <link rel="stylesheet" type="text/css" href="$templatedirurl/dresscode_theme/dresscode_styles/skeleton.css" />
+        <link rel="stylesheet" type="text/css" href="$templatedirurl/dresscode_theme/dresscode_styles/dresscode.css" />
+        <link rel="stylesheet" type="text/css" href="$templatedirurl/dresscode_theme/dresscode_styles/sliders_styles.css" />
+        <link rel="stylesheet" type="text/css" href="$templatedirurl/dresscode_theme/dresscode_styles/layout.css" />
+        <link rel="stylesheet" type="text/css" href="$templatedirurl/dresscode_theme/dresscode_styles/effects.css" />
+        <link rel="stylesheet" type="text/css" href="$templatedirurl/dresscode_theme/dresscode_styles/fancybox/jquery.fancybox-buttons.css" />
+        <link rel="stylesheet" type="text/css" href="$templatedirurl/dresscode_theme/dresscode_styles/fancybox/jquery.fancybox-thumbs.css" />
+        <link rel="stylesheet" type="text/css" href="$templatedirurl/dresscode_theme/dresscode_styles/fancybox/jquery.fancybox.css" />
+        <link rel="stylesheet" type="text/css" href="$templatedirurl/dresscode_theme/dresscode_styles/theme_options.css" />
+        <link rel="stylesheet" type="text/css" href="$templatedirurl/dresscode_theme/dresscode_styles/custom.css" />
+        <!--[if IE 8 ]><link rel="stylesheet" type="text/css" href="$templatedirurl/dresscode_theme/dresscode_styles/ie8.css" /><![endif]-->
+        <link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' id="stylesku">
+        <style>
+            $stylesheet
+        </style>
+    </head>
+    <body class="$script">
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js "></script> 
+        <script type="text/javascript" src="$templatedirurl/dresscode_theme/dresscode_js/jquery-ui.min.js"></script>
+        
+        <script type="text/javascript" src="$templatedirurl/dresscode_theme/dresscode_js/jquery.easing.1.3.js"></script> 
+        <script type="text/javascript" src="$templatedirurl/dresscode_theme/dresscode_js/jquery.selectbox-0.2.js"></script> 
+        <script type="text/javascript" src="$templatedirurl/dresscode_theme/dresscode_js/responsiveslides.js"></script> 
+        <script type="text/javascript" src="$templatedirurl/dresscode_theme/dresscode_js/jquery.elastislide.js"></script> 
+        <script type="text/javascript" src="$templatedirurl/dresscode_theme/dresscode_js/cloud-zoom.1.0.2.js"></script> 
+        <script type="text/javascript" src="$templatedirurl/dresscode_theme/dresscode_js/fancybox/jquery.fancybox.js"></script> 
+        <script type="text/javascript" src="$templatedirurl/dresscode_theme/dresscode_js/fancybox/jquery.fancybox-buttons.js"></script> 
+        <script type="text/javascript" src="$templatedirurl/dresscode_theme/dresscode_js/fancybox/jquery.fancybox-thumbs.js"></script> 
+        <script type="text/javascript" src="$templatedirurl/dresscode_theme/dresscode_js/fancybox/jquery.easing-1.3.pack.js"></script> 
+        <script type="text/javascript" src="$templatedirurl/dresscode_theme/dresscode_js/fancybox/jquery.mousewheel-3.0.6.pack.js"></script> 
+        <script type="text/javascript" src="$templatedirurl/dresscode_theme/dresscode_js/jquery.carouFredSel-6.2.1-packed.js"></script> 
+        <script type="text/javascript" src="$templatedirurl/dresscode_theme/dresscode_js/jquery.parallax.js"></script> 
+        <script type="text/javascript" src="$templatedirurl/dresscode_theme/dresscode_js/custom.js"></script> 
+        <script type="text/javascript" src="star_rating.js"></script> 
+        <script>
+            $('#stylesku').next().html($('#stylesku').next().html().replace('<!-- start stylesheet //-->','').replace('<!-- end stylesheet //-->', ''));
+
+        </script>
+        <!-- start get_javascript(applicationtop2header) //-->
+               <!-- <script type="text/javascript" language="javascript" src="ext/jQuery/jQuery.js"></script>
+
+                <script type="text/javascript" language="javascript" src="ext/jQuery/jQuery.ajaxq.js"></script>
+
+                <script type="text/javascript" language="javascript" src="ext/jQuery/jQuery.pstrength.js"></script>
+
+                <script type="text/javascript" language="javascript" src="ext/jQuery/jQuery.ui.js"></script>
+
+                <script type="text/javascript" language="javascript" src="/includes/checkout/checkout.js"></script>
+//-->
+                <style>
+
+                    .pstrength-minchar {
+
+                        font-size : 10px;
+
+                    }
+
+                </style>
+
+                
+                <!-- end get_javascript(applicationtop2header) //-->
+        <!-- begin bodyWrapper //-->
+        <div id="bodyWrapper" class="main_page">
+            <div id="header"> $header
+                <div class="nav-container">
+                    <div class="container">
+                        <div class="sixteen columns">
+                            <div class="menu_block_dropdown">
+                                $navigation_menu
+                            </div>
+                        </div>
+                    </div>
+                </div> </div>
+            <div class="et-content-bg">
+                <div>
+                    <div>
+                        <div id="bodyContent" class="normal"> $top_slider
+                            $slogan
+                            <div class="et-content-bg">
+                                <div class="container">
+                                    <div class="container">
+                                        <div class="sixteen columns">
+                                            <div >$breadcrumbs</div>
+                                            <div id="bodyContent" class="twelve columns omega main_part_wrapper">
+                                                $content 
+                                                $infobox_07 
+                                            </div>
+                                            <div id="columnLeft" class="product_info_page_left four columns alpha" style="float: left;">
+                                                $categorybox
+                                                $manufacturerbox
+                                                $whatsnewbox
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <!-- bodyContent //--> 
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- dropdown footer block -->
+            $brands
+
+            <div id="footer_higher">
+                <div id="footer_higher_content">
+                    <div class="container">
+                        <div class="eight columns alpha"> $customer_reviews_html 
+                            $footer_higher_2 </div>
+                        <div class="eight columns"> $footer_higher_3
+                            $footer_higher_4 </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end dropdown footer block --> 
+
+            <!-- footer info -->
+            <div class="footer_bg_color">
+                <div id="footer_container_w">
+                    <div id="footer_button" class="footer_button_down" title="see more"></div>
+                </div>
+                <div id="back-top"><a href="#top"></a></div>
+                <div id="footer">
+                    <div class="container"> 
+                        <div class="four columns footer_information alpha">
+                            $information
+                        </div>
+
+
+                        $footer_box_02
+
+                        $footer_box_03
+
+                        $footer_box_04 </div>
+                </div>
+            </div>
+
+            <!-- end footer info --> 
+
+        </div>
+
+        <!-- bodyWrapper //-->
+
+    </body>
+</html>

@@ -1,68 +1,59 @@
 <?php
-
 /*
 
-  $Id: upsxml.php,v 1.1.4 2004/12/19 13:30:00 sgo Exp $
-
-  $Loc: catalog/includes/modules/vendors_shipping/ $
-
-  $Mod: MVS V1.2 2009/02/28 JCK/CWG $
-
-
-
-  osCommerce, Open Source E-Commerce Solutions
-
-  http://www.oscommerce.com
-
-
-
-  Copyright (c) 2006 osCommerce
-
-
-
-    Original copyright (c) 2003 Torin Walker
-
-    This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License
-
-    as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
-
-    warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-
-    See the GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License along with this program;
-
-    If not, you may obtain one by writing to and requesting one from:
-
-    The Free Software Foundation, Inc.,
-
-    59 Temple Place, Suite 330,
-
-    Boston, MA 02111-1307 USA
-
-
-
-    Written by Torin Walker.
-
-    Some code/style borrowed from both Fritz Clapp's UPS Choice 1.7 Module,
-
-    and Kelvin, Kenneth, and Tom St.Croix's Canada Post 3.1 Module.
+	$Id: upsxml.php,v 1.1.4 2004/12/19 13:30:00 sgo Exp $
+	
+	$Loc: catalog/includes/modules/vendors_shipping/ $
+	
+	$Mod: MVS V1.2 2009/02/28 JCK/CWG $
+	
+	osCommerce, Open Source E-Commerce Solutions
+	
+	http://www.oscommerce.com
+	
+	Copyright (c) 2006 osCommerce
+	
+	Original copyright (c) 2003 Torin Walker
+	
+	This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License
+	
+	as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+	
+	This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+	
+	warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+	
+	See the GNU General Public License for more details.
+	
+	You should have received a copy of the GNU General Public License along with this program;
+	
+	If not, you may obtain one by writing to and requesting one from:
+	
+	The Free Software Foundation, Inc.,
+	
+	59 Temple Place, Suite 330,
+	
+	Boston, MA 02111-1307 USA
+	
+	
+	Written by Torin Walker.
+	
+	Some code/style borrowed from both Fritz Clapp's UPS Choice 1.7 Module,
+	
+	and Kelvin, Kenneth, and Tom St.Croix's Canada Post 3.1 Module.
 
 */
 
 
 
-  require ('includes/classes/xmldocument.php');
+require ('includes/classes/xmldocument.php');
 
 // if using the optional dimensional support, set to 1, otherwise leave as 0
 
-  define('DIMENSIONS_SUPPORTED', 0);
+define('DIMENSIONS_SUPPORTED', 0);
 
-
-
-  class upsxml {
+class upsxml {
+  
 
     var $code, $title, $description, $icon, $enabled, $types, $boxcount;
 
@@ -715,9 +706,9 @@
 // EOF Time In Transit
 
 
-        $upsQuote = $this->_upsGetQuote($vendors_id);
-
-        if ((is_array($upsQuote)) && (sizeof($upsQuote) > 0)) {
+       $upsQuote = $this->_upsGetQuote($vendors_id);
+		
+	   if ((is_array($upsQuote)) && (sizeof($upsQuote) > 0)) {
 
             if (DIMENSIONS_SUPPORTED) {
 
@@ -2069,11 +2060,10 @@
 
 }
 
-
-
 //***************************
 
-  function exclude_choices($type, $vendors_id) {
+function exclude_choices($type, $vendors_id) {
+	
 
     // used for exclusion of UPS shipping options, read from db
 
@@ -2135,11 +2125,10 @@
 
 }
 
-
-
 //******************************
 
 function ready_to_shipCmp( $a, $b) {
+	
 
     if ( $a['ready_to_ship'] == $b['ready_to_ship'] )
 
@@ -2152,8 +2141,4 @@ function ready_to_shipCmp( $a, $b) {
     return 1;
 
 }
-
-
-
 ?>
-
