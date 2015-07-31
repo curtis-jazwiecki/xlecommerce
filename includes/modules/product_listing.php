@@ -462,12 +462,13 @@ if ($listing_split->number_of_rows > 0)
 			}
 		} else {
         	$image = tep_image(DIR_WS_IMAGES . $listing[$x]['products_image'], $listing[$x]['products_name'], 150, 150,'class="subcatimages" border="0"');
+             $image = str_replace("/small/","/medium/",$image);
 		}
         $lc_align = 'center';
         if (isset($HTTP_GET_VARS['manufacturers_id']))
 		  {
 			$lc_text='';
-            $lc_image_med = '<table width="100%" style="align: center"><tr><td style="border:1px solid #333333;" valign="bottom"><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'manufacturers_id=' . $HTTP_GET_VARS['manufacturers_id'] . '&products_id=' . $listing[$x]['products_id']) . '" >' .  str_replace("/small/","/medium/",$image) . '</a></td></tr></table>';
+            $lc_image_med = '<table width="100%" style="align: center"><tr><td style="border:1px solid #333333;" valign="bottom"><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'manufacturers_id=' . $HTTP_GET_VARS['manufacturers_id'] . '&products_id=' . $listing[$x]['products_id']) . '" >' .  $image . '</a></td></tr></table>';
           }
 		else
 		  {
