@@ -16,7 +16,7 @@ if (ENABLE_POPULAR_PRODUCTS=='True') {
         
 //$popular_query = tep_db_query("select DATEDIFF( now( ) , p.products_date_added ) AS datedif, p.products_id, p.products_image, pd.products_name, p.products_tax_class_id, p.products_price from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where DATEDIFF( now( ) , p.products_date_added ) < 31 and p.products_id = pd.products_id and pd.language_id = '" . $languages_id . "' and p.products_status = '1' ORDER BY datedif desc  limit " . MAX_DISPLAY_RECOMMEND_PRODUCT); //ORDER BY p.reviews_rating DESC
 //$popular_query = tep_db_query("select DATEDIFF( now( ) , p.products_date_added ) AS datedif, p.products_id, p.products_image, pd.products_name, p.products_tax_class_id, p.products_price from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = pd.products_id and pd.language_id = '" . $languages_id . "' and p.products_status = '1' ORDER BY pd.products_viewed limit ".MAX_DISPLAY_POPULAR_PRODUCT); //ORDER BY p.reviews_rating DESC
-$popular_query = tep_db_query("select DATEDIFF( now( ) , p.products_date_added ) AS datedif, p.products_id, p.products_image, pd.products_name, p.products_tax_class_id, p.products_price from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = pd.products_id and pd.language_id = '" . $languages_id . "' and p.products_status = '1' ORDER BY pd.products_viewed desc  limit " . (!empty($max_count) ? $max_count : MAX_DISPLAY_POPULAR_PRODUCT) ); //ORDER BY p.reviews_rating DESC
+$popular_query = tep_db_query("select DATEDIFF( now( ) , p.products_date_added ) AS datedif, p.products_id, p.products_image, p.products_mediumimage, pd.products_name, p.products_tax_class_id, p.products_price from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = pd.products_id and pd.language_id = '" . $languages_id . "' and p.products_status = '1' ORDER BY pd.products_viewed desc  limit " . (!empty($max_count) ? $max_count : MAX_DISPLAY_POPULAR_PRODUCT) ); //ORDER BY p.reviews_rating DESC
 
 //echo "select DATEDIFF( now( ) , p.products_date_added ) AS datedif, p.products_id, p.products_image, pd.products_name, p.products_tax_class_id, p.products_price from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where DATEDIFF( now( ) , p.products_date_added ) < 31 and p.products_id = pd.products_id and pd.language_id = '" . $languages_id . "' and p.products_status = '1' ORDER BY datedif desc ";
 
@@ -57,7 +57,8 @@ if ($num_popular_products > 0) {
             $block_content = '';		
         }
 		$count = 1;
-        while ($popular_products = tep_db_fetch_array($popular_query)) {			
+        while ($popular_products = tep_db_fetch_array($popular_query)) {
+            $popular_products['products_image'] = (tep_not_null($popular_products['products_mediumimage']) ?$popular_products['products_mediumimage'] : $popular_products['products_image']);
             $popular_products['specials_new_products_price'] = tep_get_products_special_price($popular_products['products_id']);			
             if ($popular_products['specials_new_products_price']) {				
                 $price =  '<s>' . $currencies->display_price($popular_products['products_price'], tep_get_tax_rate($popular_products['products_tax_class_id'])) . '</s><br>';				

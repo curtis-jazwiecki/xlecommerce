@@ -14,7 +14,8 @@
 // MVS start 
   require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_CHECKOUT_PAYMENT);  
 // If a shipping method has not been selected for all vendors, redirect the customer to the shipping method selection page
-  if (SELECT_VENDOR_SHIPPING == 'true') { // This test only works under MVS
+
+  if (SELECT_VENDOR_SHIPPING == 'true'  && $cart->content_type != 'virtual') {  // This test only works under MVS
     if (!is_array ($shipping['vendor']) || count ($shipping['vendor']) != count ($cart->vendor_shipping)) { // No shipping selected or not all selected
       tep_redirect (tep_href_link (FILENAME_CHECKOUT_SHIPPING, 'error_message=' . ERROR_NO_SHIPPING_SELECTED, 'SSL'));
     }

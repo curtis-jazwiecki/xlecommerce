@@ -164,6 +164,7 @@ if (SELECT_VENDOR_SHIPPING == 'true')
 // process the selected shipping method
 if (isset($HTTP_POST_VARS['action']) && ($HTTP_POST_VARS['action'] == 'process'))
 {
+
     if (!tep_session_is_registered('comments'))
         tep_session_register('comments');
     if (tep_not_null($HTTP_POST_VARS['comments']))
@@ -205,7 +206,8 @@ if (isset($HTTP_POST_VARS['action']) && ($HTTP_POST_VARS['action'] == 'process')
                     $shipping_weight = $total_weight;
                     $cost = $vendor_shipping[$vendor_id]['cost'];
                     $total_count = $vendor_shipping[$vendor_id]['qty'];
-                    $quote = $shipping_modules->quote($method, $module, $vendor_id);
+                    $quote = $shipping_modules->quote($module, $method, $vendor_id,$vendor_shipping[$vendor_id]);
+                    print_r($quote);
 
                 }
                 if (isset($quote['error']))

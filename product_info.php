@@ -82,6 +82,10 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
     <script src="lightbox/js/lightbox-2.6.min.js"></script>
     <?php
   ob_start();
+  $children_query = tep_db_query("select count(p1.products_model) as child_count from products p1 where p1.parent_products_model=(select p2.products_model from products p2 where p2.products_id='" . (int)$HTTP_GET_VARS['products_id'] . "')");
+            $info = tep_db_fetch_array($children_query);
+            
+            if ($info['child_count'] > 0) {
     ?>
     <script>
         var oPt = jQuery.noConflict();
@@ -206,6 +210,29 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
             });
         });
     </script>
+    <?php } else { ?>
+   <script>
+    var oPt = jQuery.noConflict();
+    oPt(document).ready(function(){
+       var product_id = '<?php echo $HTTP_GET_VARS['products_id']; ?>';             
+            if (oPt('select#attribute').length){
+               oPt('form[name="cart_quantity"]').submit(function(event){ 
+                var buy = '1';
+                oPt('select[id="attribute"]').each(function () {
+                 if(oPt(this).val()=="0"){
+                    buy = '0';
+                     }
+                    });
+                   if (buy == '0'){   
+                      alert('Please select all available options'); 
+                      return false;
+                      }
+                    });
+                   }
+                });
+     
+     </script>
+     <?php } ?>
     <?php
     $js_code = ob_get_contents();
     ob_end_clean();
@@ -808,6 +835,7 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
                                 } else {
                                     $button_cart = tep_image_submit('button_in_cart.gif', IMAGE_BUTTON_IN_CART, ($product_info['disclaimer_needed'] == '1' ? 'onclick="javascript:return disclaimer_onclick();"' : ''));
                                 }
+                
                                 $display_products_add_to_cart = tep_draw_hidden_field('products_id', $product_info['products_id']) . $button_cart;
 
                                 //$display_product_add_to_wishlist = '<input type="image" src="includes/languages/english/images/buttons/" border="0" alt="Add to Wishlist" title=" Add to Wishlist " name="wishlist" value="wishlist">';                                

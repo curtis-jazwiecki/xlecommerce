@@ -294,7 +294,7 @@ class shipping {
 			$include_quotes = array();
 
 			reset($this->modules[$vendors_id]);
-
+            
 			foreach ($this->modules[$vendors_id] as $value) {
 
 				$class = substr($value, 0, strrpos($value, '.'));  // $class is the filename without the .php
@@ -320,6 +320,7 @@ class shipping {
 			reset($include_quotes);
 
 			$size = sizeof($include_quotes);
+
 
 			for ($i=0; $i<$size; $i++) {
 

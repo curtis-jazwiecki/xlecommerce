@@ -658,7 +658,7 @@ if (!empty($current_template)){
 
                     '<script type="text/javascript" src="' . STS_TEMPLATE_DIR . 'ext/jquery/jquery.cookiebar.js"></script>' . "\n" . 
 
-                    '<script type="text/plain" class="cc-onconsent-inline-advertising" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>' . "\n" . 
+                    '<script type="text/plain" class="cc-onconsent-inline-advertising" src="https://pagead2.googlesyndication.com/pagead/show_ads.js"></script>' . "\n" . 
 
                     '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/colorbox/colorbox.css" />' . "\n" . 
 
@@ -674,13 +674,13 @@ if (!empty($current_template)){
 
                     //'<script type="text/javascript" src="' . STS_TEMPLATE_DIR . 'ext/jquery/css_browser_selector.js"></script>' . "\n" . 
 
-                    '<link href="http://fonts.googleapis.com/css?family=Oswald" rel="stylesheet" type="text/css" />' . "\n" . 
+                    '<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet" type="text/css" />' . "\n" . 
 
-                    '<link href="http://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet" type="text/css" />' . "\n" . 
+                    '<link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet" type="text/css" />' . "\n" . 
 
-                    '<link href="http://fonts.googleapis.com/css?family=Dosis:200,400,700" rel="stylesheet" type="text/css">' . "\n" . 
+                    '<link href="https://fonts.googleapis.com/css?family=Dosis:200,400,700" rel="stylesheet" type="text/css">' . "\n" . 
 
-                    '<link href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic" rel="stylesheet" type="text/css">' . "\n";
+                    '<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic" rel="stylesheet" type="text/css">' . "\n";
 
                 if (tep_session_is_registered('customer_id')) {
 
@@ -1112,9 +1112,10 @@ function getCustomerReviews($max_count = '10'){
 
     $response = array();
 
-    $reviews_query = tep_db_query("select r.reviews_id as id, r.products_id as product_id, r.customers_id, r.customers_nickname as reviewer, r.reviews_rating as rating, r.date_added as posted_on, r.reviews_title, r.customers_nickname, rd.reviews_text as content, p.products_image as image, pd.products_name as product_name from reviews r inner join reviews_description rd on (r.reviews_id=rd.reviews_id and rd.languages_id='1') inner join products p on r.products_id=p.products_id inner join products_description pd on (p.products_id=pd.products_id and pd.language_id='1') order by date_added desc limit 0, " . $max_count);
+    $reviews_query = tep_db_query("select r.reviews_id as id, r.products_id as product_id, r.customers_id, r.customers_nickname as reviewer, r.reviews_rating as rating, r.date_added as posted_on, r.reviews_title, r.customers_nickname, rd.reviews_text as content, p.products_image as image, p.products_mediumimage as mediumimage, pd.products_name as product_name from reviews r inner join reviews_description rd on (r.reviews_id=rd.reviews_id and rd.languages_id='1') inner join products p on r.products_id=p.products_id inner join products_description pd on (p.products_id=pd.products_id and pd.language_id='1') order by date_added desc limit 0, " . $max_count);
 
     while($review = tep_db_fetch_array($reviews_query)){
+        $review['image'] = (tep_not_null($review['mediumimage']) ? $review['mediumimage'] : $review['image']);
 
         $image = '';
 

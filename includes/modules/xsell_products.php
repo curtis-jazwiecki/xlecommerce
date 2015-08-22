@@ -34,7 +34,7 @@ require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_XSELL_PRODUCTS);
 
 if ($HTTP_GET_VARS['products_id']) {
 
-$xsell_query = tep_db_query("select distinct p.products_id, p.products_image, pd.products_name, p.products_tax_class_id, products_price from " . TABLE_PRODUCTS_XSELL . " xp, " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where xp.products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "' and xp.xsell_id = p.products_id and p.products_id = pd.products_id and pd.language_id = '" . $languages_id . "' and p.products_status = '1' and (p.parent_products_model IS NULL or p.parent_products_model='') order by sort_order asc limit " . MAX_DISPLAY_ALSO_PURCHASED);
+$xsell_query = tep_db_query("select distinct p.products_id, p.products_image, p.products_mediumimage, pd.products_name, p.products_tax_class_id, products_price from " . TABLE_PRODUCTS_XSELL . " xp, " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where xp.products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "' and xp.xsell_id = p.products_id and p.products_id = pd.products_id and pd.language_id = '" . $languages_id . "' and p.products_status = '1' and (p.parent_products_model IS NULL or p.parent_products_model='') order by sort_order asc limit " . MAX_DISPLAY_ALSO_PURCHASED);
 
 
 
@@ -58,7 +58,7 @@ if ($num_products_xsell <= 0) {
 
 	
 
-	$xsell_query = tep_db_query("select distinct p.products_id, p.products_image, pd.products_name, p.products_tax_class_id, products_price from " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c, " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p2c.categories_id = '" . $cat['categories_id'] . "' and p2c.products_id = p.products_id and p.products_id != '" . (int)$HTTP_GET_VARS['products_id']  . "' and p.products_id = pd.products_id and pd.language_id = '" . $languages_id . "' and p.products_status = '1' and (p.parent_products_model IS NULL or p.parent_products_model='') order by rand() limit " . MAX_DISPLAY_RELATED_PRODUCT);
+	$xsell_query = tep_db_query("select distinct p.products_id, p.products_image, p.products_mediumimage, pd.products_name, p.products_tax_class_id, products_price from " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c, " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p2c.categories_id = '" . $cat['categories_id'] . "' and p2c.products_id = p.products_id and p.products_id != '" . (int)$HTTP_GET_VARS['products_id']  . "' and p.products_id = pd.products_id and pd.language_id = '" . $languages_id . "' and p.products_status = '1' and (p.parent_products_model IS NULL or p.parent_products_model='') order by rand() limit " . MAX_DISPLAY_RELATED_PRODUCT);
 
    $num_products_xsell = tep_db_num_rows($xsell_query);
 
@@ -129,6 +129,7 @@ if ('0' < $num_products_xsell) {
 		
 
 		while ($xsell = tep_db_fetch_array($xsell_query)) {
+		  $xsell['products_image'] = (tep_not_null($xsell['products_mediumimage']) ? $xsell['products_mediumimage'] : $xsell['products_image']);
 
 			$xsell['specials_new_products_price'] = tep_get_products_special_price($xsell['products_id']);
 

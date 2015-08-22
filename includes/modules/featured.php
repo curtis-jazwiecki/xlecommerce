@@ -111,6 +111,7 @@ if(FEATURED_PRODUCTS_DISPLAY == 'true'){
 				}
 				//EOF seperate pricing
 				$featured_products['products_name'] = tep_get_products_name($featured_products['products_id']);
+                 $featured_products['products_image'] = (tep_not_null($featured_products['products_mediumimage']) ? $featured_products['products_mediumimage'] : $featured_products['products_image']);
                                     if (tep_not_null($featured_products['products_image'])) {
                                             $feed_status = is_xml_feed_product($featured_products['products_id']);
                                             if ($feed_status) {

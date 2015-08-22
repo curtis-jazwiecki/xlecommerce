@@ -286,7 +286,7 @@
         //$url = 'https://secure.authorize.net/gateway/transact.dll';
         $url = 'https://test.authorize.net/gateway/transact.dll';
       } else {
-        $url = 'https://secure.authorize.net/gateway/transact.dll';
+        $url = 'https://secure2.authorize.net/gateway/transact.dll';
       }
 	
 	
