@@ -132,7 +132,10 @@ exit;
           $navigation->clear_snapshot();
           tep_redirect($origin_href);
         } else {
-          tep_redirect(tep_href_link(FILENAME_DEFAULT));
+                // BEGIN DIRECT TO CHECKOUT MODIFICATION CJ 083115
+         // tep_redirect(tep_href_link(FILENAME_DEFAULT));
+                 if ($cart->count_contents() < 1) {        tep_redirect(tep_href_link(FILENAME_DEFAULT));   } else {   tep_redirect(tep_href_link(FILENAME_CHECKOUT_SHIPPING));   }
+                 // END DIRECT TO CHECKOUT MODIFICATION CJ 082115
         }
       }
     }
