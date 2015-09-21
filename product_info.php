@@ -356,7 +356,7 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
                             if (tep_not_null($product_info['products_image'])) {
                                 $feed_status = is_xml_feed_product($product_info['products_id']);
                                 if ($feed_status) {
-                                    $image = tep_medium_image($product_info['products_mediumimage'], $product_info['products_name'], '', '', 'id="pimage" class="subcatimages"');
+                                    $image = tep_medium_image($product_info['products_largeimage'], $product_info['products_name'], '', '', 'id="pimage" class="subcatimages"');
                                 } else {
                                     $image = tep_image(DIR_WS_IMAGES . ((tep_not_null($product_info['products_mediumimage'])) ? $product_info['products_mediumimage'] : $product_info['products_image']), $product_info['products_name'], '', '', 'id="pimage" class="subcatimages"');
                                 }
