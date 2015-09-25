@@ -66,7 +66,11 @@
   $categories_query = tep_db_query("select c.categories_id, cd.categories_name, c.parent_id from " . TABLE_CATEGORIES . " c, " . TABLE_CATEGORIES_DESCRIPTION . " cd where c.categories_status = '1' and c.parent_id = '0' and c.categories_id = cd.categories_id and cd.language_id='" . (int)$languages_id ."' order by sort_order, cd.categories_name");
 //Categories Status MOD END by FIW
   while ($categories = tep_db_fetch_array($categories_query))  {
-    $tree[$categories['categories_id']] = array('name' => ucwords(strtolower($categories['categories_name'])),
+ //START CJ Un capitalize category names 02252015
+   //THIS AREA CHANGES CAPITALIZATION OF CATEGORY NAME IN CATEGORY BOX
+   // $tree[$categories['categories_id']] = array('name' => ucwords(strtolower($categories['categories_name'])),
+   $tree[$categories['categories_id']] = array('name' => ($categories['categories_name']),
+   //END //START CJ Un capitalize category names 02252015
                                                 'parent' => $categories['parent_id'],
                                                 'level' => 0,
                                                 'path' => $categories['categories_id'],
