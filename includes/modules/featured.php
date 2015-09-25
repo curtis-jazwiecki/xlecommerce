@@ -210,7 +210,7 @@ if(FEATURED_PRODUCTS_DISPLAY == 'true'){
 					$info_box_contents[$row][$col] = array(
 						'align' => 'center',
 						'params' => 'class="smallText" style="padding: 10px; border-spacing: 5px; border-bottom: solid 1px silver; border-top: solid 1px silver; border-right: solid 1px silver; border-left: solid 1px silver;" width="31%" valign="middle"',
-						'text' => '<a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $featured_products['products_id']) . '">' . $image . '</a><br><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $featured_products['products_id']) . '">' . $featured_products['products_name'] . '</a><br>' . $currencies->display_price($featured_products['products_price'], tep_get_tax_rate($featured_products['products_tax_class_id']))
+						'text' => '<a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $featured_products['products_id']) . '">' . $image . '</a><br><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $featured_products['products_id']) . '">' . $featured_products['products_name'] . '</a><br><span class="FeaturedPriceColor"> ' . $currencies->display_price($featured_products['products_price'], tep_get_tax_rate($featured_products['products_tax_class_id'])) . '</span>'
 					);
 				}
 				$col ++;
