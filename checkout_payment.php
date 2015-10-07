@@ -445,7 +445,7 @@ window.open('cvv_help.php','jav','width=500,height=550,resizable=no,toolbar=no,m
       <tr>
         <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
         	  <tr>
-        <td colspan="3"><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?><br /><div align="center"><h2 style="color:#FF0000">Site for demonstration purposes only. No orders will be processed or shipped.</h2></div></td>
+        <td colspan="3"><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10<div align="center">'); ?><br /></div></td>
       </tr>
           <tr><td width="5" height="20" align="left" background="images/template/infoboxbg.jpg"><img src="images/template/infoboxbgL.jpg"></td><td class="infoBoxHeadingLogin" align="left"><b><?php echo TABLE_HEADING_BILLING_ADDRESS; ?></b></td><td width="5" height="20" align="right" background="images/template/infoboxbg.jpg"><img src="images/template/infoboxbgR.jpg"></td></tr>
         </table></td>
