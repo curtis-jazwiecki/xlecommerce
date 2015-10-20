@@ -391,8 +391,8 @@ $breadcrumb->add(NAVBAR_TITLE, tep_href_link(FILENAME_SHOPPING_CART));
                                         }*/
                                         // MVS Shipping Estimator end
                                         ?>
-                                        <td align="right" class="main"><?php if (!($any_bundle_only || (($any_out_of_stock == 1) && (STOCK_ALLOW_CHECKOUT != 'true')))) echo '<a href="' . tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL') . '">' . tep_image_button('button_checkout.gif', IMAGE_BUTTON_CHECKOUT, ($disclaimer_req ? 'onclick="javascript:return disclaimer_onclick();"' :'')) . '</a>'; ?></td>
-                                        <td width="10"><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
+                                        <td align="right" class="main" style="float:none !important;"><?php if (!($any_bundle_only || (($any_out_of_stock == 1) && (STOCK_ALLOW_CHECKOUT != 'true')))) echo '<a href="' . tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL') . '">' . tep_image_button('button_checkout.gif', IMAGE_BUTTON_CHECKOUT, ($disclaimer_req ? 'onclick="javascript:return disclaimer_onclick();"' :'')) . '</a>'; ?></td>
+                                       
                                     </tr>
                                 </table>
                             </td>

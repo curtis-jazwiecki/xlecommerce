@@ -1046,11 +1046,11 @@ if (ONEPAGE_CHECKOUT_LOADER_POPUP == 'True') {
 
                     shadow: false,
 
-                    width: 550,
+                   width:'auto',
 
                     // height: 450,
 
-                    minWidth: 550,
+                    minWidth:'auto',
 
                     //minHeight: 500,
 

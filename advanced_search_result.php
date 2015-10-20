@@ -7,25 +7,80 @@ Copyright (c) 2003 osCommerce
 Released under the GNU General Public License
 */
 
+//header('Cache-Control: no cache'); //no cache
+session_cache_limiter('private_no_expire'); // works
+//header("Cache-Control: no-cache, must-revalidate");
 require ('includes/application_top.php');
+
 require (DIR_WS_LANGUAGES . $language . '/' . FILENAME_ADVANCED_SEARCH);
+
+if (isset($_GET['action']) && $_GET['action'] == 'delete') {
+    if ($_GET['filter'] == 'keywords') {
+        unset($_SESSION['keywords']);
+        unset($_SESSION['filter_p']); 
+        unset($_SESSION['filter_m']);
+        unset($_SESSION['filter_s']);
+        unset($_SESSION['filter_o']);
+        unset($_SESSION['filter_c']);
+        unset($_SESSION['categories_id']);
+        unset($_SESSION['inc_subcat']);
+    }
+    
+    if ($_GET['filter'] == 'price') {
+     unset($_SESSION['filter_p']);   
+    }
+    
+    if ($_GET['filter'] == 'filter_c') {
+     unset($_SESSION['filter_c']);   
+    }
+    
+    if ($_GET['filter'] == 'categories_id') {
+     unset($_SESSION['categories_id']);
+     unset($_SESSION['inc_subcat']);   
+    }
+    
+    if ($_GET['filter'] == 'specs') {
+     foreach ($_SESSION['filter_s'] as $key => $val) {
+        if ($val == $_GET['value']) { 
+            unset($_SESSION['filter_s'][$key]);
+            }
+        if (sizeof($_SESSION['filter_s']) <= 0) unset($_SESSION['filter_s']);
+     }  
+    }
+   tep_redirect(tep_href_link(FILENAME_ADVANCED_SEARCH_RESULT)); 
+}
 
 if ($_POST){
     if (isset($_POST['p_'])) $_SESSION['filter_p'] = $_POST['p_'];
     if (isset($_POST['m_'])) $_SESSION['filter_m'] = $_POST['m_'];
     $_SESSION['filter_s'] = isset($_POST['s_']) ? $_POST['s_'] : '';
+    $_SESSION['filter_o'] = isset($_POST['o_']) ? $_POST['o_'] : '';
 }
 
-$keywords = $_GET['keywords'];
-if (!empty($keywords)){
-    $_SESSION['filter_p'] = $_SESSION['filter_m'] = $_SESSION['filter_s'] = $_SESSION['filter_c'] = '';
+if (isset($_GET['categories_id']) && tep_not_null($_GET['categories_id'])) {
+    $_SESSION['categories_id'] = $_GET['categories_id'];
+    unset($_SESSION['filter_c']);
+  if (isset($_GET['inc_subcat']) && ($_GET['inc_subcat'] == '1')) {  
+    $_SESSION['inc_subcat'] = $_GET['inc_subcat'];
+    }
 }
+    
 
+if (isset($_GET['manufacturers_id']) && tep_not_null($_GET['manufacturers_id'])) {
+    $_SESSION['filter_m'][] = $_GET['manufacturers_id'];
+    }
+    
+$keywords = (isset($_GET['keywords']) ? $_GET['keywords'] : (isset($_POST['keywords']) ? $_POST['keywords'] : $_SESSION['keywords']));
+if (!empty($_GET['keywords'])){
+    $_SESSION['filter_p'] = $_SESSION['filter_m'] = $_SESSION['filter_s'] = $_SESSION['filter_o'] = $_SESSION['filter_c'] = '';
+    $_SESSION['keywords'] = $keywords;
+} elseif (!empty($keywords)) {
+    $_SESSION['keywords'] = $keywords;
+} 
 
-if (!empty($_GET['pfrom']) && !empty($_GET['pto'])){
-	$pfrom = (int)$_GET['pfrom'];
-	$pto = (int)$_GET['pto'];
-} elseif (!empty($_SESSION['filter_p'])){
+//$keywords = $_SESSION['keywords'];
+
+if (!empty($_SESSION['filter_p'])){
 	$temp = explode('|', $_SESSION['filter_p']);
 	$pfrom = (int)$temp[0];
 	$pto = (int)$temp[1];
@@ -33,8 +88,7 @@ if (!empty($_GET['pfrom']) && !empty($_GET['pto'])){
 	$pfrom = null;
 	$pto = null;
 }
-
-
+  
 if (isset($keywords) && $keywords != ''){
     $pw_keywords = explode(' ', stripslashes(strtolower($keywords)));
     $pw_replacement_words = $pw_keywords;
@@ -73,70 +127,10 @@ if (isset($keywords) && $keywords != ''){
 
 $error = false;
 
-if ((isset($keywords) && empty($keywords)) && (isset($HTTP_GET_VARS['dfrom']) && (empty($HTTP_GET_VARS['dfrom']) || ($HTTP_GET_VARS['dfrom'] == DOB_FORMAT_STRING))) && (isset($HTTP_GET_VARS['dto']) && (empty($HTTP_GET_VARS['dto']) || ($HTTP_GET_VARS['dto'] == DOB_FORMAT_STRING))) && (isset($pfrom) && !is_numeric($pfrom)) && (isset($pto) && ! is_numeric($pto))) {
+if ((isset($keywords) && empty($keywords))) {
     $error = true;
     $messageStack->add_session('search', ERROR_AT_LEAST_ONE_INPUT);
 } else {
-    $dfrom = '';
-    $dto = '';
-    if (isset($HTTP_GET_VARS['dfrom'])){
-        $dfrom = (($HTTP_GET_VARS['dfrom'] == DOB_FORMAT_STRING) ? '' : $HTTP_GET_VARS['dfrom']);
-    }
-
-    if (isset($HTTP_GET_VARS['dto'])){
-        $dto = (($HTTP_GET_VARS['dto'] == DOB_FORMAT_STRING) ? '' : $HTTP_GET_VARS['dto']);
-    }
-
-    $date_check_error = false;
-
-    if (tep_not_null($dfrom)){
-        if (!tep_checkdate($dfrom, DOB_FORMAT_STRING, $dfrom_array)){
-            $error = true;
-            $date_check_error = true;
-            $messageStack->add_session('search', ERROR_INVALID_FROM_DATE);
-        }
-    }
-
-    if (tep_not_null($dto)){
-        if (!tep_checkdate($dto, DOB_FORMAT_STRING, $dto_array)){
-            $error = true;
-            $date_check_error = true;
-            $messageStack->add_session('search', ERROR_INVALID_TO_DATE);
-        }
-    }
-
-    if (($date_check_error == false) && tep_not_null($dfrom) && tep_not_null($dto)){
-        if (mktime(0, 0, 0, $dfrom_array[1], $dfrom_array[2], $dfrom_array[0]) > mktime(0, 0, 0, $dto_array[1], $dto_array[2], $dto_array[0])){
-            $error = true;
-            $messageStack->add_session('search', ERROR_TO_DATE_LESS_THAN_FROM_DATE);
-        }
-    }
-
-    $price_check_error = false;
-
-    if (tep_not_null($pfrom)){
-        if (!settype($pfrom, 'double')){
-            $error = true;
-            $price_check_error = true;
-            $messageStack->add_session('search', ERROR_PRICE_FROM_MUST_BE_NUM);
-        }
-    }
-
-    if (tep_not_null($pto)){
-        if (!settype($pto, 'double')){
-            $error = true;
-            $price_check_error = true;
-            $messageStack->add_session('search', ERROR_PRICE_TO_MUST_BE_NUM);
-        }
-    }
-
-    if (($price_check_error == false) && is_float($pfrom) && is_float($pto)){
-        if ($pfrom >= $pto){
-            $error = true;
-            $messageStack->add_session('search', ERROR_PRICE_TO_LESS_THAN_PRICE_FROM);
-        }
-    }
-
     if (tep_not_null($keywords)){
         if (!tep_parse_search_string($keywords, $search_keywords)){
             $error = true;
@@ -145,7 +139,7 @@ if ((isset($keywords) && empty($keywords)) && (isset($HTTP_GET_VARS['dfrom']) &&
     }
 }
 
-if (empty($dfrom) && empty($dto) && empty($pfrom) && empty($pto) && empty($keywords) && empty($_SESSION['filter_p']) && empty($_SESSION['filter_m']) && empty($_SESSION['filter_s']) && empty($_SESSION['filter_k']) && empty($_SESSION['filter_c']) && empty($HTTP_GET_VARS['manufacturers_id'])){
+if ( empty($keywords) && empty($_SESSION['filter_p'])  && empty($_SESSION['filter_o']) && empty($_SESSION['filter_m']) && empty($_SESSION['filter_s']) && empty($_SESSION['filter_k']) && empty($_SESSION['filter_c']) && empty($HTTP_GET_VARS['manufacturers_id'])){
     $error = true;
     $messageStack->add_session('search', ERROR_AT_LEAST_ONE_INPUT);
 }
@@ -189,7 +183,7 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
 ?>
         <style type="text/css">
         $stylesheet
-        </style>
+        </style>        
     </head>
     <body marginwidth="0" marginheight="0" topmargin="0" bottommargin="0" leftmargin="0" rightmargin="0">
     <!-- header //-->
@@ -217,13 +211,62 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
                                     </tr>
                                     <tr>
                                         <td class="main">
-                                            <p>
-                                            <?php
-                                            if (isset($HTTP_GET_VARS['plural']) && ($HTTP_GET_VARS['plural'] == '1')) {
-                                                echo TEXT_REPLACEMENT_SEARCH_RESULTS . ' <b><i>' . stripslashes($keywords) . 's</i></b>';
-                                            } else {
-                                                echo TEXT_REPLACEMENT_SEARCH_RESULTS . ' <b><i>' . stripslashes($keywords) . '</i></b>';
+<script type="text/javascript">
+  function deleteThisFilter(filtername, filtervalue){
+         url = "advanced_search_result.php?action=delete&filter=" + filtername + "&value=" + filtervalue;
+         window.location.href=url;          
+        }
+  </script>
+                                        <?php
+                                        $keywords_str='';
+                                        if (isset($_SESSION['categories_id']) && $_SESSION['categories_id']>0) {
+                                            $cat_query = tep_db_query("select categories_name from " . TABLE_CATEGORIES_DESCRIPTION . " where categories_id='" . (int)$_SESSION['categories_id'] . "'");
+                                            $cat = tep_db_fetch_array($cat_query);
+                                            $keywords_str .= '<b><i>' . stripslashes($cat['categories_name']). '</b></i>' .  '<a style="cursor:pointer;" onclick="deleteThisFilter(\'categories_id\');"><font color=red> X</font></a>' . tep_draw_separator('pixel_trans.gif', '10', '10'); 
+                                        }
+                                        if (isset($_SESSION['filter_c']) && $_SESSION['filter_c']>0) {
+                                          if (strrpos($_SESSION['filter_c'], '_')!==false){
+                                            $cur_cat_id = substr($_SESSION['filter_c'], strrpos($_SESSION['filter_c'], '_')+1 );
+                                          } else {
+                                            $cur_cat_id = $_SESSION['filter_c'];
+                                           }
+                                            $cat_query = tep_db_query("select categories_name from " . TABLE_CATEGORIES_DESCRIPTION . "  where categories_id='" . (int)$cur_cat_id . "'");
+                                            $cat = tep_db_fetch_array($cat_query);
+                                            $keywords_str .= '<b><i>' . stripslashes($cat['categories_name']). '</b></i>' .  '<a style="cursor:pointer;" onclick="deleteThisFilter(\'filter_c\');"><font color=red> X</font></a>' . tep_draw_separator('pixel_trans.gif', '10', '10'); 
+                                        }
+                                        if (isset($_SESSION['keywords']) && $_SESSION['keywords'] != '') {
+                                            $keywords_str .= '<b><i>' . stripslashes($keywords). '</b></i>' .  '<a style="cursor:pointer;" onclick="deleteThisFilter(\'keywords\');"><font color=red> X</font></a>' . tep_draw_separator('pixel_trans.gif', '10', '10'); 
                                             }
+                                       if (isset($_SESSION['filter_p']) && $_SESSION['filter_p'] != '') {
+                                            $temp = explode('|',$_SESSION['filter_p']);
+                                            $lower_price = (int)$temp[0];
+                                            $upper_price = (int)$temp[1];
+                                           if ($upper_price > '50000') {
+                                            $price_str = '> ' . $currencies->format($lower_price);
+                                           } else { 
+                                            if ($lower_price <= '0') {
+                                              $price_str = '< ';  
+                                            } else {
+                                              $price_str = $currencies->format($lower_price) . ' - '; 
+                                            }
+                                            $price_str .=  $currencies->format($upper_price);
+                                          }
+  
+                                            $keywords_str .= '<b><i>' . $price_str. '</b></i>' .  '<a style="cursor:pointer;" onclick="deleteThisFilter(\'price\');"><font color=red> X</font></a>' . tep_draw_separator('pixel_trans.gif', '10', '10'); 
+                                            }     
+                                       if (isset($_SESSION['filter_s']) && sizeof($_SESSION['filter_s'])>0) {
+                                        foreach ($_SESSION['filter_s'] as $val) {
+                                            $temp = explode('|', $val);
+                                            $spec_query = tep_db_query("select psn.name, psv.value from product_specification_values psv left join product_specification_names psn on psv.specification_name_id=psn.id where psv.id='" . $temp[1] . "'");
+                                            
+                                            $spec = tep_db_fetch_array($spec_query);
+                                            $keywords_str .= '<b><i>' . $spec['value'] . ' ' . $spec['name'] . '</b></i>' . '<a style="cursor:pointer;" onclick="deleteThisFilter(\'specs\', \'' . $val . '\');"><font color=red> X</font></a>' . tep_draw_separator('pixel_trans.gif', '10', '10');  
+                                       }
+                                      }      
+                                        ?>
+                                            <p>
+                                            <?php                                           
+                                                echo TEXT_REPLACEMENT_SEARCH_RESULTS . $keywords_str ;                                            
                                             ?>
                                             </p>
                                         </td>
@@ -356,7 +399,7 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
                             $from_str .= ", " . TABLE_PRODUCTS_DESCRIPTION . " pd, " . TABLE_CATEGORIES . " c, " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c";
 
                            if (!empty($_SESSION['filter_s'])) {
-                               $from_str .= " , product_specifications ps ";
+                             //  $from_str .= " , product_specifications ps ";
 
                            }
 
@@ -375,18 +418,18 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
                                 }
                             }
 */
-                            if (isset($HTTP_GET_VARS['categories_id']) && tep_not_null($HTTP_GET_VARS['categories_id'])) {
-                                if (isset($HTTP_GET_VARS['inc_subcat']) && ($HTTP_GET_VARS['inc_subcat'] == '1')) {
+                            if (isset($_SESSION['categories_id']) && tep_not_null($_SESSION['categories_id'])) {
+                                if (isset($_SESSION['inc_subcat']) && ($_SESSION['inc_subcat'] == '1')) {
                                     $subcategories_array = array();
-                                    tep_get_subcategories($subcategories_array, $HTTP_GET_VARS['categories_id']);
-                                    $where_str .= " and p2c.products_id = p.products_id and p2c.products_id = pd.products_id and (p2c.categories_id = '" . (int) $HTTP_GET_VARS['categories_id'] . "'";
+                                    tep_get_subcategories($subcategories_array, $_SESSION['categories_id']);
+                                    $where_str .= " and p2c.products_id = p.products_id and p2c.products_id = pd.products_id and (p2c.categories_id = '" . (int) $_SESSION['categories_id'] . "'";
 
                                     for ($i = 0, $n = sizeof($subcategories_array); $i < $n; $i++) {
                                         $where_str .= " or p2c.categories_id = '" . (int)$subcategories_array[$i] . "'";
                                     }
                                     $where_str .= ")";
                                 } else {
-                                    $where_str .= " and p2c.products_id = p.products_id and p2c.products_id = pd.products_id and pd.language_id = '" . (int) $languages_id . "' and p2c.categories_id = '" . (int)$HTTP_GET_VARS['categories_id'] . "'";
+                                    $where_str .= " and p2c.products_id = p.products_id and p2c.products_id = pd.products_id and pd.language_id = '" . (int) $languages_id . "' and p2c.categories_id = '" . (int)$_SESSION['categories_id'] . "'";
                                 }
 
                             } elseif (isset($_SESSION['filter_c']) && !empty($_SESSION['filter_c'])){
@@ -399,13 +442,12 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
                                 $where_str .= " and p2c.products_id = p.products_id and p2c.products_id = pd.products_id and pd.language_id = '" . (int) $languages_id . "' and p2c.categories_id = '" . (int)$temp . "'";
                             }
 
-                            if (isset($HTTP_GET_VARS['manufacturers_id']) && tep_not_null($HTTP_GET_VARS['manufacturers_id'])) {
-                                $where_str .= " and m.manufacturers_id = '" . (int)$HTTP_GET_VARS['manufacturers_id'] . "'";
-                            } elseif (isset($_POST['m_']) && !empty($_POST['m_'])){
+                  
+                            if (isset($_POST['m_']) && !empty($_POST['m_'])){
                                 $where_str .= " and m.manufacturers_id in (" . implode(',', $_POST['m_']) . ") ";
                             }
 
-                            if (($_GET['keywords'] != "" && $_GET['keywords'] != null)) {
+                            if (($keywords != "" && $keywords != null)) {
                                 if (isset($search_keywords) && (sizeof($search_keywords) > 0)) {
                                     $where_str .= " and ((";
                                     for ($i = 0, $n = sizeof($search_keywords); $i < $n; $i++) {
@@ -431,28 +473,9 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
 
                                 }
                                 $where_str .= " )";
-                            }
+                           }
 
-                            if (tep_not_null($dfrom)) {
-                                $where_str .= " and p.products_date_added >= '" . tep_date_raw($dfrom) . "'";
-                            }
-
-                            if (tep_not_null($dto)) {
-                                $where_str .= " and p.products_date_added <= '" . tep_date_raw($dto) . "'";
-                            }
-
-                            if (tep_not_null($pfrom)) {
-                                if ($currencies->is_set($currency)) {
-                                    $rate = $currencies->get_value($currency);
-                                    $pfrom = $pfrom / $rate;
-                                }
-                            }
-
-                            if (tep_not_null($pto)) {
-                                if (isset($rate)) {
-                                    $pto = $pto / $rate;
-                                }
-                            }
+                           
 
                             // BOF Separate Pricing Per Customer
 
@@ -535,12 +558,12 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
                             }
 
                             $options = array();
-
-                            if (!empty($_SESSION['filter_s'])){
+                            
+                            if (!empty($_SESSION['filter_o'])){
                                 $option_value_pair = '';
-                                foreach($_SESSION['filter_s'] as $val){
+                                foreach($_SESSION['filter_o'] as $val){
                                     $temp = explode('|', $val);
-                                    $option_value_pair .= " ( pa.options_id='" . (int)$temp[0] . "' and pa.options_values_id='" . (int)$temp[1] . "' ) or ";
+                                    $option_value_pair .= " ( pa.options_id='" . (int)$temp[0] . "' and pa.options_values_id='" . (int)$temp[1] . "' ) and ";
                                 }
 
                                 if (!empty($option_value_pair)){
@@ -550,6 +573,8 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
                                         $cur_cat_id = $_SESSION['filter_c'];
                                     }
                                     $filter_query = tep_db_query("select distinct if( isnull(p.parent_products_model) or p.parent_products_model='', p.products_id, (select p2.products_id from products p2 where p2.products_model=p.parent_products_model) ) as id from products p inner join products_to_categories p2c on p.products_id=p2c.products_id inner join products_attributes pa on p.products_id=pa.products_id where p2c.categories_id='" . (int)$cur_cat_id . "' and p.products_status='1' and (" . substr($option_value_pair, 0, -4) . ")");
+                                    echo "select distinct if( isnull(p.parent_products_model) or p.parent_products_model='', p.products_id, (select p2.products_id from products p2 where p2.products_model=p.parent_products_model) ) as id from products p inner join products_to_categories p2c on p.products_id=p2c.products_id inner join products_attributes pa on p.products_id=pa.products_id where p2c.categories_id='" . (int)$cur_cat_id . "' and p.products_status='1' and (" . substr($option_value_pair, 0, -4) . ")";
+                                    
 
                                     $ids = array();
                                     if (tep_db_num_rows($filter_query)){
@@ -557,12 +582,13 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
                                             $ids[] = $entry['id'];
                                         }
                                     }
-                                    $option_value_pair = " and p.products_id=pa.products_id and (" . substr($option_value_pair, 0, -4) . ") ";
                                 }
                                 //$where_str .= $option_value_pair;
                             } else {
                                 $where_str .= " and p.parent_products_model is null ";
                             }
+                            
+
                             /*
                             $items_filter_query = tep_db_query("select distinct if( isnull(p.parent_products_model) or p.parent_products_model='', p.products_id, (select p2.products_id from products p2 where p2.products_model=p.parent_products_model) ) as id " . $from_str . $where_str);
                             $ids = array();
@@ -571,31 +597,38 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
                                     $ids[] = $entry['id'];
                                 }
                             }*/
+                            $specs_count = array();
                             if (!empty($_SESSION['filter_s'])){
 
-                             $option_value_pair = '';
-    
+                             $specification_products_str = "select if( isnull(p.parent_products_model) or p.parent_products_model='', p.products_id, (select p2.products_id from products p2 where p2.products_model=p.parent_products_model) ) as products_id from product_specifications ps left join products p on ps.products_id=p.products_id where ps.specification_id in (";
+                            
                             foreach($_SESSION['filter_s'] as $val){
 
                              $temp = explode('|', $val);
+                             $specs_count[] = $temp[0];
 
-                             $option_value_pair .= " (ps.specification_id='" . (int)$temp[1] . "' ) or ";
+                             $specification_products_str .= (int)$temp[1] . ",";
 
                             }
-
-
-                        if (!empty($option_value_pair)){
-
-                          $option_value_pair = " and p.products_id=ps.products_id and (" . substr($option_value_pair, 0, -4) . ") "; 
-                         }
-
-                        $where_str .= $option_value_pair;
-
+                        $specs_count = array_unique($specs_count);
+                        $specification_products_str = substr( $specification_products_str,0,-1);
+                        $specification_products_str .= ") group by products_id having count(distinct ps.specification_id)=" . count($specs_count);
+                        
+                        $specification_products_query = tep_db_query($specification_products_str );
+                        if (tep_db_num_rows($specification_products_query) >0) {
+                            while ($result = tep_db_fetch_array($specification_products_query)) {
+                                $specification_products .= $result['products_id'] . ",";
+                            }
+                            $specification_products = substr($specification_products,0,-1);
+                            $where_str .= " and p.products_id in (" .  $specification_products . ") ";
+                           } else {
+                            $where_str .= " and p.products_id in ('0') ";
+                           }
                          }
                             $listing_sql = $select_str . $from_str . $where_str . (!empty($ids) ? " and p.products_id in (" . implode(',', $ids) . ") " : "") .  $order_str;
                             //$listing_sql = $select_str . $from_str . $where_str . $order_str;
 
-                           // echo $listing_sql;
+                          //  echo $listing_sql;
                           //  exit;
                             require (DIR_WS_MODULES . FILENAME_PRODUCT_LISTING);
                             ?>

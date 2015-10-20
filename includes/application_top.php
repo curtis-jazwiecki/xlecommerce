@@ -440,6 +440,7 @@ $navigation->add_current_page();
         $parameters = array('action', 'pid');
       }
     }
+
     switch ($HTTP_GET_VARS['action']) {
         case 'newsletter_signup':
             $name = $_POST['newsletter_name'];
@@ -502,8 +503,9 @@ $navigation->add_current_page();
       // customer adds a product from the products page
       case 'add_product' :    if (isset($HTTP_POST_VARS['products_id']) && is_numeric($HTTP_POST_VARS['products_id'])) {
                                 //$cart->add_cart($HTTP_POST_VARS['products_id'], $cart->get_quantity(tep_get_uprid($HTTP_POST_VARS['products_id'], $HTTP_POST_VARS['id']))+1, $HTTP_POST_VARS['id']);
-                                $cart->add_cart($HTTP_POST_VARS['products_id'], $cart->get_quantity(tep_get_uprid($HTTP_POST_VARS['products_id'], $HTTP_POST_VARS['id']))+(int)(empty($HTTP_POST_VARS['quantity']) ? '1' : $HTTP_POST_VARS['quantity'] ), $HTTP_POST_VARS['id']);
-                              }
+                                $cart->add_cart($HTTP_POST_VARS['products_id'], $cart->get_quantity(tep_get_uprid($HTTP_POST_VARS['products_id'], $HTTP_POST_VARS['id']))+(int)(empty($HTTP_POST_VARS['cart_quantity']) ? '1' : $HTTP_POST_VARS['cart_quantity'] ), $HTTP_POST_VARS['id']);
+                              } 
+
                               tep_redirect(tep_href_link($goto, tep_get_all_get_params($parameters)));
                               break;
       // performed by the 'buy now' button in product listings and review page
@@ -683,4 +685,15 @@ require(DIR_WS_INCLUDES . 'add_ccgvdc_application_top.php');  // ICW CREDIT CLAS
 // PWA BOF
   if (tep_session_is_registered('customer_id') && tep_session_is_registered('customer_is_guest') && substr(basename($PHP_SELF),0,7)=='account') tep_redirect(tep_href_link(FILENAME_SHOPPING_CART));
 // PWA EOF
+
+if (basename($PHP_SELF) != FILENAME_ADVANCED_SEARCH_RESULT) {
+     unset($_SESSION['keywords']);
+        unset($_SESSION['filter_p']); 
+        unset($_SESSION['filter_m']);
+        unset($_SESSION['filter_s']);
+        unset($_SESSION['filter_o']);
+        unset($_SESSION['filter_c']);
+        unset($_SESSION['categories_id']);
+        unset($_SESSION['inc_subcat']);
+}
 ?>

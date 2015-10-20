@@ -59,16 +59,18 @@
    <tr>
 
 	<td class="main" width="50%"><?php echo ENTRY_FIRST_NAME; ?></td>
-
-	<td class="main" width="50%"><?php echo ENTRY_LAST_NAME; ?></td>
+	</tr>
+	<tr>
+	<td class="main" width="80%"><?php echo tep_draw_input_field('billing_firstname', (isset($billingAddress) ? $billingAddress['firstname'] : ''), 'class="required" style="width:80%;float:left;"'); ?></td>
+	
 
    </tr>
 
    <tr>
-
-	<td class="main" width="50%"><?php echo tep_draw_input_field('billing_firstname', (isset($billingAddress) ? $billingAddress['firstname'] : ''), 'class="required" style="width:75%;float:left;"'); ?></td>
-
-	<td class="main" width="50%"><?php echo tep_draw_input_field('billing_lastname', (isset($billingAddress) ? $billingAddress['lastname'] : ''), 'class="required" style="width:75%;float:left;"'); ?></td>
+	<td class="main" width="50%"><?php echo ENTRY_LAST_NAME; ?></td>
+	</tr>
+	<tr>
+	<td class="main" width="80%"><?php echo tep_draw_input_field('billing_lastname', (isset($billingAddress) ? $billingAddress['lastname'] : ''), 'class="required" style="width:80%;float:left;"'); ?></td>
 
    </tr>
 
@@ -150,7 +152,7 @@
 
  <tr>
 
-  <td class="main"><?php echo tep_get_country_list('billing_country', (isset($billingAddress) && tep_not_null($billingAddress['country_id']) ? $billingAddress['country_id'] : ONEPAGE_DEFAULT_COUNTRY), 'class="required" style="width:80%;float:left;"'); ?><div class="success_icon ui-icon-green ui-icon-circle-check" style="margin-left: 3px; margin-top: 1px; float: left;" title="false" /></td>
+  <td class="main"><?php echo tep_get_country_list('billing_country', (isset($billingAddress) && tep_not_null($billingAddress['country_id']) ? $billingAddress['country_id'] : ONEPAGE_DEFAULT_COUNTRY), 'class="required" style="width:83%;float:left;"'); ?><div class="success_icon ui-icon-green ui-icon-circle-check" style="margin-left: 3px; margin-top: 1px; float: left;" title="false" /></td>
 
  </tr>
 
@@ -197,40 +199,32 @@
    <tr>
 
 	<td class="main" width="33%"><?php echo ENTRY_CITY; ?></td>
+	</tr>
+	<tr>
+	<td class="main" width="33%"><?php echo tep_draw_input_field('billing_city', (isset($billingAddress) ? $billingAddress['city'] : ''), 'class="required" style="width:80%;float:left;"'); ?></td>
+	</tr>
 
 <?php
 
   if (ACCOUNT_STATE == 'true') {
 
 ?>
-
+<tr>
 	<td class="main" width="33%"><?php echo ENTRY_STATE; ?></td>
-
+</tr>
 <?php
 
   }
 
 ?>
 
-<?php
-
-if(ONEPAGE_ZIP_BELOW == 'False'){
-
-?>
-
-	<td class="main" width="33%"><?php echo ENTRY_POST_CODE; ?></td>
-
-<?php
-
-}
-
-?>	
+	
 
    </tr>
 
    <tr>
 
-	<td class="main" width="33%"><?php echo tep_draw_input_field('billing_city', (isset($billingAddress) ? $billingAddress['city'] : ''), 'class="required" style="width:80%;float:left;"'); ?></td>
+	
 
 <?php
 
@@ -246,6 +240,18 @@ if(ONEPAGE_ZIP_BELOW == 'False'){
 
   }
 
+
+if(ONEPAGE_ZIP_BELOW == 'False'){
+
+?>
+<tr>
+
+	<td class="main" width="33%"><?php echo ENTRY_POST_CODE; ?></td>
+</tr>
+<?php
+
+}
+
 ?>
 
 <?php
@@ -254,9 +260,10 @@ if(ONEPAGE_ZIP_BELOW == 'False'){
 
 ?>
 
-
+<tr>
 
 	<td class="main" width="33%"><?php echo tep_draw_input_field('billing_zipcode', (isset($billingAddress) ? $billingAddress['postcode'] : ''), 'class="required" style="width:80%;float:left;"'); ?></td>
+	</tr>
 
 <?php 
 
@@ -345,15 +352,18 @@ if(ONEPAGE_ZIP_BELOW == 'True'){
    <tr>
 
 	<td class="main"><?php echo ENTRY_PASSWORD_NEW; ?></td>
+	</tr>
+	<tr>
+	<td class="main"><?php echo tep_draw_password_field('password', '', 'autocomplete="off" ' . (ONEPAGE_ACCOUNT_CREATE == 'required' ? 'class="required" maxlength="40" ' : 'maxlength="40" ') . 'style="float:left;"'); ?></td>
 
-	<td class="main"><?php echo ENTRY_PASSWORD_CONFIRMATION; ?></td>
 
    </tr>
 
    <tr>
-
-	<td class="main"><?php echo tep_draw_password_field('password', '', 'autocomplete="off" ' . (ONEPAGE_ACCOUNT_CREATE == 'required' ? 'class="required" maxlength="40" ' : 'maxlength="40" ') . 'style="float:left;"'); ?></td>
-
+	
+	<td class="main"><?php echo ENTRY_PASSWORD_CONFIRMATION; ?></td>
+	</tr>
+	<tr>
 	<td class="main"><?php echo tep_draw_password_field('confirmation', '', 'autocomplete="off" ' . (ONEPAGE_ACCOUNT_CREATE == 'required' ? 'class="required" ' : '') . 'maxlength="40" style="float:left;"'); ?></td>
 
    </tr>

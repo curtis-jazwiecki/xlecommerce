@@ -1,15 +1,5 @@
 <tr><td>
 <?php
-//if (!isset($_SESSION['filter_p'])) $_SESSION['filter_p'] = array();
-
-//if (!isset($_SESSION['filter_p'])) $_SESSION['filter_p'] = '';
-//if (!isset($_SESSION['filter_m'])) $_SESSION['filter_m'] = array();
-//if (!isset($_SESSION['filter_s'])) $_SESSION['filter_s'] = array();
-
-//if (!isset($_SESSION['filter_k'])) $_SESSION['filter_k'] = '';
-
-//if (!isset($_SESSION['filter_c'])) $_SESSION['filter_c'] = '';
-
 if (isset($_GET['rc_']) && $_GET['rc_']=='1'){
 	$_SESSION['filter_c'] = '';
 } elseif ($_SERVER['PHP_SELF'] == "/product_info.php"){
@@ -24,8 +14,17 @@ if (isset($_GET['rc_']) && $_GET['rc_']=='1'){
 	}
 } elseif (isset($_GET['cPath'])){
     $_SESSION['filter_c'] = $_GET['cPath'];
+    unset($_SESSION['keywords']);
+    unset($_SESSION['categories_id']);
+    unset($_SESSION['inc_subcat']);
 }
 
+$keywords = (isset($_GET['keywords']) ? $_GET['keywords'] : (isset($_POST['keywords']) ? $_POST['keywords'] : $_SESSION['keywords']));
+
+
+if (isset($_GET['keywords'])) { 
+    $_SESSION['keywords'] = $_GET['keywords'];
+  } 
 ob_start();
 ?>
 <table style="width:100%" id="filters">
@@ -97,16 +96,14 @@ ob_start();
 	}
 ?>
 <?php
-        if (isset($HTTP_GET_VARS['categories_id'])) $_SESSION['filter_c'] = $HTTP_GET_VARS['categories_id'];
         if (!isset($_POST['m_'])) $_SESSION['filter_m'] = null;
         if (isset($_GET['manufacturers_id'])) $_SESSION['filter_m'] = $_GET['manufacturers_id'];
 
-        //if (!empty($_SESSION['filter_c'])) $_SESSION['filter_m'] = null;
         $specifications = getDistinctSpecifications($_SESSION['filter_c'], $_SESSION['filter_m']);
 //print_r($specifications);
 //exit;
         if (sizeof($specifications) > 0) {
-        foreach($specifications as $specification => $info){ 
+        foreach($specifications['specs'] as $specification => $info){ 
 ?>
 	<tr>
 		<td colspan="2" class="smallText searchFlFtClr" style="color:white;font-size:12px;font-weight:bold;margin-top:5px;">
@@ -130,14 +127,66 @@ ob_start();
 ?>
 <?php 
   } 
+  foreach($specifications['options'] as $specification => $info){ 
+?>
+	<tr>
+		<td colspan="2" class="smallText searchFlFtClr" style="color:white;font-size:12px;font-weight:bold;margin-top:5px;">
+		<?php echo 'By ' . $specification; ?>
+		</td>
+	</tr>
+<?php
+        foreach($info['values'] as $value_name => $value_id){
+            $count++;
+?>
+    <tr>
+        <td class="smallText searchFlFtClr" style="color:white;margin-right:10px;">
+            <input type="checkbox" name="<?php echo 'o_[]'; ?>" value="<?php echo $info['id'] . '|' . $value_id; ?>" <?php echo (is_array($_SESSION['filter_o']) ? (in_array($info['id'] . '|' . $value_id, $_SESSION['filter_o']) ? ' checked ' : '') : ''); ?> />
+		</td>
+		<td class="smallText searchFlFtClr1" style="color:white;">
+		<?php echo $value_name; ?>
+		</td>
+	</tr>
+<?php
+	}
+?>
+<?php 
+  } 
 }
 ?>
 <?php
+ 
 if (!isset($_GET['manufacturers_id'])){
 		if (!empty($_SESSION['filter_c'])){
 		$manufacturers_query = tep_db_query("select p.manufacturers_id, m.manufacturers_name from products p inner join manufacturers m on p.manufacturers_id=m.manufacturers_id inner join " . TABLE_PRODUCTS_TO_CATEGORIES. " p2c on p.products_id=p2c.products_id where p.products_status='1' and m.manufacturers_status='1' and p.products_quantity >= '" . (int)STOCK_MINIMUM_VALUE . "' and p2c.categories_id='" . $_SESSION['filter_c'] . "' and p.manufacturers_id!=0 group by p.manufacturers_id order by m.manufacturers_name");
 
-	} else {
+	} elseif (isset($_SESSION['keywords']) &&  $_SESSION['keywords'] != '') { 
+                    tep_parse_search_string($keywords, $search_keywords);
+                                if (isset($search_keywords) && (sizeof($search_keywords) > 0)) {
+                                    $keywords_str = " and ((";
+                                    for ($i = 0, $n = sizeof($search_keywords); $i < $n; $i++) {
+                                        switch ($search_keywords[$i]) {
+                                            case '(':
+                                            case ')':
+                                            case 'and':
+                                            case 'or':
+                                                $keywords_str .= " " . $search_keywords[$i] . " ";
+                                                break;
+                                            default:
+                                                $keyword = tep_db_prepare_input($search_keywords[$i]);
+                                                $keywords_str .= "(pd.products_name like '%" . tep_db_input($keyword) . "%' or p.products_model like '%" . tep_db_input($keyword) . "%' or m.manufacturers_name like '%" . tep_db_input($keyword) . "%'";
+                                                $keywords_str  .= ')';
+                                                break;
+                                        }
+                                    }
+                                }
+                                $keywords_str .= " )";
+                                
+                              $keywords_str .= " )";
+                            
+       $manufacturers_query = tep_db_query("select p.manufacturers_id, m.manufacturers_name from products p inner join manufacturers m on p.manufacturers_id=m.manufacturers_id  inner join products_description pd on p.products_id=pd.products_id and pd.language_id='1' where p.products_status='1' and m.manufacturers_status='1' and p.products_quantity >= '" . (int)STOCK_MINIMUM_VALUE . "' and  p.manufacturers_id!=0 " . $keywords_str . " group by p.manufacturers_id order by m.manufacturers_name");
+      // echo "select p.manufacturers_id, m.manufacturers_name from products p inner join manufacturers m on p.manufacturers_id=m.manufacturers_id inner join " . TABLE_PRODUCTS_TO_CATEGORIES. " p2c on p.products_id=p2c.products_id inner join products_description pd on p.products_id=pd.products_id and pd.language_id='1' where p.products_status='1' and m.manufacturers_status='1' and p.products_quantity >= '" . (int)STOCK_MINIMUM_VALUE . "' and p2c.categories_id='" . $_SESSION['filter_c'] . "' and p.manufacturers_id!=0 " . $keywords_str . " group by p.manufacturers_id order by m.manufacturers_name";
+       
+      } else {
 		$manufacturers_query = tep_db_query("select p.manufacturers_id, m.manufacturers_name from products p inner join manufacturers m on p.manufacturers_id=m.manufacturers_id where p.manufacturers_id!=0 group by p.manufacturers_id order by m.manufacturers_name");
 	}
     if (tep_db_num_rows($manufacturers_query)){
@@ -165,14 +214,23 @@ if (!isset($_GET['manufacturers_id'])){
 ?>
 </table>
 <input type="hidden" name="c_" value="<?php echo $_SESSION['filter_c']; ?>" />
+<?php
+if (isset($_SESSION['keywords'])) { 
+    $keywords = $_SESSION['keywords'];
+    echo tep_draw_hidden_field('keywords', $keywords);
+ }
+ if ($_POST['items_per_page'] && $_POST['items_per_page'] > 0) {
+  $_SESSION['items_per_page'] = $_POST['items_per_page']; 
+ }
+ echo tep_draw_hidden_field('items_per_page', $_SESSION['items_per_page']); ?>
 <?php//<input type="hidden" name="m_" value="<?php echo $_SESSION['filter_m']; >" /> ?>
 <script>
     jQuery(function(){
        jQuery('#filters input:checkbox').click(function(){
-            jQuery('form[name="search_filter"]').submit();
+            jQuery('form[name="filter"]').submit();
        }); 
 		jQuery('#filters input:radio').click(function(){
-            jQuery('form[name="search_filter"]').submit();
+            jQuery('form[name="filter"]').submit();
        }); 
     });
 </script>
@@ -186,7 +244,7 @@ ob_end_clean();
   new infoBoxHeading($info_box_contents, false, false);
 
   $info_box_contents = array();
-  $info_box_contents[] = array('form' => tep_draw_form('search_filter', tep_href_link(FILENAME_ADVANCED_SEARCH_RESULT, '', 'NONSSL', false), 'post'),
+  $info_box_contents[] = array('form' => tep_draw_form('filter', tep_href_link(FILENAME_ADVANCED_SEARCH_RESULT, '', 'NONSSL', false), 'post'),
                                'align' => 'center',
                                'text' =>$content);
 

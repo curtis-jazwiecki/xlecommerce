@@ -672,7 +672,7 @@ function updatePayment(){
 
       }
 
-      $html .= tep_draw_pull_down_menu($name, $zones_array, $selected, 'class="required" style="width:80%;float:left;"');
+      $html .= tep_draw_pull_down_menu($name, $zones_array, $selected, 'class="required" style="width:83%;float:left;"');
 
     } else {
 

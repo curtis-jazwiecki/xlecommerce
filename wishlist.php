@@ -254,14 +254,14 @@ if (is_array($wishList->wishID) && !empty($wishList->wishID)) {
 			$products = tep_db_fetch_array($products_query);
 
 		      if (($i/2) == floor($i/2)) {
-		        $class = "productListing-even";
+		        $class = "productListing-even wishListing-even";
 		      } else {
-		        $class = "productListing-odd";
+		        $class = "productListing-odd wishListing-odd";
 		      }
 
 ?>
 				  <tr class="<?php echo $class; ?>">
-					<td valign="top" class="productListing-data" align="left"><?php if($products['products_status'] == 0) {
+					<td valign="top" class="productListing-data wishlist-Data" align="left"><?php if($products['products_status'] == 0) {
 				   			 echo tep_small_image( $products['products_mediumimage'], $products['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT,'id="subpimage-1" class="subcatimages"'); 
 				   			}
                             else
@@ -270,7 +270,7 @@ if (is_array($wishList->wishID) && !empty($wishList->wishID)) {
 				   <a href="<?php echo tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $wishlist_id, 'NONSSL'); ?>"><?php echo tep_small_image( $products['products_mediumimage'], $products['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT,'id="subpimage-1" class="subcatimages"'); ?></a>
                    <?php } ?>
 
-					<td valign="top" class="productListing-data" align="left" class="main"><b><?php if($products['products_status'] == 0) {
+					<td valign="top" class="productListing-data wishlist-Data" align="left" class="main"><b><?php if($products['products_status'] == 0) {
 					echo $products['products_name']; 
 					}
 					else {
@@ -344,8 +344,8 @@ if (is_array($wishList->wishID) && !empty($wishList->wishID)) {
 			$i++;
 ?>
 			</td>
-			<td valign="top" class="productListing-data"><?php echo $products_price; ?></td>
-			<td valign="top" class="productListing-data" align="center">
+			<td valign="top" class="productListing-data wishlist-Data"><?php echo $products_price; ?></td>
+			<td valign="top" class="productListing-data wishlist-Data" align="center">
 <?php
 
 /*******************************************************************

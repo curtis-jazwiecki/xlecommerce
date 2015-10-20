@@ -216,6 +216,7 @@ var checkout = {
 	},
 
 	showAjaxMessage: function (message){
+	   message = 'Please wait....';
 	   $('#checkoutContainerMessage').html('');
 
 		$('#checkoutButtonContainer').hide();
@@ -291,6 +292,7 @@ var checkout = {
 			switch($element.attr('type')){
 
 				case 'password':
+				
 
 				if ($element.attr('name') == 'password'){
 
@@ -934,6 +936,8 @@ var checkout = {
 			async:false,
 
 			success: function (data){
+				
+				
 
 			if($element1 !=null && isTab){
 
@@ -962,60 +966,55 @@ var checkout = {
 			arr_pay = data.payment.split(";");	
 
 			for(u=0;u<arr_pay.length;u++){
-
-			if(arr_pay[u] !=""){			
-
-				$('tr[name="'+arr_pay[u]+'"]').css('display','');
-
-					t = true;
-
-					p=p+1;
-
-				  if(selectedM){					
-
-                    if($('#'+arr_pay[u]).attr('id')!=selectedM.attr('id'))
-
-                        $('#'+arr_pay[u]).css('display',"none");
-
-                    else{
-
-                        $('#'+arr_pay[u]).css('display',"");
-
+				
+	
+				if(arr_pay[u] !=""){
+									
+		
+						$('tr[name="'+arr_pay[u]+'"]').css('display','');
+		
+							t = true;
+		
+							p = p+1;
+		
+						  if(selectedM){
+							  					
+		
+							if($('#'+arr_pay[u]).attr('id')!=selectedM.attr('id')){
+		
+								$('#'+arr_pay[u]).css('display',"none");
+							
+							}else{
+		
+								$('#'+arr_pay[u]).css('display',"");
+						  	}
+					
+					
+						  }else{
+							  
+							  	
+										
+										
+						$('#'+arr_pay[u]).css('display','none');
+					
+					
+						  }
+		
 						
-
-						}
-
-                    }
-
-                    else
-
-                    {						
-
-                        $('#'+arr_pay[u]).css('display','none');
-
-                    }
-
-				
-
-				
-
+		
+						
+		
+						
 				}
-
+	
+				
 			}
-
-			
-
-			
-
-			
-
-			
 
 			arr_pay1 = data.payment1.split(";");						
 
-			for(u=0;u<arr_pay1.length;u++){			
-
-			if(arr_pay1[u] !=""){
+			for(u=0;u<arr_pay1.length;u++){
+				if(arr_pay1[u] !=""){
+					
 
 				$(':tr[name="'+arr_pay1[u]+'"]').css('display','none');				
 
@@ -1057,11 +1056,9 @@ var checkout = {
 
 				
 
+				
 				}
-
 			}
-
-			
 
 			if (t == true){
 
@@ -1071,7 +1068,7 @@ var checkout = {
 
 				if (p ==1){
 
-						$(':radio[name="payment"]:not(:checked):visible').click();
+						//$(':radio[name="payment"]:not(:checked):visible').click();
 
 				}	
 
@@ -1093,6 +1090,9 @@ var checkout = {
 
 			
 
+			
+				
+			
 			},
 
 			errorMsg: 'There was an error refreshing the final products listing, please inform ShedsForLessDirect about this error.'

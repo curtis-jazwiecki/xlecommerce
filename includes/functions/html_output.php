@@ -143,11 +143,9 @@ if (SEO_ENABLED == 'true') { //run chemo's code
     if ( (empty($src) || ($src == DIR_WS_IMAGES)) && (IMAGE_REQUIRED == 'false') ) {
       return false;
     }
-    if ( empty($src) || ($src == DIR_WS_IMAGES) || (!file_exists(DIR_FS_CATALOG . $src)) ) {
-        if ( !file_exists($src) ) {
+     if ( empty($src) || ($src == DIR_WS_IMAGES) || ($src != DIR_WS_IMAGES && (!file_exists(DIR_FS_CATALOG . $src))) ) {
        $src = DIR_WS_IMAGES . DEFAULT_IMAGE;
-    }
-    }
+    } 
     
     if (strpos($src, 'http') !== false && (!@GetImageSize($src))) {
 	    $src = DIR_WS_IMAGES . DEFAULT_IMAGE;	
@@ -487,7 +485,7 @@ if (file_exists(DIR_FS_CATALOG . DIR_WS_INCLUDES . 'sts_templates/' . MODULE_STS
     // $src = 'http://datafeed.wildcatsoftware.net/productimages/medium/' . $src;
 // alt is added to the img tag even if it is null to prevent browsers from outputting
 // the image filename as default
-    if (strpos($src, 'http') !== false && (!@GetImageSize($src))) {
+    if (strpos($src, 'http') !== false && (!@GetImageSize($src)) || $src == '') {
 	    $src = DIR_WS_IMAGES . DEFAULT_IMAGE;
 		$image = tep_image($src, $alt, $width, $height, $parameters);		
 	} else {

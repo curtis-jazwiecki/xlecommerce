@@ -13,14 +13,15 @@
 
   require('includes/application_top.php');
 
-// redirect the customer to a friendly cookie-must-be-enabled page if cookies are disabled (or the session has not started)
+  // redirect the customer to a friendly cookie-must-be-enabled page if cookies are disabled (or the session has not started)
   if ($session_started == false) {
     tep_redirect(tep_href_link(FILENAME_COOKIE_USAGE));
   }
-
+  
   require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_LOGIN);
 
   $error = false;
+  
   if (isset($HTTP_GET_VARS['action']) && ($HTTP_GET_VARS['action'] == 'process')) {
     $email_address = tep_db_prepare_input($HTTP_POST_VARS['email_address']);
     $password = tep_db_prepare_input($HTTP_POST_VARS['password']);
@@ -143,6 +144,11 @@ exit;
   }
 
   $breadcrumb->add(NAVBAR_TITLE, tep_href_link(FILENAME_LOGIN, '', 'SSL'));
+  
+  if (tep_session_is_registered('customer_id')) {
+    $navigation->set_snapshot();
+    tep_redirect(tep_href_link(FILENAME_ACCOUNT, '', 'SSL'));
+  }
 ?>
 <!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html <?php echo HTML_PARAMS; ?>>

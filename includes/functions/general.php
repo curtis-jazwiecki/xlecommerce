@@ -1821,25 +1821,104 @@ function set_query_telephone_numbers_compatible(&$val){
 }
 //EOF:fraud_prevention
 
-  function getDistinctSpecifications($category_filter = '', $manufacturers_id = ''){
-	$response = array();
-        if ($category_filter == '' && $manufacturers_id == '') return false;
-	if (strrpos($category_filter, '_')!==false){
-	   $category_filter = substr($category_filter, strrpos($category_filter, '_')+1 );
-	}
-  $spec_name_query = tep_db_query("select distinct(specification_id), psv.value, psn.name, psn.id as name_id from product_specifications ps left join product_specification_values psv on ps.specification_id=psv.id left join product_specification_names psn on psv.specification_name_id=psn.id inner join products p on ps.products_id=p.products_id " . (!empty($category_filter) ? " inner join " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c on p.products_id=p2c.products_id " : "") . " inner join manufacturers m on p.manufacturers_id=m.manufacturers_id  where 1=1 and (m.manufacturers_status='1' or m.manufacturers_status is null) and p.products_quantity>='1' and p.products_status='1' " . (!empty($category_filter) ? " and p2c.categories_id='" . (int)$category_filter . "' " : "") . (!empty($manufacturers_id) ? " and m.manufacturers_id='" . (int)$manufacturers_id . "' " : "") . " order by psn.name" );
-   
-  
+    function getDistinctSpecifications($category_filter = '', $manufacturers_id = ''){
+    global $PHP_SELF, $_POST, $_GET;
+    if (basename($PHP_SELF) == 'advanced_search_result.php') {
+        $keywords = $_SESSION['keywords'];
+        if (!empty($_SESSION['filter_p'])){
+	      $temp = explode('|', $_SESSION['filter_p']);
+	      $pfrom = (int)$temp[0];
+	      $pto = (int)$temp[1];
+      } else {
+	        $pfrom = null;
+	        $pto = null;
+        }
+        $man_str='';
+        $keywords_str='';
+        if ((isset($keywords) && !empty($keywords)) ||  (isset($pfrom) && is_numeric($pfrom)) || (isset($pto) &&  is_numeric($pto))) {
+             if (isset($_POST['manufacturers_id']) && tep_not_null($_POST['manufacturers_id'])) {
+                 $man_str = " and m.manufacturers_id = '" . (int)$_POST['manufacturers_id'] . "'";
+             }
+                if (($keywords != "" && $keywords != null)) {
+                    tep_parse_search_string($keywords, $search_keywords);
+                                if (isset($search_keywords) && (sizeof($search_keywords) > 0)) {
+                                    $keywords_str = " and ((";
+                                    for ($i = 0, $n = sizeof($search_keywords); $i < $n; $i++) {
+                                        switch ($search_keywords[$i]) {
+                                            case '(':
+                                            case ')':
+                                            case 'and':
+                                            case 'or':
+                                                $keywords_str .= " " . $search_keywords[$i] . " ";
+                                                break;
+                                            default:
+                                                $keyword = tep_db_prepare_input($search_keywords[$i]);
+                                                $keywords_str .= "(pd.products_name like '%" . tep_db_input($keyword) . "%' or p.products_model like '%" . tep_db_input($keyword) . "%' or m.manufacturers_name like '%" . tep_db_input($keyword) . "%'";
+                                                $keywords_str  .= ')';
+                                                break;
+                                        }
+                                    }
+                                }
+                                $keywords_str .= " )";
+                                
+                               $keywords_str .= " )";
+                            }
+
+                                
+         }
+	 }
+        $response = array();
+    if ($_SESSION['categories_id'] == '' && $_SESSION['filter_c'] == '' && $_SESSION['filter_s'] == '' && $_SESSION['filter_o'] == '' && $manufacturers_id == '' && $keywords == '') return false;
+    $category_str='';
+    if (isset($_SESSION['categories_id']) && tep_not_null($_SESSION['categories_id'])) {
+         if (isset($_SESSION['inc_subcat']) && ($_SESSION['inc_subcat'] == '1')) {
+           $subcategories_array = array();
+           tep_get_subcategories($subcategories_array, $_SESSION['categories_id']);
+           $category_str .= " and (p2c.categories_id = '" . (int) $_SESSION['categories_id'] . "'";
+
+           for ($i = 0, $n = sizeof($subcategories_array); $i < $n; $i++) {
+               $category_str .= " or p2c.categories_id = '" . (int)$subcategories_array[$i] . "'";
+               }
+           $category_str .= ")";
+          } else {
+              $category_str .= " and p2c.categories_id = '" . (int)$_SESSION['categories_id'] . "'";
+              }
+
+          } elseif (isset($_SESSION['filter_c']) && !empty($_SESSION['filter_c'])){
+              if (strrpos($_SESSION['filter_c'], '_')!==false){
+                  $temp = substr($_SESSION['filter_c'], strrpos($_SESSION['filter_c'], '_')+1 );
+                  } else {
+                  $temp = $_SESSION['filter_c'];
+                  }
+
+              $category_str .= " and p2c.categories_id = '" . (int)$temp . "'";
+       }
+    
+    if (is_array($manufacturers_id)) {
+            $man_str = " and p.manufacturers_id in (" . implode(",", $manufacturers_id) . ") ";
+    }
+    
+
+           if ($pfrom > 0)
+              $price_str = " and (IF(s.status AND s.customers_group_id = '" . $customer_group_id . "', s.specials_new_products_price, p.products_price) >= " . (double)$pfrom . ")";
+           if ($pto > 0)
+             $price_str .= " and (IF(s.status AND s.customers_group_id = '" . $customer_group_id . "', s.specials_new_products_price, p.products_price)  <= " . (double)$pto . ")";
+             
+
+  $spec_name_query = tep_db_query("select distinct(specification_id), psv.value, psn.name, psn.id as name_id from product_specifications ps left join product_specification_values psv on ps.specification_id=psv.id left join product_specification_names psn on psv.specification_name_id=psn.id inner join products p on ps.products_id=p.products_id inner join manufacturers m on p.manufacturers_id=m.manufacturers_id  "  . (!empty($price_str) ? " left join " . TABLE_SPECIALS_RETAIL_PRICES . " s on p.products_id = s.products_id ":"") .  (!empty($keywords_str) ? " inner join products_description pd on p.products_id = pd.products_id and pd.language_id='1'" : "") . " inner join " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c on p.products_id=p2c.products_id inner join " . TABLE_CATEGORIES . " c on p2c.categories_id=c.categories_id where 1=1 and c.categories_status='1' and (m.manufacturers_status='1' or m.manufacturers_status is null) and p.products_quantity>='" . (int)STOCK_MINIMUM_VALUE . "' and p.products_status='1' and p.is_store_item='0' "  .$price_str .  $man_str . $keywords_str.  $category_str. " order by psn.name, psv.value" );
+
+ 
 	while($entry = tep_db_fetch_array($spec_name_query)){
           
-            if (!array_key_exists($entry['name'], $response)){
-                $response[$entry['name']] = array(
+            if (!array_key_exists($entry['name'], $response['specs'])){
+                $response['specs'][$entry['name']] = array(
                     'id' => $entry['name_id'], 
                     'values' => array(), 
                 );
             }
+            
             if (!array_key_exists($entry['value'], $response[$entry['name']]['values'])){
-                $response[$entry['name']]['values'][$entry['value']] = $entry['specification_id'];
+                $response['specs'][$entry['name']]['values'][$entry['value']] = $entry['specification_id'];
             }
 	}
 
@@ -1847,13 +1926,13 @@ function set_query_telephone_numbers_compatible(&$val){
 	//$specs_query = tep_db_query("select pa.options_id as specification_id, po.products_options_name as specification from products_attributes pa inner join products_options po on (pa.options_id=po.products_options_id and po.language_id='1') where (pa.options_values_id is null or pa.options_values_id <=0) group by pa.options_id order by po.products_options_name");
 	
 	//$specs_query = tep_db_query("select pa.options_id as specification_id, po.products_options_name as specification from products_attributes pa inner join products_options po on (pa.options_id=po.products_options_id and po.language_id='1') " . (!empty($category_filter) ? " inner join products_to_categories p2c on pa.products_id=p2c.products_id " : "") . " where (pa.options_values_id is null or pa.options_values_id <=0) " . (!empty($category_filter) ? " and p2c.categories_id='" . (int)$category_filter . "' " : "") . " group by pa.options_id order by po.products_options_name");
-        $specs_query = tep_db_query("select pa.options_id as specification_id, po.products_options_name as specification from products_attributes pa inner join products_options po on (pa.options_id=po.products_options_id) " . (!empty($category_filter) ? " inner join products_to_categories p2c on pa.products_id=p2c.products_id " : "") . " inner join products p on pa.products_id=p.products_id inner join manufacturers m on p.manufacturers_id=m.manufacturers_id where p.products_status='1' and (m.manufacturers_status='1' or m.manufacturers_status is null) and p.products_quantity>='1' " . (!empty($category_filter) ? "   and p2c.categories_id='" . (int)$category_filter . "' " : "")  . (!empty($manufacturers_id) ? "  and m.manufacturers_id='" . (int)$manufacturers_id . "' " : "") . " group by pa.options_id order by po.products_options_name");
+        $specs_query = tep_db_query("select pa.options_id as specification_id, po.products_options_name as specification from products_attributes pa inner join products_options po on (pa.options_id=po.products_options_id) " . (!empty($category_filter) ? " inner join products_to_categories p2c on pa.products_id=p2c.products_id " : "") . " inner join products p on pa.products_id=p.products_id inner join manufacturers m on p.manufacturers_id=m.manufacturers_id " . (!empty($keywords_str) ? " inner join products_description pd on p.products_id = pd.products_id and pd.language_id='1'" : "") . " where p.products_status='1' and (m.manufacturers_status='1' or m.manufacturers_status is null) and p.is_store_item='0' and p.products_quantity>='" . (int)STOCK_MINIMUM_VALUE . "' " . (!empty($category_filter) ? "   and p2c.categories_id='" . (int)$category_filter . "' " : "")  . $man_str . $keywords_str . " group by pa.options_id order by po.products_options_name");
        
 	while($entry = tep_db_fetch_array($specs_query)){
 	
 		//$values_query = tep_db_query("select pa.options_values_id as value_id, pov.products_options_values_name as value_name from products_attributes pa inner join products_options_values pov on (pa.options_values_id=pov.products_options_values_id and pov.language_id='1' ) where pa.options_id='" . (int)$entry['specification_id'] . "' group by pa.options_values_id limit 0, 10");
             //$values_query = tep_db_query("select pa.options_values_id as value_id, pov.products_options_values_name as value_name from products_attributes pa inner join products_options_values pov on (pa.options_values_id=pov.products_options_values_id and pov.language_id='1') " . (!empty($category_filter) ? " inner join products_to_categories p2c on pa.products_id=p2c.products_id " : "") . " where pa.options_id='" . (int)$entry['specification_id'] . "' " . (!empty($category_filter) ? " and p2c.categories_id='" . (int)$category_filter . "' " : "") . " group by pa.options_values_id");
-            $values_query = tep_db_query("select pa.options_values_id as value_id, pov.products_options_values_name as value_name from products_attributes pa inner join products_options_values pov on (pa.options_values_id=pov.products_options_values_id and pov.language_id='1') " . (!empty($category_filter) ? " inner join products_to_categories p2c on pa.products_id=p2c.products_id " : "") . (!empty($manufacturers_id) ? " inner join products p on pa.products_id=p.products_id inner join manufacturers m on p.manufacturers_id=m.manufacturers_id " : "") . " where pa.options_id='" . (int)$entry['specification_id'] . "' " . (!empty($category_filter) ? " and p2c.categories_id='" . (int)$category_filter . "' " : "") . (!empty($manufacturers_id) ? " and m.manufacturers_id='" . (int)$manufacturers_id . "' " : "") . " group by pa.options_values_id");
+             $values_query = tep_db_query("select pa.options_values_id as value_id, pov.products_options_values_name as value_name from products_attributes pa inner join products_options_values pov on (pa.options_values_id=pov.products_options_values_id and pov.language_id='1') " . (!empty($category_filter) ? " inner join products_to_categories p2c on pa.products_id=p2c.products_id " : "") . " inner join products p on pa.products_id=p.products_id inner join manufacturers m on p.manufacturers_id=m.manufacturers_id ". (!empty($keywords_str) ? " inner join products_description pd on p.products_id = pd.products_id and pd.language_id='1'" : "") . " where pa.options_id='" . (int)$entry['specification_id'] . "' " . (!empty($category_filter) ? " and p2c.categories_id='" . (int)$category_filter . "' " : "") . $man_str . $keywords_str . (!empty($manufacturers_id) ? " and m.manufacturers_id='" . (int)$manufacturers_id . "' " : "") . " group by pa.options_values_id");
 		
 		if (tep_db_num_rows($values_query)){
 			$values = array();
@@ -1862,7 +1941,7 @@ function set_query_telephone_numbers_compatible(&$val){
 				$values[$value['value_name']] = $value['value_id'];
 			}
 			
-			$response[$entry['specification']] = array(
+			$response['option'][$entry['specification']] = array(
 				'id' => $entry['specification_id'], 
 				'values' => $values,
 			);

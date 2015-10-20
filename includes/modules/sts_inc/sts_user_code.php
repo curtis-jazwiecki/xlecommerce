@@ -595,6 +595,16 @@ if (!empty($current_template)){
                 break;
 
             case '18':
+             $show_search_filter = show_search_filter($script);
+                if ($script=='index.php' || !$show_search_filter){
+
+                    $sts->template['search_filterbox'] = '';
+
+                } else {
+
+                    $sts->template['categorybox'] = '';
+
+                }
 
                 $categories_html = '<ul class="nav">' . getCategoriesHtmlTpl18() . '</ul>';
 
@@ -1345,7 +1355,12 @@ function show_search_filter(&$script){
 
     }
 
+ if ($script == 'advanced_search_result.php') {
+
     return true;
+    
+   }
+    return false;
 
 }
 

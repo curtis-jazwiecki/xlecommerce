@@ -30,9 +30,8 @@ $_SESSION['disable_mobile_site'] = $_GET['disable_mobile_site'];
 
 
 
-function checkmobile2()
-
-	{
+function checkmobile2()	{
+	return false;
 
 		if(isset($_SERVER["HTTP_X_WAP_PROFILE"])) return true;
 

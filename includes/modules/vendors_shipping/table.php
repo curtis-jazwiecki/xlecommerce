@@ -223,26 +223,16 @@
       }
 
       //$table_cost = explode("[:,]", @ constant('MODULE_SHIPPING_TABLE_COST_' . $vendors_id));
-      $table_cost = explode(",", @ constant('MODULE_SHIPPING_TABLE_COST_' . $vendors_id));
+      //$table_cost = explode(",", @ constant('MODULE_SHIPPING_TABLE_COST_' . $vendors_id));
+	  
+	  $table_cost = preg_split("/[:,]/" , @ constant('MODULE_SHIPPING_TABLE_COST_' . $vendors_id));
 
       $size = sizeof($table_cost);
-
-      //for ($i = 0, $n = $size; $i < $n; $i += 2) {
-      for ( $i=0; $i < $size; $i ++ ) {
-		$val = substr( $table_cost[$i], strpos($table_cost[$i], ':')+1  );
-		$is_percent = strpos($val, '%');
-		if ($is_percent!==false){
-			$val = substr($val, 0, -1);
-		}
-		if ($order_total<=$val){
-			if ($is_percent!==false){
-				$shipping = $val;
-			} else {
-				$shipping = $order_total * $val / 100;
-			}
-			break;
-		}
-        /*if ($order_total <= $table_cost[$i]) {
+		
+      for ($i = 0, $n = $size; $i < $n; $i += 2) {
+      //for ( $i=0; $i < $size; $i ++ ) {
+		
+        if ($order_total <= $table_cost[$i]) {
 
           $pos = strpos($table_cost[$i +1], '%');
 
@@ -260,7 +250,7 @@
 
           break;
 
-        }*/
+        }
 
       }
 

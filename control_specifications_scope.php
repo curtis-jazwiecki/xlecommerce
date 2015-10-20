@@ -7,7 +7,8 @@ $stock_message = '';
 if (isset($_POST['action'])){
     switch($_POST['action']){
         case 'set_initial_price':
-            $product_id = $_POST['product_id'];
+            exit;
+			$product_id = $_POST['product_id'];
             $query = "select p1.products_id, p1.products_model, p1.products_price, p1.products_tax_class_id, p1.products_quantity from products p1 inner join products p2 on p1.parent_products_model=p2.products_model where p2.products_id='" . (int)$product_id . "' and p1.products_status='1' limit 0, 1";
             $sql = tep_db_query($query);
 
@@ -95,8 +96,13 @@ if (isset($_POST['action'])){
     ); 
     //if ($all_filters_selected){
         if (count($temp)){
-            $query = "select products_model, products_price, products_tax_class_id, products_quantity from products where products_id='" . (int)$temp[0] . "'";
-            $sql = tep_db_query($query);
+            //$query = "select products_model, products_price, products_tax_class_id, products_quantity, products_image, products_mediumimage, products_largeimage from products where products_id='" . (int)$temp[0] . "'";
+            
+			// modified on 19-10-2015 to include EAN number #start
+			$query = "select products_model, products_price, products_tax_class_id, products_quantity, products_image, products_mediumimage, products_largeimage, upc_ean, min_acceptable_price from products join products_extended on (products.products_id= products_extended.osc_products_id) where products_id='" . (int)$temp[0] . "'";
+			// modified on 19-10-2015 to include EAN number #ends
+			
+			$sql = tep_db_query($query);
             if (tep_db_num_rows($sql)){
                 $info = tep_db_fetch_array($sql);
 
@@ -115,6 +121,9 @@ if (isset($_POST['action'])){
                         $stock_message = STORE_STOCK_OUT_OF_STOCK_MESSAGE;
                 }
                 $data[0]['product_stock'] = $stock_message; 
+                $data[0]['image'] = DIR_WS_IMAGES . ((tep_not_null($info['products_largeimage'])) ? $info['products_largeimage'] : ((tep_not_null($info['products_mediumimage'])) ? $info['products_mediumimage'] : $info['products_image']));
+				$data[0]['upc_ean'] = $info['upc_ean']; // added on 19-10-2015
+				$data[0]['min_acceptable_price'] = $info['min_acceptable_price']; // added on 19-10-2015
             }
         }
     //} else {

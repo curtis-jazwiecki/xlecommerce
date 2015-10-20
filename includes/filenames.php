@@ -104,4 +104,5 @@
   define('FILENAME_TELL_A_FRIEND', 'tell_a_friend.php');
   define('FILENAME_UPCOMING_PRODUCTS', 'upcoming_products.php');
   define('FILENAME_NEWSLETTERS', 'newsletters.php');
+  define('FILENAME_WISHLIST_HELP', 'wishlist_help.php');
 ?>
