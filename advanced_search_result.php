@@ -47,6 +47,15 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete') {
         if (sizeof($_SESSION['filter_s']) <= 0) unset($_SESSION['filter_s']);
      }  
     }
+    
+     if ($_GET['filter'] == 'options') {
+     foreach ($_SESSION['filter_o'] as $key => $val) {
+        if ($val == $_GET['value']) { 
+            unset($_SESSION['filter_o'][$key]);
+            }
+        if (sizeof($_SESSION['filter_o']) <= 0) unset($_SESSION['filter_o']);
+     }  
+    }
    tep_redirect(tep_href_link(FILENAME_ADVANCED_SEARCH_RESULT)); 
 }
 
@@ -262,7 +271,17 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
                                             $spec = tep_db_fetch_array($spec_query);
                                             $keywords_str .= '<b><i>' . $spec['value'] . ' ' . $spec['name'] . '</b></i>' . '<a style="cursor:pointer;" onclick="deleteThisFilter(\'specs\', \'' . $val . '\');"><font color=red> X</font></a>' . tep_draw_separator('pixel_trans.gif', '10', '10');  
                                        }
-                                      }      
+                                      } 
+                                      
+                                      if (isset($_SESSION['filter_o']) && sizeof($_SESSION['filter_o'])>0) {
+                                        foreach ($_SESSION['filter_o'] as $val) {
+                                            $temp = explode('|', $val);
+                                            $option_query = tep_db_query("select products_options_name as name from products_options where products_options_id='" . (int)$temp[0] . "'");                                                            $option = tep_db_fetch_array($option_query);
+                                            $option_value_query = tep_db_query("select products_options_values_name as value from products_options_values where products_options_values_id='" . (int)$temp[1] . "'");     
+                                            $option_value = tep_db_fetch_array( $option_value_query);
+                                            $keywords_str .= '<b><i>' . $option_value['value'] . ' ' . $option['name'] . '</b></i>' . '<a style="cursor:pointer;" onclick="deleteThisFilter(\'options\', \'' . $val . '\');"><font color=red> X</font></a>' . tep_draw_separator('pixel_trans.gif', '10', '10');  
+                                       }
+                                      }           
                                         ?>
                                             <p>
                                             <?php                                           
@@ -561,10 +580,22 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
                             
                             if (!empty($_SESSION['filter_o'])){
                                 $option_value_pair = '';
+                                $options = array();
+                                foreach($_SESSION['filter_o'] as $val){
+                                    $temp = explode('|', $val);
+                                    $options[$temp[0]][] = $temp[1];
+                                }
+                                
+                                foreach ($options as $key => $values) {
+                                   $option_value_pair .= " ( pa.options_id='" . $key . "' and pa.options_values_id in (" . implode(",", $values) . ")) or "; 
+                                }
+                                
+                                /*
                                 foreach($_SESSION['filter_o'] as $val){
                                     $temp = explode('|', $val);
                                     $option_value_pair .= " ( pa.options_id='" . (int)$temp[0] . "' and pa.options_values_id='" . (int)$temp[1] . "' ) and ";
                                 }
+                                */
 
                                 if (!empty($option_value_pair)){
                                     if (strrpos($_SESSION['filter_c'], '_')!==false){
@@ -572,15 +603,16 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
                                     } else {
                                         $cur_cat_id = $_SESSION['filter_c'];
                                     }
-                                    $filter_query = tep_db_query("select distinct if( isnull(p.parent_products_model) or p.parent_products_model='', p.products_id, (select p2.products_id from products p2 where p2.products_model=p.parent_products_model) ) as id from products p inner join products_to_categories p2c on p.products_id=p2c.products_id inner join products_attributes pa on p.products_id=pa.products_id where p2c.categories_id='" . (int)$cur_cat_id . "' and p.products_status='1' and (" . substr($option_value_pair, 0, -4) . ")");
-                                    echo "select distinct if( isnull(p.parent_products_model) or p.parent_products_model='', p.products_id, (select p2.products_id from products p2 where p2.products_model=p.parent_products_model) ) as id from products p inner join products_to_categories p2c on p.products_id=p2c.products_id inner join products_attributes pa on p.products_id=pa.products_id where p2c.categories_id='" . (int)$cur_cat_id . "' and p.products_status='1' and (" . substr($option_value_pair, 0, -4) . ")";
-                                    
-
-                                    $ids = array();
+                                    $filter_query = tep_db_query("select distinct if( isnull(p.parent_products_model) or p.parent_products_model='', p.products_id, (select p2.products_id from products p2 where p2.products_model=p.parent_products_model) ) as id from products p inner join " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c on p.products_id=p2c.products_id inner join products_attributes pa on p.products_id=pa.products_id where p2c.categories_id='" . (int)$cur_cat_id . "' and p.products_status='1' and (" . substr($option_value_pair, 0, -4) . ") having count(distinct pa.options_id)=" . count($options));
+                                  
+                                                                
+                                  $ids = array();
                                     if (tep_db_num_rows($filter_query)){
                                         while($entry = tep_db_fetch_array($filter_query)){
                                             $ids[] = $entry['id'];
                                         }
+                                    } else {
+                                        $ids[] = '0';
                                     }
                                 }
                                 //$where_str .= $option_value_pair;

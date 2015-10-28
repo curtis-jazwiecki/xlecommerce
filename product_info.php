@@ -226,11 +226,9 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
 
             $info = tep_db_fetch_array($children_query);
 
-            if ($info['child_count'] > 0) {
+            if ($info['child_count'] > 0) {?>
 
-    ?>
-
-    <script>
+    <script type="text/javascript">
        function disclaimer_onclick(id) {
           var disclaimer=document.getElementById(id);
           if (!disclaimer.checked)
@@ -495,8 +493,10 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
             });
 
         });
+		</script>
 
 <?php } ?>
+ <script type="text/javascript">
 
     var oPt = jQuery.noConflict();
 
@@ -772,9 +772,11 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
 
                                 if ($feed_status) {
 
-                                    $image = tep_medium_image($product_info['products_mediumimage'], $product_info['products_name'], '', '', 'id="pimage" class="subcatimages"');
-
-                                } else {
+                                    //$image = tep_medium_image($product_info['products_mediumimage'], $product_info['products_name'], '', '', 'id="pimage" class="subcatimages"');
+									
+									$image = tep_medium_image((tep_not_null($product_info['products_largeimage'])) ? $product_info['products_largeimage'] : ((tep_not_null($product_info['products_mediumimage'])) ? $product_info['products_mediumimage'] : $product_info['products_image']), $product_info['products_name'], '', '', 'id="pimage" class="subcatimages"');
+									
+							    } else {
 
                                     $image = tep_image(DIR_WS_IMAGES . ((tep_not_null($product_info['products_largeimage'])) ? $product_info['products_largeimage'] : ((tep_not_null($product_info['products_mediumimage'])) ? $product_info['products_mediumimage'] : $product_info['products_image'])), $product_info['products_name'], '', '', 'id="pimage" class="subcatimages"');
 
@@ -782,7 +784,11 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
 
                             
 
-                                $largeImg = DIR_WS_IMAGES . ((tep_not_null($product_info['products_largeimage'])) ? $product_info['products_largeimage'] : ((tep_not_null($product_info['products_mediumimage'])) ? $product_info['products_mediumimage'] : $product_info['products_image']));
+                                $largeImg = ((tep_not_null($product_info['products_largeimage'])) ? $product_info['products_largeimage'] : ((tep_not_null($product_info['products_mediumimage'])) ? $product_info['products_mediumimage'] : $product_info['products_image']));
+								
+								if (strpos($largeImg, 'http') === false){
+									 $largeImg = DIR_WS_IMAGES . $largeImg;
+								}
 								
 								
 								// search for one child product image if main image doesn't exists #start
@@ -819,13 +825,14 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
 
                                     
 
-                                    $display_product_extra_images .= '<div style="width:25%; float:left; display:none;" id="pimage1"><a href="#" onclick="swap_image(\'' . $product_info['products_mediumimage'] . '\',\'1\');return false;">' . tep_small_image($product_info['products_mediumimage'], $product_info['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'id="subpimage-1" class="subcatimages"') . '</a></div>';
+                                    
+                                    $display_product_extra_images .= '<div style="width:25%; float:left; display:none;" id="pimage1"><a href="#" onclick="swap_image(\'' . $largeImg . '\',\'1\',\'' . $largeImg . '\');return false;">' . tep_small_image(str_replace("images/","",$largeImg), $product_info['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'id="subpimage-1" class="subcatimages"') . '</a></div>';
 
                                 
 
                                     if (!empty($product_info['product_image_2'])) {
 
-                                        $display_product_extra_images .= '<div style="width:25%; float:left;" id="pimage2"><a href="#" onclick="swap_image(\'' . tep_href_image_link(DIR_WS_IMAGES . $product_info['product_image_2']) . '\',\'2\');return false;">' . tep_small_image($product_info['product_image_2'], $product_info['products_name'] . '-2', SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'id="subpimage-2" class="subcatimages"') . '</a></div>';
+                                        $display_product_extra_images .= '<div style="width:25%; float:left;" id="pimage2"><a href="#" onclick="swap_image(\'' . tep_href_image_link(DIR_WS_IMAGES . $product_info['product_image_2']) . '\',\'2\',\'' . tep_href_image_link(DIR_WS_IMAGES . $product_info['product_image_2']) . '\');return false;">' . tep_small_image($product_info['product_image_2'], $product_info['products_name'] . '-2', SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'id="subpimage-2" class="subcatimages"') . '</a></div>';
 
                                     }
 
@@ -833,7 +840,7 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
 
                                     if (!empty($product_info['product_image_3'])) {
 
-                                        $display_product_extra_images .= '<div style="width:25%; float:left;" id="pimage3"><a href="#" onclick="swap_image(\'' . tep_href_image_link(DIR_WS_IMAGES . $product_info['product_image_3']) . '\',\'3\');return false;">' . tep_small_image($product_info['product_image_3'], $product_info['products_name'] . '-3', SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'id="subpimage-3" class="subcatimages"') . '</a></div>';
+                                        $display_product_extra_images .= '<div style="width:25%; float:left;" id="pimage3"><a href="#" onclick="swap_image(\'' . tep_href_image_link(DIR_WS_IMAGES . $product_info['product_image_3']) . '\',\'3\',\'' . tep_href_image_link(DIR_WS_IMAGES . $product_info['product_image_3']) . '\');return false;">' . tep_small_image($product_info['product_image_3'], $product_info['products_name'] . '-3', SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'id="subpimage-3" class="subcatimages"') . '</a></div>';
 
                                     }
 
@@ -841,7 +848,7 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
 
                                     if (!empty($product_info['product_image_4'])) {
 
-                                        $display_product_extra_images .= '<div style="width:25%; float:left;" id="pimage4"><a href="#" onclick="swap_image(\'' . tep_href_image_link(DIR_WS_IMAGES . $product_info['product_image_4']) . '\',\'4\');return false;">' . tep_small_image($product_info['product_image_4'], $product_info['products_name'] . '-4', SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'id="subpimage-4" class="subcatimages"') . '</a></div>';
+                                        $display_product_extra_images .= '<div style="width:25%; float:left;" id="pimage4"><a href="#" onclick="swap_image(\'' . tep_href_image_link(DIR_WS_IMAGES . $product_info['product_image_4']) . '\',\'4\',\'' . tep_href_image_link(DIR_WS_IMAGES . $product_info['product_image_4']) . '\');return false;">' . tep_small_image($product_info['product_image_4'], $product_info['products_name'] . '-4', SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'id="subpimage-4" class="subcatimages"') . '</a></div>';
 
                                     }
 
@@ -849,7 +856,7 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
 
                                     if (!empty($product_info['product_image_5'])) {
 
-                                        $display_product_extra_images .= '<div style="width:25%; float:left;" id="pimage5"><a href="#" onclick="swap_image(\'' . tep_href_image_link(DIR_WS_IMAGES . $product_info['product_image_5']) . '\',\'5\');return false;">' . tep_small_image($product_info['product_image_5'], $product_info['products_name'] . '-5', SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, ' id="subpimage-5" class="subcatimages"') . '</a></div>';
+                                        $display_product_extra_images .= '<div style="width:25%; float:left;" id="pimage5"><a href="#" onclick="swap_image(\'' . tep_href_image_link(DIR_WS_IMAGES . $product_info['product_image_5']) . '\',\'5\',\'' . tep_href_image_link(DIR_WS_IMAGES . $product_info['product_image_5']) . '\');return false;">' . tep_small_image($product_info['product_image_5'], $product_info['products_name'] . '-5', SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, ' id="subpimage-5" class="subcatimages"') . '</a></div>';
 
                                     }
 
@@ -857,7 +864,7 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
 
                                     if (!empty($product_info['product_image_6'])) {
 
-                                        $display_product_extra_images .= '<div style="width:25%; float:left;" id="pimage6"><a href="#" onclick="swap_image(\'' . tep_href_image_link(DIR_WS_IMAGES . $product_info['product_image_6']) . '\',\'6\');return false;">' . tep_small_image($product_info['product_image_6'], $product_info['products_name'] . '-6', SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, ' id="subpimage-6" class="subcatimages"') . '</a></div>';
+                                        $display_product_extra_images .= '<div style="width:25%; float:left;" id="pimage6"><a href="#" onclick="swap_image(\'' . tep_href_image_link(DIR_WS_IMAGES . $product_info['product_image_6']) . '\',\'6\',\'' . tep_href_image_link(DIR_WS_IMAGES . $product_info['product_image_6']) . '\');return false;">' . tep_small_image($product_info['product_image_6'], $product_info['products_name'] . '-6', SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, ' id="subpimage-6" class="subcatimages"') . '</a></div>';
 
                                     }
 
@@ -869,27 +876,25 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
 
                                         <script>
 
-                                            function swap_image(image_url,image_no){
+     function swap_image(image_url,image_no,large_image){
+					
+					var currdiv = \'#pimage\'+image_no;
 
-                                                var currdiv = \'#pimage\'+image_no;
+					jQuery(\'#popup\').attr("href", "javascript:popupWindow(\\\'' .tep_href_image_link(FILENAME_POPUP_IMAGE, 'pID=' . $product_info['products_id'] .'&image=') . '\\\'"+image_no+")");
 
-                                                $(\'#popup\').attr("href", "javascript:popupWindow(\\\'' .
+					jQuery(\'#image_link\').attr("href", image_url);
+					
+					jQuery(\'.cboxElement\').attr("href", image_url);
 
-                                        tep_href_image_link(FILENAME_POPUP_IMAGE, 'pID=' . $product_info['products_id'] .
+					jQuery(\'#pimage\').attr("src",image_url);
 
-                                        '&image=') . '\\\'"+image_no+")");
+					jQuery(\'#all_pImages > div\').show();
 
-                                                $(\'#image_link\').attr("href", image_url);
+					jQuery(currdiv).hide();
 
-                                                $(\'#pimage\').attr("src",image_url);
-
-                                                $(\'#all_pImages > div\').show();
-
-                                                $(currdiv).hide();
-
-                                            }
-
-                                        </script>';
+				
+	 }
+	 </script>';
 
                                 } else {
 

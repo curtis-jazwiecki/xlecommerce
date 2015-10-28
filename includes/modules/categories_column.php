@@ -16,10 +16,17 @@ if($selected_category_template == 0){
         $cPath_new = tep_get_path($categories['categories_id']);
         $width = (100 / MAX_DISPLAY_CATEGORIES_PER_ROW) . '%';
         $deespest_category  = tep_get_deepest_category($categories['categories_id']);
-
+		
+		echo '<pre>';
+		print_r($deespest_category);
+		
         $products_in_category = tep_count_products_in_category($deespest_category);
-		if (((!tep_not_null($categories['categories_image'])) || $categories['categories_image'] == '') && $products_in_category > 0){
+		if( tep_not_null($categories['categories_image']) || ($categories['categories_image'] == '' && $products_in_category > 0) ){
+		//if (((!tep_not_null($categories['categories_image'])) || $categories['categories_image'] == '') && $products_in_category > 0){
+			
+			
 			if($categories['categories_image'] != ''){
+				
 				$display_image = '<img src="images/'.$categories['categories_image'].'" class="subcatimages" border="0" />';
 			} else {
 				$count = 0;
@@ -28,6 +35,7 @@ if($selected_category_template == 0){
 					$image_ok = false;
 					
 					if(USE_FRONTEND_CATEGORIES == 'true'){
+						
 						$image_query = tep_db_query("SELECT p.products_image, p.products_id FROM frontend_products_to_categories fp2c JOIN products p ON p.products_id = fp2c.products_id WHERE fp2c.categories_id = '".(int)$deespest_category . "' and p.products_image<>'' " . (!empty($temp) ? " and p.products_id not in (" . implode(', ', $temp) . ") " : "") . "  order by rand() limit 1");
 						$image = tep_db_fetch_array($image_query);
 					} else {
@@ -55,6 +63,7 @@ if($selected_category_template == 0){
 					$count++;
 				}
 			}
+		
 		}
 		
 		echo '<td class="cat" width="' . $width . '" valign="top" align="center">';
