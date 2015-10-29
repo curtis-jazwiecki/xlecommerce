@@ -1890,6 +1890,8 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
 
                             $text_display = str_replace("DISPLAY_PRODUCT_ADD_TO_CART", $display_products_add_to_cart, $text_display);
 
+							$text_display = str_replace("DISCLAIMER_ADD_TO_CART", $product_info['disclaimer_needed'], $text_display);
+							
                             $sts->template['product_add_to_cart'] = $display_products_add_to_cart;
 
                             $text_display = str_replace("DISPLAY_PRODUCT_ADD_TO_WISHLIST", $display_product_add_to_wishlist, $text_display);

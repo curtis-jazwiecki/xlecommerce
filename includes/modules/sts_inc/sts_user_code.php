@@ -612,7 +612,8 @@ if (!empty($current_template)){
 
                 $template18_stylesheet1 = 
 
-                    '<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic" rel="stylesheet" type="text/css">' . "\n" . 
+                    '<script type="text/javascript" src="star_rating.js"></script>'. "\n" .'
+					<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic" rel="stylesheet" type="text/css">' . "\n" . 
 
                     '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/css/mj-template.css" />' . "\n" .
 
