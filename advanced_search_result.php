@@ -603,7 +603,7 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
                                     } else {
                                         $cur_cat_id = $_SESSION['filter_c'];
                                     }
-                                    $filter_query = tep_db_query("select distinct if( isnull(p.parent_products_model) or p.parent_products_model='', ps.products_id, (select p2.products_id from products p2 where p2.products_model=p.parent_products_model) ) as id from products p inner join " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c on p.products_id=p2c.products_id inner join products_attributes pa on p.products_id=pa.products_id where p2c.categories_id='" . (int)$cur_cat_id . "' and p.products_status='1' and (" . substr($option_value_pair, 0, -4) . ") having count(distinct pa.options_id)=" . count($options));
+                                    $filter_query = tep_db_query("select distinct if( isnull(p.parent_products_model) or p.parent_products_model='', p.products_id, (select p2.products_id from products p2 where p2.products_model=p.parent_products_model) ) as id from products p inner join " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c on p.products_id=p2c.products_id inner join products_attributes pa on p.products_id=pa.products_id where p2c.categories_id='" . (int)$cur_cat_id . "' and p.products_status='1' and (" . substr($option_value_pair, 0, -4) . ") having count(distinct pa.options_id)=" . count($options));
                                   
                                                                 
                                   $ids = array();
