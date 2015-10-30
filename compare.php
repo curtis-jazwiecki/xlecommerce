@@ -48,6 +48,18 @@ if (COMPARE_PRODUCTS_SIDEBYSIDE_DEBUG == 'true') {
    echo 'columns ';
    print_r($columns);
 }
+
+
+if(isset($_POST['mode']) && $_POST['mode'] == 'removewishlist'){
+	$tmp_columns = explode('|', $_SESSION['compare_models']);
+	$tmp_columns = array_diff($tmp_columns, array($_POST['products_id']));
+	unset($_SESSION['compare_models']);
+	$_SESSION['compare_models'] = implode("|",$tmp_columns);
+	echo "ok";
+	exit;
+}
+
+   
 /* EoF v1.10 */
 
 // v1.01 if $columns is not set, there is nothing to compare, show appropriate message instead
@@ -459,13 +471,11 @@ if (count($columns) >= COMPARE_PRODUCTS_SIDEBYSIDE_MINIMUM) {
 		$display_products_add_to_cart = '<center>'.tep_image_submit('button_in_cart.gif', IMAGE_BUTTON_IN_CART, ( 'onclick="javascript:return disclaimer_onclick'.$k.'();"')) . '</center>';
 
 		 $buy_now = $display_products_disclaimer . $display_products_add_to_cart . "<br />" . '<input type="hidden" value="'.$columns[$k].'" name="products_id">' . '&nbsp;</form>';
-   	  }
-	else
-      {
+   	  }else{
 		 //$buy_now = tep_draw_form('cart_quantity', tep_href_link(FILENAME_PRODUCT_INFO, 'action=add_product')) . '<center>'.tep_image_submit('button_in_cart.gif', IMAGE_BUTTON_IN_CART, '') . '</center>' . '<input type="hidden" value="'.$columns[$k].'" name="products_id">' . '&nbsp;</form>';
             //$buy_now = tep_draw_form('cart_quantity', tep_href_link(FILENAME_PRODUCT_INFO, 'action=add_product')) . '<center>' . tep_image_submit('button_in_cart.gif', IMAGE_BUTTON_IN_CART, '') . '<input type="submit" value="add to cart" class="addtocart_btn"></center>' . '<input type="hidden" value="'.$columns[$k].'" name="products_id">' . '&nbsp;</form>';
 			
-			$buy_now = tep_draw_form('cart_quantity', tep_href_link(FILENAME_PRODUCT_INFO, 'action=add_product')) . '<center> <input type="submit" value="add to cart" class="addtocart_btn"></center>' . '<input type="hidden" value="'.$columns[$k].'" name="products_id">' . '&nbsp;</form>';
+			$buy_now = tep_draw_form('cart_quantity', tep_href_link(FILENAME_PRODUCT_INFO, 'action=add_product')) . '<center> <input type="submit" value="add to cart" class="addtocart_btn"><br><input type="button" value="Remove" class="addtocart_btn" onclick="removeWishlistProducts('.$columns[$k].');"></center>' . '<input type="hidden" value="'.$columns[$k].'" name="products_id">' . '&nbsp;</form>';
    	  }
      $list_box_contents[$cur_row][] = array('align' => "left",
                                             'params' => 'class="compareListing-data" valign="top"',
@@ -499,6 +509,19 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
 <script language="javascript"><!--
 function popupWindow(url) {
   window.open(url,'popupWindow','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=yes,copyhistory=no,width=100,height=100,screenX=150,screenY=150,top=150,left=150')
+}
+function removeWishlistProducts(products_id){
+	jQuery.ajax({
+		url: 'compare.php', 
+		method: 'post', 
+		data: 'mode=removewishlist&products_id='+products_id, 
+		success: function(response){
+			if(response != ''){
+				alert("Success: Product removed from compare list!");
+				location.reload();
+			}
+		}
+	});
 }
 //--></script>
 </head>
