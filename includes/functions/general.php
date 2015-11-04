@@ -1438,9 +1438,9 @@
 
 // Break up $search_str on whitespace; quoted string will be reconstructed later
 
-    //$pieces = split('[[:space:]]+', $search_str);
+     $pieces = preg_split('/[\s+]+/', $search_str);
 
-    $pieces = explode('[[:space:]]+', $search_str);
+   // $pieces = explode('[[:space:]]+', $search_str);
 
     $objects = array();
 
@@ -3690,7 +3690,7 @@ function set_query_telephone_numbers_compatible(&$val){
 
                                     for ($i = 0, $n = sizeof($search_keywords); $i < $n; $i++) {
 
-                                        switch ($search_keywords[$i]) {
+                                        switch (strtolower($search_keywords[$i])) {
 
                                             case '(':
 
@@ -3705,12 +3705,11 @@ function set_query_telephone_numbers_compatible(&$val){
                                                 break;
 
                                             default:
-
+                                                
                                                 $keyword = tep_db_prepare_input($search_keywords[$i]);
-
-                                                $keywords_str .= "(pd.products_name like '%" . tep_db_input($keyword) . "%' or p.products_model like '%" . tep_db_input($keyword) . "%' or m.manufacturers_name like '%" . tep_db_input($keyword) . "%'";
-
-                                                $keywords_str  .= ')';
+                                                //$where_str .= "(pd.products_name like '%" . tep_db_input($keyword) . "%' or p.products_model like '%" . tep_db_input($keyword) . "%' or m.manufacturers_name like '%" . tep_db_input($keyword) . "%' OR pd.products_specifications LIKE '%" . tep_db_input($keyword) . "%' or pd.products_description like '%" . tep_db_input($keyword) . "%'";
+                                                $keywords_str .= "(pd.products_name like '%" . tep_db_input($keyword) . "%' or pd.products_description like '%" . tep_db_input($keyword) . "%' or p.products_model like '%" . tep_db_input($keyword) . "%' or m.manufacturers_name like '%" . tep_db_input($keyword) . "%'";
+                                                $keywords_str .= ')';
 
                                                 break;
 
