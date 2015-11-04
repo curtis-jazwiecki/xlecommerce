@@ -343,7 +343,13 @@
   class productListingBox extends tableBox {
     function productListingBox($contents) {
       //$this->table_parameters = 'class="productListing"';
-      $this->table_parameters = 'class="productListing productListingTpl' . PRODUCT_LISTING_TEMPLATE . '"';
+	  if(basename($_SERVER['PHP_SELF']) == 'shopping_cart.php'){
+	  	$this->table_parameters = 'class="productListing productListingTpl2"';
+	  }else{
+	  	$this->table_parameters = 'class="productListing productListingTpl' . PRODUCT_LISTING_TEMPLATE . '"';
+	  }
+	  
+      
       $this->tableBox($contents, true);
     }
 
