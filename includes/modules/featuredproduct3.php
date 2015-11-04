@@ -12,7 +12,8 @@ Released under the GNU General Public License
 */
 //require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_XSELL_PRODUCTS);
 
-if ($HTTP_GET_VARS['products_id'] && ENABLE_FEATURE_PRODUCTS_THREE=='True') {
+//if ($HTTP_GET_VARS['products_id'] && ENABLE_FEATURE_PRODUCTS_THREE=='True') {
+	
     
 $featured_query_3 = tep_db_query("select p.products_id,p.products_image,p.products_price,p.products_tax_class_id, pd.products_name, s.featured_id, s.expires_date, s.status from " . TABLE_PRODUCTS . " p, " . TABLE_FEATURED . " s, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = pd.products_id and pd.language_id = '" . $languages_id . "' and p.products_id = s.products_id and s.featured_group = '3' and s.status = '1' and s.expires_date > now() order by pd.products_name LIMIT 0 , ".FEATURED_PRODUCT_3); //ORDER BY p.reviews_rating DESC
 
@@ -71,5 +72,6 @@ if ($featured3['specials_new_products_price']) {
 
    }
    
- }
+ 
+//}
 ?>
