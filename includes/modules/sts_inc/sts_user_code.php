@@ -1255,11 +1255,19 @@ if (!empty($current_template)){
 
                 //$sts->template['stylesheet'] = '<link rel="stylesheet" type="text/css" href="' . HTTP_SERVER . DIR_WS_HTTP_CATALOG . DIR_WS_INCLUDES . 'sts_templates/'.$check['configuration_value'].'/stylesheet.css" />' . "\n";
 
+$str_search_javascript = '';
+if(basename($_SERVER['PHP_SELF']) == 'advanced_search.php'){
+	$str_search_javascript = "function popupWindow(url) {
+ window.open(url,'popupWindow','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,copyhistory=no,width=450,height=280,screenX=150,screenY=150,top=150,left=150')
 
-
-                $template18_stylesheet1 = 
+}";
+}
+               
+			   
+			    $template18_stylesheet1 = 
 
 					'<script type="text/javascript"> 
+					'.$str_search_javascript.'
 
 					function removeWishlistProducts(products_id){
 
