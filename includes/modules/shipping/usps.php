@@ -1160,7 +1160,7 @@ Released under the GNU General Public License
 
         $mail_body = "Request:\n" . urldecode($request) . "\n\nResponse:\n" . $response;
 
-        mail( STORE_OWNER_EMAIL_ADDRESS, 'USPS Debug Message for ' . STORE_NAME, $mail_body );
+        //mail( STORE_OWNER_EMAIL_ADDRESS, 'USPS Debug Message for ' . STORE_NAME, $mail_body );
 
       }
 

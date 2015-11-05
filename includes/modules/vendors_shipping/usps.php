@@ -718,7 +718,7 @@ Released under the GNU General Public License
       // Send the debug email if set
       if ( constant('MODULE_SHIPPING_USPS_DEBUG_' . $vendors_id) == 'True' ) {
         $mail_body = "Request:\n" . urldecode($request) . "\n\nResponse:\n" . $response;
-        mail( STORE_OWNER_EMAIL_ADDRESS, 'USPS Debug Message for ' . STORE_NAME, $mail_body );
+        //mail( STORE_OWNER_EMAIL_ADDRESS, 'USPS Debug Message for ' . STORE_NAME, $mail_body );
       }
       
       // Convert the XML string to an array and return
