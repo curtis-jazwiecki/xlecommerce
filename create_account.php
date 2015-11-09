@@ -418,7 +418,13 @@
 		tep_db_query("insert into subscribers (email, name, is_registered) values ('" . tep_db_input($email_address) . "', '" . tep_db_input($firstname . ' ' . $lastname) . "', '1') on duplicate key update name='" . tep_db_input($firstname) . "', is_registered='1'");
 	}
 
-      tep_redirect(tep_href_link(FILENAME_CREATE_ACCOUNT_SUCCESS, '', 'SSL'));
+      //BEGIN DIRECT TO CHECKOUT MODIFICATION CJ 083115
+
+      //tep_redirect(tep_href_link(FILENAME_CREATE_ACCOUNT_SUCCESS, '', 'SSL'));
+
+          if ($cart->count_contents() < 1) {        tep_redirect(tep_href_link(FILENAME_CREATE_ACCOUNT_SUCCESS, '', 'SSL'));   } else {   tep_redirect(tep_href_link(FILENAME_CHECKOUT_SHIPPING));   }
+
+//BEGIN DIRECT TO CHECKOUT MODIFICATION CJ 083115 
     }
   }
 // Ingo PWA
