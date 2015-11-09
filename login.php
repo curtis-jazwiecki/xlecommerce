@@ -226,7 +226,7 @@ function session_win() {
   }
 ?>
       <tr>
-          <td><table border="0" width="100%" cellspacing="0" cellpadding="2" class="logintable">
+          <td class="login_box"><table border="0" width="100%" cellspacing="0" cellpadding="2" class="logintable">
 <?php
   // PWA BOF
   if (defined('PURCHASE_WITHOUT_ACCOUNT') && ($cart->count_contents() > 0) && (PURCHASE_WITHOUT_ACCOUNT == 'ja' || PURCHASE_WITHOUT_ACCOUNT == 'yes')) {
@@ -260,13 +260,12 @@ function session_win() {
 <?php
   }
   // PWA EOF
-?>
+?>          <table border="0" width="50%" cellspacing="0" cellpadding="2" class="logintable table_login_responsive">
           <tr id="tr1">
-            <td class="main" width="50%" valign="top"><b><?php echo HEADING_NEW_CUSTOMER; ?></b></td>
-            <td class="main" width="50%" valign="top"><b><?php echo HEADING_RETURNING_CUSTOMER; ?></b></td>
-          </tr>
-          <tr id="tr2">
-            <td width="50%" height="100%" valign="top"><table border="0" width="100%" height="100%" cellspacing="1" cellpadding="2" class="infoBox">
+            <td class="main" width="100%" valign="top"><b><?php echo HEADING_NEW_CUSTOMER; ?></b></td>
+            </tr>
+            <tr>
+             <td width="100%" height="100%" valign="top"><table border="0" width="100%" height="100%" cellspacing="1" cellpadding="2" class="infoBox">
               <tr class="infoBoxContents">
                 <td><table border="0" width="100%" height="100%" cellspacing="0" cellpadding="2">
                   <tr>
@@ -290,7 +289,15 @@ function session_win() {
                 </table></td>
               </tr>
             </table></td>
-            <td width="50%" height="100%" valign="top"><table border="0" width="100%" height="100%" cellspacing="1" cellpadding="2" class="infoBox">
+            
+          </tr>
+          </table>
+          <table border="0" width="50%" cellspacing="0" cellpadding="2" class="logintable table_login_responsive1">
+          <tr id="tr1">
+           <td class="main" width="100%" valign="top"><b><?php echo HEADING_RETURNING_CUSTOMER; ?></b></td>
+           </tr>
+           <tr>
+            <td width="100%" height="100%" valign="top"><table border="0" width="100%" height="100%" cellspacing="1" cellpadding="2" class="infoBox">
               <tr class="infoBoxContents">
                 <td><table border="0" width="100%" height="100%" cellspacing="0" cellpadding="2">
                   <tr>
@@ -388,6 +395,7 @@ function session_win() {
              
             </table></td>
           </tr>
+          </table>
         </table></td>
       </tr>
     </table></form></td>
