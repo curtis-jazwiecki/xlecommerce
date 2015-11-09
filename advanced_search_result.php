@@ -263,7 +263,7 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
   
                                             $keywords_str .= '<b><i>' . $price_str. '</b></i>' .  '<a style="cursor:pointer;" onclick="deleteThisFilter(\'price\');"><font color=red> X</font></a>' . tep_draw_separator('pixel_trans.gif', '10', '10'); 
                                             }     
-                                       if (isset($_SESSION['filter_s']) && sizeof($_SESSION['filter_s'])>0) {
+                                        if (is_array($_SESSION['filter_s']) && sizeof($_SESSION['filter_s'])>0) {
                                         foreach ($_SESSION['filter_s'] as $val) {
                                             $temp = explode('|', $val);
                                             $spec_query = tep_db_query("select psn.name, psv.value from product_specification_values psv left join product_specification_names psn on psv.specification_name_id=psn.id where psv.id='" . $temp[1] . "'");
@@ -273,7 +273,7 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
                                        }
                                       } 
                                       
-                                      if (isset($_SESSION['filter_o']) && sizeof($_SESSION['filter_o'])>0) {
+                                     if (is_array($_SESSION['filter_o']) && sizeof($_SESSION['filter_o'])>0) {
                                         foreach ($_SESSION['filter_o'] as $val) {
                                             $temp = explode('|', $val);
                                             $option_query = tep_db_query("select products_options_name as name from products_options where products_options_id='" . (int)$temp[0] . "'");                                                            $option = tep_db_fetch_array($option_query);
@@ -470,7 +470,7 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
                                 if (isset($search_keywords) && (sizeof($search_keywords) > 0)) {
                                     $where_str .= " and ((";
                                     for ($i = 0, $n = sizeof($search_keywords); $i < $n; $i++) {
-                                        switch ($search_keywords[$i]) {
+                                        switch (strtolower($search_keywords[$i])) {
                                             case '(':
                                             case ')':
                                             case 'and':
@@ -480,7 +480,7 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
                                             default:
                                                 $keyword = tep_db_prepare_input($search_keywords[$i]);
                                                 //$where_str .= "(pd.products_name like '%" . tep_db_input($keyword) . "%' or p.products_model like '%" . tep_db_input($keyword) . "%' or m.manufacturers_name like '%" . tep_db_input($keyword) . "%' OR pd.products_specifications LIKE '%" . tep_db_input($keyword) . "%' or pd.products_description like '%" . tep_db_input($keyword) . "%'";
-                                                $where_str .= "(pd.products_name like '%" . tep_db_input($keyword) . "%' or p.products_model like '%" . tep_db_input($keyword) . "%' or m.manufacturers_name like '%" . tep_db_input($keyword) . "%'";
+                                                $where_str .= "(pd.products_name like '%" . tep_db_input($keyword) . "%' or pd.products_description like '%" . tep_db_input($keyword) . "%' or p.products_model like '%" . tep_db_input($keyword) . "%' or m.manufacturers_name like '%" . tep_db_input($keyword) . "%'";
                                                 $where_str .= ')';
                                                 break;
                                         }
@@ -660,7 +660,7 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
                             $listing_sql = $select_str . $from_str . $where_str . (!empty($ids) ? " and p.products_id in (" . implode(',', $ids) . ") " : "") .  $order_str;
                             //$listing_sql = $select_str . $from_str . $where_str . $order_str;
 
-                          //  echo $listing_sql;
+                          // echo $listing_sql;
                           //  exit;
                             require (DIR_WS_MODULES . FILENAME_PRODUCT_LISTING);
                             ?>

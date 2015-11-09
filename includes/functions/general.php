@@ -3821,7 +3821,7 @@ function set_query_telephone_numbers_compatible(&$val){
 
           
 
-            if (!array_key_exists($entry['name'], $response['specs'])){
+            if (!is_array($response['specs']) || !array_key_exists($entry['name'], $response['specs'])){
 
                 $response['specs'][$entry['name']] = array(
 
@@ -3835,7 +3835,7 @@ function set_query_telephone_numbers_compatible(&$val){
 
             
 
-            if (!array_key_exists($entry['value'], $response[$entry['name']]['values'])){
+            if (!array_key_exists($entry['value'], $response['specs'][$entry['name']]['values'])){
 
                 $response['specs'][$entry['name']]['values'][$entry['value']] = $entry['specification_id'];
 
