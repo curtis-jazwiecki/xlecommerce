@@ -215,6 +215,7 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
 // End Template Check
 ?>
 <script language="javascript"><!--
+
 var selected;
 <?php // #################### Added CGV ###################### ?>
 var submitter = null;
@@ -373,6 +374,13 @@ document.checkout_payment.cot_gv.checked=!document.checkout_payment.cot_gv.check
   }
 ?>
 <SCRIPT language="JavaScript" type="text/javascript">
+<?php if (isset($_GET['payment_error']) && $_GET['error'] != '') { ?>
+var tba = jQuery.noConflict();
+tba( document ).ready(function() {
+    alert("<?php echo urldecode(str_replace('<br>', '\n',$_GET['error'])); ?>");
+});
+    
+<?php } ?>
 <!--hide
 
 function newwindow()
