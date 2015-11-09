@@ -445,6 +445,7 @@ window.open('cvv_help.php','jav','width=500,height=550,resizable=no,toolbar=no,m
       <tr>
         <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
 
+
           <tr><td width="5" height="20" align="left" background="images/template/infoboxbg.jpg"><img src="images/template/infoboxbgL.jpg"></td><td class="infoBoxHeadingLogin" align="left"><b><?php echo TABLE_HEADING_BILLING_ADDRESS; ?></b></td><td width="5" height="20" align="right" background="images/template/infoboxbg.jpg"><img src="images/template/infoboxbgR.jpg"></td></tr>
         </table></td>
       </tr>
