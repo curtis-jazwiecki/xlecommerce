@@ -371,7 +371,7 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
         </table></td>
       </tr>
       <tr>
-        <td colspan="3"><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?><br /><div align="center"><h2 style="color:#FF0000">Site for demonstration purposes only. No orders will be processed or shipped.</h2></div></td>
+        <td colspan="3"><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?><br /><!--<div align="center"><h2 style="color:#FF0000">Site for demonstration purposes only. No orders will be processed or shipped.</h2></div>--></td>
       </tr>
       <tr>
         <td width="5" height="20" align="left" background="images/template/infoboxbg.jpg"><img src="images/template/infoboxbgL.jpg"></td><td class="infoBoxHeadingLogin" align="left"><b><?php echo HEADING_BILLING_INFORMATION; ?></b></td><td width="5" height="20" align="right" background="images/template/infoboxbg.jpg"><img src="images/template/infoboxbgR.jpg"></td>
