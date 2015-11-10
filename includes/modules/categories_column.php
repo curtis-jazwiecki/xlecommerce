@@ -68,7 +68,10 @@ if($selected_category_template == 0){
 		
 		echo '<td class="cat" width="' . $width . '" valign="top" align="center">';
 		echo '<table cellpadding="2" cellspacing="0" width="100%" align="center">';
-		echo '<tr><td align="center" height="45" valign="bottom"><a href="' . tep_href_link(FILENAME_DEFAULT, $cPath_new) . '" class="subcatheader">' . ucwords(strtolower($categories['categories_name'])) . '</td></tr>';
+// START changed from lines above for category name capitilization -cj 09272015
+//		echo '<tr><td align="center" height="45" valign="bottom"><a href="' . tep_href_link(FILENAME_DEFAULT, $cPath_new) . '" class="subcatheader">' . ucwords(strtolower($categories['categories_name'])) . '</td></tr>';
+		echo '<tr><td align="center" height="45" valign="bottom"><a href="' . tep_href_link(FILENAME_DEFAULT, $cPath_new) . '" class="subcatheader">' . ($categories['categories_name']) . '</td></tr>';
+// END changed from lines above for category name capitilization -cj 09272015
 		echo '<tr><td align="center" valign="bottom">' .  '<a href="' . tep_href_link(FILENAME_DEFAULT, $cPath_new) . '" >' .$display_image. '</a></td></tr></table></td>' . "\n";
 		if ((($rows / MAX_DISPLAY_CATEGORIES_PER_ROW) == floor($rows / MAX_DISPLAY_CATEGORIES_PER_ROW)) && ($rows != $number_of_categories)) {
 			echo '              </tr></table></td></tr><tr><td>' .tep_draw_separator('pixel_trans.gif', '1', '10') . '</td></tr>' . "\n";
@@ -132,7 +135,7 @@ if($selected_category_template == 0){
 		echo '      <td align="center" valign="bottom">' .  '<a href="' . tep_href_link(FILENAME_DEFAULT, $cPath_new) . '" >' . $display_image . '</a></td>';
 		echo '    </tr>';
 		echo '    <tr>';
-		echo '      <td align="center" height="45" valign="bottom"><a href="' . tep_href_link(FILENAME_DEFAULT, $cPath_new) . '" class="subcatheader">' . ucwords(strtolower($categories['categories_name'])) . '</td>';
+		echo '      <td align="center" height="45" valign="bottom"><a href="' . tep_href_link(FILENAME_DEFAULT, $cPath_new) . '" class="subcatheader">' . ($categories['categories_name']) . '</td>';
 		echo '    </tr>';
 		echo '  </table>';
 		echo '</td>' . "\n";
@@ -216,7 +219,7 @@ if($selected_category_template == 0){
 		echo '      <td align="center" valign="bottom">' .  '<a href="' . tep_href_link(FILENAME_DEFAULT, $cPath_new) . '" >' . $display_image . '</a></td>';
 		echo '    </tr>';
 		echo '    <tr>';
-		echo '      <td align="center" height="45" valign="bottom"><a href="' . tep_href_link(FILENAME_DEFAULT, $cPath_new) . '" class="subcatheader">' . ucwords(strtolower($categories['categories_name'])) . '</td>';
+		echo '      <td align="center" height="45" valign="bottom"><a href="' . tep_href_link(FILENAME_DEFAULT, $cPath_new) . '" class="subcatheader">' . ($categories['categories_name']) . '</td>';
 		echo '    </tr>';
 		echo '  </table>';
 		echo '</td>' . "\n";
@@ -290,7 +293,7 @@ if($selected_category_template == 0){
 		echo '<td width="' . $width . '" valign="top" align="left">';
 		echo '  <table cellpadding="2" cellspacing="0" width="100%" align="left">';
 		echo '    <tr>';
-		echo '      <td align="left" valign="bottom">' .  '<a href="' . tep_href_link(FILENAME_DEFAULT, $cPath_new) . '" >' . $display_image . '</a> <a href="' . tep_href_link(FILENAME_DEFAULT, $cPath_new) . '" class="subcatheader">' . ucwords(strtolower($categories['categories_name'])) . '</a></td>';
+		echo '      <td align="left" valign="bottom">' .  '<a href="' . tep_href_link(FILENAME_DEFAULT, $cPath_new) . '" >' . $display_image . '</a> <a href="' . tep_href_link(FILENAME_DEFAULT, $cPath_new) . '" class="subcatheader">' . ($categories['categories_name']) . '</a></td>';
 		echo '    </tr>';
 		echo '  </table>';
 		echo '</td>' . "\n";
@@ -359,7 +362,7 @@ if($selected_category_template == 0){
 		echo '<td width="' . $width . '" valign="top" align="left">';
 		echo '  <table cellpadding="2" cellspacing="0" width="100%" align="left">';
 		echo '    <tr>';
-		echo '      <td align="left" valign="bottom">' .  '<a href="' . tep_href_link(FILENAME_DEFAULT, $cPath_new) . '" >' . str_replace("/small/", "/medium/", $display_image) . '</a> <a href="' . tep_href_link(FILENAME_DEFAULT, $cPath_new) . '" class="subcatheader">' . ucwords(strtolower($categories['categories_name'])) . '</a></td>';
+		echo '      <td align="left" valign="bottom">' .  '<a href="' . tep_href_link(FILENAME_DEFAULT, $cPath_new) . '" >' . str_replace("/small/", "/medium/", $display_image) . '</a> <a href="' . tep_href_link(FILENAME_DEFAULT, $cPath_new) . '" class="subcatheader">' . ($categories['categories_name']) . '</a></td>';
 		echo '    </tr>';
 		echo '  </table>';
 		echo '</td>' . "\n";
@@ -425,7 +428,7 @@ if($selected_category_template == 0){
 		echo '<td width="' . $width . '" valign="top" align="left">';
 		echo '  <table cellpadding="2" cellspacing="0" width="100%" align="left">';
 		echo '    <tr>';
-		echo '      <td align="left" valign="bottom"><ul style="margin: 0px 0px 0px 20px; padding: 0px;"><li><a href="' . tep_href_link(FILENAME_DEFAULT, $cPath_new) . '" class="subcatheader">' . ucwords(strtolower($categories['categories_name'])) . '</a></li></ul></td>';
+		echo '      <td align="left" valign="bottom"><ul style="margin: 0px 0px 0px 20px; padding: 0px;"><li><a href="' . tep_href_link(FILENAME_DEFAULT, $cPath_new) . '" class="subcatheader">' . ($categories['categories_name']) . '</a></li></ul></td>';
 		echo '    </tr>';
 		echo '  </table>';
 		echo '</td>' . "\n";
