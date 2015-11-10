@@ -515,4 +515,3 @@ var google_conversion_value = 100.0;
 tep_session_unregister('shipping_text');
 
  require(DIR_WS_INCLUDES . 'application_bottom.php'); ?>
-
