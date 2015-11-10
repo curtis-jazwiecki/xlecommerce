@@ -592,7 +592,7 @@ echo tep_draw_separator('pixel_trans.gif', '10', '1');
 
 echo tep_draw_separator('pixel_trans.gif', '100%', '10');
 
-?><br /><div align="center"><h2 style="color:#FF0000">Site for demonstration purposes only. No orders will be processed or shipped.</h2></div></td>
+?><br /></td>
       </tr>
       <tr>
         <td>
