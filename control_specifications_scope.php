@@ -200,7 +200,7 @@ if (isset($_POST['action'])){
 
 			// modified on 19-10-2015 to include EAN number #start
 
-			$query = "select products_model, products_price, products_tax_class_id, products_quantity, products_image, products_mediumimage, products_largeimage, upc_ean, min_acceptable_price from products join products_extended on (products.products_id= products_extended.osc_products_id) where products_id='" . (int)$temp[0] . "'";
+			$query = "select products_model, products_price, products_tax_class_id, products_quantity, products_image, products_mediumimage, products_largeimage, upc_ean, min_acceptable_price from products left join products_extended on (products.products_id= products_extended.osc_products_id) where products_id='" . (int)$temp[0] . "'";
 
 			// modified on 19-10-2015 to include EAN number #ends
 
