@@ -1137,7 +1137,7 @@ EOT;
 
 			unset($response);
 			$ch=curl_init(
-				"https://www.eProcessing Network.Com/cgi-bin/tdbe/transact.pl");
+				"https://www.eProcessingNetwork.Com/cgi-bin/tdbe/transact.pl");
 
 			// normal
 			// POST
