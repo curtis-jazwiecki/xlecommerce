@@ -1050,25 +1050,40 @@ if (sizeof($shipping_array) >0) {
 
   // begin product bundles
 
+  function reduce_bundle_stock($bundle_id, $qty_sold,$order_id, $order_products_id) {
+     global $languages_id;
 
 
-  function reduce_bundle_stock($bundle_id, $qty_sold) {
-
-
-
-    $bundle_query = tep_db_query('select pb.subproduct_id, pb.subproduct_qty, p.products_bundle, p.products_quantity from ' . TABLE_PRODUCTS_BUNDLES . ' pb, ' . TABLE_PRODUCTS . ' p where p.products_id = pb.subproduct_id and bundle_id = ' . (int)tep_get_prid($bundle_id));
+    $bundle_query = tep_db_query('select pb.subproduct_id, pb.subproduct_qty, p.products_bundle, p.products_quantity, pd.products_name from ' . TABLE_PRODUCTS_BUNDLES . ' pb, ' . TABLE_PRODUCTS . ' p, products_description pd where p.products_id = pb.subproduct_id and p.products_id=pd.products_id and pd.language_id="' . (int)$languages_id . '" and bundle_id = ' . (int)tep_get_prid($bundle_id));
 
 
 
     while ($bundle_info = tep_db_fetch_array($bundle_query)) {
 
+        $sql_data_array = array('orders_id' => $order_id, 
+
+
+
+                                'orders_products_id' => $order_products_id, 
+
+
+
+                                'products_options' => 'Included',
+
+
+
+                                'products_options_values' => $bundle_info['subproduct_qty'] . 'x' . $bundle_info['products_name']);
+
+
+
+        tep_db_perform(TABLE_ORDERS_PRODUCTS_ATTRIBUTES, $sql_data_array);
 
 
       if ($bundle_info['products_bundle'] == 'yes') {
 
 
 
-        reduce_bundle_stock($bundle_info['subproduct_id'], ($qty_sold * $bundle_info['subproduct_qty']));
+        reduce_bundle_stock($bundle_info['subproduct_id'], ($qty_sold * $bundle_info['subproduct_qty']),$order_id, $order_products_id);
 
 
 
@@ -1119,7 +1134,54 @@ if (sizeof($shipping_array) >0) {
   for ($i=0, $n=sizeof($order->products); $i<$n; $i++) {
 
 
+  
 
+    $sql_data_array = array('orders_id' => $insert_id, 
+
+
+
+                            'products_id' => tep_get_prid($order->products[$i]['id']), 
+
+
+
+                            'products_model' => $order->products[$i]['model'], 
+
+
+
+                            'products_name' => $order->products[$i]['name'], 
+
+
+
+                            'products_price' => $order->products[$i]['price'], 
+
+
+
+                            'final_price' => $order->products[$i]['final_price'], 
+
+
+
+                            'products_tax' => $order->products[$i]['tax'], 
+
+
+
+                            'products_quantity' => $order->products[$i]['qty'],
+
+
+
+							'is_ok_for_shipping' => $order->products[$i]['is_ok_for_shipping'], 
+
+
+
+							'vendors_id' => $order->products[$i]['vendors_id']);
+
+
+
+    tep_db_perform(TABLE_ORDERS_PRODUCTS, $sql_data_array);
+
+
+
+    $order_products_id = tep_db_insert_id();
+    
 // Stock Update - Joao Correia
 
 
@@ -1219,9 +1281,7 @@ if (sizeof($shipping_array) >0) {
           if ($stock_values['products_bundle'] == 'yes') {
 
 
-
-            reduce_bundle_stock($order->products[$i]['id'], $order->products[$i]['qty']);
-
+            reduce_bundle_stock($order->products[$i]['id'], $order->products[$i]['qty'],$insert_id, $order_products_id);
 
 
             $stock_left = 1; // products_quantity has no meaning for bundles but must be at least one for bundle to sell, bundle quantity check is done by other means
@@ -1275,160 +1335,7 @@ if (sizeof($shipping_array) >0) {
     }
 
 
-
   // end product bundles
-
-
-
-
-
-
-
-
-
-
-
-/*  for ($i=0, $n=sizeof($order->products); $i<$n; $i++) {
-
-
-
-// Stock Update - Joao Correia
-
-
-
-    if (STOCK_LIMITED == 'true') {
-
-
-
-      if (DOWNLOAD_ENABLED == 'true') {
-
-
-
-        $stock_query_raw = "SELECT products_quantity, pad.products_attributes_filename 
-
-
-
-                            FROM " . TABLE_PRODUCTS . " p
-
-
-
-                            LEFT JOIN " . TABLE_PRODUCTS_ATTRIBUTES . " pa
-
-
-
-                             ON p.products_id=pa.products_id
-
-
-
-                            LEFT JOIN " . TABLE_PRODUCTS_ATTRIBUTES_DOWNLOAD . " pad
-
-
-
-                             ON pa.products_attributes_id=pad.products_attributes_id
-
-
-
-                            WHERE p.products_id = '" . tep_get_prid($order->products[$i]['id']) . "'";
-
-
-
-// Will work with only one option for downloadable products
-
-
-
-// otherwise, we have to build the query dynamically with a loop
-
-
-
-        $products_attributes = $order->products[$i]['attributes'];
-
-
-
-        if (is_array($products_attributes)) {
-
-
-
-          $stock_query_raw .= " AND pa.options_id = '" . $products_attributes[0]['option_id'] . "' AND pa.options_values_id = '" . $products_attributes[0]['value_id'] . "'";
-
-
-
-        }
-
-
-
-        $stock_query = tep_db_query($stock_query_raw);
-
-
-
-      } else {
-
-
-
-        $stock_query = tep_db_query("select products_quantity from " . TABLE_PRODUCTS . " where products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
-
-
-
-      }
-
-
-
-      if (tep_db_num_rows($stock_query) > 0) {
-
-
-
-        $stock_values = tep_db_fetch_array($stock_query);
-
-
-
-// do not decrement quantities if products_attributes_filename exists
-
-
-
-        if ((DOWNLOAD_ENABLED != 'true') || (!$stock_values['products_attributes_filename'])) {
-
-
-
-          $stock_left = $stock_values['products_quantity'] - $order->products[$i]['qty'];
-
-
-
-        } else {
-
-
-
-          $stock_left = $stock_values['products_quantity'];
-
-
-
-        }
-
-
-
-        tep_db_query("update " . TABLE_PRODUCTS . " set products_quantity = '" . $stock_left . "' where products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
-
-
-
-        if ( ($stock_left < 1) && (STOCK_ALLOW_CHECKOUT == 'false') ) {
-
-
-
-          //tep_db_query("update " . TABLE_PRODUCTS . " set products_status = '0' where products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
-
-
-
-        }
-
-
-
-      }
-
-
-
-    }*/
-
-
-
-
 
 
 
@@ -1446,53 +1353,6 @@ if (sizeof($shipping_array) >0) {
 
 	//MVS - added 'vendors_id' => ...
 
-
-
-    $sql_data_array = array('orders_id' => $insert_id, 
-
-
-
-                            'products_id' => tep_get_prid($order->products[$i]['id']), 
-
-
-
-                            'products_model' => $order->products[$i]['model'], 
-
-
-
-                            'products_name' => $order->products[$i]['name'], 
-
-
-
-                            'products_price' => $order->products[$i]['price'], 
-
-
-
-                            'final_price' => $order->products[$i]['final_price'], 
-
-
-
-                            'products_tax' => $order->products[$i]['tax'], 
-
-
-
-                            'products_quantity' => $order->products[$i]['qty'],
-
-
-
-							'is_ok_for_shipping' => $order->products[$i]['is_ok_for_shipping'], 
-
-
-
-							'vendors_id' => $order->products[$i]['vendors_id']);
-
-
-
-    tep_db_perform(TABLE_ORDERS_PRODUCTS, $sql_data_array);
-
-
-
-    $order_products_id = tep_db_insert_id();
 
 
 
