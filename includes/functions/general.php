@@ -2316,13 +2316,21 @@
 
     $attributes = tep_db_fetch_array($attributes_query);
 
-
+	// code added on 01-12-2015 to check if a product has child product or not #start
+	
+	$child_product_query = tep_db_query("select count(*) as count from " . TABLE_PRODUCTS . " where parent_products_model like (select products_model from " . TABLE_PRODUCTS . " where products_id = '" . (int)$products_id . "')");
+	
+	$child_product = tep_db_fetch_array($child_product_query);
+	
+	// code added on 01-12-2015 #ends
 
     if ($attributes['count'] > 0) {
 
       return true;
 
-    } else {
+    } else if($child_product['count'] > 0){
+		return true;
+	} else {
 
       return false;
 

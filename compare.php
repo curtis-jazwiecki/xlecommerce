@@ -454,7 +454,7 @@ if (count($columns) >= COMPARE_PRODUCTS_SIDEBYSIDE_MINIMUM) {
 // Add disclaimer if needed 
 	if($pd[$columns[$k]]['disclaimer_needed'] == 1)
       {
-		$display_products_disclaimer = tep_draw_form('cart_quantity', tep_href_link(FILENAME_PRODUCT_INFO, 'action=add_product')) . '<input type="checkbox"  value="" id="disclaimer'.$k.'">'; 
+		$display_products_disclaimer = tep_draw_form('cart_quantity', tep_href_link(FILENAME_PRODUCT_INFO),'get') . '<input type="checkbox"  value="" id="disclaimer'.$k.'">'; 
 
 		$display_products_disclaimer .= '<script language="javascript"><!--'."\n".
 										"document.write('<a href=\"javascript:popupWindow2(\\'" .
@@ -463,19 +463,23 @@ if (count($columns) >= COMPARE_PRODUCTS_SIDEBYSIDE_MINIMUM) {
 		$display_products_disclaimer .= "function disclaimer_onclick".$k."()
 										  {
 											var disclaimer".$k."=document.getElementById('disclaimer".$k."');
-											if (!disclaimer".$k.".checked)
-											alert('" . TEXT_DISCLAIMER_ERROR . "');
+											if (!disclaimer".$k.".checked){
+												alert('" . TEXT_DISCLAIMER_ERROR . "');
+											}else{
+												document.getElementById('disclaimer_".$columns[$k]."').value = '1';
+											}
 											return disclaimer".$k.".checked;
 										   }//--></script>";
 
 		$display_products_add_to_cart = '<center>'.tep_image_submit('button_in_cart.gif', IMAGE_BUTTON_IN_CART, ( 'onclick="javascript:return disclaimer_onclick'.$k.'();"')) . '</center>';
 
-		 $buy_now = $display_products_disclaimer . $display_products_add_to_cart . "<br />" . '<input type="hidden" value="'.$columns[$k].'" name="products_id">' . '&nbsp;</form>';
-   	  }else{
+		 $buy_now = $display_products_disclaimer . $display_products_add_to_cart . "<br />" . ' <input type="hidden" name="action" value="buy_now"> <input type="hidden" id="disclaimer_'.$columns[$k].'" name="disclaimer_'.$columns[$k].'" value="0">  <input type="hidden" value="'.$columns[$k].'" name="products_id">' . '&nbsp;</form>';
+   	  
+	  }else{
 		 //$buy_now = tep_draw_form('cart_quantity', tep_href_link(FILENAME_PRODUCT_INFO, 'action=add_product')) . '<center>'.tep_image_submit('button_in_cart.gif', IMAGE_BUTTON_IN_CART, '') . '</center>' . '<input type="hidden" value="'.$columns[$k].'" name="products_id">' . '&nbsp;</form>';
             //$buy_now = tep_draw_form('cart_quantity', tep_href_link(FILENAME_PRODUCT_INFO, 'action=add_product')) . '<center>' . tep_image_submit('button_in_cart.gif', IMAGE_BUTTON_IN_CART, '') . '<input type="submit" value="add to cart" class="addtocart_btn"></center>' . '<input type="hidden" value="'.$columns[$k].'" name="products_id">' . '&nbsp;</form>';
 			
-			$buy_now = tep_draw_form('cart_quantity', tep_href_link(FILENAME_PRODUCT_INFO, 'action=add_product')) . '<center> <input type="submit" value="add to cart" class="addtocart_btn"><br><input type="button" value="Remove" class="addtocart_btn" onclick="removeWishlistProducts('.$columns[$k].');"></center>' . '<input type="hidden" value="'.$columns[$k].'" name="products_id">' . '&nbsp;</form>';
+			$buy_now = tep_draw_form('cart_quantity', tep_href_link(FILENAME_PRODUCT_INFO),'get') . '<center> <input type="submit" value="add to cart" class="addtocart_btn"><br><input type="button" value="Remove" class="addtocart_btn" onclick="removeWishlistProducts('.$columns[$k].');"></center>' . ' <input type="hidden" name="action" value="buy_now"> <input type="hidden" id="disclaimer_'.$columns[$k].'" name="disclaimer_'.$columns[$k].'" value="1"> <input type="hidden" value="'.$columns[$k].'" name="products_id">' . '&nbsp;</form>';
    	  }
      $list_box_contents[$cur_row][] = array('align' => "left",
                                             'params' => 'class="compareListing-data" valign="top"',

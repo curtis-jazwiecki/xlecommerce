@@ -352,7 +352,7 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
 
     if ( (isset($order->products[$i]['attributes'])) && (sizeof($order->products[$i]['attributes']) > 0) ) {
       for ($j=0, $n2=sizeof($order->products[$i]['attributes']); $j<$n2; $j++) {
-      //  echo '<br><nobr><small>&nbsp;<i> - ' . $order->products[$i]['attributes'][$j]['option'] . ': ' . $order->products[$i]['attributes'][$j]['value'] . '</i></small></nobr>';
+        echo '<br><nobr><small>&nbsp;<i> - ' . $order->products[$i]['attributes'][$j]['option'] . ': ' . $order->products[$i]['attributes'][$j]['value'] . '</i></small></nobr>';
       }
     }
 

@@ -18,69 +18,18 @@
     }
 
     function restore_contents() {
-// ############Added CCGV Contribution ##########
-      global $customer_id, $gv_id, $REMOTE_ADDR;
-//      global $customer_id;
-// ############ End Added CCGV Contribution ##########
+      global $customer_id;
 
       if (!tep_session_is_registered('customer_id')) return false;
 
 // insert current cart contents in database
       if (is_array($this->contents)) {
         reset($this->contents);
-        // BOF SPPC attribute hide/invalid check: loop through the shopping cart and check the attributes if they
-// are hidden for the now logged-in customer
-      $this->cg_id = $this->get_customer_group_id();
-        while (list($products_id, ) = each($this->contents)) {
-					// only check attributes if they are set for the product in the cart
-				   if (isset($this->contents[$products_id]['attributes'])) {
-				$check_attributes_query = tep_db_query("select options_id, options_values_id, IF(find_in_set('" . $this->cg_id . "', attributes_hide_from_groups) = 0, '0', '1') as hide_attr_status from " . TABLE_PRODUCTS_ATTRIBUTES . " where products_id = '" . tep_get_prid($products_id) . "'");
-				while ($_check_attributes = tep_db_fetch_array($check_attributes_query)) {
-					$check_attributes[] = $_check_attributes;
-				} // end while ($_check_attributes = tep_db_fetch_array($check_attributes_query))
-				$no_of_check_attributes = count($check_attributes);
-				$change_products_id = '0';
-
-				foreach($this->contents[$products_id]['attributes'] as $attr_option => $attr_option_value) {
-					$valid_option = '0';
-					for ($x = 0; $x < $no_of_check_attributes ; $x++) {
-						if ($attr_option == $check_attributes[$x]['options_id'] && $attr_option_value == $check_attributes[$x]['options_values_id']) {
-							$valid_option = '1';
-							if ($check_attributes[$x]['hide_attr_status'] == '1') {
-							// delete hidden attributes from array attributes, change products_id accordingly later
-							$change_products_id = '1';
-							unset($this->contents[$products_id]['attributes'][$attr_option]);
-							}
-						} // end if ($attr_option == $check_attributes[$x]['options_id']....
-					} // end for ($x = 0; $x < $no_of_check_attributes ; $x++)
-					if ($valid_option == '0') {
-						// after having gone through the options for this product and not having found a matching one
-						// we can conclude that apparently this is not a valid option for this product so remove it
-						unset($this->contents[$products_id]['attributes'][$attr_option]);
-						// change products_id accordingly later
-						$change_products_id = '1';
-					}
-				} // end foreach($this->contents[$products_id]['attributes'] as $attr_option => $attr_option_value)
-
-          if ($change_products_id == '1') {
-	           $original_products_id = $products_id;
-	           $products_id = tep_get_prid($original_products_id);
-	           $products_id = tep_get_uprid($products_id, $this->contents[$original_products_id]['attributes']);
-						 // add the product without the hidden attributes to the cart
-	           $this->contents[$products_id] = $this->contents[$original_products_id];
-				     // delete the originally added product with the hidden attributes
-	           unset($this->contents[$original_products_id]);
-            }
-				  } // end if (isset($this->contents[$products_id]['attributes']))
-				} // end while (list($products_id, ) = each($this->contents))
-       reset($this->contents); // reset the array otherwise the cart will be emptied
-// EOF SPPC attribute hide/invalid check
-
         while (list($products_id, ) = each($this->contents)) {
           $qty = $this->contents[$products_id]['qty'];
           $product_query = tep_db_query("select products_id from " . TABLE_CUSTOMERS_BASKET . " where customers_id = '" . (int)$customer_id . "' and products_id = '" . tep_db_input($products_id) . "'");
           if (!tep_db_num_rows($product_query)) {
-            tep_db_query("insert into " . TABLE_CUSTOMERS_BASKET . " (customers_id, products_id, customers_basket_quantity, customers_basket_date_added) values ('" . (int)$customer_id . "', '" . tep_db_input($products_id) . "', '" . $qty . "', '" . date('Ymd') . "')");
+            tep_db_query("insert into " . TABLE_CUSTOMERS_BASKET . " (customers_id, products_id, customers_basket_quantity, customers_basket_date_added) values ('" . (int)$customer_id . "', '" . tep_db_input($products_id) . "', '" . tep_db_input($qty) . "', '" . date('Ymd') . "')");
             if (isset($this->contents[$products_id]['attributes'])) {
               reset($this->contents[$products_id]['attributes']);
               while (list($option, $value) = each($this->contents[$products_id]['attributes'])) {
@@ -88,17 +37,9 @@
               }
             }
           } else {
-            tep_db_query("update " . TABLE_CUSTOMERS_BASKET . " set customers_basket_quantity = '" . $qty . "' where customers_id = '" . (int)$customer_id . "' and products_id = '" . tep_db_input($products_id) . "'");
+            tep_db_query("update " . TABLE_CUSTOMERS_BASKET . " set customers_basket_quantity = '" . tep_db_input($qty) . "' where customers_id = '" . (int)$customer_id . "' and products_id = '" . tep_db_input($products_id) . "'");
           }
         }
-// ############ Added CCGV Contribution ##########
-        if (tep_session_is_registered('gv_id')) {
-          $gv_query = tep_db_query("insert into  " . TABLE_COUPON_REDEEM_TRACK . " (coupon_id, customer_id, redeem_date, redeem_ip) values ('" . $gv_id . "', '" . (int)$customer_id . "', now(),'" . $REMOTE_ADDR . "')");
-          $gv_update = tep_db_query("update " . TABLE_COUPONS . " set coupon_active = 'N' where coupon_id = '" . $gv_id . "'");
-          tep_gv_account_update($customer_id, $gv_id);
-          tep_session_unregister('gv_id');
-        }
-// ############ End Added CCGV Contribution ##########
       }
 
 // reset per-session cart contents, but not the database contents
@@ -115,6 +56,9 @@
       }
 
       $this->cleanup();
+
+// assign a temporary unique ID to the order contents to prevent hack attempts during the checkout procedure
+      $this->cartID = $this->generate_cart_id();
     }
 
     function reset($reset_database = false) {

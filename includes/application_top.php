@@ -510,13 +510,17 @@ $navigation->add_current_page();
                               break;
       // performed by the 'buy now' button in product listings and review page
       case 'buy_now' :        if (isset($HTTP_GET_VARS['products_id'])) {
-                                if (tep_has_product_attributes($HTTP_GET_VARS['products_id']) || tep_required_disclaimer($HTTP_GET_VARS['products_id'])) {
-                                  tep_redirect(tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $HTTP_GET_VARS['products_id']));
+                                if (tep_has_product_attributes($HTTP_GET_VARS['products_id']) || (tep_required_disclaimer($HTTP_GET_VARS['products_id']) && $_GET['disclaimer_'.$_GET['products_id']] != '1' )) {
+                                  
+								  tep_redirect(tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $HTTP_GET_VARS['products_id']));
                                 } else {
+									
                                   $cart->add_cart($HTTP_GET_VARS['products_id'], $cart->get_quantity($HTTP_GET_VARS['products_id'])+1);
                                   
                                 }
                               }
+							  
+							  						  
                               tep_redirect(tep_href_link($goto, tep_get_all_get_params($parameters)));
                               break;
       case 'notify' :         if (tep_session_is_registered('customer_id')) {
