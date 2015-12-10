@@ -2692,7 +2692,7 @@ if (sizeof($shipping_array) >0) {
 
 
 
-    $var_to_replace = array('{ORDER_ID}','{INVOICE_LINK}','{ORDER_DATE}','{PRODUCTS_DETAILS}','{ORDER_TOTAL_DETAILS}','{DELIVERY_ADDRESS}','{BILLING_ADDRESS}','{PAYMENT_METHOD}');
+    $var_to_replace = array('{ORDER_ID}','{INVOICE_LINK}','{ORDER_DATE}','{PRODUCTS_DETAILS}','{ORDER_TOTAL_DETAILS}','{DELIVERY_ADDRESS}','{BILLING_ADDRESS}','{PAYMENT_METHOD}','{STORE_NAME}','{STORE_OWNER}','{STORE_OWNER_EMAIL}');
 
 
 
@@ -2700,7 +2700,7 @@ if (sizeof($shipping_array) >0) {
 
 
 
-    $var_values = array($insert_id,$inv_link,strftime(DATE_FORMAT_LONG),$products_ordered,$order_total_details,tep_address_label($customer_id, $sendto, 0, '', "\n"),tep_address_label($customer_id, $billto, 0, '', "\n"),$payment_details);
+    $var_values = array($insert_id,$inv_link,strftime(DATE_FORMAT_LONG),$products_ordered,$order_total_details,tep_address_label($customer_id, $sendto, 0, '', "\n"),tep_address_label($customer_id, $billto, 0, '', "\n"),$payment_details,STORE_NAME,STORE_OWNER,STORE_OWNER_EMAIL_ADDRESS);
 
 
 
@@ -2720,7 +2720,7 @@ if (sizeof($shipping_array) >0) {
 
   
 
-tep_mail($order->customer['firstname'] . ' ' . $order->customer['lastname'], 'office@focusindia.com', EMAIL_TEXT_SUBJECT, $email_order, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
+//tep_mail($order->customer['firstname'] . ' ' . $order->customer['lastname'], 'office@focusindia.com', EMAIL_TEXT_SUBJECT, $email_order, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
 
   tep_mail($order->customer['firstname'] . ' ' . $order->customer['lastname'], $order->customer['email_address'], EMAIL_TEXT_SUBJECT, $email_order, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
 

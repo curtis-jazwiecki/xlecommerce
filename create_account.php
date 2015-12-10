@@ -382,7 +382,7 @@
   $template_query = tep_db_query("SELECT `email_templates_content` FROM `email_templates` WHERE `email_templates_key` = 'EMAIL_TEMPLATE_SIGNUP'");
   if(tep_db_num_rows($template_query)){
     $template_array = tep_db_fetch_array($template_query);
-    $var_to_replace = array('{FIRST_NAME}','{LAST_NAME}','{DISCOUNT_COUPON}','{GIFT_VOUCHER}','{TITLE}','{GIFT_VOUCHER_AMOUNT}','{DISCOUNT_COUPON_AMOUNT}','{STORE_OWNER}','{STORE_OWNER_EMAIL}','{GIFT_VOUCHER_LINK}','{POINTS_TEXTS}');
+    $var_to_replace = array('{FIRST_NAME}','{LAST_NAME}','{DISCOUNT_COUPON}','{GIFT_VOUCHER}','{TITLE}','{GIFT_VOUCHER_AMOUNT}','{DISCOUNT_COUPON_AMOUNT}','{STORE_NAME}','{STORE_OWNER}','{STORE_OWNER_EMAIL}','{GIFT_VOUCHER_LINK}','{POINTS_TEXTS}');
     if ($gender == 'm') {
         $title = 'Mr.';
     }elseif($gender == 'f'){
@@ -390,7 +390,7 @@
     }else{
         $title = '';
     }
-    $var_values = array($firstname,$lastname,$discount_code,$gift_voucher,$title,$gv_amount,'',STORE_OWNER,STORE_OWNER_EMAIL_ADDRESS,$gv_link,$points_text);
+    $var_values = array($firstname,$lastname,$discount_code,$gift_voucher,$title,$gv_amount,'',STORE_NAME,STORE_OWNER,STORE_OWNER_EMAIL_ADDRESS,$gv_link,$points_text);
     $email_text = str_replace($var_to_replace, $var_values, $template_array['email_templates_content']);
   }
   //// #12 10Jan2014 (MA) EOF
@@ -411,7 +411,9 @@
       if ( ACCOUNT_COMPANY == 'true' && tep_not_null($company_tax_id) ) {
       $alert_email_text = "Please note that " . $firstname . " " . $lastname . " of the company: " . $company . " has created an account.";
       tep_mail(STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS, 'Company account created', $alert_email_text, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
-      }
+      }else{
+		  tep_mail($name, $email_address, EMAIL_SUBJECT, $email_text, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
+	  }
 // EOF Separate Pricing Per Customer: alert shop owner of account created by a company
 
 	if ($newsletter){
