@@ -67,7 +67,7 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
       </tr>
 <?php
 	//Categories Status MOD by tech1@outdoorbusinessnetwork.com
-  $specials_query_raw = "select p.products_id, pd.products_name, p.products_price, p.products_tax_class_id, p.products_image, s.specials_new_products_price from " . TABLE_PRODUCTS . " p left join " . TABLE_MANUFACTURERS . " m  on (p.manufacturers_id = m.manufacturers_id), " . TABLE_PRODUCTS_DESCRIPTION . " pd, " . TABLE_SPECIALS . " s, ".TABLE_PRODUCTS_TO_CATEGORIES." p2c, ".TABLE_CATEGORIES." c where (p.parent_products_model = '' or p.parent_products_model IS NULL) and c.categories_status = '1' and p.products_status = '1' and s.products_id = p.products_id and p.products_id = pd.products_id and p2c.products_id = p.products_id and c.categories_id = p2c.categories_id and pd.language_id = '" . (int)$languages_id . "' and s.status = '1' and (m.manufacturers_status is null or m.manufacturers_status='1') " . (STOCK_HIDE_OUT_OF_STOCK_PRODUCTS=='true' ? " and p.products_quantity>='" . (int)STOCK_MINIMUM_VALUE . "' " : '') .  " and p.is_store_item='0'  order by s.specials_date_added DESC";
+  $specials_query_raw = "select p.products_id, pd.products_name, p.products_price, p.products_tax_class_id, p.products_largeimage, s.specials_new_products_price from " . TABLE_PRODUCTS . " p left join " . TABLE_MANUFACTURERS . " m  on (p.manufacturers_id = m.manufacturers_id), " . TABLE_PRODUCTS_DESCRIPTION . " pd, " . TABLE_SPECIALS . " s, ".TABLE_PRODUCTS_TO_CATEGORIES." p2c, ".TABLE_CATEGORIES." c where (p.parent_products_model = '' or p.parent_products_model IS NULL) and c.categories_status = '1' and p.products_status = '1' and s.products_id = p.products_id and p.products_id = pd.products_id and p2c.products_id = p.products_id and c.categories_id = p2c.categories_id and pd.language_id = '" . (int)$languages_id . "' and s.status = '1' and (m.manufacturers_status is null or m.manufacturers_status='1') " . (STOCK_HIDE_OUT_OF_STOCK_PRODUCTS=='true' ? " and p.products_quantity>='" . (int)STOCK_MINIMUM_VALUE . "' " : '') .  " and p.is_store_item='0'  order by s.specials_date_added DESC";
 	//Categories Status MOD by tech1@outdoorbusinessnetwork.com
   $specials_split = new splitPageResults($specials_query_raw, MAX_DISPLAY_SPECIAL_PRODUCTS);
 
@@ -94,12 +94,12 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
     $row = 0;
     $specials_query = tep_db_query($specials_split->sql_query);
     while ($specials = tep_db_fetch_array($specials_query)) {
-    if (tep_not_null($specials['products_image'])) {
+    if (tep_not_null($specials['products_largeimage'])) {
     	$feed_status = is_xml_feed_product($specials['products_id']);
   if ($feed_status) 
-   $image = tep_small_image($specials['products_image'], $specials['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT,'class="subcatimages"');
+   $image = tep_small_image($specials['products_largeimage'], $specials['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT,'class="subcatimages"');
     else 
-   $image = tep_image(DIR_WS_IMAGES . $specials['products_image'], $specials['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT,'class="subcatimages"');
+   $image = tep_image(DIR_WS_IMAGES . $specials['products_largeimage'], $specials['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT,'class="subcatimages"');
    } else {
 	$image = '';
 }
