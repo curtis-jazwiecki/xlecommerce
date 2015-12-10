@@ -86,6 +86,16 @@ if(is_array($_GET) && !empty($_GET)){
     define($configuration['cfgKey'], $configuration['cfgValue']);
   }
   
+	// added on 10-12-2015 #start
+	if(ENABLE_FORCE_SSL == 'True'){
+		if (! isset($_SERVER['HTTPS']) or $_SERVER['HTTPS'] == 'off' ) { 
+			$redirect_url = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; 
+			header("Location: $redirect_url"); 
+			exit(); 
+		}
+	}
+	// added on 10-12-2015 #start
+  
 //MVS Start
 // Set the vendor shipping constants
   $vendor_configuration_query = tep_db_query('select configuration_key as cfgKey, configuration_value as cfgValue from ' . TABLE_VENDOR_CONFIGURATION);
