@@ -32,15 +32,18 @@
 ?></head>
 <body marginwidth="10" marginheight="10" topmargin="10" bottommargin="10" leftmargin="10" rightmargin="10">
 <?php
-  $info_box_contents = array();
-  $info_box_contents[] = array('text' => HEADING_SEARCH_HELP);
+  //$info_box_contents = array();
+  //$info_box_contents[] = array('text' => HEADING_SEARCH_HELP);
 
-  new infoBoxHeading($info_box_contents, true, true);
+  //new infoBoxHeading($info_box_contents, true, true);
 
-  $info_box_contents = array();
-  $info_box_contents[] = array('text' => TEXT_SEARCH_HELP);
+  //$info_box_contents = array();
+  //$info_box_contents[] = array('text' => TEXT_SEARCH_HELP);
 
-  new infoBox($info_box_contents);
+  //new infoBox($info_box_contents);
+  echo HEADING_SEARCH_HELP;
+  echo '<br><br>';
+  echo TEXT_SEARCH_HELP;
 ?>
 
 <p class="smallText" align="right"><?php echo '<a href="javascript:window.close()">' . TEXT_CLOSE_WINDOW . '</a>'; ?></p>
