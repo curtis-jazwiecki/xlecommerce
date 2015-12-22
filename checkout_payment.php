@@ -347,10 +347,16 @@ document.checkout_payment.cot_gv.checked=!document.checkout_payment.cot_gv.check
 <?php
   if (isset($HTTP_GET_VARS['payment_error']) && is_object(${$HTTP_GET_VARS['payment_error']}) && ($error = ${$HTTP_GET_VARS['payment_error']}->get_error())) {
 ?>
+    <style type="text/css">
+      	td.error_payment_message {
+			background-color: yellow;
+			color: #ff0000;
+		}
+      </style>
       <tr>
         <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
           <tr>
-            <td class="infoBoxHeading"><b><?php echo tep_output_string_protected($error['title']); ?></b></td>
+            <td class="infoBoxHeading error_payment_message"><b><?php echo tep_output_string_protected($error['title']); ?></b></td>
           </tr>
         </table></td>
       </tr>
@@ -360,7 +366,7 @@ document.checkout_payment.cot_gv.checked=!document.checkout_payment.cot_gv.check
             <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
               <tr>
                 <td><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
-                <td class="main" width="100%" valign="top"><?php echo tep_output_string_protected($error['error']); ?></td>
+                <td class="main error_payment_message" width="100%" valign="top"><?php echo tep_output_string_protected($error['error']); ?></td>
                 <td><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
               </tr>
             </table></td>
