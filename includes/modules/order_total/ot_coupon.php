@@ -191,7 +191,10 @@ global $customer_id, $order, $cc_id;
                                                 if ($get_result['restrict_to_products']) {
                                                         $pr_ids = split("[,]", $get_result['restrict_to_products']);
                                                         for ($ii = 0; $ii < count($pr_ids); $ii++) {
-                                                                if ($pr_ids[$ii] == tep_get_prid($order->products[$i]['id'])) {
+                                                                $child_product_ids = $this->getAllChildProducts($pr_ids[$i]);
+																
+																if ($pr_ids[$ii] == tep_get_prid($order->products[$i]['id'])) {
+																	
                                                                         if ($get_result['coupon_type'] == 'P') {
                                                                                         /* Fixes to Gift Voucher module 5.03
                                                                                         =================================
@@ -209,8 +212,29 @@ global $customer_id, $order, $cc_id;
                                                                                 } else {
                                                                                         $od_amount = $c_deduct;
                                                                                 }
+                                                                        
+																}else if(count($child_product_ids) > 0){
+																	foreach($child_product_ids as $ids){
+																		
+																		if ($ids == tep_get_prid($order->products[$i]['id'])) {
+																			
+																			
+                                                                        if ($get_result['coupon_type'] == 'P') {
+																
+																			$pr_c = ($order->products[$i]['final_price'] * $order->products[$i]['qty']);
+																			$pod_amount = round($pr_c*10)/10*$c_deduct/100;
+																			$od_amount = $od_amount + $pod_amount;
+																	
+																		} else {
+                                                                            $od_amount = $c_deduct;
                                                                         }
-                                                                }
+                                                                        
+																		}
+																	
+																	}
+																
+																}
+                                                         }
                                                         } else {
                                                                 $cat_ids = split("[,]", $get_result['restrict_to_categories']);
                                                                 for ($i=0; $i<sizeof($order->products); $i++) {
@@ -480,18 +504,46 @@ global $order, $cart, $customer_id, $cc_id;
                         $products_array = $cart->get_products();
 
                         for ($i = 0; $i < sizeof($pr_ids); $i++) {
+							
+							$child_product_ids = $this->getAllChildProducts($pr_ids[$i]);
+							
                                 for ($ii = 1; $ii<=sizeof($products_array); $ii++) {
-                                        if (tep_get_prid($products_array[$ii-1]['id']) == $pr_ids[$i]) {
+                                        
+										if (tep_get_prid($products_array[$ii-1]['id']) == $pr_ids[$i]) {
                                                 $in_cart=true;
                                                 $total_price += $this->get_product_price($products_array[$ii-1]['id']);
-                                        }
+                                        }else if(count($child_product_ids) > 0){
+											foreach($child_product_ids as $ids){
+												if ($ids == tep_get_prid($products_array[$ii-1]['id'])) {
+                                                	$in_cart=true;
+                                                	$total_price += $this->get_product_price($products_array[$ii-1]['id']);
+													
+                                        			
+												}
+											}
+										}
                                 }
                         }
                         $order_total = $total_price;
                 }
         }
+	
 return $order_total;
 }
+
+public function getAllChildProducts($parent_products_id){
+	
+	$child_products_array = array();
+	
+	$child_product_query = tep_db_query("select products_id from products where parent_products_model = (select products_model from products where products_id = '".$parent_products_id."')");
+	
+	while($result = tep_db_fetch_array($child_product_query)){
+		$child_products_array[] = $result['products_id'];
+	}
+	
+	return $child_products_array;
+}
+
 
 function get_product_price($product_id) {
 global $cart, $order;

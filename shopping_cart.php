@@ -220,8 +220,8 @@ $breadcrumb->add(NAVBAR_TITLE, tep_href_link(FILENAME_SHOPPING_CART));
                                         //mod for parent-child functionality by (MA) EOF
                                         $products_name = '<table border="0" cellspacing="2" cellpadding="2">' .
                                                             '  <tr>' .
-                                                                '    <td class="productListing-data" align="center"><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $products[$i]['id']) . '">' . $image . '</a></td>' .
-                                                                    '    <td class="productListing-data" valign="top"><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $products[$i]['id']) . '"><b>' . $products[$i]['name'] .  '</b></a>';
+                                                                '    <td class="productListing-data" align="center"><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . tep_get_prid($products[$i]['id'])) . '">' . $image . '</a></td>' .
+                                                                    '    <td class="productListing-data" valign="top"><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . tep_get_prid($products[$i]['id'])) . '"><b>' . $products[$i]['name'] .  '</b></a>';
       
                                         //mod for parent-child functionality by (MA) BOF    
                                     }

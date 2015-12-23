@@ -396,15 +396,15 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
                             }
 
                             if ($status_tmp_product_prices_table == true) {
-                                $from_str = "from " . TABLE_PRODUCTS . " p left join " . TABLE_MANUFACTURERS . " m using(manufacturers_id) left join " . $product_prices_table . " as tmp_pp using(products_id)";
+                                $from_str = "from " . TABLE_PRODUCTS . " p left join " . TABLE_MANUFACTURERS . " m using(manufacturers_id) left join " . $product_prices_table . " as tmp_pp using(products_id)  left join " . TABLE_SPECIALS . " s on p.products_id=s.products_id ";
                             } elseif ($status_tmp_special_prices_table == true) {
                                 $from_str = "from " . TABLE_PRODUCTS . " p left join " . TABLE_MANUFACTURERS . " m using(manufacturers_id) left join " . TABLE_SPECIALS_RETAIL_PRICES . " s on p.products_id = s.products_id ";
                             } else {
-                                $from_str = "from " . TABLE_PRODUCTS . " p left join " . TABLE_MANUFACTURERS . " m using(manufacturers_id) ";
+                                $from_str = "from " . TABLE_PRODUCTS . " p left join " . TABLE_MANUFACTURERS . " m using(manufacturers_id)  left join " . TABLE_SPECIALS . " s on p.products_id=s.products_id ";
                             }
                             // EOF Separate Pricing Per Customer
 
-                            $from_str .= " left join " . TABLE_SPECIALS . " s1 on p.products_id=s1.products_id ";
+                           // $from_str .= " left join " . TABLE_SPECIALS . " s1 on p.products_id=s1.products_id ";
 
                             if ((DISPLAY_PRICE_WITH_TAX == 'true') && (tep_not_null($pfrom) || tep_not_null ($pto))) {
                                 if (!tep_session_is_registered('customer_country_id')) {
