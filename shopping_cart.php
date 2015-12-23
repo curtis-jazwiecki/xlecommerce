@@ -225,6 +225,7 @@ $breadcrumb->add(NAVBAR_TITLE, tep_href_link(FILENAME_SHOPPING_CART));
       
                                         //mod for parent-child functionality by (MA) BOF    
                                     }
+									
                                     //mod for parent-child functionality by (MA) EOF
                                     /*if (STOCK_CHECK == 'true') {
                                         $stock_check = tep_check_stock($products[$i]['id'], $products[$i]['quantity']);
