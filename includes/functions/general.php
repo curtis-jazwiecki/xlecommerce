@@ -194,31 +194,21 @@
 
   function tep_get_products_special_price($product_id) {
 
-    $product_query = tep_db_query("select specials_new_products_price from " . TABLE_SPECIALS . " where products_id = '" . (int)$product_id . "' and status");
+    //$product_query = tep_db_query("select specials_new_products_price from " . TABLE_SPECIALS . " where products_id = '" . (int)$product_id . "' and status");
 
       // BOF Separate Pricing Per Customer
 
- /* if (isset($_SESSION['sppc_customer_group_id']) && $_SESSION['sppc_customer_group_id'] != '0') {
+		if (isset($_SESSION['sppc_customer_group_id']) && $_SESSION['sppc_customer_group_id'] != '0') {
+			$customer_group_id = $_SESSION['sppc_customer_group_id'];
+		} else {
+			$customer_group_id = '0';
+		}
 
-    $customer_group_id = $_SESSION['sppc_customer_group_id'];
+        $product_query = tep_db_query("select specials_new_products_price from " . TABLE_SPECIALS . " where products_id = '" . (int)$product_id . "' and status and customers_group_id = '" . (int)$customer_group_id . "'");
 
-  } else {
-
-    $customer_group_id = '0';
-
-  }*/
-
-
-
-      //  $product_query = tep_db_query("select specials_new_products_price from " . TABLE_SPECIALS . " where products_id = '" . (int)$product_id . "' and status and customers_group_id = '" . (int)$customer_group_id . "'");
-
-// EOF Separate Pricing Per Customer
-
-
+	 // EOF Separate Pricing Per Customer
 
     $product = tep_db_fetch_array($product_query);
-
-
 
     return $product['specials_new_products_price'];
 
