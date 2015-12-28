@@ -198,7 +198,7 @@ if(FEATURED_PRODUCTS_DISPLAY == 'true'){
 
 				//BOF seperate pricing
 
-				$pg_query = tep_db_query("select pg.products_id, customers_group_price as price from " . TABLE_PRODUCTS_GROUPS . " pg where pg.products_id = '".$featured_products['products_id']."' and pg.customers_group_id = '" . $customer_group_id . "'");
+				$pg_query = tep_db_query("select pg.products_id, customers_group_price as price from " . TABLE_PRODUCTS_GROUPS . " pg where pg.products_id = '".$featured_products['products_id']."' and pg.customers_group_id = '" . $customer_group_id . "' and pg.customers_group_id <> 0");
 
 				if(tep_db_num_rows($pg_query)){
 
@@ -336,7 +336,7 @@ if(FEATURED_PRODUCTS_DISPLAY == 'true'){
 
 				//BOF seperate pricing
 
-				$pg_query = tep_db_query("select pg.products_id, customers_group_price as price from " . TABLE_PRODUCTS_GROUPS . " pg where pg.products_id = '".$featured_products['products_id']."' and pg.customers_group_id = '" . $customer_group_id . "'");
+				$pg_query = tep_db_query("select pg.products_id, customers_group_price as price from " . TABLE_PRODUCTS_GROUPS . " pg where pg.products_id = '".$featured_products['products_id']."' and pg.customers_group_id = '" . $customer_group_id . "' and pg.customers_group_id <> 0");
 
 				if(tep_db_num_rows($pg_query)){
 
