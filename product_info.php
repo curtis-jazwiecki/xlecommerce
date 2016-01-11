@@ -57,23 +57,11 @@ $check_parent_exist = tep_db_fetch_array($check_parent_exist_query);
 
 if (!empty($check_parent_exist['parent_products_model'])) {
 
-
-
     $get_parent_id_query = tep_db_query("select p.products_id from " . TABLE_PRODUCTS . " p where products_model = '" . $check_parent_exist['parent_products_model'] . "'");
-
-
 
     if (tep_db_num_rows($get_parent_id_query)) {
 
-
-
         $get_parent_id = tep_db_fetch_array($get_parent_id_query);
-
-
-
-
-
-
 
         tep_redirect(tep_href_link('product_info.php', 'products_id=' . $get_parent_id['products_id']));
     }
@@ -89,29 +77,13 @@ $product_check_query = tep_db_query("select count(*) as total,hide_price from " 
 
 $product_check = tep_db_fetch_array($product_check_query);
 
-
-
-
-
-
-
-
-
-
-
 // BOF Separate Pricing per Customer
 
-
-
-if (isset($_SESSION['sppc_customer_group_id']) && $_SESSION['sppc_customer_group_id'] !=
-        '0') {
-
-
+if (isset($_SESSION['sppc_customer_group_id']) && $_SESSION['sppc_customer_group_id'] != '0') {
 
     $customer_group_id = $_SESSION['sppc_customer_group_id'];
+
 } else {
-
-
 
     $customer_group_id = '0';
 }
@@ -119,47 +91,30 @@ if (isset($_SESSION['sppc_customer_group_id']) && $_SESSION['sppc_customer_group
 // EOF Separate Pricing per Customer
 
 
-
-
-
-
-
 function get_stock_message($quantity) {
-
-
 
     $resp = '';
 
-
-
     $quantity = (int) $quantity;
-
-
 
     if ($quantity <= 0)
         $resp = 'Out of Stock';
-
-
 
     elseif ($quantity <= 10)
         $resp = 'Low Stock';
     else
         $resp = 'In Stock';
 
-
-
-
-
-
-
     return $resp;
 }
+
+$is_package_out_of_stock = false; // added on 30-12-2015
 
 function display_bundle($bundle_id, $bundle_price) {
 
 
 
-    global $languages_id, $product_info, $currencies;
+    global $languages_id, $product_info, $currencies,$is_package_out_of_stock;
 
 
 
@@ -183,54 +138,37 @@ function display_bundle($bundle_id, $bundle_price) {
 
 
 
-    $bundle_query = tep_db_query("select pb.*, p.products_bundle, p.products_id, p.products_model, p.products_price, p.products_image, pd.products_name from products_bundles pb inner join products p on pb.subproduct_id=p.products_id inner join products_description pd on (p.products_id=pd.products_id and pd.language_id='" . (int) $languages_id . "') where pb.bundle_id='" . (int) $bundle_id . "'");
+    $bundle_query = tep_db_query("select pb.*, p.products_bundle, p.products_id, p.products_model, p.products_price, p.products_image, pd.products_name, p.products_quantity from products_bundles pb inner join products p on pb.subproduct_id=p.products_id inner join products_description pd on (p.products_id=pd.products_id and pd.language_id='" . (int) $languages_id . "') where pb.bundle_id='" . (int) $bundle_id . "'");
 
 
-
+    
+    
     while ($bundle_data = tep_db_fetch_array($bundle_query)) {
 
-
-
         $return_str .= "<tr><td class=main valign=top style='padding-top:10px;'>";
-
+        
+        if($bundle_data['products_quantity'] < 1){
+            
+            $is_package_out_of_stock = true;
+        }
 
 
         $return_str .= '<a href="' . tep_href_link(FILENAME_PRODUCT_INFO, ($cPath ? 'cPath=' . $cPath . '&' : '') . 'products_id=' . $bundle_data['products_id']) . '" target="_blank">' . tep_small_image($bundle_data['products_image'], $bundle_data['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="1" vspace="1"') . '</a></td>';
 
 
-
-
-
-
-
         // comment out the following line to hide the subproduct qty
-
-
 
         $return_str .= "<td class=main align=right><b>" . $bundle_data['subproduct_qty'] . "&nbsp;x&nbsp;</b></td>";
 
-
-
         $return_str .= '<td class=main><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, ($cPath ? 'cPath=' . $cPath . '&' : '') . 'products_id=' . $bundle_data['products_id']) . '" target="_blank"><b>&nbsp;(' . $bundle_data['products_model'] . ') ' . $bundle_data['products_name'] . '</b></a>';
-
-
-
-
-
 
 
         if ($bundle_data['products_bundle'] == "yes")
             display_bundle($bundle_data['subproduct_id'], $bundle_data['products_price']);
 
-
-
         $return_str .= '</td>';
 
-
-
         $return_str .= '<td align=right class=main><b>&nbsp;' . $currencies->display_price($bundle_data['products_price'], tep_get_tax_rate($product_info['products_tax_class_id'])) . "</b></td></tr>\n";
-
-
 
         $bundle_sum += $bundle_data['products_price'] * $bundle_data['subproduct_qty'];
     }
@@ -1872,6 +1810,12 @@ if ($product_check['total'] < 1 || !$manufacturer_is_active) {
         else
             $display_products_stock = STORE_STOCK_OUT_OF_STOCK_MESSAGE;
     }
+    
+    
+    if($is_package_out_of_stock){
+        
+        $display_products_stock = STORE_STOCK_OUT_OF_STOCK_MESSAGE;
+    }
 
 
 
@@ -1880,6 +1824,16 @@ if ($product_check['total'] < 1 || !$manufacturer_is_active) {
     } else {
         $display_products_price = $products_price;
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 
 

@@ -17,10 +17,7 @@ if($selected_category_template == 0){
         $width = (100 / MAX_DISPLAY_CATEGORIES_PER_ROW) . '%';
         $deespest_category  = tep_get_deepest_category($categories['categories_id']);
 		
-		echo '<pre>';
-		print_r($deespest_category);
-		
-        $products_in_category = tep_count_products_in_category($deespest_category);
+		$products_in_category = tep_count_products_in_category($deespest_category);
 		if( tep_not_null($categories['categories_image']) || ($categories['categories_image'] == '' && $products_in_category > 0) ){
 		//if (((!tep_not_null($categories['categories_image'])) || $categories['categories_image'] == '') && $products_in_category > 0){
 			
@@ -90,7 +87,7 @@ if($selected_category_template == 0){
         $deespest_category  = tep_get_deepest_category($categories['categories_id']);
 		
 		$products_in_category = tep_count_products_in_category($deespest_category);
-        if (((tep_not_null($categories['categories_image'])) || $categories['categories_image'] == '') && $products_in_category > 0){
+        if ( (tep_not_null($categories['categories_image'])) || ($categories['categories_image'] == '' && $products_in_category > 0)){
 			
 			if($categories['categories_image'] != ''){
                 $display_image = '<img src="images/'.$categories['categories_image'].'" class="subcatimages" border="0" />';
@@ -174,7 +171,7 @@ if($selected_category_template == 0){
         $deespest_category  = tep_get_deepest_category($categories['categories_id']);
 
         $products_in_category = tep_count_products_in_category($deespest_category);
-        if (((!tep_not_null($categories['categories_image'])) || $categories['categories_image'] == '') && $products_in_category > 0){
+        if ( (tep_not_null($categories['categories_image'])) || ($categories['categories_image'] == '' && $products_in_category > 0)){
 			if($categories['categories_image'] != ''){
                 $display_image = '<img src="images/'.$categories['categories_image'].'" class="subcatimages" border="0" />';
 			} else {
@@ -252,7 +249,7 @@ if($selected_category_template == 0){
         $deespest_category  = tep_get_deepest_category($categories['categories_id']);
 
         $products_in_category = tep_count_products_in_category($deespest_category);
-        if (((!tep_not_null($categories['categories_image'])) || $categories['categories_image'] == '') && $products_in_category > 0){
+        if ( (tep_not_null($categories['categories_image'])) || ($categories['categories_image'] == '' && $products_in_category > 0)){
 			if($categories['categories_image'] != ''){
 				$display_image = '<img src="images/'.$categories['categories_image'].'" class="subcatimages" border="0" />';
 			} else {
@@ -321,7 +318,7 @@ if($selected_category_template == 0){
         $deespest_category  = tep_get_deepest_category($categories['categories_id']);
 
         $products_in_category = tep_count_products_in_category($deespest_category);
-        if (((!tep_not_null($categories['categories_image'])) || $categories['categories_image'] == '') && $products_in_category > 0){
+        if ( (tep_not_null($categories['categories_image'])) || ($categories['categories_image'] == '' && $products_in_category > 0)){
 			if($categories['categories_image'] != ''){
 				$display_image = '<img src="images/'.$categories['categories_image'].'" class="subcatimages" border="0" />';
 			} else {
