@@ -210,19 +210,19 @@ function rowOutEffect(object) {
 
 ?>
 
-          <table border="0" width="100%" cellspacing="1" cellpadding="2" class="productListing-heading">
+          <table border="0" width="100%" cellspacing="1" cellpadding="2" class="productListing-heading productsHeading">
 
-            <tr class="productListing-heading">
+            <tr class="productListing-heading productsHeading">
 
-              <td class="productListing-heading"width="13%"><?php echo HEADING_ORDER_DATE; ?></td>
+              <td class="productListing-heading productsHeading"width="13%"><?php echo HEADING_ORDER_DATE; ?></td>
 
-              <td class="productListing-heading"width="25%"><?php echo HEADING_ORDERS_NUMBER; ?></td>
+              <td class="productListing-heading productsHeading"width="25%"><?php echo HEADING_ORDERS_NUMBER; ?></td>
 
-              <td class="productListing-heading" width="35%"><?php echo HEADING_POINTS_COMMENT; ?></td>
+              <td class="productListing-heading productsHeading" width="35%"><?php echo HEADING_POINTS_COMMENT; ?></td>
 
-              <td class="productListing-heading"><?php echo HEADING_POINTS_STATUS; ?></td>
+              <td class="productListing-heading productsHeading"><?php echo HEADING_POINTS_STATUS; ?></td>
 
-              <td class="productListing-heading" align="right"><?php echo HEADING_POINTS_TOTAL; ?></td>
+              <td class="productListing-heading productsHeading" align="right"><?php echo HEADING_POINTS_TOTAL; ?></td>
 
             </tr>
 
@@ -320,7 +320,7 @@ function rowOutEffect(object) {
 
 ?>
 
-        <tr class="moduleRow" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="document.location.href='<?php echo tep_href_link(FILENAME_PRODUCT_REVIEWS_INFO, 'products_id=' . $pending_points['orders_id'], 'NONSSL'); ?>'" title="<?php echo TEXT_REVIEW_HISTORY; ?>">
+        <tr class="moduleRow" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="document.location.href='<?php echo tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $pending_points['orders_id'], 'NONSSL'); ?>'" title="<?php echo TEXT_REVIEW_HISTORY; ?>">
 
 <?php
 

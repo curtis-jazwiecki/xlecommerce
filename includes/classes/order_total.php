@@ -97,14 +97,14 @@
       $credit_class_string = '';
       if (MODULE_ORDER_TOTAL_INSTALLED) {
         $header_string = '<tr>' . "\n";
-        $header_string .= '   <td><table border="0" width="100%" cellspacing="0" cellpadding="2">' . "\n";
+        $header_string .= '   <td><table border="0" width="100%" cellspacing="0" cellpadding="2" class="infoBox infoBox_text">' . "\n";
         $header_string .= '      <tr>' . "\n";
         $header_string .= '        <td class="main"><b>' . TABLE_HEADING_CREDIT . '</b></td>' . "\n";
         $header_string .= '      </tr>' . "\n";
         $header_string .= '    </table></td>' . "\n";
         $header_string .= '  </tr>' . "\n";
         $header_string .= '<tr>' . "\n";
-        $header_string .= '   <td><table border="0" width="100%" cellspacing="1" cellpadding="2" class="infoBox">' . "\n";
+        $header_string .= '   <td><table border="0" width="100%" cellspacing="1" cellpadding="2" class="infoBox infoBox_text">' . "\n";
         $header_string .= '     <tr class="infoBoxContents"><td><table border="0" width="100%" cellspacing="0" cellpadding="2">' ."\n";
         $header_string .= '       <tr><td width="10">' .  tep_draw_separator('pixel_trans.gif', '10', '1') .'</td>' . "\n";
         $header_string .= '           <td colspan="2"><table border="0" width="100%" cellspacing="0" cellpadding="2">' . "\n";

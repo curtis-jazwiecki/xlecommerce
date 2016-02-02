@@ -311,13 +311,31 @@ exit;
   }
 
 ?>
+<?php
+$sts->template['action_url'] =  tep_href_link(FILENAME_LOGIN, 'action=process', 'SSL');
+$sts->template['forgot_password_url'] =  tep_href_link(FILENAME_PASSWORD_FORGOTTEN, '', 'SSL');
+$sts->template['create_account_url'] =  tep_href_link(FILENAME_CREATE_ACCOUNT, '', 'SSL');
+$sts->template['cart_product_count'] =  (($cart->count_contents() > 0) ? $cart->count_contents(): 0);
 
+if ($messageStack->size('login') > 0) {
+    $sts->template['message'] = $messageStack->output('login');
+}else{
+	$sts->template['message'] = '';
+}
+
+if (defined('PURCHASE_WITHOUT_ACCOUNT') && ($cart->count_contents() > 0) && (PURCHASE_WITHOUT_ACCOUNT == 'ja' || PURCHASE_WITHOUT_ACCOUNT == 'yes')) {
+	$sts->template['purchase_without_account'] = true;
+}else{
+	$sts->template['purchase_without_account'] = false;
+}
+
+$sts->template['guest_checkout_url'] = tep_href_link(FILENAME_CREATE_ACCOUNT, 'guest=guest', 'SSL');
+$sts->template['shopping_cart_info_page'] = tep_href_link(FILENAME_INFO_SHOPPING_CART);
+?>
 <!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN">
 
 <html <?php echo HTML_PARAMS; ?>>
-
 <head>
-
 <?php
 
 
@@ -330,10 +348,8 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
 
 } else {
 
-?> 
-
-  <title><?php echo TITLE; ?></title>
-
+?>
+<title><?php echo TITLE; ?></title>
 <?php
 
 }
@@ -341,21 +357,13 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
 // EOF: Header Tag Controller v2.6.0
 
 ?>
-
 <base href="<?php echo (($request_type == 'SSL') ? HTTPS_SERVER : HTTP_SERVER) . DIR_WS_CATALOG; ?>">
-
 <link rel="stylesheet" type="text/css" href="stylesheet.css">
-
 <script language="javascript"><!--
-
 function session_win() {
-
   window.open("<?php echo tep_href_link(FILENAME_INFO_SHOPPING_CART); ?>","info_shopping_cart","height=460,width=430,toolbar=no,statusbar=no,scrollbars=yes").focus();
-
 }
-
 //--></script>
-
 </head>
 
 <body marginwidth="0" marginheight="0" topmargin="0" bottommargin="0" leftmargin="0" rightmargin="0">
@@ -364,175 +372,101 @@ function session_win() {
 
 <?php require(DIR_WS_INCLUDES . 'header.php'); ?>
 
-<!-- header_eof //-->
-
-
+<!-- header_eof //--> 
 
 <!-- body //-->
 
 <table border="0" width="100%" cellspacing="3" cellpadding="3">
-
   <tr>
-
     <td width="<?php echo BOX_WIDTH; ?>" valign="top"><table border="0" width="<?php echo BOX_WIDTH; ?>" cellspacing="0" cellpadding="2">
+        
+        <!-- left_navigation //-->
+        
+        <?php require(DIR_WS_INCLUDES . 'column_left.php'); ?>
+        
+        <!-- left_navigation_eof //-->
+        
+      </table></td>
+    
+    <!-- body_text //-->
+    
+    <td width="100%" valign="top"><?php echo tep_draw_form('login', tep_href_link(FILENAME_LOGIN, 'action=process', 'SSL')); ?>
+      <table border="0" width="100%" cellspacing="0" cellpadding="0">
+        <tr>
+          <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
+              <tr>
+                <td class="pageHeading"><?php echo HEADING_TITLE; ?></td>
+                <td class="pageHeading" align="right"><?php echo tep_image(DIR_WS_IMAGES . 'table_background_login.gif', HEADING_TITLE, HEADING_IMAGE_WIDTH, HEADING_IMAGE_HEIGHT); ?></td>
+              </tr>
+            </table></td>
+        </tr>
+        <tr>
+          <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
+        </tr>
+        <?php
 
-<!-- left_navigation //-->
+  	if ($messageStack->size('login') > 0) {?>
+        <tr>
+          <td><?php echo $messageStack->output('login'); ?></td>
+        </tr>
+        <tr>
+          <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
+        </tr>
+        <?php
+  	}
 
-<?php require(DIR_WS_INCLUDES . 'column_left.php'); ?>
-
-<!-- left_navigation_eof //-->
-
-    </table></td>
-
-<!-- body_text //-->
-
-    <td width="100%" valign="top"><?php echo tep_draw_form('login', tep_href_link(FILENAME_LOGIN, 'action=process', 'SSL')); ?><table border="0" width="100%" cellspacing="0" cellpadding="0">
-
-      <tr>
-
-        <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
-
-          <tr>
-
-            <td class="pageHeading"><?php echo HEADING_TITLE; ?></td>
-
-            <td class="pageHeading" align="right"><?php echo tep_image(DIR_WS_IMAGES . 'table_background_login.gif', HEADING_TITLE, HEADING_IMAGE_WIDTH, HEADING_IMAGE_HEIGHT); ?></td>
-
-          </tr>
-
-        </table></td>
-
-      </tr>
-
-      <tr>
-
-        <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
-
-      </tr>
-
-<?php
-
-  if ($messageStack->size('login') > 0) {
-
-      $sts->template['message'] = $messageStack->output('login');
-
-?>
-
-      <tr>
-
-        <td><?php echo $messageStack->output('login'); ?></td>
-
-      </tr>
-
-      <tr>
-
-        <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
-
-      </tr>
-
-<?php
-
-  } else {
-
-      $sts->template['message'] = '';
-
-  }
-
-
-
-  if ($cart->count_contents() > 0) {
-
-?>
-
-      <tr>
-
-        <td class="smallText"><?php echo TEXT_VISITORS_CART; ?></td>
-
-      </tr>
-
-      <tr>
-
-        <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
-
-      </tr>
-
-<?php
-
-  }
-
-?>
-
-      <tr>
-
+    if ($cart->count_contents() > 0) {?>
+        <tr>
+          <td class="smallText"><?php echo TEXT_VISITORS_CART; ?></td>
+        </tr>
+        <tr>
+          <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
+        </tr>
+        <?php
+   }?>
+        <tr>
           <td class="login_box"><table border="0" width="100%" cellspacing="0" cellpadding="2" class="logintable">
-
-<?php
+              <?php
 
   // PWA BOF
 
   if (defined('PURCHASE_WITHOUT_ACCOUNT') && ($cart->count_contents() > 0) && (PURCHASE_WITHOUT_ACCOUNT == 'ja' || PURCHASE_WITHOUT_ACCOUNT == 'yes')) {
 
 ?>
-
-          <tr id="onepagecheckout"> 
-
-            <td colspan="2" width="100%"><table border="0" width="100%" height="100%" cellspacing="1" cellpadding="2" class="infoBox">
-
-              <tr class="infoBoxContents">
-
-                <td><table border="0" width="100%" height="100%" cellspacing="0" cellpadding="2">
-
-                  <tr>
-
-                    <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
-
-                  </tr>
-
-                  <tr>
-
-                    <td class="main"><?php echo TEXT_GUEST_INTRODUCTION; ?></td>
-
-                  </tr>
-
-                  <tr>
-
-                    <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
-
-                  </tr>
-
-                  <tr>
-
-                    <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
-
-                      <tr>
-
-                        <td width="10"><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
-
-                        <td align="right"><?php echo '<a href="' . tep_href_link(FILENAME_CREATE_ACCOUNT, 'guest=guest', 'SSL') . '">' . tep_image_button('button_checkout.gif', IMAGE_BUTTON_CONTINUE) . '</a>'; ?></td>
-
-                        <td width="10"><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
-
-                      </tr>
-
-                    </table></td>
-
-                  </tr>
-
-                </table></td>
-
+              <tr id="onepagecheckout">
+                <td colspan="2" width="100%"><table border="0" width="100%" height="100%" cellspacing="1" cellpadding="2" class="infoBox">
+                    <tr class="infoBoxContents">
+                      <td><table border="0" width="100%" height="100%" cellspacing="0" cellpadding="2">
+                          <tr>
+                            <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
+                          </tr>
+                          <tr>
+                            <td class="main"><?php echo TEXT_GUEST_INTRODUCTION; ?></td>
+                          </tr>
+                          <tr>
+                            <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
+                          </tr>
+                          <tr>
+                            <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
+                                <tr>
+                                  <td width="10"><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
+                                  <td align="right"><?php echo '<a href="' . tep_href_link(FILENAME_CREATE_ACCOUNT, 'guest=guest', 'SSL') . '">' . tep_image_button('button_checkout.gif', IMAGE_BUTTON_CONTINUE) . '</a>'; ?></td>
+                                  <td width="10"><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
+                                </tr>
+                              </table></td>
+                          </tr>
+                        </table></td>
+                    </tr>
+                  </table></td>
               </tr>
-
-            </table></td>
-
-          </tr>
-
-<?php
+              <?php
 
   }
 
   // PWA EOF
 
-?>          <table border="0" width="50%" cellspacing="0" cellpadding="2" class="logintable table_login_responsive">
+?>
+             <table border="0" width="50%" cellspacing="0" cellpadding="2" class="logintable table_login_responsive">
 
           <tr id="tr1">
 
@@ -803,44 +737,36 @@ function session_win() {
           </tr>
 
           </table>
-
-        </table></td>
-
-      </tr>
-
-    </table></form></td>
-
-<!-- body_text_eof //-->
-
+  
+              
+            </table></td>
+        </tr>
+      </table>
+      </form></td>
+    
+    <!-- body_text_eof //-->
+    
     <td width="<?php echo BOX_WIDTH; ?>" valign="top"><table border="0" width="<?php echo BOX_WIDTH; ?>" cellspacing="0" cellpadding="2">
-
-<!-- right_navigation //-->
-
-<?php require(DIR_WS_INCLUDES . 'column_right.php'); ?>
-
-<!-- right_navigation_eof //-->
-
-    </table></td>
-
+        
+        <!-- right_navigation //-->
+        
+        <?php require(DIR_WS_INCLUDES . 'column_right.php'); ?>
+        
+        <!-- right_navigation_eof //-->
+        
+      </table></td>
   </tr>
-
 </table>
 
-<!-- body_eof //-->
-
-
+<!-- body_eof //--> 
 
 <!-- footer //-->
 
 <?php require(DIR_WS_INCLUDES . 'footer.php'); ?>
 
-<!-- footer_eof //-->
+<!-- footer_eof //--> 
 
 <br>
-
 </body>
-
 </html>
-
 <?php require(DIR_WS_INCLUDES . 'application_bottom.php'); ?>
-

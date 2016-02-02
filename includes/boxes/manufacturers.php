@@ -18,7 +18,7 @@
             <td>
 <?php
     $info_box_contents = array();
-    $info_box_contents[] = array('text' => tep_image(DIR_WS_IMAGES . 'manufacturers.jpg', BOX_HEADING_MANUFACTURERS));
+    //$info_box_contents[] = array('text' => tep_image(DIR_WS_IMAGES . 'manufacturers.jpg', BOX_HEADING_MANUFACTURERS));
 
     new infoBoxHeading($info_box_contents, false, false);
 

@@ -248,7 +248,7 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
 <!-- body_text //-->
     <td width="100%" valign="top" colspan="3"><table border="0" width="100%" cellspacing="0" cellpadding="0">
       <tr>
-        <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
+        <td><table border="0" width="100%" cellspacing="0" cellpadding="0" class="Order Confirmation">
           <tr>
             <td class="pageHeading"><?php echo HEADING_TITLE; ?></td>
             <td class="pageHeading" align="right"><?php //echo tep_image(DIR_WS_IMAGES . 'table_background_confirmation.gif', HEADING_TITLE, HEADING_IMAGE_WIDTH, HEADING_IMAGE_HEIGHT); ?></td>
@@ -259,12 +259,12 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
         <td colspan="3"><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
       </tr>
 	  <tr><td colspan="3"><table cellpadding="0" cellspacing="0" border="0" width="100%">
-			  <tr><td background="images/template/checkout_bg.gif" style="background-repeat:repeat-x"><?php echo '<a href="' . tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL') . '">'
-			. tep_image(DIR_WS_IMAGES . 'template/checkout_shipping.gif') . '</a>';?></td>
+			  <tr><td background="images/template/checkout_bg.gif" style="background-repeat:repeat-x" class="image_progress_bar"><?php echo '<a href="' . tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL') . '">'
+			. tep_image(DIR_WS_IMAGES . 'template/checkout_shipping.gif','','100%','auto') . '</a>';?></td>
 			  
-			  	<td background="images/template/checkout_bg.gif" style="background-repeat:repeat-x"><?php echo '<a href="' . tep_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL') . '">'.tep_image(DIR_WS_IMAGES . 'template/checkout_payment.gif') . '</a>';?></td>
-			  	<td background="images/template/checkout_bg.gif" style="background-repeat:repeat-x"><?php echo tep_image(DIR_WS_IMAGES . 'template/checkout_confirmation_active.gif'); ?></td>
-			  	<td><?php echo tep_image(DIR_WS_IMAGES . 'template/checkout_success.gif'); ?></td>
+			  	<td background="images/template/checkout_bg.gif" style="background-repeat:repeat-x" class="image_progress_bar"><?php echo '<a href="' . tep_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL') . '">'.tep_image(DIR_WS_IMAGES . 'template/checkout_payment.gif','','100%','auto') . '</a>';?></td>
+			  	<td background="images/template/checkout_bg.gif" style="background-repeat:repeat-x" class="image_progress_bar"><?php echo tep_image(DIR_WS_IMAGES . 'template/checkout_confirmation_active.gif','','100%','auto'); ?></td>
+			  	<td class="image_progress_bar"><?php echo tep_image(DIR_WS_IMAGES . 'template/checkout_success.gif','','100%','auto'); ?></td>
 			  </tr>
 			  </table>
 	</td></tr>

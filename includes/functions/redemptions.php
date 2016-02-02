@@ -352,14 +352,14 @@
           <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
         </tr>
         <tr>
-          <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
+          <td><table border="0" width="100%" cellspacing="0" cellpadding="2" class="infoBox infoBox_text">
             <tr>
               <td class="main"><b><?php echo TABLE_HEADING_REDEEM_SYSTEM; ?></b></td>
           </tr>
         </table></td>
       </tr>
       <tr>
-        <td><table border="0" width="100%" cellspacing="1" cellpadding="2" class="infoBox">
+        <td><table border="0" width="100%" cellspacing="1" cellpadding="2" class="infoBox infoBox_text">
           <tr class="infoBoxContents">
             <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
               <tr>

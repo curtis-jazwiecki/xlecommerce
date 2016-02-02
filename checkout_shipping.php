@@ -505,24 +505,24 @@ echo tep_draw_separator('pixel_trans.gif', '100%', '10');
 ?></td>
       </tr>
     <tr><td><table cellpadding="0" cellspacing="0" border="0" width="100%">
-        <tr><td background="images/template/checkout_bg.gif" style="background-repeat:repeat-x"><?php
+        <tr><td background="images/template/checkout_bg.gif" style="background-repeat:repeat-x" class="image_progress_bar"><?php
 
-echo tep_image(DIR_WS_IMAGES . 'template/checkout_shipping_active.gif');
-
-?></td>
-          <td background="images/template/checkout_bg.gif" style="background-repeat:repeat-x"><?php
-
-echo tep_image(DIR_WS_IMAGES . 'template/checkout_payment.gif');
+echo tep_image(DIR_WS_IMAGES . 'template/checkout_shipping_active.gif','','100%','auto');
 
 ?></td>
-          <td background="images/template/checkout_bg.gif" style="background-repeat:repeat-x"><?php
+          <td background="images/template/checkout_bg.gif" style="background-repeat:repeat-x" class="image_progress_bar"><?php
 
-echo tep_image(DIR_WS_IMAGES . 'template/checkout_confirmation.gif');
+echo tep_image(DIR_WS_IMAGES . 'template/checkout_payment.gif','','100%','auto');
 
 ?></td>
-          <td><?php
+          <td background="images/template/checkout_bg.gif" style="background-repeat:repeat-x" class="image_progress_bar"><?php
 
-echo tep_image(DIR_WS_IMAGES . 'template/checkout_success.gif');
+echo tep_image(DIR_WS_IMAGES . 'template/checkout_confirmation.gif','','100%','auto');
+
+?></td>
+          <td class="image_progress_bar"><?php
+
+echo tep_image(DIR_WS_IMAGES . 'template/checkout_success.gif','','100%','auto');
 
 ?></td>
         </tr>
@@ -553,7 +553,7 @@ echo tep_draw_separator('pixel_trans.gif', '10', '1');
 echo (($customer_id > 0 || (defined('PURCHASE_WITHOUT_ACCOUNT_SEPARATE_SHIPPING') &&
     PURCHASE_WITHOUT_ACCOUNT_SEPARATE_SHIPPING == 'yes')) ?
     TEXT_CHOOSE_SHIPPING_DESTINATION . '<br><br><a href="' . tep_href_link(FILENAME_CHECKOUT_SHIPPING_ADDRESS,
-    '', 'SSL') . '">' . tep_image_button('button_change_address.gif',
+    '', 'SSL') . '" class="btn_img">' . tep_image_button('button_change_address.gif',
     IMAGE_BUTTON_CHANGE_ADDRESS) . '</a>' : '&nbsp;');
 
 ?></td>

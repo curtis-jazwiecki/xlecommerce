@@ -232,13 +232,13 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
 
 		<tr><td colspan="3"><table cellpadding="0" cellspacing="0" border="0" width="100%">
 
-			  <tr><td background="images/template/checkout_bg.gif" style="background-repeat:repeat-x"><?php echo tep_image(DIR_WS_IMAGES . 'template/checkout_shipping.gif'); ?></a></td>
+			  <tr><td background="images/template/checkout_bg.gif" style="background-repeat:repeat-x" class="image_progress_bar"><?php echo tep_image(DIR_WS_IMAGES . 'template/checkout_shipping.gif','','100%','auto'); ?></a></td>
 
-			  	<td background="images/template/checkout_bg.gif" style="background-repeat:repeat-x"><?php echo tep_image(DIR_WS_IMAGES . 'template/checkout_payment.gif'); ?></a></td>
+			  	<td background="images/template/checkout_bg.gif" style="background-repeat:repeat-x" class="image_progress_bar"><?php echo tep_image(DIR_WS_IMAGES . 'template/checkout_payment.gif','','100%','auto'); ?></a></td>
 
-			  	<td background="images/template/checkout_bg.gif" style="background-repeat:repeat-x"><?php echo tep_image(DIR_WS_IMAGES . 'template/checkout_confirmation.gif'); ?></a></td>
+			  	<td background="images/template/checkout_bg.gif" style="background-repeat:repeat-x" class="image_progress_bar"><?php echo tep_image(DIR_WS_IMAGES . 'template/checkout_confirmation.gif','','100%','auto'); ?></a></td>
 
-			  	<td><?php echo tep_image(DIR_WS_IMAGES . 'template/checkout_success_active.gif'); ?></td>
+			  	<td class="image_progress_bar"><?php echo tep_image(DIR_WS_IMAGES . 'template/checkout_success_active.gif','','100%','auto'); ?></td>
 
 			  </tr>
 

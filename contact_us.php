@@ -197,6 +197,8 @@ for($p=0;sizeof($contact_us_template_0) > $p; $p++){
                                                     echo $info['information_description'];
                                                     ?>
                                                 </td>
+                                                </tr>
+                                                <tr>
                                                 <td class="main" valign="top" width="40%"><br>
                                                     Name:<br>
                                                     <?php echo tep_draw_input_field('name'); ?><br />

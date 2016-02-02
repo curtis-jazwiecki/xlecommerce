@@ -2239,9 +2239,13 @@ function getCategoriesHtmlTpl19($parent_id='0', $level = '0'){
 
             $response .= '<a href="' . tep_href_link(FILENAME_DEFAULT, 'cPath=' . $cPath) . '">' . $category['categories_name'] . '</a>' . "\n";
 
+   $new_sql = tep_db_query("select count(*) from " . TABLE_CATEGORIES . " c inner join " . TABLE_CATEGORIES_DESCRIPTION . " cd on (c.categories_id=cd.categories_id and cd.language_id='1') where c.parent_id='" . (int)$category['categories_id'] . "' and c.categories_status='1' having count(*)>0  order by cd.categories_name");
+		$count = tep_db_num_rows($new_sql);			
+			if($count) {
+            	$response .= '<div class="drop-box-subsubcat responsive_position" style="display: none;">';
+			}
 
-
-            $response .= '<div class="drop-box-subsubcat responsive_position" style="display: none;">';
+           // $response .= '<div class="drop-box-subsubcat responsive_position" style="display: none;">';
 
 
 
@@ -2269,7 +2273,10 @@ function getCategoriesHtmlTpl19($parent_id='0', $level = '0'){
 
 
 
+            //$response .= getCategoriesHtmlTpl19($category['categories_id'], $level + 1);
+            if($count) {
             $response .= getCategoriesHtmlTpl19($category['categories_id'], $level + 1);
+			}
 
 
 
@@ -2280,9 +2287,9 @@ function getCategoriesHtmlTpl19($parent_id='0', $level = '0'){
         if ($parent_id=='0'){
 
 
-
+            if($count) {
             $response .= '</div>';
-
+            }
 
 
             $response .= '</div>';

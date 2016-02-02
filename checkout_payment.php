@@ -336,11 +336,11 @@ document.checkout_payment.cot_gv.checked=!document.checkout_payment.cot_gv.check
         <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
       </tr>
 	  <tr><td><table cellpadding="0" cellspacing="0" border="0" width="100%">
-			  <tr><td background="images/template/checkout_bg.gif" style="background-repeat:repeat-x"><?php echo '<a href="' . tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL') . '">'
-			. tep_image(DIR_WS_IMAGES . 'template/checkout_shipping.gif') . '</a>';?></td>
-			  	<td background="images/template/checkout_bg.gif" style="background-repeat:repeat-x"><?php echo tep_image(DIR_WS_IMAGES . 'template/checkout_payment_active.gif'); ?></td>
-			  	<td background="images/template/checkout_bg.gif" style="background-repeat:repeat-x"><?php echo tep_image(DIR_WS_IMAGES . 'template/checkout_confirmation.gif'); ?></td>
-			  	<td><?php echo tep_image(DIR_WS_IMAGES . 'template/checkout_success.gif'); ?></td>
+			  <tr><td background="images/template/checkout_bg.gif" style="background-repeat:repeat-x" class="image_progress_bar"><?php echo '<a href="' . tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL') . '">'
+			. tep_image(DIR_WS_IMAGES . 'template/checkout_shipping.gif','','100%','auto') . '</a>';?></td>
+			  	<td background="images/template/checkout_bg.gif" style="background-repeat:repeat-x" class="image_progress_bar"><?php echo tep_image(DIR_WS_IMAGES . 'template/checkout_payment_active.gif','','100%','auto'); ?></td>
+			  	<td background="images/template/checkout_bg.gif" style="background-repeat:repeat-x" class="image_progress_bar"><?php echo tep_image(DIR_WS_IMAGES . 'template/checkout_confirmation.gif','','100%','auto'); ?></td>
+			  	<td class="image_progress_bar"><?php echo tep_image(DIR_WS_IMAGES . 'template/checkout_success.gif','','100%','auto'); ?></td>
 			  </tr>
 			  </table>
 	</td></tr>
@@ -467,7 +467,7 @@ window.open('cvv_help.php','jav','width=500,height=550,resizable=no,toolbar=no,m
             <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
               <tr>
                 <td><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td> 
-                <td class="main" width="50%" valign="top"><?php echo TEXT_SELECTED_BILLING_DESTINATION; ?><br><br><?php echo '<a href="' . (($customer_id==0)?tep_href_link(FILENAME_CREATE_ACCOUNT, 'guest=guest', 'SSL'):tep_href_link(FILENAME_CHECKOUT_PAYMENT_ADDRESS, '', 'SSL')) . '">' . tep_image_button('button_change_address.gif', IMAGE_BUTTON_CHANGE_ADDRESS) . '</a>'; ?></td>
+                <td class="main" width="50%" valign="top"><?php echo TEXT_SELECTED_BILLING_DESTINATION; ?><br><br><?php echo '<a href="' . (($customer_id==0)?tep_href_link(FILENAME_CREATE_ACCOUNT, 'guest=guest', 'SSL'):tep_href_link(FILENAME_CHECKOUT_PAYMENT_ADDRESS, '', 'SSL')) . '"class="btn_img">' . tep_image_button('button_change_address.gif', IMAGE_BUTTON_CHANGE_ADDRESS) . '</a>'; ?></td>
                 <td align="right" width="50%" valign="top"><table border="0" cellspacing="0" cellpadding="2">
                   <tr>
                     <td class="main" align="center" valign="top"><b><?php echo TITLE_BILLING_ADDRESS; ?></b><br><?php echo tep_image(DIR_WS_IMAGES . 'arrow_south_east.gif'); ?></td>

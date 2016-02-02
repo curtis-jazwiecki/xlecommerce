@@ -213,14 +213,14 @@ if (count($columns) >= COMPARE_PRODUCTS_SIDEBYSIDE_MINIMUM) {
     if (COMPARE_PRODUCTS_SIDEBYSIDE_DEBUG == 'true') print_r($matrix);
 
     // Begin table heading
-    $lc_align = "center";
+    $lc_align = "left";
     $cur_row = 0;
 
     // Product Name
     if (COMPARE_PRODUCTS_SIDEBYSIDE_NAME == 'true') { 
       $list_box_contents[$cur_row][] = array('align' => "left",
-                                             'params' => 'class="productListing-heading" valign="top" width="100px"',
-                                             'text' => '&nbsp;');
+                                             'params' => 'class="compareListing-data" valign="top" width="100px"',
+                                             'text' => 'Product Name');
       for ($k = 0; $k < count($columns); $k++) {
         if (isset($HTTP_GET_VARS['manufacturers_id'])) {
           $lc_text = '<a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'manufacturers_id=' . $pd[$columns[$k]]['manufacturers_id'] . '&products_id=' . $pd[$columns[$k]]['products_id']) . '">' . $pd[$columns[$k]]['products_name'] . '</a>';
@@ -228,7 +228,7 @@ if (count($columns) >= COMPARE_PRODUCTS_SIDEBYSIDE_MINIMUM) {
           $lc_text = '<a href="' . tep_href_link(FILENAME_PRODUCT_INFO, ($cPath ? 'cPath=' . $cPath . '&' : '') . 'products_id=' . $pd[$columns[$k]]['products_id']) . '">' . $pd[$columns[$k]]['products_name'] . '</a>';
         }
         $list_box_contents[$cur_row][] = array('align' => 'left',
-                                               'params' => 'class="productListing-heading" valign="top" width="*"',
+                                               'params' => 'class="productListing-heading new_productListing-heading" valign="top" width="*"',
                                                'text' => $lc_text);
       }
     }
@@ -237,8 +237,8 @@ if (count($columns) >= COMPARE_PRODUCTS_SIDEBYSIDE_MINIMUM) {
     if (COMPARE_PRODUCTS_SIDEBYSIDE_IMAGE == 'true') { 
       $cur_row++;
       $list_box_contents[$cur_row][] = array('align' => "left",
-                                             'params' => 'class="productListing-heading" valign="baseline"',
-                                             'text' => '&nbsp;');
+                                             'params' => 'class="compareListing-data" valign="baseline"',
+                                             'text' => 'Product Image');
       for ($k = 0; $k < count($columns); $k++) {
         if (isset($HTTP_GET_VARS['manufacturers_id']))
 		  {
@@ -250,7 +250,7 @@ if (count($columns) >= COMPARE_PRODUCTS_SIDEBYSIDE_MINIMUM) {
           }
 
         $list_box_contents[$cur_row][] = array('align' => $lc_align,
-                                               'params' => 'class="productListing-heading" valign="baseline"',
+                                               'params' => 'class="productListing-heading new_productListing-heading" valign="baseline"',
                                                'text' => $lc_text);
       }
     }
@@ -517,7 +517,7 @@ function popupWindow(url) {
 function removeWishlistProducts(products_id){
 	jQuery.ajax({
 		url: 'compare.php', 
-		method: 'post', 
+		type: 'post', 
 		data: 'mode=removewishlist&products_id='+products_id, 
 		success: function(response){
 			if(response != ''){
