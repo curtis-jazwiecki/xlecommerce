@@ -1202,12 +1202,6 @@ if (!empty($current_template)){
 
                 if (tep_session_is_registered('customer_id')) {
 
-
-
-
-
-
-
                     $sts->template['loginofflogo'] = '<a href=' . tep_href_link(FILENAME_LOGOFF, '', 'SSL') . ' id="tdb2">Log Off</a>';
 
 
@@ -1217,29 +1211,8 @@ if (!empty($current_template)){
 
 
                 } else {
-
-
-
-
-
-
-
                     $sts->template['loginofflogo'] = '<a href=' . tep_href_link(FILENAME_LOGIN, '', 'SSL') . ' id="tdb2">Log In</a>';
-
-
-
-
-
-
-
                 }
-
-
-
-
-
-
-
                 break;
 
             case '11':
