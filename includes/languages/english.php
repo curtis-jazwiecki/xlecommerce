@@ -362,7 +362,7 @@ define('REFERRAL_ERROR_NOT_FOUND', 'The referral email address you entered was n
 define('TEXT_POINTS_BALANCE', 'Points Status');
 define('TEXT_POINTS', 'Points :');
 define('TEXT_VALUE', 'Value:');
-define('REVIEW_HELP_LINK', ' Write a Review and earn <b>%s</b> worth of points.<br />Please check the %s for more information.');
+define('REVIEW_HELP_LINK', ' Write a Review and earn <b>%s</b> worth of points.Please check the %s for more information.');
 #### Points/Rewards Module V2.1rc2a EOF ####
 // Start Ship Estimator (Added for MVS)
 define('IMAGE_BUTTON_RESET', 'Reset');

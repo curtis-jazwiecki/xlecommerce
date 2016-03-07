@@ -175,7 +175,7 @@
   
     function infoBoxContents($contents) {
       $this->table_cellpadding = '3';
-      $this->table_parameters = 'class="infoBoxContents"';
+      $this->table_parameters = 'class="infoBoxContents headingContentBox"';
       $info_box_contents = array();
       $info_box_contents[] = array(array('text' => tep_draw_separator('pixel_trans.gif', '100%', '1')));
       for ($i=0, $n=sizeof($contents); $i<$n; $i++) {
@@ -245,14 +245,17 @@
 			} else {
 				$right_corner = $right_arrow . tep_draw_separator('pixel_trans.gif', '11', '14');
 			}
-	  
+	  		$addclass="";	  
+			if(basename($_SERVER['PHP_SELF'])=='checkout.php'){
+				$addclass = 'infoBoxHeadingLogin';	  
+			}	
 			// START  STS
 			global $sts;
 			if ($sts->infobox_enabled == true) {
 				$info_box_contents = array();
 				$info_box_contents[] = array(
 					array(
-						'params' => 'width="100%" class="infoBoxHeading"',
+						'params' => 'width="100%" class="infoBoxHeading '.$addclass.'"',
 						'text' => $contents[0]['text']
 					)
 				);

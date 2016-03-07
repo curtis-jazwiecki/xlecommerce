@@ -10,7 +10,7 @@ if (count($vendor_shipping) >= 1) {
 
     <tr>
 
-        <td><table border="0" width="100%" cellspacing="1" cellpadding="2" class="infoBox">
+        <td><table border="0" width="100%" cellspacing="1" cellpadding="2" class="infoBox infoBox_text">
 
                 <tr class="infoBoxContents">
 
@@ -34,11 +34,11 @@ if (count($vendor_shipping) >= 1) {
 
     </tr>
 
-    <tr>
+    <!--<tr>
 
-        <td class="main"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
+        <td class="main"><?php //echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
 
-    </tr>
+    </tr>-->
 
     <?php
 }
@@ -144,7 +144,7 @@ $ship_tax = 0;
     }
     ?>
 
-    <td><table border=0 width="100%" cellspacing="1" cellpadding="2" class="infoBox">
+    <td><table border=0 width="100%" cellspacing="1" cellpadding="2" class="infoBox infoBox_text">
 
             <tr class="infoBoxContents">
 

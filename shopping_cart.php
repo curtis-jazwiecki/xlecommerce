@@ -15,6 +15,19 @@ require("includes/application_top.php");
 require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_SHOPPING_CART);
 
 $breadcrumb->add(NAVBAR_TITLE, tep_href_link(FILENAME_SHOPPING_CART));
+
+$sts->template['action_url'] =  tep_href_link(FILENAME_SHOPPING_CART, 'action=update_product');
+$sts->template['continue_url'] = tep_href_link(FILENAME_DEFAULT);
+$sts->template['checkout_url'] = tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL');
+if ($cart->count_contents() > 0) {
+	$sts->template['cart_has_product'] = 1;
+	$sts->template['cart_total'] = $currencies->format($cart->show_total());
+}else{
+	$sts->template['cart_has_product'] = 0;
+	$sts->template['cart_total'] = 0;
+}
+
+
 ?>
 <!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html <?php echo HTML_PARAMS; ?>>
@@ -84,33 +97,37 @@ $breadcrumb->add(NAVBAR_TITLE, tep_href_link(FILENAME_SHOPPING_CART));
                         <tr>
                             <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
                         </tr>
-                        <?php if ($cart->count_contents() > 0) { ?>
+                        <?php 
+						$cart_products = array();
+						if ($cart->count_contents() > 0) { ?>
                         <tr>
                             <td>
                         <?php
                                 $info_box_contents = array();
                                 $info_box_contents[0][] = array(
-                                    'params' => 'class="infoBoxHeading"',
+                                    'params' => 'class="infoBoxHeading product_qty_new"',
                                     'text' => TABLE_HEADING_PRODUCTS);
 
                                 $info_box_contents[0][] = array(
                                     'align' => 'center',
-                                    'params' => 'class="infoBoxHeading"',
+                                    'params' => 'class="infoBoxHeading product_qty_new"',
                                     'text' => TABLE_HEADING_QUANTITY);
 
                                 $info_box_contents[0][] = array(
                                     'align' => 'right',
-                                    'params' => 'class="infoBoxHeading"',
+                                    'params' => 'class="infoBoxHeading product_qty_new"',
                                     'text' => TABLE_HEADING_PRICE);
 	
                                 $info_box_contents[0][] = array(
                                     'align' => 'center',
-                                    'params' => 'class="infoBoxHeading"',
+                                    'params' => 'class="infoBoxHeading product_qty_new"',
                                     'text' => TABLE_HEADING_REMOVE);
 
                                 $any_out_of_stock = 0;
                                 $products = $cart->get_products();
-                                for ($i=0, $n=sizeof($products); $i<$n; $i++) {
+                                
+								for ($i=0, $n=sizeof($products); $i<$n; $i++) {
+									
 	
                                     // Push all attributes information in an array
                                     if (isset($products[$i]['attributes']) && is_array($products[$i]['attributes'])) {
@@ -126,10 +143,12 @@ $breadcrumb->add(NAVBAR_TITLE, tep_href_link(FILENAME_SHOPPING_CART));
                                             $products[$i][$option]['price_prefix'] = $attributes_values['price_prefix'];
                                         }
                                     }
-                                }
+                                
+								}
     
                                 // begin Bundled Products
                                 if (STOCK_CHECK == 'true') {
+									
                                     $bundle_contents = array();
                                     $bundle_values = array();
                                     $product_ids_in_bundles = array();
@@ -173,12 +192,14 @@ $breadcrumb->add(NAVBAR_TITLE, tep_href_link(FILENAME_SHOPPING_CART));
                                             }
                                         }
                                     }
-                                }
+                                
+								}
                                 $any_bundle_only = false;
                                 // end Bundled Products
 
                                 $disclaimer_req = 0;
                                 for ($i=0, $n=sizeof($products); $i<$n; $i++) {
+									
                                     /*$temp = '';
                                     $sql = tep_db_query("select disclaimer_needed from " . TABLE_PRODUCTS . " where products_id='" . $products[$i]['id'] ."'");
                                     $sql_info = tep_db_fetch_array($sql);
@@ -199,6 +220,9 @@ $breadcrumb->add(NAVBAR_TITLE, tep_href_link(FILENAME_SHOPPING_CART));
                                     } else {
                                         $image = tep_image(DIR_WS_IMAGES . $products[$i]['image'], $products[$i]['name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT);
                                     } 
+									
+									$cart_products[$i]["image"] = $image;
+									
    
                                     /*
                                     $products_name = '<table border="0" cellspacing="2" cellpadding="2">' .
@@ -214,17 +238,24 @@ $breadcrumb->add(NAVBAR_TITLE, tep_href_link(FILENAME_SHOPPING_CART));
                                         $parent_product = tep_db_fetch_array($parent_product_query);
                                         $products_name = '<table border="0" cellspacing="2" cellpadding="2">' .
                                                             '  <tr>' .
-                                                                '    <td class="productListing-data" align="center"><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $parent_product['products_id']) . '">' . $image . '</a></td>' .
-                                                                    '    <td class="productListing-data" valign="top"><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $parent_product['products_id']) . '"><b>' . $products[$i]['name'] .  '</b></a>';
-                                    } else {
+                                                                '    <td class="productListing-data productlisting_new" align="center"><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $parent_product['products_id']) . '">' . $image . '</a></td>' .
+                                                                    '    <td class="productListing-data productlisting_new" valign="top"><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $parent_product['products_id']) . '"><b>' . $products[$i]['name'] .  '</b></a>';
+                                    	$cart_products[$i]["product_href"] = tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $parent_product['products_id']);
+									
+									
+									} else {
                                         //mod for parent-child functionality by (MA) EOF
                                         $products_name = '<table border="0" cellspacing="2" cellpadding="2">' .
                                                             '  <tr>' .
-                                                                '    <td class="productListing-data" align="center"><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . tep_get_prid($products[$i]['id'])) . '">' . $image . '</a></td>' .
-                                                                    '    <td class="productListing-data" valign="top"><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . tep_get_prid($products[$i]['id'])) . '"><b>' . $products[$i]['name'] .  '</b></a>';
-      
+                                                                '    <td class="productListing-data productlisting_new" align="center"><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . tep_get_prid($products[$i]['id'])) . '">' . $image . '</a></td>' .
+                                                                    '    <td class="productListing-data productlisting_new" valign="top"><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . tep_get_prid($products[$i]['id'])) . '"><b>' . $products[$i]['name'] .  '</b></a>';
+										$cart_products[$i]["product_href"] = tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . tep_get_prid($products[$i]['id']));
                                         //mod for parent-child functionality by (MA) BOF    
                                     }
+									
+									
+									
+									
 									
                                     //mod for parent-child functionality by (MA) EOF
                                     /*if (STOCK_CHECK == 'true') {
@@ -244,9 +275,9 @@ $breadcrumb->add(NAVBAR_TITLE, tep_href_link(FILENAME_SHOPPING_CART));
                                             // check against product left on hand after bundles have been sold
                                             $stock_check = '';
                                             if ($product_on_hand[$products[$i]['id']] <= 0) {
-                                                $stock_check = '<span class="markProductOutOfStock">' . STOCK_MARK_PRODUCT_OUT_OF_STOCK . '</span>';
+                                                $stock_check = '<p class="markProductOutOfStock">' . STOCK_MARK_PRODUCT_OUT_OF_STOCK . '</p>';
                                             } elseif ($product_on_hand[$products[$i]['id']] < $products[$i]['quantity']) {
-                                                $stock_check = '<span class="markProductOutOfStock">' . STOCK_MARK_PRODUCT_OUT_OF_STOCK . '</span>';
+                                                $stock_check = '<p class="markProductOutOfStock">' . STOCK_MARK_PRODUCT_OUT_OF_STOCK . '</p>';
                                             }
                                         } else {
                                             $stock_check = tep_check_stock($products[$i]['id'], $products[$i]['quantity']);
@@ -257,7 +288,7 @@ $breadcrumb->add(NAVBAR_TITLE, tep_href_link(FILENAME_SHOPPING_CART));
                                         }
                                     }
                                     if ($products[$i]['sold_in_bundle_only'] == 'yes') {
-                                        $products_name .= '<br><span class="markProductOutOfStock">' . TEXT_BUNDLE_ONLY . '</span>';
+                                        $products_name .= '<br><p class="markProductOutOfStock">' . TEXT_BUNDLE_ONLY . '</p>';
                                         $any_bundle_only = true;
                                     }
                                     // end Bundled Products
@@ -274,12 +305,14 @@ $breadcrumb->add(NAVBAR_TITLE, tep_href_link(FILENAME_SHOPPING_CART));
                                                                 '</table>';
 
                                     $info_box_contents[$cur_row][] = array(
-                                        'params' => 'class="productListing-data" style="border-bottom:1px solid #CCCCCC;"',
+                                        'params' => 'class="productListing-data productlisting_new" style="border-bottom:1px solid #CCCCCC;"',
                                         'text' => $products_name);
+										
+									$cart_products[$i]["products_name"] = $products_name;	
 
                                     $info_box_contents[$cur_row][] = array(
                                         'align' => 'center',
-                                        'params' => 'class="productListing-data" valign="top"  style="border-bottom:1px solid #CCCCCC;"',
+                                        'params' => 'class="productListing-data productlisting_new" valign="top"  style="border-bottom:1px solid #CCCCCC;"',
                                         //BOF:MVS
                                         /*
                                         //EOF:MVS
@@ -287,20 +320,30 @@ $breadcrumb->add(NAVBAR_TITLE, tep_href_link(FILENAME_SHOPPING_CART));
                                         //BOF:MVS
                                         */
                                         //'text' => tep_draw_input_field('cart_quantity[]', $products[$i]['quantity'], 'size="4"') . 	tep_draw_hidden_field( (SELECT_VENDOR_SHIPPING == 'true' ? 'products_' . $products[$i]['vendors_id'] . '[]' : 'products_id[]') , $products[$i]['id']));
-                                        'text' => tep_draw_input_field('cart_quantity[]', $products[$i]['quantity'], 'size="4"') . 	tep_draw_hidden_field( (SELECT_VENDOR_SHIPPING == 'true' ? 'products_' . $products[$i]['vendors_id'] . '[]' : 'products_id[]') , $products[$i]['id']) . '<input class="skubutton" type="submit" value="UPDATE" style="display:none;"><span class="remove_cart_product_tpl12" pid="' . $products[$i]['id'] . '"  style="display:none;">Remove</span><span class="add_to_wishlist_tpl12" pid="' . $products[$i]['id'] . '"  style="display:none;">Add to Wishlist</span>');
+                                        //'text' => tep_draw_input_field('cart_quantity[]', $products[$i]['quantity'], 'size="4"') . 	tep_draw_hidden_field( (SELECT_VENDOR_SHIPPING == 'true' ? 'products_' . $products[$i]['vendors_id'] . '[]' : 'products_id[]') , $products[$i]['id']) . '<input class="skubutton" type="submit" value="UPDATE" style="display:none;"><span class="remove_cart_product_tpl12" pid="' . $products[$i]['id'] . '"  style="display:none;">Remove</span><span class="add_to_wishlist_tpl12" pid="' . $products[$i]['id'] . '"  style="display:none;">Add to Wishlist</span>');
+										'text' => "<button style=\"display:none;\" onclick=\"updateQuantityBox('minus','".$products[$i]['id']."');\" type=\"button\" class=\"minus_btn increment_input_btn\" aria-label=\"Decrease quantity\"><span class=\"minus-icon\"><i class=\"fa fa-minus\"></i></span></button>".tep_draw_input_field('cart_quantity[]', $products[$i]['quantity'], 'size="4" id="qty_'.$products[$i]['id'].'"') ."<button style=\"display:none;\" onclick=\"updateQuantityBox('plus','".$products[$i]['id']."');\" type=\"button\" class=\"plus_btn increment_input_btn\" aria-label=\"Increase quantity\"><span class=\"icon-plus\"><i class=\"fa fa-plus\"></i></span></button>".tep_draw_hidden_field( (SELECT_VENDOR_SHIPPING == 'true' ? 'products_' . $products[$i]['vendors_id'] . '[]' : 'products_id[]') , $products[$i]['id']) . '<input class="skubutton" type="submit" value="UPDATE" style="display:none;"><span class="remove_cart_product_tpl12" pid="' . $products[$i]['id'] . '"  style="display:none;">Remove</span><span class="add_to_wishlist_tpl12" pid="' . $products[$i]['id'] . '"  style="display:none;">Add to Wishlist</span>');
                                 //EOF:MVS
+								
+									$cart_products[$i]["products_quanity"] = tep_draw_input_field('cart_quantity[]', $products[$i]['quantity'], 'size="4"') . 	tep_draw_hidden_field( (SELECT_VENDOR_SHIPPING == 'true' ? 'products_' . $products[$i]['vendors_id'] . '[]' : 'products_id[]') , $products[$i]['id']) . '<input class="skubutton" type="submit" value="UPDATE" style="display:none;"><span class="remove_cart_product_tpl12" pid="' . $products[$i]['id'] . '"  style="display:none;">Remove</span><span class="add_to_wishlist_tpl12" pid="' . $products[$i]['id'] . '"  style="display:none;">Add to Wishlist</span>';
 
                                     $info_box_contents[$cur_row][] = array(
                                         'align' => 'right',
-                                        'params' => 'class="productListing-data" valign="top"  style="border-bottom:1px solid #CCCCCC;"',
+                                        'params' => 'class="productListing-data productlisting_new" valign="top"  style="border-bottom:1px solid #CCCCCC;"',
                                         'text' => '<b>' . $currencies->display_price($products[$i]['final_price'], tep_get_tax_rate($products[$i]['tax_class_id']), $products[$i]['quantity']) . '</b>');
+										
+										
+									$cart_products[$i]["products_price"] = $currencies->display_price($products[$i]['final_price'], tep_get_tax_rate($products[$i]['tax_class_id']), $products[$i]['quantity']);	
+										
 											 
                                     $info_box_contents[$cur_row][] = array(
                                         'align' => 'center',
-                                        'params' => 'class="productListing-data" valign="top"  style=" border-bottom:1px solid #CCCCCC;"',
+                                        'params' => 'class="productListing-data productlisting_new chkbox_template2" valign="top"  style=" border-bottom:1px solid #CCCCCC;"',
                                         'text' => tep_draw_checkbox_field('cart_delete[]', $products[$i]['id']));
-                                }
-
+										
+										$cart_products[$i]["products_delete"] = tep_draw_checkbox_field('cart_delete[]', $products[$i]['id']);
+                                
+								}
+								$sts->template['cart_products'] = $cart_products;
                                 new productListingBox($info_box_contents); 
                             ?>
                             </td>
@@ -375,14 +418,14 @@ $breadcrumb->add(NAVBAR_TITLE, tep_href_link(FILENAME_SHOPPING_CART));
                                 <table border="0" width="100%" cellspacing="0" cellpadding="2">
                                     <tr>
                                         <td width="10"><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
-                                        <td class="main"><?php echo tep_image_submit('button_update_cart.gif', IMAGE_BUTTON_UPDATE_CART); ?></td>
+                                        <td class="main new_Button_update_cart btn_update"><?php echo tep_image_submit('button_update_cart.gif', IMAGE_BUTTON_UPDATE_CART); ?></td>
                                         <?php
-                                        $back = sizeof($navigation->path)-2;
-                                        if (isset($navigation->path[$back])) {
+                                        //$back = sizeof($navigation->path)-1;
+                                        //if (isset($navigation->path[$back])) {
                                         ?>
-                                        <td class="main"><?php echo '<a href="' . tep_href_link($navigation->path[$back]['page'], tep_array_to_string($navigation->path[$back]['get'], array('action')), $navigation->path[$back]['mode']) . '">' . tep_image_button('button_continue_shopping.gif', IMAGE_BUTTON_CONTINUE_SHOPPING) . '</a>'; ?></td>
+                                        <td class="main new_Button_continue btn_cont_shop"><?php echo '<a href="' . tep_href_link(FILENAME_DEFAULT) . '">' . tep_image_button('button_continue_shopping.gif', IMAGE_BUTTON_CONTINUE_SHOPPING). '</a>'; ?></td>
                                         <?php
-                                        }
+                                        //}
                                         ?>
                                         <?php
                                         /*
@@ -392,63 +435,13 @@ $breadcrumb->add(NAVBAR_TITLE, tep_href_link(FILENAME_SHOPPING_CART));
                                         }*/
                                         // MVS Shipping Estimator end
                                         ?>
-                                        <td align="right" class="main" style="float:none !important;"><?php if (!($any_bundle_only || (($any_out_of_stock == 1) && (STOCK_ALLOW_CHECKOUT != 'true')))) echo '<a href="' . tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL') . '">' . tep_image_button('button_checkout.gif', IMAGE_BUTTON_CHECKOUT, ($disclaimer_req ? 'onclick="javascript:return disclaimer_onclick();"' :'')) . '</a>'; ?></td>
+                                        <td align="right" class="main new_Button_checkout new_btn_checkout" style="float:none !important;"><?php if (!($any_bundle_only || (($any_out_of_stock == 1) && (STOCK_ALLOW_CHECKOUT != 'true')))) echo '<a href="' . tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL') . '">' . tep_image_button('button_checkout.gif', IMAGE_BUTTON_CHECKOUT, ($disclaimer_req ? 'onclick="javascript:return disclaimer_onclick();"' :'')) . '</a>'; ?></td>
                                        
                                     </tr>
                                 </table>
                             </td>
                         </tr>
-                        <!--SKU 14FEB FBLOGIN BOF-->
-                        <tr>
-                            <td>
-                                <div id="fb-root"></div>
-                                <script>
-                                    window.fbAsyncInit = function() {
-                                        FB.init({
-                                            appId      : '<?php echo FACEBOOK_APP_ID;?>',
-                                            status     : true, // check login status
-                                            cookie     : true, // enable cookies to allow the server to access the session
-                                            xfbml      : true  // parse XFBML
-                                        });
-
-                                        FB.Event.subscribe('auth.authResponseChange', function(response) {
-                                            if (response.status === 'connected') {
-                                                testAPI();
-                                            } else if (response.status === 'not_authorized') {
-                                                FB.login();
-                                            } else {
-                                                FB.login();
-                                            }
-                                        });
-                                    };
-
-                                    // Load the SDK asynchronously
-                                    (function(d){
-                                        var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-                                        if (d.getElementById(id)) {return;}
-                                            js = d.createElement('script'); js.id = id; js.async = true;
-                                            js.src = "//connect.facebook.net/en_US/all.js";
-                                            ref.parentNode.insertBefore(js, ref);
-                                        }(document));
-
-                                    function testAPI() {
-                                        console.log('Welcome!  Fetching your information.... ');
-                                        FB.api('/me', function(response) {
-                                            console.log('Good to see you, ' + response.name + '.');
-                                            $.ajax({
-                                                type: "POST",
-                                                url: "fblogin.php",
-                                                data: "mode=login&first_name=" + response.first_name + "&last_name=" + response.last_name + "&birthday=" + response.birthday + "&gender=" + response.gender + "&email=" + response.email + "&birthday=" + response.birthday,
-                                                success: function(msg) {
-                                                    location.href = '<?php echo tep_href_link(FILENAME_DEFAULT) ;?>';
-                                                }
-                                            });
-                                        });
-                                    }
-                                </script>
-                                <fb:login-button show-faces="false" width="200" max-rows="1"></fb:login-button>
-                            </td>
-                        </tr><!--SKU 14FEB FBLOGIN EOF-->
+                        
                     </table>
                 </td>
             </tr>

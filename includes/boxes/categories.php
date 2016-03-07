@@ -44,7 +44,8 @@
 
     $categories_string .= '</a></p>';
 
-    $categories_string .= '<br>';
+    //$categories_string .= '<br>';
+    $categories_string .= '';
 
     if ($tree[$counter]['next_id'] != false) {
       tep_show_category($tree[$counter]['next_id']);
@@ -56,7 +57,7 @@
             <td>
 <?php
   $info_box_contents = array();
-  $info_box_contents[] = array('text' => tep_image(DIR_WS_IMAGES . 'categories.jpg', BOX_HEADING_CATEGORIES));
+ // $info_box_contents[] = array('text' => tep_image(DIR_WS_IMAGES . 'categories.jpg', BOX_HEADING_CATEGORIES));
 
   new infoBoxHeading($info_box_contents, true, false);
 

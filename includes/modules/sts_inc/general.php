@@ -49,6 +49,7 @@ if (tep_session_is_registered('customer_id')) {
 	// Next tags added in v4.3
 	$sts->template['loginofflogo'] = '<a href=' . tep_href_link(FILENAME_LOGOFF, '', 'SSL') . ' class="headerNavigation">' . tep_image(STS_TEMPLATE_DIR.'images/'.$language . '/header_logoff.gif', HEADER_TITLE_LOGOFF) . '</a>';
         $sts->template['linkloginoff'] = '<a href=' . tep_href_link(FILENAME_LOGOFF, '', 'SSL') . ' class="headerNavigation">Logoff</a>';
+        $sts->template['account_history'] = tep_href_link(FILENAME_ACCOUNT_HISTORY, '', 'SSL');
 } else {
 	$sts->template['myaccount'] = '<a href=' . tep_href_link(FILENAME_ACCOUNT, '', 'SSL') . ' class="headerNavigation">' . HEADER_TITLE_MY_ACCOUNT . '</a>';
 	$sts->template['urlmyaccount'] = tep_href_link(FILENAME_ACCOUNT, '', 'SSL');
@@ -58,6 +59,7 @@ if (tep_session_is_registered('customer_id')) {
 	// Next tags added in v4.3
 	$sts->template['loginofflogo'] = '<a href=' . tep_href_link(FILENAME_LOGIN, '', 'SSL') . ' class="headerNavigation">' . tep_image(STS_TEMPLATE_DIR.'images/'.$language . '/header_login.gif', HEADER_TITLE_LOGIN) . '</a>';
         $sts->template['linkloginoff'] = '<a href=' . tep_href_link(FILENAME_LOGIN, '', 'SSL') . ' class="headerNavigation">Login</a>';
+        $sts->template['account_history'] = tep_href_link(FILENAME_LOGIN, '', 'SSL');
 }
 
 $sts->template['cartcontents']    = '<a href=' . tep_href_link(FILENAME_SHOPPING_CART) . ' class="headerNavigation">' . HEADER_TITLE_CART_CONTENTS . '</a>';

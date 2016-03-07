@@ -300,8 +300,8 @@ if (isset($_POST['action'])){
 
 
 
-$sts->template['json'] = json_encode($data);
-
+echo $sts->template['json'] = json_encode($data);
+exit;
 
 
 require (DIR_WS_INCLUDES . 'application_bottom.php');

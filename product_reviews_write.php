@@ -302,8 +302,8 @@ document.write('<?php echo '<a href="javascript:popupWindow(\\\'' . tep_href_lin
 <?php
   }
 
-  //echo '<p><a href="' . tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action')) . 'action=buy_now') . '">' . tep_image_button('button_in_cart.gif', IMAGE_BUTTON_IN_CART) . '</a></p>';
-  echo '<p><a href="' . tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action')) . 'action=buy_now') . '">' . tep_image_button('button_in_cart.gif', IMAGE_BUTTON_IN_CART, 'id="add_to_cart"') . '<input type="button" value="add to cart" class="addtocart_btn"></a></p>';  
+  echo '<p><a href="' . tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action')) . 'action=buy_now') . '">' . tep_image_button('button_in_cart.gif', IMAGE_BUTTON_IN_CART) . '</a></p>';
+  //echo '<p><a href="' . tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action')) . 'action=buy_now') . '">' . tep_image_button('button_in_cart.gif', IMAGE_BUTTON_IN_CART, 'id="add_to_cart"') . '<input type="button" value="add to cart" class="addtocart_btn"></a></p>';  
 ?>
                 </td>
               </tr>

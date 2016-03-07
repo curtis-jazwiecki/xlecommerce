@@ -454,6 +454,30 @@
  }
 // PWA EOF
 ?>
+
+<?php
+if ($messageStack->size('create_account') > 0) {
+    $sts->template['message'] = $messageStack->output('create_account');
+	
+}else{
+	$sts->template['message'] = '';
+}
+
+$sts->template['action_url'] =  tep_href_link(FILENAME_CREATE_ACCOUNT, (isset($HTTP_GET_VARS['guest'])? 'guest=guest':''), 'SSL');
+$sts->template['form_information_text'] =  sprintf(TEXT_ORIGIN_LOGIN, tep_href_link(FILENAME_LOGIN, tep_get_all_get_params(), 'SSL'), tep_href_link(FILENAME_PRIVACY, tep_get_all_get_params(), 'SSL'));
+
+$sts->template['account_gender_enabled'] =  ACCOUNT_GENDER;
+$sts->template['account_company_enabled'] =  ACCOUNT_COMPANY;
+$sts->template['account_suburb_enabled'] =  ACCOUNT_SUBURB;
+$sts->template['account_state_enabled'] =  ACCOUNT_STATE;
+$sts->template['account_dob_enabled'] =  ACCOUNT_DOB;
+if (!isset($HTTP_GET_VARS['guest']) && !isset($HTTP_POST_VARS['guest'])) {
+	$sts->template['is_guest'] =  false;
+}else{
+	$sts->template['is_guest'] =  true;
+}
+
+?>
 <!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html <?php echo HTML_PARAMS; ?>>
 <head>
@@ -472,7 +496,14 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
 <style type="text/css">
 $stylesheet
 </style>
-<?php require('includes/form_check.js.php'); ?>
+<?php 
+ob_start();
+require('includes/form_check.js.php');
+$javascript_validation_code = ob_get_contents();
+ob_end_clean();
+echo $javascript_validation_code;
+$sts->template['javascript_validation_code'] = $javascript_validation_code;
+?>
 </head>
 <body marginwidth="0" marginheight="0" topmargin="0" bottommargin="0" leftmargin="0" rightmargin="0">
 <!-- header //-->
@@ -502,7 +533,6 @@ $stylesheet
 	  <tr><td width="5" height="20" align="left" background="images/template/infoboxbg.jpg"><img src="images/template/infoboxbgL.jpg"></td><td class="infoBoxHeadingLogin" align="left"><b><?php echo CATEGORY_PERSONAL; ?></b></td><td width="5" height="20" align="right" background="images/template/infoboxbg.jpg"><img src="images/template/infoboxbgR.jpg"></td></tr>
 <?php
   if ($messageStack->size('create_account') > 0) {
-      $sts->template['message'] = $messageStack->output('create_account');
 ?>
 
       <tr>
@@ -512,10 +542,7 @@ $stylesheet
         <td colspan="3"><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
       </tr>
 <?php
-  } else {
-      $sts->template['message'] = '';
-  }
-?>
+  } ?>
       <?php /*<tr>
         <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
           <tr>
@@ -646,12 +673,15 @@ $stylesheet
 					while ($zones_values = tep_db_fetch_array($zones_query)) {
 					  $zones_array[] = array('id' => $zones_values['zone_name'], 'text' => $zones_values['zone_name']);
 					}
+					$sts->template['state'] = tep_draw_pull_down_menu('state', $zones_array);
 					echo tep_draw_pull_down_menu('state', $zones_array);
 				  } else {
 					echo tep_draw_input_field('state');
+					$sts->template['state'] = tep_draw_input_field('state');
 				  }
 				} else {
 				  echo tep_draw_input_field('state');
+				  $sts->template['state'] = tep_draw_input_field('state');
 				}
 			
 				if (tep_not_null(ENTRY_STATE_TEXT)) echo '&nbsp;<span class="inputRequirement">' . ENTRY_STATE_TEXT;

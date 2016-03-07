@@ -8,7 +8,7 @@ require_once(DIR_WS_LANGUAGES . $language . '/' . FILENAME_ADVANCED_SEARCH);
     #advancedSearch td[colspan="2"]:not(.pageHeading) {font-size: 12px;}
     table#advancedSearch input {height: 8px;max-width: 200px;}
     table#advancedSearch input[type="image"] {height: 18px;}
-    table#advancedSearch select {font-size: 10px;height: 15px;width: 134px;}
+    table#advancedSearch select {font-size: 10px;height: 15px;/*width: 134px;*/}
     table#advancedSearch .smallText {font-size: 11px;height: 11px;}
     td.criteria , td.criteria span{font-size:11px !important;}
     </style>

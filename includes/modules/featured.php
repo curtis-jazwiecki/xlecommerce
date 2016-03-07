@@ -200,39 +200,29 @@ if(FEATURED_PRODUCTS_DISPLAY == 'true'){
 
 				$pg_query = tep_db_query("select pg.products_id, customers_group_price as price from " . TABLE_PRODUCTS_GROUPS . " pg where pg.products_id = '".$featured_products['products_id']."' and pg.customers_group_id = '" . $customer_group_id . "' and pg.customers_group_id <> 0");
 
-				if(tep_db_num_rows($pg_query)){
-
-					$pg_array = tep_db_fetch_array($pg_query);
-
-					$new_price = $featured_products['specials_new_products_price'];
-
-					if(isset($new_price) && !empty($new_price)){
-
-						if($pg_array['price'] < $new_price) { 
-
-							$featured_products['products_price'] = $pg_array['price'];
-
-						} else { 
-
-							$featured_products['products_price'] = $featured_products['products_price'];
-
-						}
-
-					} else { 
-
-						if($featured_products['products_price'] < $pg_array['price']){
-
-							$featured_products['products_price'] =  $featured_products['products_price'];   
-
-						} else {
-
-							$featured_products['products_price'] = $pg_array['price'];
-
-						}
-
-					}
-
-				}
+				$pg_array = tep_db_fetch_array($pg_query);
+                
+				$new_price = tep_get_products_special_price($featured_products['products_id']);
+    
+                if(isset($new_price)&& !empty($new_price)){
+                    $specialprice = $new_price; // holds special price
+                }else{
+                    $specialprice = ''; 
+                }
+                  
+                  if ($customer_group_id > 0 && isset($pg_array['price']) && !empty($pg_array['price'])) {
+                    if($specialprice > 0){
+                        $featured_products['products_price'] = $new_price;
+                    }else{
+                        $featured_products['products_price'] = $pg_array['price'];
+                    }
+                  }else{
+                    if($specialprice > 0){
+                        $featured_products['products_price'] = $new_price;
+                    }else{
+                        //$featured_products['products_price'] = $featured_products['products_price'];
+                    }
+                  }
 
 				//EOF seperate pricing
 
@@ -338,43 +328,29 @@ if(FEATURED_PRODUCTS_DISPLAY == 'true'){
 
 				$pg_query = tep_db_query("select pg.products_id, customers_group_price as price from " . TABLE_PRODUCTS_GROUPS . " pg where pg.products_id = '".$featured_products['products_id']."' and pg.customers_group_id = '" . $customer_group_id . "' and pg.customers_group_id <> 0");
 
-				if(tep_db_num_rows($pg_query)){
-
-					$pg_array = tep_db_fetch_array($pg_query);
-
-					$new_price = $featured_products['specials_new_products_price'];
-
-					if(isset($new_price) && !empty($new_price)){
-
-						if($pg_array['price'] < $new_price) { 
-
-							$featured_products['products_price'] = $pg_array['price'];
-
-							// $products_price =  $currencies->display_price($scustomer_group_price['customers_group_price'], '0') ; 
-
-						} else { 
-
-							$featured_products['products_price'] = $featured_products['products_price'];
-
-						}
-
-					} else { 
-
-						if($featured_products['products_price'] < $pg_array['price']) {
-
-							$featured_products['products_price'] =  $featured_products['products_price'];   
-
-						} else {
-
-							$featured_products['products_price'] = $pg_array['price'];
-
-						}
-
-					}
-
-					//  $featured_products['products_price'] = $new_price;
-
-				}
+				$pg_array = tep_db_fetch_array($pg_query);
+                
+				$new_price = tep_get_products_special_price($featured_products['products_id']);
+    
+                if(isset($new_price)&& !empty($new_price)){
+                    $specialprice = $new_price; // holds special price
+                }else{
+                    $specialprice = ''; 
+                }
+                  
+                  if ($customer_group_id > 0 && isset($pg_array['price']) && !empty($pg_array['price'])) {
+                    if($specialprice > 0){
+                        $featured_products['products_price'] = $new_price;
+                    }else{
+                        $featured_products['products_price'] = $pg_array['price'];
+                    }
+                  }else{
+                    if($specialprice > 0){
+                        $featured_products['products_price'] = $new_price;
+                    }else{
+                        //$featured_products['products_price'] = $featured_products['products_price'];
+                    }
+                  }
 
 				//EOF seperate pricing
 

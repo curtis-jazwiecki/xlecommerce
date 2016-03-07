@@ -12,8 +12,8 @@
 
 define('HEADING_TITLE', 'Contact Us');
 define('NAVBAR_TITLE', 'Contact Us');
-define('TEXT_SUCCESS', 'Your enquiry has been successfully sent to the Store Owner.');
-define('EMAIL_SUBJECT', 'Enquiry from ' . STORE_NAME);
+define('TEXT_SUCCESS', 'Your inquiry has been successfully sent to the Store Owner.');
+define('EMAIL_SUBJECT', 'Inquiry from ' . STORE_NAME);
 
 // Get selected template
   $template_query = tep_db_query("select configuration_value from " . TABLE_CONFIGURATION . " where configuration_key = 'MODULE_STS_TEMPLATE_FOLDER'");

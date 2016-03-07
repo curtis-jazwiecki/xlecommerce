@@ -641,27 +641,15 @@ class sts {
 
   function start_capture () {
 
-
-
   // Start redirecting output to the output buffer, if template mode on.
-
-
 
     if ($this->display_template_output) {
 
-
-
 	  // ob_end_clean(); // Clear out the capture buffer. Removed in v4.3.3
-
-
 
 	  ob_start();
 
-
-
 	}
-
-
 
   }
 
@@ -1042,9 +1030,25 @@ class sts {
 
 
     }
+	
+	
+	$this->template['template_html'] = str_replace('{%HEADING_TITLE%}' , HEADING_TITLE, $this->template['template_html']);
+	
+	
+	// added 15-12-2015 #starts
+	$constants = ($this->getInbetweenStrings("{%","%}",$this->template['template_html']));
+	foreach($constants as $constant){
+		$this->template['template_html'] = str_replace("{%".$constant."%}" , CONSTANT($constant), $this->template['template_html']);
+	}
+	// added 15-12-2015 #ends
 
-
-
+  }
+  
+  function getInbetweenStrings($start, $end, $str){
+    $matches = array();
+    $regex = "/$start([a-zA-Z0-9_]*)$end/";
+    preg_match_all($regex, $str, $matches);
+    return $matches[1];
   }
 
 
