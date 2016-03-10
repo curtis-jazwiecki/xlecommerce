@@ -811,8 +811,6 @@ if (!empty($current_template)){
 
         $script = strtolower( basename( $PHP_SELF ) );
 
-
-
         switch($template_id){
 
             case '1':
@@ -830,6 +828,8 @@ if (!empty($current_template)){
 
 
                 } 
+                $categories_html = getCategoriesHtml();
+				break;
 
 			case '2':
 				$show_search_filter = show_search_filter($script);
