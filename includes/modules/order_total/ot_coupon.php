@@ -61,12 +61,12 @@ function credit_selection() {
 global $customer_id, $currencies, $language;
     
         $selection_string  .= tep_draw_form('checkout_payment_gift', tep_href_link(FILENAME_CHECKOUT_CONFIRMATION, '', 'SSL'), 'post');
-		   $selection_string = '<tr><td><table width="90%"><tr><td align="left" width="40%">';
+		   $selection_string = '<tr><td><table width="90%"><tr><td align="left" width="40%" class="new_redeem_text">';
 		   
         $selection_string .= TEXT_ENTER_GV_CODE ;
-		 $selection_string .='</td><td align="left" width="25%">';
+		 $selection_string .='</td><td align="left" width="25%"  class="new_redeem_text_box">';
 		 $selection_string .= tep_draw_input_field('gv_redeem_code', '') ;
-		 $selection_string .='</td><td align="center">';
+		 $selection_string .='</td><td align="center"  class="new_redeem_button">';
         $selection_string .= tep_image_submit('button_redeem.gif', IMAGE_REDEEM_VOUCHER, 'onclick="return submitFunction()"');
         $selection_string .= '</td></tr></table></td></tr>';
 
@@ -128,8 +128,12 @@ global $HTTP_POST_VARS, $customer_id, $currencies, $cc_id;
                 global $order,$ot_coupon,$currency;
 // BEGIN >>> CCVG 5.15 - Custom Modification - fix Coupon code redemption error
 // Moved code up a few lines
-if (!tep_session_is_registered('cc_id')) tep_session_register('cc_id');
-$cc_id = $coupon_result['coupon_id'];
+
+				if(!isset($_SESSION['cc_id'])){
+					$_SESSION['cc_id'] = $coupon_result['coupon_id'];
+				}
+				//if (!tep_session_is_registered('cc_id')) tep_session_register('cc_id');
+				$cc_id = $coupon_result['coupon_id'];
 // END <<< CCVG 5.15 - Custom Modification - fix Coupon code redemption error
 
                 $coupon_amount= tep_round($ot_coupon->pre_confirmation_check($order->info['subtotal']), $currencies->currencies[$currency]['decimal_places']); // $cc_id
@@ -142,8 +146,11 @@ $cc_id = $coupon_result['coupon_id'];
                 $coupon_amount_out = $currencies->format($coupon_amount) . ' ';
                 if ($coupon_result['coupon_minimum_order']>0) $coupon_amount_out .= 'on orders greater than ' . $currencies->format($coupon_result['coupon_minimum_order']);
 
-                if (!tep_session_is_registered('cc_id')) tep_session_register('cc_id');
-                $cc_id = $coupon_result['coupon_id'];
+                //if (!tep_session_is_registered('cc_id')) tep_session_register('cc_id');
+                if(!isset($_SESSION['cc_id'])){
+					$_SESSION['cc_id'] = $coupon_result['coupon_id'];
+				}
+				$cc_id = $coupon_result['coupon_id'];
 
                 if ( strlen($cc_id)>0 && $coupon_amount==0 ) {
                         $err_msg = ERROR_REDEEMED_AMOUNT.ERROR_REDEEMED_AMOUNT_ZERO;
