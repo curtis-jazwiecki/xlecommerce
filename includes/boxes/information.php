@@ -25,8 +25,7 @@
 // ###### Added CCGV Contribution #########
 //                                         '<a href="' . tep_href_link(FILENAME_GV_FAQ, '', 'NONSSL') . '">' . BOX_INFORMATION_GV . '</a><br>' .
 // ###### end CCGV Contribution #########
-										 '<a href="' . tep_href_link(FILENAME_CONTACT_US) . '">' . BOX_INFORMATION_CONTACT . '</a><br/>'.
-      '<a href="' . tep_href_link(FILENAME_MY_POINTS_HELP) . '">' . BOX_INFORMATION_MY_POINTS_HELP . '</a><br />'  // Points/Rewards Module V2.1rc2a
+										 '<a href="' . tep_href_link(FILENAME_CONTACT_US) . '">' . BOX_INFORMATION_CONTACT . '</a><br/>'
       );
 
   new columnBox($info_box_contents);
