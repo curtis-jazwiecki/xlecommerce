@@ -2350,76 +2350,24 @@ function generateSlider($template_id, $banner_group_name){
 
         $html = '<script src="includes/jquery.cycle2.min.js"></script>';
 
-
-
-        $html .= '<div class="cycle-slideshow" data-cycle-fx=scrollHorz data-cycle-timeout=5000 data-cycle-slides="> a">';
-
-
-
-        //$html .= '<div class="cycle-pager"></div>';
-
-
+		$html .= '<div class="cycle-slideshow" data-cycle-fx=scrollHorz data-cycle-timeout=5000 data-cycle-slides="> a">';
 
         while ($image = tep_db_fetch_array($query)){
 
-
+			$url = trim($image['banners_url']);
 
             if(!empty($url)){
-
-
-
-                $url = trim($image['banners_url']);
-
-
-
                 if(stripos($url, 'http')=== false){
-
-
-
                     $url = tep_href_link($url, '', 'NOSSL', false);
-
-
-
                 }
-
-
-
             } else {
-
-
-
-                $url = 'javascript://';
-
-
-
+                $url = '/';
             }
-
-
-
-            
-
-
-
             $html .= '<a href="' . $url . '"><img src="' . DIR_WS_IMAGES . $image['banners_image'] . '" /></a>';
-
-
-
         }
-
-
-
         $html .= '</div>';
-
-
-
     }
-
-
-
     return $html;
-
-
-
 }
 
 
