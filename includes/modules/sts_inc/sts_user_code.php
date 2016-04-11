@@ -2344,7 +2344,7 @@ function generateSlider($template_id, $banner_group_name){
 
 
 
-    if (tep_db_num_rows($query)){
+    if (tep_db_num_rows($query)){  
 
 
 
