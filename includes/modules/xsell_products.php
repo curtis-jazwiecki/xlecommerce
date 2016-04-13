@@ -52,7 +52,7 @@ if ($num_products_xsell <= 0) {
 
     
 
-	$cat_query = tep_db_query("select categories_id from products_to_categories where products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "'");
+	$cat_query = tep_db_query("select categories_id from " . TABLE_PRODUCTS_TO_CATEGORIES . " where products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "'");
 
 	$cat = tep_db_fetch_array($cat_query);
 
