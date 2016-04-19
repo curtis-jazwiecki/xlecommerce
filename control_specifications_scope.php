@@ -1,14 +1,56 @@
 <?php
-
 require ('includes/application_top.php');
+define('TEXT_PRODUCTS_BY_BUNDLE', 'This product contains the following items:');
+define('TEXT_RATE_COSTS', 'Cost of separate parts:');
+define('TEXT_IT_SAVE', 'You save');
+define('TEXT_SOLD_IN_BUNDLE', 'This product may be purchased only as a part of the following bundle(s):');
+function display_bundle($bundle_id, $bundle_price) {
+
+   global $languages_id, $product_info, $currencies;
+   $return_str = '';
+   $return_str .= '<table border="0" width="95%" cellspacing="1" cellpadding="2" class="infoBox"> <tr class="infoBoxContents"> <td> <table border="0" width="100%" cellspacing="0" cellpadding="2"> <tr> <td class="main" colspan="5"><b>';
+   $bundle_sum = 0;
+   $return_str .= TEXT_PRODUCTS_BY_BUNDLE . "</b></td></tr>\n";
+   
+   $bundle_products = array(); 
+   
+   $bundle_query = tep_db_query("select pb.*, p.products_bundle, p.products_id, p.products_model, p.products_price, p.products_image, pd.products_name from products_bundles pb inner join products p on pb.subproduct_id=p.products_id inner join products_description pd on (p.products_id=pd.products_id and pd.language_id='" . (int)$languages_id . "') where pb.bundle_id='" . (int)$bundle_id . "'");
+   while ($bundle_data = tep_db_fetch_array($bundle_query)) {
+     $return_str .= "<tr><td class=main valign=top style='padding-top:10px;'>";
+     
+	 $return_str .= '<a href="' . tep_href_link(FILENAME_PRODUCT_INFO, ($cPath ? 'cPath=' . $cPath . '&' : '') . 'products_id=' . $bundle_data['products_id']) . '" target="_blank">' . tep_small_image( $bundle_data['products_image'], $bundle_data['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="1" vspace="1"') . '</a></td>';
+
+     // comment out the following line to hide the subproduct qty
+     $return_str .= "<td class=main align=right><b>" . $bundle_data['subproduct_qty'] . "&nbsp;x&nbsp;</b></td>";
+
+     $return_str .= '<td class=main><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, ($cPath ? 'cPath=' . $cPath . '&' : '') . 'products_id=' . $bundle_data['products_id']) . '" target="_blank"><b>&nbsp;(' . $bundle_data['products_model'] . ') ' . $bundle_data['products_name'] . '</b></a>';
+
+     if ($bundle_data['products_bundle'] == "yes")
+          display_bundle($bundle_data['subproduct_id'], $bundle_data['products_price']);
+          $return_str .= '</td>';
+          $return_str .= '<td align=right class=main><b>&nbsp;' . $currencies->display_price($bundle_data['products_price'], tep_get_tax_rate($product_info['products_tax_class_id'])) . "</b></td></tr>\n";
+          $bundle_sum += $bundle_data['products_price'] * $bundle_data['subproduct_qty'];
+	}
+
+   $bundle_saving = $bundle_sum - $bundle_price;
+
+   $bundle_sum = $currencies->display_price($bundle_sum, tep_get_tax_rate($product_info['products_tax_class_id']));
+
+   $bundle_saving = $currencies->display_price($bundle_saving, tep_get_tax_rate($product_info['products_tax_class_id']));
+   // comment out the following line to hide the "saving" text
+
+    $return_str .= "<tr><td colspan=5 class=main><p><b>" . TEXT_RATE_COSTS . '&nbsp;' . $bundle_sum . '</b></td></tr><tr><td class=main colspan=5><font color="red"><b>' . TEXT_IT_SAVE . '&nbsp;' . $bundle_saving . "</font></b></td></tr>\n";
+
+    $return_str .= '</table></td> </tr> </table>';
+
+    return $return_str;
+
+}
 
 
 
 $data = array();
-
 $stock_message = '';
-
-
 
 if (isset($_POST['action'])){
 
@@ -94,27 +136,19 @@ if (isset($_POST['action'])){
 
     $filtered_options = array();
 
-
-
     $product_id = $_POST['product_id'];
 
     $filters = explode('|', $_POST['filters']);
 
     $all_filters_selected = isset($_POST['all_filters_selected']) && $_POST['all_filters_selected']=='1' ? true : false;
 
-
-
     $modified_option_id = null;
 
     $modified_value_id = null;
 
-
-
     foreach($filters as $entry){
 
         list($option_id, $option_value_id) = explode('_', $entry);
-
-
 
         if (substr($option_id, 0, 1)=='*'){
 
@@ -126,13 +160,9 @@ if (isset($_POST['action'])){
 
         }
 
-
-
         $specs[$option_id] = $option_value_id;
 
     }
-
-
 
     $temp = array();
 
@@ -164,8 +194,6 @@ if (isset($_POST['action'])){
 
     }
 
-
-
     $data[] = array(
 
         'product_id' => 0, 
@@ -196,23 +224,17 @@ if (isset($_POST['action'])){
 
             //$query = "select products_model, products_price, products_tax_class_id, products_quantity, products_image, products_mediumimage, products_largeimage from products where products_id='" . (int)$temp[0] . "'";
 
-            
-
 			// modified on 19-10-2015 to include EAN number #start
 
-			$query = "select products_model, products_price, products_tax_class_id, products_quantity, products_image, products_mediumimage, products_largeimage, upc_ean, min_acceptable_price from products left join products_extended on (products.products_id= products_extended.osc_products_id) where products_id='" . (int)$temp[0] . "'";
+			$query = "select products_model, products_price, products_tax_class_id, products_quantity, products_image, products_mediumimage, products_largeimage, upc_ean, min_acceptable_price,products_bundle from products join products_extended on (products.products_id= products_extended.osc_products_id) where products_id='" . (int)$temp[0] . "'";
 
 			// modified on 19-10-2015 to include EAN number #ends
-
-			
 
 			$sql = tep_db_query($query);
 
             if (tep_db_num_rows($sql)){
 
                 $info = tep_db_fetch_array($sql);
-
-
 
                 $data[0]['product_id'] = $temp[0];
 
@@ -253,8 +275,19 @@ if (isset($_POST['action'])){
 				$data[0]['upc_ean'] = $info['upc_ean']; // added on 19-10-2015
 
 				$data[0]['min_acceptable_price'] = $info['min_acceptable_price']; // added on 19-10-2015
+				
+				$data[1]['html'] = '';
+				if ($info['products_bundle'] == "yes") {
+					$data[1]['html'] = display_bundle($data[0]['product_id'], $info['products_price']);
+				}
 
             }
+			
+			
+			
+			
+			
+			
 
         }
 
@@ -298,12 +331,6 @@ if (isset($_POST['action'])){
 
 //}
 
-
-
-echo $sts->template['json'] = json_encode($data);
-exit;
-
-
+$sts->template['json'] = json_encode($data);
 require (DIR_WS_INCLUDES . 'application_bottom.php');
-
 ?>

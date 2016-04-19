@@ -780,6 +780,13 @@ if ($info['child_count'] > 0) {
                                  
                                  
                                  }*/
+								 
+								 
+								oPt('#view3').html('');
+								if(response[1]['html'] != ''){
+									oPt('#view3').html(response[1]['html']);
+								}
+								
 
 
 
@@ -2792,7 +2799,28 @@ if (DISPLAY_SOCIAL_MEDIA_BUTTONS == 'true') {
 
 
 
-    $display_product_share_link = '<div> <span class="shareText">Share this product:</span><br /><a href="' . tep_href_link('tell_a_friend.php', 'products_id=' . $product_info['products_id']) . '"><img src="images/shareicons/shareIcon_email.gif" alt="E-mail" title="Email this product" border="0"></a>&nbsp;  <a target="_blank" href="http://www.facebook.com/sharer.php?u=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;t=' . $product_info['products_name'] . '"><img  class="shareIcon" src="images/shareicons/shareIcon_Facebook.gif" alt="Facebook" title="Facebook" border="0"></a>&nbsp;  <a target="_blank" href="http://del.icio.us/post?url=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;title=' . $product_info['products_name'] . '&amp;notes="><img class="shareIcon" src="images/shareicons/shareIcon_Delicious.gif" alt="Del.icio.us" title="Del.icio.us" border="0"></a>&nbsp;  <a target="_blank" href="http://digg.com/submit/?phase=2&amp;url=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;title=' . $product_info['products_name'] . '&amp;bodytext=""><img class="shareIcon" src="images/shareicons/shareIcon_Digg.gif" alt="Digg" title="Digg" border="0"></a>&nbsp;  <a target="_blank" href="http://www.myspace.com/Modules/PostTo/Pages/?u=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;t=' . $product_info['products_name'] . '"><img class="shareIcon" src="images/shareicons/shareIcon_MySpace.gif" alt="Myspace" title="Myspace" border="0"></a>&nbsp;  <a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&amp;url=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;title=' . $product_info['products_name'] . '&amp;summary="><img class="shareIcon" src="images/shareicons/shareIcon_LinkedIn.gif" alt="LinkedIn" title="LinkedIn" border="0"></a>&nbsp;  <a target="_blank" href="http://www.google.com/bookmarks/mark?op=edit&amp;bkmk=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;title=' . $product_info['products_name'] . '"><img class="shareIcon" src="images/shareicons/shareIcon_GoogleBookmarks.gif" alt="Google Bookmarks" title="Google Bookmarks" border="0"></a>&nbsp;  <a target="_blank" href="http://twitthis.com/twit?url=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;title=' . $product_info['products_name'] . '"><img class="shareIcon" src="images/shareicons/shareIcon_Twitter.gif" alt="Twitter" title="Twitter" border="0"></a> </div>';
+    $display_product_share_link = '<div> <span class="shareText">Share this product:</span><br /><a href="' . tep_href_link('tell_a_friend.php', 'products_id=' . $product_info['products_id']) . '"><img src="images/shareicons/shareIcon_email.gif" alt="E-mail" title="Email this product" border="0"></a>&nbsp;  <a target="_blank" href="http://www.facebook.com/sharer.php?u=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;t=' . $product_info['products_name'] . '"><img  class="shareIcon" src="images/shareicons/shareIcon_Facebook.gif" alt="Facebook" title="Facebook" border="0"></a>&nbsp;  <a target="_blank" href="http://del.icio.us/post?url=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;title=' . $product_info['products_name'] . '&amp;notes="><img class="shareIcon" src="images/shareicons/shareIcon_Delicious.gif" alt="Del.icio.us" title="Del.icio.us" border="0"></a>&nbsp;  <a target="_blank" href="http://digg.com/submit/?phase=2&amp;url=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;title=' . $product_info['products_name'] . '&amp;bodytext=""><img class="shareIcon" src="images/shareicons/shareIcon_Digg.gif" alt="Digg" title="Digg" border="0"></a>&nbsp;  <a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&amp;url=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;title=' . $product_info['products_name'] . '&amp;summary="><img class="shareIcon" src="images/shareicons/shareIcon_LinkedIn.gif" alt="LinkedIn" title="LinkedIn" border="0"></a>&nbsp;  <a target="_blank" href="http://twitthis.com/twit?url=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;title=' . $product_info['products_name'] . '"><img class="shareIcon" src="images/shareicons/shareIcon_Twitter.gif" alt="Twitter" title="Twitter" border="0"></a> ';
+	
+	
+	// pin interest code #start
+	$display_product_share_link .= '<a title="'.$product_info['products_name'].'" href="http://pinterest.com/pin/create/button/?url='.tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id'], 'NONSSL').'&media=' . $largeImg.'"></a> <script type="text/javascript" src="//assets.pinterest.com/js/pinit.js"></script> ';
+	// pin interest code #ends
+	
+	// google plus share icon #start
+	$display_product_share_link .= '<div class="g-plus" data-action="share" data-annotation="bubble" data-href="'.tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id'], 'NONSSL').'"></div> <script type="text/javascript">
+  (function() {
+    var po = document.createElement("script"); 
+	po.type = "text/javascript"; 
+	po.async = true;
+    po.src = "https://apis.google.com/js/platform.js";
+    var s = document.getElementsByTagName("script")[0]; 
+	s.parentNode.insertBefore(po, s);
+  })();
+</script> </div>';
+	// google plus share icon #ends
+	
+	
+	
 } else {
 
 
