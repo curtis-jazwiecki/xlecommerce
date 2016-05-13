@@ -18,6 +18,7 @@ $.fn.focusNextInputField = function() {
 
 };
 
+
 document.onkeydown = keydown;
 
 document.onmousedown = mousedown;
