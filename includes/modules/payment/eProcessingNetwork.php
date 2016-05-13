@@ -669,8 +669,7 @@ EOT;
 			return $return_string;
 		}
 
-		function pre_confirmation_check()
-		{
+		function pre_confirmation_check(){
 			global $HTTP_POST_VARS;
 
 			// We don't confirm if OSCommerce is not collecting the CC#
@@ -769,6 +768,101 @@ EOT;
 						'SSL',
 						true,
 						false));
+				}
+			}
+		}
+		
+		function onepage_pre_confirmation_check(){
+			global $HTTP_POST_VARS;
+
+			// We don't confirm if OSCommerce is not collecting the CC#
+
+			if (!$this->eproc_gets_cc)
+			{
+				$error = '';
+				$result = true;
+
+				$payment_type = $HTTP_POST_VARS ['eprocessing_payment_type'];
+
+				if (!strcmp ($payment_type, "Check"))
+				{
+					$routing  = $HTTP_POST_VARS ['eprocessing_ccfs_routing'];
+					$account  = $HTTP_POST_VARS ['eprocessing_ccfs_account'];
+					$check    = $HTTP_POST_VARS ['eprocessing_ccfs_check'];
+					$bankname = $HTTP_POST_VARS ['eprocessing_ccfs_bankname'];
+
+					if (strlen ($account) < 1 ||
+					    !(ctype_digit ($account)))
+					{
+						$error = MODULE_PAYMENT_EPROCESSINGNETWORK_CCFS_ACCOUNT_ERROR;
+						$result = false;
+					}
+
+					if (strlen ($check) < 1 ||
+					    !(ctype_digit ($check)))
+					{
+						$error =
+						MODULE_PAYMENT_EPROCESSINGNETWORK_CCFS_CHECK_ERROR;
+						$result = false;
+					}
+
+					if (strlen ($bankname) < 1)
+					{
+						$error =
+						MODULE_PAYMENT_EPROCESSINGNETWORK_CCFS_BANKNAME_ERROR;
+						$result = false;
+					}
+
+					if (strlen ($routing) != 9 ||
+					    !(ctype_digit ($routing)) ||
+						($this->RoutingMod10 ($routing)) == 0)
+					{
+						$error = MODULE_PAYMENT_EPROCESSINGNETWORK_CCFS_ROUTING_ERROR;
+						$result = false;
+					}
+				}
+				else
+				{
+					include(DIR_WS_CLASSES . 'cc_validation.php');
+
+					$cc_validation = new cc_validation();
+					$result = $cc_validation->validate(
+						$HTTP_POST_VARS['eprocessing_cc_number'],
+						$HTTP_POST_VARS['eprocessing_cc_expires_month'],
+						$HTTP_POST_VARS['eprocessing_cc_expires_year']);
+
+					$error = '';
+					switch ($result)
+					{
+					case -1:
+						$error = sprintf(
+							TEXT_CCVAL_ERROR_UNKNOWN_CARD,
+							substr($cc_validation->cc_number, 0, 4));
+						break;
+					case -2:
+					case -3:
+					case -4:
+						$error = TEXT_CCVAL_ERROR_INVALID_DATE;
+						break;
+					case false:
+						$error = TEXT_CCVAL_ERROR_INVALID_NUMBER;
+						$result = false;
+						break;
+					}
+
+					$this->cc_card_type = $cc_validation->cc_type;
+					$this->cc_card_number = $cc_validation->cc_number;
+					$this->cc_expiry_month = $cc_validation->cc_expiry_month;
+					$this->cc_expiry_year = $cc_validation->cc_expiry_year;
+					$this->cc_cvv2_type = $HTTP_POST_VARS['eprocessing_cc_cvv2_type'];
+					$this->cc_cvv2 = $HTTP_POST_VARS['eprocessing_cc_cvv2'];
+				}
+
+				if (($result == false) || ($result < 1)){
+					$payment_error_return = 'payment_error=' . $this->code .'&error=' . urlencode($error) .$this->duplicate_epn_vars();
+					echo urlencode($error);
+				}else{
+					echo "success";
 				}
 			}
 		}

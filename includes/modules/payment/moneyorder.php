@@ -67,7 +67,11 @@
     function pre_confirmation_check() {
       return false;
     }
-
+	
+	function onepage_pre_confirmation_check() {
+      echo "success";
+    }
+	
     function confirmation() {
       return array('title' => MODULE_PAYMENT_MONEYORDER_TEXT_DESCRIPTION);
     }

@@ -72,6 +72,10 @@
     function pre_confirmation_check() {
       return false;
     }
+	
+	function onepage_pre_confirmation_check() {
+      echo "success";
+    }
 
     function confirmation() {
       return false;
