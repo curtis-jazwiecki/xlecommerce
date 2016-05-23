@@ -655,11 +655,11 @@ if ($listing_split->number_of_rows > 0)
     <td class="smallText pagingLinks"><?php echo $listing_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info', 'x', 'y'))); ?></td>
     <td align="right" class="smallText perPage">
         Items per page: 
-                        &nbsp;&nbsp;<a href="javascript://" onclick="javascript:document.forms['filter'].elements['items_per_page'].value='12';document.forms['filter'].submit();" <?php echo ($_SESSION['items_per_page']=='12' ? ' style="font-weight:bolder;"' : ''); ?> >12</a>&nbsp;|&nbsp;
-                        <a href="javascript://" onclick="javascript:document.forms['filter'].elements['items_per_page'].value='24';document.forms['filter'].submit();" <?php echo ($_SESSION['items_per_page']=='24' ? ' style="font-weight:bolder;"' : ''); ?> >24</a>&nbsp;|&nbsp;
-                        <a href="javascript://" onclick="javascript:document.forms['filter'].elements['items_per_page'].value='50';document.forms['filter'].submit();" <?php echo ($_SESSION['items_per_page']=='50' ? ' style="font-weight:bolder;"' : ''); ?> >50</a>&nbsp;|&nbsp;
-                        <a href="javascript://" onclick="javascript:document.forms['filter'].elements['items_per_page'].value='100';document.forms['filter'].submit();" <?php echo ($_SESSION['items_per_page']=='100' ? ' style="font-weight:bolder;"' : ''); ?> >100</a>&nbsp;|&nbsp;
-                        <a href="javascript://" onclick="javascript:document.forms['filter'].elements['items_per_page'].value='All';document.forms['filter'].submit();" <?php echo ($_SESSION['items_per_page']=='All' ? ' style="font-weight:bolder;"' : ''); ?> >All</a>&nbsp;&nbsp;
+                        &nbsp;&nbsp;<a href="javascript://" onclick="javascript:document.forms['filter_products'].elements['items_per_page'].value='12';document.forms['filter_products'].submit();" <?php echo ($_SESSION['items_per_page']=='12' ? ' style="font-weight:bolder;"' : ''); ?> >12</a>&nbsp;|&nbsp;
+                        <a href="javascript://" onclick="javascript:document.forms['filter_products'].elements['items_per_page'].value='24';document.forms['filter_products'].submit();" <?php echo ($_SESSION['items_per_page']=='24' ? ' style="font-weight:bolder;"' : ''); ?> >24</a>&nbsp;|&nbsp;
+                        <a href="javascript://" onclick="javascript:document.forms['filter_products'].elements['items_per_page'].value='50';document.forms['filter_products'].submit();" <?php echo ($_SESSION['items_per_page']=='50' ? ' style="font-weight:bolder;"' : ''); ?> >50</a>&nbsp;|&nbsp;
+                        <a href="javascript://" onclick="javascript:document.forms['filter_products'].elements['items_per_page'].value='100';document.forms['filter_products'].submit();" <?php echo ($_SESSION['items_per_page']=='100' ? ' style="font-weight:bolder;"' : ''); ?> >100</a>&nbsp;|&nbsp;
+                        <a href="javascript://" onclick="javascript:document.forms['filter_products'].elements['items_per_page'].value='All';document.forms['filter_products'].submit();" <?php echo ($_SESSION['items_per_page']=='All' ? ' style="font-weight:bolder;"' : ''); ?> >All</a>&nbsp;&nbsp;
     </td>
   </tr>
   
@@ -718,11 +718,11 @@ if ($listing_split->number_of_rows > 0)
     <td class="smallText pagingLinks"><?php echo  $listing_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info', 'x', 'y'))); ?></td>
     <td align="right" class="smallText perPage">
         Items per page: 
-                        &nbsp;&nbsp;<a href="javascript://" onclick="javascript:document.forms['filter'].elements['items_per_page'].value='12';document.forms['filter'].submit();" <?php echo ($_SESSION['items_per_page']=='12' ? ' style="font-weight:bolder;"' : ''); ?> >12</a>&nbsp;|&nbsp;
-                        <a href="javascript://" onclick="javascript:document.forms['filter'].elements['items_per_page'].value='24';document.forms['filter'].submit();" <?php echo ($_SESSION['items_per_page']=='24' ? ' style="font-weight:bolder;"' : ''); ?> >24</a>&nbsp;|&nbsp;
-                        <a href="javascript://" onclick="javascript:document.forms['filter'].elements['items_per_page'].value='50';document.forms['filter'].submit();" <?php echo ($_SESSION['items_per_page']=='50' ? ' style="font-weight:bolder;"' : ''); ?> >50</a>&nbsp;|&nbsp;
-                        <a href="javascript://" onclick="javascript:document.forms['filter'].elements['items_per_page'].value='100';document.forms['filter'].submit();" <?php echo ($_SESSION['items_per_page']=='100' ? ' style="font-weight:bolder;"' : ''); ?> >100</a>&nbsp;|&nbsp;
-                        <a href="javascript://" onclick="javascript:document.forms['filter'].elements['items_per_page'].value='All';document.forms['filter'].submit();" <?php echo ($_SESSION['items_per_page']=='All' ? ' style="font-weight:bolder;"' : ''); ?> >All</a>&nbsp;&nbsp;
+                        &nbsp;&nbsp;<a href="javascript://" onclick="javascript:document.forms['filter_products'].elements['items_per_page'].value='12';document.forms['filter_products'].submit();" <?php echo ($_SESSION['items_per_page']=='12' ? ' style="font-weight:bolder;"' : ''); ?> >12</a>&nbsp;|&nbsp;
+                        <a href="javascript://" onclick="javascript:document.forms['filter_products'].elements['items_per_page'].value='24';document.forms['filter_products'].submit();" <?php echo ($_SESSION['items_per_page']=='24' ? ' style="font-weight:bolder;"' : ''); ?> >24</a>&nbsp;|&nbsp;
+                        <a href="javascript://" onclick="javascript:document.forms['filter_products'].elements['items_per_page'].value='50';document.forms['filter_products'].submit();" <?php echo ($_SESSION['items_per_page']=='50' ? ' style="font-weight:bolder;"' : ''); ?> >50</a>&nbsp;|&nbsp;
+                        <a href="javascript://" onclick="javascript:document.forms['filter_products'].elements['items_per_page'].value='100';document.forms['filter_products'].submit();" <?php echo ($_SESSION['items_per_page']=='100' ? ' style="font-weight:bolder;"' : ''); ?> >100</a>&nbsp;|&nbsp;
+                        <a href="javascript://" onclick="javascript:document.forms['filter_products'].elements['items_per_page'].value='All';document.forms['filter_products'].submit();" <?php echo ($_SESSION['items_per_page']=='All' ? ' style="font-weight:bolder;"' : ''); ?> >All</a>&nbsp;&nbsp;
     </td>
   </tr>
   <?// #06 9Jan2014 (MA) EOF?>
