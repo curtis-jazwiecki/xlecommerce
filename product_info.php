@@ -1,19 +1,59 @@
 <?php
 /*
+
+
+
   $Id: product_info.php,v 1.97 2003/07/01 14:34:54 hpdl Exp $
+
+
+
   osCommerce, Open Source E-Commerce Solutions
+
+
+
   http://www.oscommerce.com
+
+
+
   Copyright (c) 2003 osCommerce
+
+
+
   Released under the GNU General Public License
+
+
+
  */
+
+
 
 require ('includes/application_top.php');
 
+
+
+
+
+
+
 require (DIR_WS_LANGUAGES . $language . '/' . FILENAME_PRODUCT_INFO);
+
+
+
+
+
+
 
 $check_parent_exist_query = tep_db_query("select p.products_model, p.parent_products_model from " . TABLE_PRODUCTS . " p where p.products_status = '1' and p.products_id = '" . (int) $HTTP_GET_VARS['products_id'] . "'");
 
+
+
 $check_parent_exist = tep_db_fetch_array($check_parent_exist_query);
+
+
+
+
+
+
 
 if (!empty($check_parent_exist['parent_products_model'])) {
 
@@ -28,7 +68,12 @@ if (!empty($check_parent_exist['parent_products_model'])) {
 }
 
 
+
+
+
 $product_check_query = tep_db_query("select count(*) as total,hide_price from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd, " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c, " . TABLE_CATEGORIES . " c where (p.parent_products_model = '' or p.parent_products_model is null) and c.categories_status = '1' and p.products_status = '1' and p.products_id = '" . (int) $_GET['products_id'] . "' and pd.products_id = p.products_id and p2c.products_id = p.products_id and c.categories_id = p2c.categories_id and pd.language_id = '" . (int) $languages_id . "'" . (STOCK_HIDE_OUT_OF_STOCK_PRODUCTS == "true" ? " and p.products_quantity>='" . (int) STOCK_MINIMUM_VALUE . "' " : '') . " and p.is_store_item='0' ");
+
+
 
 $product_check = tep_db_fetch_array($product_check_query);
 
@@ -67,20 +112,37 @@ $is_package_out_of_stock = false; // added on 30-12-2015
 
 function display_bundle($bundle_id, $bundle_price) {
 
+
+
     global $languages_id, $product_info, $currencies,$is_package_out_of_stock;
+
+
 
     $return_str = '';
 
+
+
     $return_str .= '<table border="0" width="95%" cellspacing="1" cellpadding="2" class="infoBox"> <tr class="infoBoxContents"> <td> <table border="0" width="100%" cellspacing="0" cellpadding="2"> <tr> <td class="main" colspan="5"><b>';
+
+
 
     $bundle_sum = 0;
 
+
+
     $return_str .= TEXT_PRODUCTS_BY_BUNDLE . "</b></td></tr>\n";
+
+
 
     //$bundle_query = tep_db_query(" SELECT pd.products_name, pb.*, p.products_bundle, p.products_id, p.products_model, p.products_price, p.products_image FROM " . TABLE_PRODUCTS . " p INNER JOIN " . TABLE_PRODUCTS_DESCRIPTION . " pd ON p.products_id=pd.products_id INNER JOIN " . TABLE_PRODUCTS_BUNDLES . " pb ON pb.subproduct_id=pd.products_id WHERE pb.bundle_id = " . (int)$bundle_id . " and language_id = '" . (int)$languages_id . "'");
 
+
+
     $bundle_query = tep_db_query("select pb.*, p.products_bundle, p.products_id, p.products_model, p.products_price, p.products_image, pd.products_name, p.products_quantity from products_bundles pb inner join products p on pb.subproduct_id=p.products_id inner join products_description pd on (p.products_id=pd.products_id and pd.language_id='" . (int) $languages_id . "') where pb.bundle_id='" . (int) $bundle_id . "'");
 
+
+    
+    
     while ($bundle_data = tep_db_fetch_array($bundle_query)) {
 
         $return_str .= "<tr><td class=main valign=top style='padding-top:10px;'>";
@@ -141,47 +203,124 @@ function display_bundle($bundle_id, $bundle_price) {
 }
 ?>
 
+
+
 <!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN">
 
+
+
 <html <?php echo HTML_PARAMS; ?>>
+
+
+
     <head>
-    <?php
+
+
+
+<?php
 // BOF: Header Tag Controller v2.6.0
 
 
 
 if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
+
+
+
     require (DIR_WS_INCLUDES . 'header_tags.php');
 } else {
-    ?>
-    <title><?php echo TITLE; ?></title>
+    ?> 
+
+
+
+            <title><?php echo TITLE; ?></title>
+
+
+
     <?php
 }
 
+
+
 // EOF: Header Tag Controller v2.6.0
 ?>
-<script language="javascript"><!--
-function popupWindow(url) {
-	window.open(url, 'popupWindow', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=yes,copyhistory=no,width=100,height=100,screenX=150,screenY=150,top=150,left=150')
-}
 
-function popupWindow2(url) {
-	window.open(url, 'popupWindow', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,copyhistory=no,width=550,height=450,screenX=150,screenY=150,top=150,left=150')
-}
-//--></script>
-<link rel="stylesheet" href="lightbox/css/lightbox.css" media="screen"/>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script src="lightbox/js/lightbox-2.6.min.js"></script>
+
+
+    </style>
+
+
+
+    <script language="javascript"><!--
+
+
+
+        function popupWindow(url) {
+
+
+
+            window.open(url, 'popupWindow', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=yes,copyhistory=no,width=100,height=100,screenX=150,screenY=150,top=150,left=150')
+
+
+
+        }
+
+
+
+
+
+
+
+        function popupWindow2(url) {
+
+
+
+            window.open(url, 'popupWindow', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,copyhistory=no,width=550,height=450,screenX=150,screenY=150,top=150,left=150')
+
+
+
+        }
+
+
+
+        //--></script>
+
+
+
+    <link rel="stylesheet" href="lightbox/css/lightbox.css" media="screen"/>
+
+
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+
+
+    <script src="lightbox/js/lightbox-2.6.min.js"></script>
+
+
+
+
+
+
 
 <?php
 ob_start();
 
+
+
 $children_query = tep_db_query("select count(p1.products_model) as child_count from products p1 where p1.parent_products_model='" . $check_parent_exist['products_model'] . "'");
+
+
 
 $info = tep_db_fetch_array($children_query);
 
-if ($info['child_count'] > 0) {?>
-    <script type="text/javascript">
+
+
+if ($info['child_count'] > 0) {
+    ?>
+
+
+
+        <script type="text/javascript">
 
             function disclaimer_onclick(id) {
 
@@ -535,10 +674,7 @@ if ($info['child_count'] > 0) {?>
 
 
                                 oPt('span#availability_message').html(response[0].product_stock);
-								
-								// added on 19-04-2016 #start
-								oPt('#products_stock_availability_message').html(response[0].display_products_stock_availability);
-								// added on 19-04-2016 #ends
+
 
 
                                 if (response[0].image != '<?php echo DIR_WS_IMAGES; ?>') {
@@ -643,7 +779,6 @@ if ($info['child_count'] > 0) {?>
                                  
                                  
                                  
-
                                  }*/
 								 
 								 
@@ -674,7 +809,11 @@ if ($info['child_count'] > 0) {?>
             });
 
         </script>
-    <?php } ?>
+
+
+
+<?php } ?>
+
     <script type="text/javascript">
 
 
@@ -774,114 +913,347 @@ if ($info['child_count'] > 0) {?>
 
 
     </script>
-    <?php
+
+
+
+<?php
 $js_code = ob_get_contents();
+
+
 
 ob_end_clean();
 
+
+
 echo $js_code;
+
+
 
 $sts->template['js_code'] = $js_code;
 ?>
+
+
+
 </head>
+
+
 
 <body style="margin:0;">
 
-<!-- header //-->
+
+
+    <!-- header //-->
+
+
 
 <?php require (DIR_WS_INCLUDES . 'header.php'); ?>
 
-<!-- header_eof //--> 
 
-<!-- body //-->
 
-<table border="0" width="100%" cellspacing="3" cellpadding="3">
+    <!-- header_eof //-->
+
+
+
+    <!-- body //-->
+
+
+
+    <table border="0" width="100%" cellspacing="3" cellpadding="3">
+
+
+
         <tr>
-      
-      <td width="<?php echo BOX_WIDTH; ?>" valign="top"><table border="0" width="<?php echo BOX_WIDTH; ?>" cellspacing="0" cellpadding="2">
-          
-          <!-- left_navigation //-->
-          
-          <?php require (DIR_WS_INCLUDES . 'column_left.php'); ?>
-          
-          <!-- left_navigation_eof //-->
-          
-        </table></td>
-      
-      <!-- body_text //-->
-      
-        <td width="100%" valign="top">
-      
-      <?php
+
+
+
+            <td width="<?php echo BOX_WIDTH; ?>" valign="top">
+
+
+
+                <table border="0" width="<?php echo BOX_WIDTH; ?>" cellspacing="0" cellpadding="2">
+
+
+
+                    <!-- left_navigation //-->
+
+
+
+<?php require (DIR_WS_INCLUDES . 'column_left.php'); ?>
+
+
+
+                    <!-- left_navigation_eof //-->
+
+
+
+                </table>
+
+
+
+            </td>
+
+
+
+            <!-- body_text //-->
+
+
+
+            <td width="100%" valign="top">
+
+
+
+    <?php
     $child_items_exist = false;
 
+
+
     if ($info['child_count'] > 0) {
+
+
+
         $child_items_exist = true;
     }
 
+
+
+
+
+
+
     //if (!$child_items_exist) {
+
+
 
     echo tep_draw_form('cart_quantity', tep_href_link(FILENAME_PRODUCT_INFO, tep_get_all_get_params(array('action')) . 'action=add_product'));
 
+
+
     //}
     ?>
-      <table border="0" width="100%" cellspacing="0" cellpadding="0">
+
+
+
+                <table border="0" width="100%" cellspacing="0" cellpadding="0">
+
+
+
 <?php
 $manufacturer_is_active = manufacturer_is_active((int) $_GET['products_id']);
 
+
+
 if ($product_check['total'] < 1 || !$manufacturer_is_active) {
     ?>
-    <tr>
-          <td><?php new infoBox(array(array('text' => TEXT_PRODUCT_NOT_FOUND))); ?></td>
-        </tr>
-    <tr>
-          <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
-        </tr>
-    <tr>
-          <td><table border="0" width="100%" cellspacing="1" cellpadding="2" class="infoBox">
-              <tr class="infoBoxContents">
-              <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
-                  <tr>
-                  <td width="10"><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
-                  <td align="right"><?php echo '<a href="' . tep_href_link(FILENAME_DEFAULT) . '">' . tep_image_button('button_continue.gif', IMAGE_BUTTON_CONTINUE) . '</a>'; ?></td>
-                  <td width="10"><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
-                </tr>
-                </table></td>
-            </tr>
-            </table></td>
-        </tr>
-    <?php
+
+
+
+                        <tr>
+
+
+
+                            <td>
+
+
+
+    <?php new infoBox(array(array('text' => TEXT_PRODUCT_NOT_FOUND))); ?>
+
+
+
+                            </td>
+
+
+
+                        </tr>
+
+
+
+                        <tr>
+
+
+
+                            <td>
+
+
+
+    <?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?>
+
+
+
+                            </td>
+
+
+
+                        </tr>
+
+
+
+                        <tr>
+
+
+
+                            <td>
+
+
+
+                                <table border="0" width="100%" cellspacing="1" cellpadding="2" class="infoBox">
+
+
+
+                                    <tr class="infoBoxContents">
+
+
+
+                                        <td>
+
+
+
+                                            <table border="0" width="100%" cellspacing="0" cellpadding="2">
+
+
+
+                                                <tr>
+
+
+
+                                                    <td width="10">
+
+
+
+                    <?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?>
+
+
+
+                                                    </td>
+
+
+
+                                                    <td align="right">
+
+
+
+    <?php echo '<a href="' . tep_href_link(FILENAME_DEFAULT) . '">' . tep_image_button('button_continue.gif', IMAGE_BUTTON_CONTINUE) . '</a>'; ?>
+
+
+
+                                                    </td>
+
+
+
+                                                    <td width="10">
+
+
+
+                        <?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?>
+
+
+
+                                                    </td>
+
+
+
+                                                </tr>
+
+
+
+                                            </table>
+
+
+
+                                        </td>
+
+
+
+                                    </tr>
+
+
+
+                                </table>
+
+
+
+                            </td>
+
+
+
+                        </tr>
+
+
+
+                                <?php
                             } else {
 
-$product_info_query = tep_db_query("select p.products_largeimage, p.product_image_2, p.product_image_3, p.product_image_4, p.product_image_5, p.product_image_6, p.products_id, pd.products_name, pd.products_description, pd.products_specifications, p.products_model, p.products_quantity, p.products_image, p.products_mediumimage,pd.products_url, p.products_price, p.products_tax_class_id, p.products_date_added, p.products_date_available, p.manufacturers_id, p.disclaimer_needed, p.hide_price, m.manufacturers_name, p.products_bundle, p.sold_in_bundle_only,p.warehouse_quantity from " . TABLE_PRODUCTS . " p left join " . TABLE_MANUFACTURERS . " m on p.manufacturers_id=m.manufacturers_id , " . TABLE_PRODUCTS_DESCRIPTION . " pd, " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c, " . TABLE_CATEGORIES . " c where c.categories_status = '1' and p.products_status = '1' and p.products_id = '" . (int) $_GET['products_id'] . "' and pd.products_id = p.products_id and p2c.products_id = p.products_id and c.categories_id = p2c.categories_id and pd.language_id = '" . (int) $languages_id . "'");
-
-$product_info = tep_db_fetch_array($product_info_query);
-
-$product_extended_query = tep_db_query("select upc_ean, min_acceptable_price, brand_name from products_extended where osc_products_id  = '" . (int) $_GET['products_id'] . "' ");
-
-$product_extended = tep_db_fetch_array($product_extended_query);
-
-$child_product_query = tep_db_query("select p.products_id from " . TABLE_PRODUCTS . " p where p.products_status = '1' and p.parent_products_model = '" . $product_info['products_model'] . "'");
-
-tep_db_query("update " . TABLE_PRODUCTS_DESCRIPTION . " set products_viewed = products_viewed+1 where products_id = '" . (int) $_GET['products_id'] . "' and language_id = '" . (int) $languages_id . "'");
 
 
-if (tep_not_null($product_info['products_model'])) {
 
-	$products_name = $product_info['products_name'] . '<br><span class="smallText">' . 'item #' . ' [' . $product_info['products_model'] . ']</span>';
-} else {
 
-	$products_name = $product_info['products_name'];
-}
 
-$display_products_name = $product_info['products_name'];?>
-      <tr>
-    
-      <td class="main">
-    
-    <table width="100%">
-          <?php // Start Template Area - strip all HTML tags  ?>
-          <?php
+
+                                $product_info_query = tep_db_query("select p.products_largeimage, p.product_image_2, p.product_image_3, p.product_image_4, p.product_image_5, p.product_image_6, p.products_id, pd.products_name, pd.products_description, pd.products_specifications, p.products_model, p.products_quantity, p.products_image, p.products_mediumimage,pd.products_url, p.products_price, p.products_tax_class_id, p.products_date_added, p.products_date_available, p.manufacturers_id, p.disclaimer_needed, p.hide_price, m.manufacturers_name, p.products_bundle, p.sold_in_bundle_only from " . TABLE_PRODUCTS . " p left join " . TABLE_MANUFACTURERS . " m on p.manufacturers_id=m.manufacturers_id , " . TABLE_PRODUCTS_DESCRIPTION . " pd, " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c, " . TABLE_CATEGORIES . " c where c.categories_status = '1' and p.products_status = '1' and p.products_id = '" . (int) $_GET['products_id'] . "' and pd.products_id = p.products_id and p2c.products_id = p.products_id and c.categories_id = p2c.categories_id and pd.language_id = '" . (int) $languages_id . "'");
+
+
+
+                                $product_info = tep_db_fetch_array($product_info_query);
+
+
+
+
+
+                                $product_extended_query = tep_db_query("select upc_ean, min_acceptable_price, brand_name from products_extended where osc_products_id  = '" . (int) $_GET['products_id'] . "' ");
+
+
+
+                                $product_extended = tep_db_fetch_array($product_extended_query);
+
+
+
+                                $child_product_query = tep_db_query("select p.products_id from " . TABLE_PRODUCTS . " p where p.products_status = '1' and p.parent_products_model = '" . $product_info['products_model'] . "'");
+
+
+
+                                tep_db_query("update " . TABLE_PRODUCTS_DESCRIPTION . " set products_viewed = products_viewed+1 where products_id = '" . (int) $_GET['products_id'] . "' and language_id = '" . (int) $languages_id . "'");
+
+
+
+
+
+
+
+                                if (tep_not_null($product_info['products_model'])) {
+
+
+
+                                    $products_name = $product_info['products_name'] . '<br><span class="smallText">' . 'item #' . ' [' . $product_info['products_model'] . ']</span>';
+                                } else {
+
+
+
+                                    $products_name = $product_info['products_name'];
+                                }
+
+
+
+                                $display_products_name = $product_info['products_name'];
+                                ?>
+
+
+
+                        <tr>
+
+
+
+                            <td class="main">
+
+
+
+                                <table width="100%">
+
+
+
+    <?php // Start Template Area - strip all HTML tags  ?>
+
+
+
+    <?php
     // Get selected template
 
 
@@ -997,11 +1369,11 @@ $display_products_name = $product_info['products_name'];?>
 
 
 
-        /*    $display_product_image .= '//--></script>' . "\n";
+        //    $display_product_image .= '//--></script>' . "\n";
         //  $display_product_image .= '<noscript>' . "\n";
         //$display_product_image .= '<a id="image_link" href="' . tep_href_image_link(DIR_WS_IMAGES . $product_info['products_image']) . '" target="_blank">' . $image . '<br>' . TEXT_CLICK_TO_ENLARGE . '</a>' . "\n";
         //    $display_product_image .= '<a id="image_link" href="' . tep_href_image_link(DIR_WS_IMAGES . $largeImg) . '" target="_blank">' . $image . '<br>' . TEXT_CLICK_TO_ENLARGE . '</a>' . "\n";
-        //    $display_product_image .= '</noscript>' ;*/
+        //    $display_product_image .= '</noscript>' ;
 
 
 
@@ -1395,6 +1767,10 @@ $display_products_name = $product_info['products_name'];?>
 
     // display product specification from specification table #ends
 
+
+
+
+
     $display_products_specifications .= '<table>';
 
 
@@ -1447,24 +1823,8 @@ $display_products_name = $product_info['products_name'];?>
         
         $display_products_stock = STORE_STOCK_OUT_OF_STOCK_MESSAGE;
     }
-	
-	
-	
-	 // code added on 19-04-2016 #start
-	 $display_products_stock_availability = '';
-	 if ($product_info['products_bundle'] != "yes") {
-	 	// re-calculate stock
-		$total_quantity = $product_info['products_quantity'] + $product_info['warehouse_quantity'];
-		recalculate_stock_status($display_products_stock,$total_quantity); 
-	 }
-	 
-	 if($product_info['warehouse_quantity'] > 0){
-		$display_products_stock_availability = '<span id="products_stock_availability_message">In Store Availability: <b>In Stock</b></span>';
-	 }else{
-		$display_products_stock_availability = '<span id="products_stock_availability_message">In Store Availability: <b>'.STORE_STOCK_OUT_OF_STOCK_MESSAGE.'</b></span>';
-	 }
-	 // code added on 19-04-2016 #ends
-	 
+
+
 
     if ($product_info['hide_price'] == 1) {
         $display_products_price = "<div style='margin: 10px;'>Add to cart to see price</div>";
@@ -1935,7 +2295,16 @@ $display_products_name = $product_info['products_name'];?>
                     $child_product_array['attribute'][$count] = $display_child_products_attribute;
 
 
-        if ($new_price = tep_get_products_special_price($child_product_info['products_id'])) {
+
+
+
+
+
+
+
+
+
+                    if ($new_price = tep_get_products_special_price($child_product_info['products_id'])) {
 
 
 
@@ -2361,7 +2730,12 @@ $display_products_name = $product_info['products_name'];?>
 
       }
 
+
+
      */
+
+
+
     /*
 
 
@@ -2422,8 +2796,6 @@ $display_products_name = $product_info['products_name'];?>
 
 
 if (DISPLAY_SOCIAL_MEDIA_BUTTONS == 'true') {
-	
-	
 	$display_product_share_link = '<div> <span class="shareText">Share this product:</span><br /><a target="_blank" href="http://www.facebook.com/sharer.php?u=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;t=' . $product_info['products_name'] . '"><img  class="shareIcon" src="images/shareicons/shareIcon_Facebook.gif" alt="Facebook" title="Facebook" border="0"></a>&nbsp;';
 
 
@@ -2504,14 +2876,7 @@ $display_product_share_link .='<a target="_blank" style="margin-left:29px;" href
 	
 
 $display_product_share_link.="<style type='text/css'> .pinterest > span{background:url('images/shareicons/shareIcon_Pinterest.gif') no-repeat;border-shadow:none;width:24px; height:22px;} .google_plus > #___plus_0 {opacity:0;} .google_plus{background:url('images/shareicons/shareIcon_Googleplus.gif') no-repeat;background-position:3px 1px !important;position:absolute !important;height:29px !important;width:26px !important;}  </style>";
-	
-	
-	
-	
-	
-	
-	
-	} else {
+} else {
 
 
 
@@ -2667,11 +3032,6 @@ $text_display = str_replace("DISPLAY_AVAILABILITY_N_PRICE", $text_availability_n
 $sts->template['product_availability_n_price'] = str_replace('DISPLAY_PRODUCT_STOCK', $display_products_stock, $text_availability_n_price);
 
 
-// added on 19-04-2016 #start
-$text_display = str_replace("DISPLAY_PRODUCTS_STOCK_AVAILABILITY", $display_products_stock_availability, $text_display);
-
-$sts->template['display_products_stock_availability'] = $display_products_stock_availability;
-// added on 19-04-2016 #ends
 
 
 
@@ -2879,10 +3239,26 @@ $text_display = str_replace("DISPLAY_PRODUCT_REVIEWS", $display_product_reviews,
 
 $sts->template['product_reviews'] = $display_product_reviews;
 ?>
-          <?php // End Template Area ?>
-          <table  width="100%" border="0">
-        <tr>
-              <td><?php
+
+
+
+                                <?php // End Template Area ?>
+
+
+
+                                <table  width="100%" border="0">
+
+
+
+                                    <tr>
+
+
+
+                                        <td>
+
+
+
+                                <?php
                                 // Modified for Related Products: dt:24July2008
 
 
@@ -3387,50 +3763,129 @@ $sts->template['product_reviews'] = $display_product_reviews;
 
 
                                 echo $text_display;
-                                ?></td>
-            </tr>
-      </table>
+                                ?>
+
+
+
+                                        </td>
+
+
+
+                                    </tr>
+
+
+
+                                </table>
+
+
+
+
+
+
+
+                        </td>
+
+
+
+                    </tr>
+
+
+
+                </table>
+
+
+
             </td>
-          
-            </tr>
-          
-        </table>
-      </td>
-    
-      </tr>
-    
-    <tr>
-          <td><?php
+
+
+
+        </tr>
+
+
+
+        <tr>
+
+
+
+            <td><?php
                                             echo tep_draw_separator('pixel_trans.gif', '100%', '10');
                                             ?></td>
+
+
+
         </tr>
-    <?php
+
+
+
+                                            <?php
                                             if (tep_not_null($product_info['products_url'])) {
                                                 ?>
-    <tr>
-          <td class="main"><?php
+
+
+
+            <tr>
+
+
+
+                <td class="main"><?php
                                                 echo sprintf(TEXT_MORE_INFORMATION, tep_href_link(FILENAME_REDIRECT, 'action=url&goto=' . urlencode($product_info['products_url']), 'NONSSL', true, false));
                                                 ?></td>
-        </tr>
-    <tr>
-          <td><?php
+
+
+
+            </tr>
+
+
+
+            <tr>
+
+
+
+                <td><?php
                                                 echo tep_draw_separator('pixel_trans.gif', '100%', '10');
                                                 ?></td>
-        </tr>
-    <?php
+
+
+
+            </tr>
+
+
+
+                                                <?php
                                             }
                                             ?>
-    <tr>
-          <td><?php
+
+
+
+        <tr>
+
+
+
+            <td><?php
                                             echo tep_draw_separator('pixel_trans.gif', '100%', '10');
                                             ?></td>
+
+
+
         </tr>
-    <?php
+
+
+
+                                            <?php
                                             ?>
-    <?php
+
+
+
+                                            <?php
                                             ?>
-  </table>
-      <?php
+
+
+
+    </table>
+
+
+
+                                            <?php
 //BOF:mod 10-21-2013
 
 
@@ -3466,62 +3921,145 @@ $sts->template['product_reviews'] = $display_product_reviews;
 //if (!$child_items_exist)
 //{
                                             ?>
-        </form>
-      
-      <?php
+
+
+
+</form>
+
+
+
+                                            <?php
 //}
 //EOF:mod 10-21-2013
                                             ?>
-        </td>
-      
-      
-      <!-- body_text_eof //-->
-      
-      
-    <td width="<?php
+
+
+
+</td>
+
+
+
+<!-- body_text_eof //-->
+
+
+
+<td width="<?php
                                             echo BOX_WIDTH;
-                                            ?>" valign="top"><table border="0" width="<?php
+                                            ?>" valign="top">
+
+
+
+    <table border="0" width="<?php
                                             echo BOX_WIDTH;
                                             ?>" cellspacing="0" cellpadding="2">
-        
+
+
+
         <!-- right_navigation //-->
-        
-        <?php
+
+
+
+                                            <?php
                                             require (DIR_WS_INCLUDES . 'column_right.php');
                                             ?>
-        
+
+
+
+
+
+
+
         <!-- right_navigation_eof //-->
-        
-      </table></td>
-  </tr>
+
+
+
     </table>
 
-<!-- body_eof //--> 
+
+
+</td>
+
+
+
+</tr>
+
+
+
+</table>
+
+
+
+<!-- body_eof //-->
+
+
 
 <!-- footer //-->
 
-<?php
+
+
+                                            <?php
                                             require (DIR_WS_INCLUDES . 'footer.php');
                                             ?>
 
-<!-- footer_eof //--> 
+
+
+
+
+
+
+<!-- footer_eof //-->
+
+
 
 <br>
-<div id="my-store-4135379">This store is powered by Ecwid - <a href="http://www.ecwid.com">AJAX shopping cart</a>. If you your browser does not support JavaScript, please proceed to its <a href="http://app.ecwid.com/jsp/4135379/catalog">simple HTML version</a>.</div>
-<div> 
-      <script type="text/javascript" src="http://app.ecwid.com/script.js?4135379" charset="utf-8"></script><script type="text/javascript"> xProductBrowser("categoriesPerRow=3", "views=grid(3,3) list(10) table(20)", "categoryView=grid", "searchView=list", "id=my-store-4135379");</script> 
-    </div>
+
+
+
+<div id="my-store-4135379">This store is powered by Ecwid - <a href="http://www.ecwid.com">AJAX shopping cart</a>. If you your browser does not support JavaScript, please proceed to its <a href="http://app.ecwid.com/jsp/4135379/catalog">simple HTML version</a>.</div><div>
+
+
+
+    <script type="text/javascript" src="http://app.ecwid.com/script.js?4135379" charset="utf-8"></script><script type="text/javascript"> xProductBrowser("categoriesPerRow=3", "views=grid(3,3) list(10) table(20)", "categoryView=grid", "searchView=list", "id=my-store-4135379");</script>
+
+
+
+</div> 
+
+
+
 <br>
-<div> 
-      <script type="text/javascript" src="http://app.ecwid.com/script.js?4135379" charset="utf-8"></script> 
-      
-      <!-- remove layout parameter if you want to position minicart yourself --> 
-      
-      <script type="text/javascript"> xMinicart("layout=attachToCategories");</script> 
-    </div>
+
+
+
+<div>
+
+
+
+    <script type="text/javascript" src="http://app.ecwid.com/script.js?4135379" charset="utf-8"></script>
+
+
+
+    <!-- remove layout parameter if you want to position minicart yourself -->
+
+
+
+    <script type="text/javascript"> xMinicart("layout=attachToCategories");</script>
+
+
+
+</div>
+
+
+
 </body>
+
+
+
 </html>
-<?php
+
+
+
+                                            <?php
                                             require (DIR_WS_INCLUDES . 'application_bottom.php');
 
 
