@@ -1,5 +1,5 @@
 <?php
-
+ 
 /*
 
   $Id: general.php,v 1.231 2003/07/09 01:15:48 hpdl Exp $
@@ -4140,4 +4140,32 @@ function getFeaturedManufacturer(){
         return $manufacturer_featured_array;
     }
 }
+
+function getFFLDealerDetails($fflID){
+	$ffl_dealer_details = tep_db_query("select * from ffl_dealers_data where ffl_dealers_data_id = '".tep_db_prepare_input($fflID)."'");
+	$ffl_data_string = '';
+	if(tep_db_num_rows($ffl_dealer_details)){
+		$ffl_data = tep_db_fetch_array($ffl_dealer_details);
+		$ffl_data_string .= 'licensee : '.$ffl_data['license_name'];
+		//$ffl_data_string .= '<li><b>Phone Number:</b> '.$ffl_data['voice_phone'].'</li>';
+		//$ffl_data_string .= '<li><b>Street Address:</b> '.$ffl_data['premise_street'].'</li>';
+		//$ffl_data_string .= '<li><b>City:</b> '.$ffl_data['premise_city'].'</li>';
+		//$ffl_data_string .= '<li><b>State:</b> '.$ffl_data['premise_state'].'</li>';
+		//$ffl_data_string .= '<li><b>Zip:</b> '.$ffl_data['premise_zip_code'].'</li>';
+		//$ffl_data_string .= '</ul>';
+	}
+	return $ffl_data_string;
+}
+
+function getVendorDetails($vendors_id){
+
+	$vendors_query = tep_db_query ("select vendors_name from " . TABLE_VENDORS . " where vendors_id = '" . (int)$vendors_id . "'");
+	$vendors_name = 'Unknown';
+
+	if ($vendors = tep_db_fetch_array($vendors_query)) {
+		$vendors_name = $vendors['vendors_name'];
+	}
+	
+	return $vendors_name;
+}						
 ?>
