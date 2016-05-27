@@ -3944,7 +3944,200 @@ function print_array ($array, $exit = false) {
 
 }
 
+function get_top_categories($limit){
+    $categories_array = array();
+    global $languages_id;
+    
+    $categories_query = tep_db_query("select cd.categories_name, c.categories_image, c.categories_id from " . TABLE_CATEGORIES . " c, " . TABLE_CATEGORIES_DESCRIPTION . " cd where c.categories_status = '1' and c.parent_id = '0' and cd.categories_id = c.categories_id $cond and  cd.language_id = '" . (int)$languages_id . "' order by c.sort_order limit 6,". $limit);
+    
+    
+    while ($categories = tep_db_fetch_array($categories_query)) {
+        $cPath_new = tep_get_path($categories['categories_id']);
+        
+        $deespest_category  = deepest_category($categories['categories_id']);
+		
+		$products_in_category = tep_count_products_in_category($deespest_category);
+        $display_image = '';
+        
+        if( tep_not_null($categories['categories_image']) || ($categories['categories_image'] == '' && $products_in_category > 0) ){
+			
+			if($categories['categories_image'] != ''){
+                $display_image = '<img src="images/'.$categories['categories_image'].'" width="300" height="320" />';
+			} else {
+				$count = 0;
+				$temp = array();
+				while (empty($display_image) && $count<=10){
+					$image_ok = false;
 
+					if(USE_FRONTEND_CATEGORIES == 'true') {
+						$image_query = tep_db_query("SELECT p.products_largeimage, p.products_id FROM frontend_products_to_categories fp2c JOIN products p ON p.products_id = fp2c.products_id WHERE fp2c.categories_id = '".(int)$deespest_category . "' and p.products_mediumimage<>'' " . (!empty($temp) ? " and p.products_id not in (" . implode(', ', $temp) . ") " : "") . "  order by rand() limit 1");
+						$image = tep_db_fetch_array($image_query);
+					} else {
+						$image_query = tep_db_query("select p.products_largeimage, p.products_id from products p, products_to_categories p2c where p.products_id = p2c.products_id and p2c.categories_id = '" . (int)$deespest_category . "' and p.products_mediumimage<>'' " . (!empty($temp) ? " and p.products_id not in (" . implode(', ', $temp) . ") " : "") . " order by rand() limit 1");
+						$image = tep_db_fetch_array($image_query);
+					}
+					if (tep_not_null($image['products_largeimage'])){
+						$pos = stripos($image['products_largeimage'], 'http');
+						if ($pos!==false && $pos===0){
+							if (@file_get_contents($image['products_largeimage'])){
+								$image_ok = true;
+							}
+						} elseif (file_exists(DIR_FS_CATALOG . DIR_WS_IMAGES . $image['products_largeimage'])) {
+							$image_ok = true;
+						}
+						if ($image_ok){
+							$display_image = tep_medium_image($image['products_largeimage'], $categories['categories_name'], 300, 320);
+						}
+					}
+					if (!$image_ok) $temp[] = $image['products_id'];
+					if ($temp[count($temp)-1]==''){
+						array_pop($temp);
+					}
+					$count++;
+				}
 
+			}
+		
+		}
+        
+        
+        
+        $categories_array[] = array(
+            "categories_id" => $categories['categories_id'],
+            "category_image" => $display_image,
+            "category_link" => tep_href_link(FILENAME_DEFAULT, $cPath_new),
+            "category_name" => $categories['categories_name']
+        );
+    }
+    return $categories_array;
+}
+
+function deepest_category($parent_id = '0') {
+	$categories_query = tep_db_query("select categories_id from " . TABLE_CATEGORIES . " where parent_id = '" . (int)$parent_id . "' order by sort_order");
+	if (tep_db_num_rows($categories_query) > 0) {
+		while ($categories = tep_db_fetch_array($categories_query)) {
+			$categories_query2 = tep_db_query("select count(*) as total from " . TABLE_CATEGORIES . " where parent_id = '" . (int)$categories['categories_id']. "' order by sort_order");
+			$categories2 = tep_db_fetch_array($categories_query2);
+			if ($categories2['total'] >0) {
+				$deepest_category  = tep_get_deepest_category($categories['categories_id']);
+				if ($deepest_category >0) break;
+			} else {
+				$deepest_category = 	$categories['categories_id'];
+				break;
+			}
+		} 
+	} else {
+		$deepest_category = $parent_id;
+	}
+    return $deepest_category;
+}
+
+function getFeaturedProductsByGroup($featured_group){
+   
+    $featured_array = array();
+    global $languages_id,$currencies;
+    $featured_query = tep_db_query("select p.products_largeimage,p.products_id,p.products_image,p.products_price,p.products_tax_class_id, pd.products_name, s.featured_id, s.expires_date, s.status from " . TABLE_PRODUCTS . " p, " . TABLE_FEATURED . " s, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = pd.products_id and pd.language_id = '" . $languages_id . "' and p.products_id = s.products_id and s.featured_group = '".$featured_group."' and s.status = '1' and (s.expires_date > now() or s.expires_date = '0000-00-00 00:00:00') order by pd.products_name"); 
+   
+    
+    while ($featured = tep_db_fetch_array($featured_query)) {
+        
+        
+		$featured['specials_new_products_price'] = tep_get_products_special_price($featured['products_id']);
+
+        if ($featured['specials_new_products_price']) {
+             $featured_price =  '<s>' . $currencies->display_price($featured['products_price'], tep_get_tax_rate($featured['products_tax_class_id'])) . '</s><br>';
+             $featured_price .= $currencies->display_price($featured['specials_new_products_price'], tep_get_tax_rate($featured['products_tax_class_id']));
+        } else {
+             $featured_price =  $currencies->display_price($featured['products_price'], tep_get_tax_rate($featured['products_tax_class_id']));
+        }
+   
+       if (tep_not_null($featured['products_image'])) {
+        	
+            $feed_status = is_xml_feed_product($featured['products_id']);
+            
+			
+			
+			
+            if ($feed_status && stripos($featured['products_largeimage'], 'http://')!==false){
+				
+            
+                if (@getimagesize($featured['products_largeimage'])){
+                
+                $image = '<img src="' . $featured['products_largeimage'] . '" title="' . $featured['products_name'] . '" class="img-responsive img-portfolio img-hover" style="width:350px;height:200px;">';
+                
+                } else {
+                
+                $image = '<img src="' . DIR_WS_IMAGES . $featured['products_largeimage'] . '" title="' . $featured['products_name'] . '" class="img-responsive img-portfolio img-hover" style="width:350px;height:200px;">';
+                
+                }
+            
+            } else {
+           
+		   	$image = '<img src="' . DIR_WS_IMAGES . $featured['products_largeimage'] . '" title="' . $featured['products_name'] . '" class="img-responsive img-portfolio img-hover" style="width:350px;height:200px;">';
+			
+            
+            }
+       
+       }else{
+            $image = '<img src="images/noimage.gif" title="' . $featured['products_name'] . '" style="width:350px;height:200px;" class="img-responsive img-portfolio img-hover">';
+       }
+       
+        
+      
+        $featured_array[] = array(
+            "featured_image" => $image,
+            "featured_link" => tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $featured['products_id']),
+            "featured_name" => $featured['products_name'],
+            "featured_price" => $featured_price
+        );
+        
+    }
+	 
+    
+    return $featured_array;
+}
+
+function getFeaturedManufacturer(){
+    global $languages_id,$currencies;
+    $manufacturer_featured_array = array();
+    $mQuery = tep_db_query("SELECT configuration_value FROM `configuration` where configuration_id = 1215 ");
+    $mlist = tep_db_fetch_array($mQuery);
+    
+    $mids = implode(",",array_filter(explode(",",$mlist['configuration_value'])));
+    
+    if(!empty($mids)){
+        $listing_sql = tep_db_query("select p.products_image, pd.products_name ,p.products_id, p.products_price, p.products_tax_class_id, IF(s.status, s.specials_new_products_price, NULL) as specials_new_products_price, IF(s.status, s.specials_new_products_price, p.products_price) as final_price from " . TABLE_PRODUCTS . " p left join " . TABLE_SPECIALS_RETAIL_PRICES . " s on p.products_id = s.products_id, " . TABLE_PRODUCTS_DESCRIPTION . " pd, " . TABLE_MANUFACTURERS . " m where p.products_status = '1' and pd.products_id = p.products_id and pd.language_id = '" . (int)$languages_id . "' and p.manufacturers_id = m.manufacturers_id and m.manufacturers_id IN (" .$mids. ") and m.manufacturers_status='1' " . (STOCK_HIDE_OUT_OF_STOCK_PRODUCTS=='true' ? " and p.products_quantity>='" . (int)STOCK_MINIMUM_VALUE . "' " : '') . " and p.is_store_item='0' and p.parent_products_model is NULL order by rand() limit 7");
+        while ($products = tep_db_fetch_array($listing_sql)) {
+        
+            $products['specials_new_products_price'] = tep_get_products_special_price($products['products_id']);
+    
+            if ($products['specials_new_products_price']) {
+                 $products_price =  '<s>' . $currencies->display_price($products['products_price'], tep_get_tax_rate($products['products_tax_class_id'])) . '</s><br>';
+                 $products_price .= $currencies->display_price($products['specials_new_products_price'], tep_get_tax_rate($products['products_tax_class_id']));
+            } else {
+                 $products_price =  $currencies->display_price($products['products_price'], tep_get_tax_rate($products['products_tax_class_id']));
+            }
+       
+           if (tep_not_null($products['products_image'])) {
+            	
+                $feed_status = is_xml_feed_product($products['products_id']);
+                
+                //if ($feed_status) 
+                  // $image = tep_small_image($products['products_image'], $products['products_name'], 360, 380,'class="img-responsive img-portfolio img-hover"');
+                //else 
+                   $image = tep_image(DIR_WS_IMAGES . $products['products_image'], $products['products_name'], 360, 380,'class="img-responsive img-portfolio img-hover"');
+           
+           }
+           
+            $manufacturer_featured_array[] = array(
+                "featured_image"  => $image,
+                "featured_link"   => tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $products['products_id']),
+                "featured_name"   => $products['products_name'],
+                "featured_price"  => $products_price
+            );
+        
+        }
+        return $manufacturer_featured_array;
+    }
+}
 ?>
-

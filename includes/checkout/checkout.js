@@ -85,8 +85,6 @@ function submitFunction() {
 
 }
 
-
-
 var errCSS = {
 
 	'border-color': 'red',
@@ -94,10 +92,6 @@ var errCSS = {
 	'border-style': 'solid'
 
 };
-
-
-
-
 
 function bindAutoFill($el){
 
@@ -153,8 +147,6 @@ function bindAutoFill($el){
 
 }
 
-
-
 function setFocus(){
 
 	$(this).data('hasFocus', 'true');
@@ -163,8 +155,6 @@ function setFocus(){
 
 }
 
-
-
 function unsetFocus(){
 
 	$(this).data('hasFocus', 'false');
@@ -172,8 +162,6 @@ function unsetFocus(){
 	//$element1 = $(this);
 
 }
-
-
 
 var checkout = {
 
@@ -1293,7 +1281,13 @@ var checkout = {
 									
 									if (action == 'shipping'){
 										//alert("shipping function called");
-										callshippingMethod();
+										setMethod = checkoutClass.setShippingMethod;
+										$('input:radio[name^="shipping"]').each(function (){
+											if($(this).attr('checked')){
+												setMethod.call(checkoutClass, $(this));
+												checkoutClass.updateOrderTotals();
+											}
+										});
 									}
 
                                 //} else {
@@ -1312,9 +1306,7 @@ var checkout = {
 
 
 
-				if(action == 'payment')
-
-				{
+				if(action == 'payment'){
 
 					if($('input[name="cot_gv"]', $(this)))
 
@@ -1410,7 +1402,7 @@ var checkout = {
 
 
 
-					$('input1[name="' + action + '"]', $(this)).each(function (){
+					$('input[name="' + action + '"]', $(this)).each(function (){
 					   $('#checkoutContainerMessage').html('');
 
 						var setMethod = checkoutClass.setPaymentMethod;
@@ -1505,7 +1497,7 @@ var checkout = {
 
 	},
 
-    setShippingMethod: function ($button){
+    setShippingMethod: function (button){
 
             //alert("in shipping method");
 			
@@ -1514,13 +1506,17 @@ var checkout = {
                 return false;
 
             }
+			if(button == undefined){
+				return false;
+			}
+			
 
 
 
             var checkoutClass = this;
 
-            //if ($button.attr('name').indexOf('_')!=-1){
-			if (1==1){
+            if (button.attr('name').indexOf('_')!=-1){
+			//if (1==1){
                 var ship_methods = '';
 
                 $('input:radio[name!="shipping"]').each(function(){
@@ -1550,7 +1546,7 @@ var checkout = {
 
             } else {
 
-                this.setModuleMethod('shipping', $button.val(), function (data){});
+                this.setModuleMethod('shipping', button.val(), function (data){});
 
             }
 
@@ -2198,8 +2194,22 @@ var checkout = {
 			}
 	
 			this.updateFinalProductListing();
+			
+			$('input:radio[name^="shipping"]').each(function (){
+
+			//EOF:mvs_internal_mod
+
+				if($(this).attr('checked')){
+
+					checkoutClass.setShippingMethod($(this));
+
+					
+
+				}
+
+			});
 	
-			this.setShippingMethod();   
+			//this.setShippingMethod();   
 			this.updateOrderTotals();  
 
 		}
@@ -2293,6 +2303,8 @@ var checkout = {
 			//BOF:mvs_internal_mod
 
 			*/
+			
+			
 
 			$('input:radio[name^="shipping"]').each(function (){
 

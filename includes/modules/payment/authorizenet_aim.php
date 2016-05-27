@@ -174,6 +174,40 @@
       $this->cc_expiry_month = $cc_validation->cc_expiry_month;
       $this->cc_expiry_year = $cc_validation->cc_expiry_year;
     }
+	
+	function onepage_pre_confirmation_check() {
+      require_once(DIR_WS_CLASSES . 'cc_validation.php');
+      $cc_validation = new cc_validation();
+      $result = $cc_validation->validate($_POST['authorizenet_aim_cc_number'], $_POST['authorizenet_aim_cc_expires_month'], $_POST['authorizenet_aim_cc_expires_year'], $_POST['authorizenet_aim_cc_cvv']);
+      $error = '';
+      switch ($result) {
+        case -1:
+          $error = sprintf(TEXT_CCVAL_ERROR_UNKNOWN_CARD, substr($cc_validation->cc_number, 0, 4));
+          break;
+        case -2:
+        case -3:
+        case -4:
+          $error = TEXT_CCVAL_ERROR_INVALID_DATE;
+          break;
+        case false:
+          $error = TEXT_CCVAL_ERROR_INVALID_NUMBER;
+          break;
+      }
+
+      if ( ($result == false) || ($result < 1) ) {
+        $payment_error_return = 'payment_error=' . $this->code . '&error=' . urlencode($error) . '&authorizenet_aim_cc_owner=' . urlencode($_POST['authorizenet_aim_cc_owner']) . '&authorizenet_aim_cc_expires_month=' . $_POST['authorizenet_aim_cc_expires_month'] . '&authorizenet_aim_cc_expires_year=' . $_POST['authorizenet_aim_cc_expires_year'];
+        echo urlencode($error);
+	  }else{
+		echo "success";
+	  }
+	  
+      $this->cc_card_type = $cc_validation->cc_type;
+      $this->cc_card_number = $cc_validation->cc_number;
+      $this->cc_expiry_month = $cc_validation->cc_expiry_month;
+      $this->cc_expiry_year = $cc_validation->cc_expiry_year;
+    }
+	
+	
    // Display Credit Card Information on the Checkout Confirmation Page
     function confirmation() {
       global $order;

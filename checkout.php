@@ -952,7 +952,7 @@ if (ONEPAGE_CHECKOUT_LOADER_POPUP == 'True') {
 
                                         }
 
-                                        onePage.updateShippingMethods();
+                                        //onePage.updateShippingMethods();
 										
 										//alert("call from checkout page");
 
@@ -1369,18 +1369,13 @@ if (MODULE_ORDER_TOTAL_COUPON_STATUS == 'true') {
 
 ?>
 
-function callshippingMethod(){
-	onePage.setShippingMethod();
-	onePage.updateOrderTotals();
-}
-
         //-->
 
         </script>
 
     </head>
 
-    <body class="checkout" marginwidth="0" marginheight="0" topmargin="0" bottommargin="0" leftmargin="0" rightmargin="0">
+    <body class="checkout" marginwidth="0" marginheight="0" topmargin="0" bottommargin="0" leftmargin="0" rightmargin="0"> 
 
         <!-- header //-->
 
@@ -1586,7 +1581,7 @@ if (isset($_GET['payment_error']) && is_object(${$_GET['payment_error']}) && ($e
 
                             </tr>
 
-                            <tr>
+                            <tr class="copun_box">
 
                                 <td class="main" style="padding-top:5px;"><table cellpadding="0" cellspacing="0" border="0" width="100%">
 
@@ -1680,7 +1675,7 @@ if (isset($_GET['payment_error']) && is_object(${$_GET['payment_error']}) && ($e
 
                                                 <div class="block">
 
-                                                    <h2 class="margin">BILLING ADDRESS</h2>
+                                                   <h2 class="margin new_heading_add">BILLING ADDRESS</h2>
 
                                                     <?php
 
@@ -1730,7 +1725,7 @@ if (isset($_GET['payment_error']) && is_object(${$_GET['payment_error']}) && ($e
 
                                                     <div class="block">
 
-                                                        <h2 class="margin">SHIPPING ADDRESS</h2>
+                                                        <h2 class="margin new_heading_add">SHIPPING ADDRESS</h2>
 
     <?php
 
@@ -1798,7 +1793,7 @@ if (isset($_GET['payment_error']) && is_object(${$_GET['payment_error']}) && ($e
 
                                     <div class="block">
 
-                                        <h2 class="margin">PAYMENT METHOD</h2>
+                                       <h2 class="margin new_heading_add">PAYMENT METHOD</h2>
 
 <?php
 
@@ -1876,7 +1871,7 @@ if ($onepage['shippingEnabled'] === true) {
 
                                             <div class="block">
 
-                                                <h2 class="margin">SHIPPING METHOD</h2>
+                                                <h2 class="margin new_heading_add">SHIPPING METHOD</h2>
 
         <?php
 
@@ -1924,7 +1919,7 @@ if ($onepage['shippingEnabled'] === true) {
 
                                     <div class="block">
 
-                                        <h2 class="margin">COMMENTS</h2>
+                                       <h2 class="margin new_heading_add">COMMENTS</h2>
 
                                         <?php
 

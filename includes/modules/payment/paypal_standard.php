@@ -683,10 +683,11 @@
       $products_ordered = '';
 
       for ($i=0, $n=sizeof($order->products); $i<$n; $i++) {
+		  $stock_update_flag = true;
 // Stock Update - Joao Correia
         if (STOCK_LIMITED == 'true') {
           if (DOWNLOAD_ENABLED == 'true') {
-            $stock_query_raw = "SELECT products_quantity, pad.products_attributes_filename
+            $stock_query_raw = "SELECT products_quantity, pad.products_attributes_filename,store_quantity,products_bundle
                                 FROM " . TABLE_PRODUCTS . " p
                                 LEFT JOIN " . TABLE_PRODUCTS_ATTRIBUTES . " pa
                                 ON p.products_id=pa.products_id
@@ -701,20 +702,37 @@
             }
             $stock_query = tep_db_query($stock_query_raw);
           } else {
-            $stock_query = tep_db_query("select products_quantity from " . TABLE_PRODUCTS . " where products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
+            $stock_query = tep_db_query("select products_quantity,store_quantity,products_bundle from " . TABLE_PRODUCTS . " where products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
           }
           if (tep_db_num_rows($stock_query) > 0) {
             $stock_values = tep_db_fetch_array($stock_query);
 // do not decrement quantities if products_attributes_filename exists
             if ((DOWNLOAD_ENABLED != 'true') || (!$stock_values['products_attributes_filename'])) {
-              $stock_left = $stock_values['products_quantity'] - $order->products[$i]['qty'];
+				 if ($stock_values['products_bundle'] == 'yes') {
+				 	reduce_bundle_stock($order->products[$i]['id'], $order->products[$i]['qty'], $insert_id, $order_products_id);
+					$stock_left = 1; // products_quantity has no meaning for bundles but must be at least one for bundle to sell, bundle quantity check is done by other means
+				 }else{
+				 	 // added on 21-04-2016 #start
+					//function defined in general.php
+					deduct_stock(PRODUCTS_DEDUCTION_PRIORITY,$stock_values['products_quantity'],$stock_values['store_quantity'],$insert_id,tep_get_prid($order->products[$i]['id']));
+					$stock_update_flag = false;
+					// added on 21-04-2016 #ends
+					
+					//$stock_left = $stock_values['products_quantity'] - $order->products[$i]['qty'];
+				 }
+				
+				
+              //$stock_left = $stock_values['products_quantity'] - $order->products[$i]['qty'];
             } else {
               $stock_left = $stock_values['products_quantity'];
             }
-            tep_db_query("update " . TABLE_PRODUCTS . " set products_quantity = '" . (int)$stock_left . "' where products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
-            if ( ($stock_left < 1) && (STOCK_ALLOW_CHECKOUT == 'false') ) {
-              tep_db_query("update " . TABLE_PRODUCTS . " set products_status = '0' where products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
-            }
+			
+			if($stock_update_flag){
+				tep_db_query("update " . TABLE_PRODUCTS . " set products_quantity = '" . (int)$stock_left . "' where products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
+				if ( ($stock_left < 1) && (STOCK_ALLOW_CHECKOUT == 'false') ) {
+				  tep_db_query("update " . TABLE_PRODUCTS . " set products_status = '0' where products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
+				}
+			}
           }
         }
 

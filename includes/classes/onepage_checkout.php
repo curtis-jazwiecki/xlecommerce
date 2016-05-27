@@ -2,23 +2,17 @@
 
 class osC_onePageCheckout {
 
-
-
   function osC_onePageCheckout(){
 
     $this->buildSession();
 
   }
 
-
-
   function reset(){
 
     $this->buildSession(true);
 
   }
-
-
 
   function buildSession($forceReset = false){
 
@@ -146,11 +140,7 @@ class osC_onePageCheckout {
 
   }
 
-
-
-  function fixZoneName($zone_id,$country,&$state)
-
-  {
+  function fixZoneName($zone_id,$country,&$state){
 
     	if ( $zone_id >0 && $country>0 ) {
 
@@ -168,9 +158,7 @@ class osC_onePageCheckout {
 
 	}
 
-	
-
-function updatePayment(){
+  function updatePayment(){
 
   global $payment_modules;
 
@@ -229,12 +217,6 @@ function updatePayment(){
 			  
 
  }
-
-
-
-	
-
-
 
   function loadSessionVars($type = 'checkout'){
 
@@ -356,8 +338,6 @@ function updatePayment(){
 
   }
 
-
-
   function init(){
 
     $this->verifyContents();
@@ -387,8 +367,6 @@ function updatePayment(){
     $this->removeCCGV();
 
   }
-
-
 
   function fixTaxes(){
 
@@ -550,8 +528,6 @@ function updatePayment(){
 
   }
 
-
-
   function checkEmailAddress($emailAddress){
 
     $success = 'true';
@@ -591,8 +567,6 @@ function updatePayment(){
     ));
 
   }
-
-
 
   function getAjaxStateField($manualCid = false, $key = 'billing'){
 
@@ -684,11 +658,7 @@ function updatePayment(){
 
   }
 
-
-
-
-
-   function getAjaxStateFieldEdit($manualCid = false, $key = 'billing'){
+  function getAjaxStateFieldEdit($manualCid = false, $key = 'billing'){
 
     global $onepage;
 
@@ -740,12 +710,6 @@ function updatePayment(){
 
   }
 
-
-
-  
-
-
-
   function updateCartProducts($qtys, $ids){
 
     global $cart;
@@ -778,8 +742,6 @@ function updatePayment(){
 
   }
 
-
-
   function removeProductFromCart($productID){
 
     global $cart;
@@ -809,8 +771,6 @@ function updatePayment(){
     return $json;
 
   }
-
-
 
   function processAjaxLogin($emailAddress, $password){
 
@@ -946,8 +906,6 @@ function updatePayment(){
 
   }
 
-
-
   function setPaymentMethod($method){
 
 	global $payment_modules, $language, $order, $cart, $payment, $onepage;
@@ -1038,11 +996,7 @@ function updatePayment(){
 
   }
 
-
-
-  function setGiftVoucher()
-
-  {
+  function setGiftVoucher(){
 
     global $payment, $onepage, $order_total_modules, $credit_covers, $customer_id, $cot_gv, $ot_gv;
 
@@ -1102,11 +1056,7 @@ function updatePayment(){
 
   }
 
-
-
-  function redeemPoints($points)
-
-  {
+  function redeemPoints($points){
 
     global $customer_shopping_points_spending, $customer_id;
 
@@ -1148,11 +1098,7 @@ function updatePayment(){
 
   }
 
-
-
-  function clearPoints()
-
-  {
+  function clearPoints(){
 
     global $customer_shopping_points_spending, $customer_id;
 
@@ -1168,9 +1114,7 @@ function updatePayment(){
 
   }
 
-
-
-  //function setShippingMethod($method = ''){
+ //function setShippingMethod($method = ''){
 
   function setShippingMethod($method = '', $vendor_shipping = array()){
 
@@ -1798,8 +1742,6 @@ else
 
   }
 
-
-
   function setAddress($addressType, $addressID){
 
     global $billto, $sendto, $customer_id, $onepage, $payment_modules;
@@ -1875,8 +1817,6 @@ else
     ));
 
   }
-
-
 
   function saveAddress($action){
 
@@ -2022,8 +1962,6 @@ else
 
   }
 
-
-
   function confirmCheckout(){
 
 		global $customer_id, $comments, $order, $currencies, $request_type, $languages_id, $currency, $cart_PayPal_Standard_ID, $cart_PayPal_IPN_ID, $shipping, $cartID, $order_total_modules, $onepage, $credit_covers, $payment, $comments;
@@ -2153,13 +2091,10 @@ else
 
 
     if (tep_session_is_registered('customer_id')){
-		
 
       $onepage['createAccount'] = false;
-
     
 	}else{
-		
 
       if (tep_not_null($_POST['password'])){
 
@@ -2276,8 +2211,6 @@ else
 
     ##### Points/Rewards Module V2.1rc2a check for error EOF #######
 
-
-
     if (MODULE_ORDER_TOTAL_COUPON_STATUS == 'true'){
 
       // Start - CREDIT CLASS Gift Voucher Contribution
@@ -2296,8 +2229,6 @@ else
 
     }
 
-
-
     $html = '';
 
     $infoMsg = 'Please press the continue button to confirm your order.';
@@ -2313,14 +2244,20 @@ else
     }
 
 	
-echo "before payment method";
+	//echo "before payment method";
 	
 	
 
     if ($paymentMethod != '' && $paymentMethod != 'credit_covers'){
 
-      $GLOBALS[$paymentMethod]->pre_confirmation_check();
-
+      //$GLOBALS[$paymentMethod]->pre_confirmation_check();
+	  ob_start();
+	  $GLOBALS[$paymentMethod]->onepage_pre_confirmation_check();
+	  $xml = ob_get_clean();
+	  if($xml != 'success'){
+		  echo '<script>alert("Payment Error:\n\n'.str_replace('<br>','\n',urldecode($xml)).'");</script>';
+		  exit;
+	  }
     }
 	
 
@@ -2882,8 +2819,12 @@ echo "before payment method";
 
           global $order_total_modules, $cc_id;
 
-          if (!tep_session_is_registered('cc_id')) tep_session_register('cc_id');
+          //if (!tep_session_is_registered('cc_id')) tep_session_register('cc_id');
 
+          if(!isset($_SESSION['cc_id'])){
+            $_SESSION['cc_id'] = $coupon_result['coupon_id'];
+          }
+          
           $cc_id = $coupon_result['coupon_id'];
 
           $order_total_modules->pre_confirmation_check();

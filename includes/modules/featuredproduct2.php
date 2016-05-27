@@ -15,7 +15,7 @@ Released under the GNU General Public License
 //if ($HTTP_GET_VARS['products_id'] && ENABLE_FEATURE_PRODUCTS_TWO=='True') {
 	
     
-$featured_query_2 = tep_db_query("select p.products_id,p.products_image,p.products_price,p.products_tax_class_id, pd.products_name, s.featured_id, s.expires_date, s.status from " . TABLE_PRODUCTS . " p, " . TABLE_FEATURED . " s, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = pd.products_id and pd.language_id = '" . $languages_id . "' and p.products_id = s.products_id and s.featured_group = '2' and s.status = '1' and s.expires_date > now() order by pd.products_name LIMIT 0 , ".FEATURED_PRODUCT_2); //ORDER BY p.reviews_rating DESC
+$featured_query_2 = tep_db_query("select p.products_id,p.products_image,p.products_price,p.products_tax_class_id, pd.products_name, s.featured_id, s.expires_date, s.status from " . TABLE_PRODUCTS . " p, " . TABLE_FEATURED . " s, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = pd.products_id and pd.language_id = '" . $languages_id . "' and p.products_id = s.products_id and s.featured_group = '2' and s.status = '1' and (s.expires_date > now() or s.expires_date = '0000-00-00 00:00:00') order by pd.products_name LIMIT 0 , ".FEATURED_PRODUCT_2); //ORDER BY p.reviews_rating DESC
 
 // EOF Separate Pricing Per Customer
 $num_featured_product_2 = tep_db_num_rows($featured_query_2);
