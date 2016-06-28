@@ -165,7 +165,7 @@ class fedexwebservices {
 $request['TransactionDetail'] = array('CustomerTransactionId' => ' *** Rate Request v9 using PHP ***');
     
 
-    $request['Version'] = array('ServiceId' => 'crs', 'Major' => '9', 'Intermediate' => '0', 'Minor' => '0');
+    $request['Version'] = array('ServiceId' => 'crs', 'Major' => '10', 'Intermediate' => '0', 'Minor' => '0');
     $request['ReturnTransitAndCommit'] = true;
 //    $request['CarrierCodes'] = 'FDXE';
     $request['RequestedShipment']['DropoffType'] = $this->_setDropOff(); // valid values REGULAR_PICKUP, REQUEST_COURIER, ...
@@ -312,13 +312,18 @@ $request['TransactionDetail'] = array('CustomerTransactionId' => ' *** Rate Requ
 	$request['RequestedShipment']['RequestedPackageLineItems'] = $_data ;
    
 	
-    $response = $client->getRates($request);
+    
+	
+	
+	$response = $client->getRates($request);
 	
 	
 	// echo '<!-- ';
-	// echo '<pre>';
-	// print_r($response);
-	// echo '</pre>';
+	 /*echo '<pre>';
+	 print_r($response);
+	 echo '</pre>';
+	 exit;*/
+	 //$this->shipRequest($request);
 	// echo ' -->';
     if ($response->HighestSeverity != 'FAILURE' && $response->HighestSeverity != 'ERROR' && is_array($response->RateReplyDetails) || is_object($response->RateReplyDetails)) {
       if (is_object($response->RateReplyDetails)) {
@@ -409,7 +414,7 @@ $request['TransactionDetail'] = array('CustomerTransactionId' => ' *** Rate Requ
   }
   
   function shipRequest($fedexRequestData){
-  	
+	 
 		$request = array();
 		
 		$request['WebAuthenticationDetail'] = array(
@@ -579,6 +584,8 @@ $request['TransactionDetail'] = array('CustomerTransactionId' => ' *** Rate Requ
 		
 		$path_to_wsdl = DIR_FS_CATALOG . DIR_WS_INCLUDES . "wsdl/ShipService_v10.wsdl";
 		
+		
+		
 		$client = new SoapClient($path_to_wsdl, array('trace' => 1));
 		$master_trackNum = null;
 		$shipSuccess = false;
@@ -614,11 +621,13 @@ $request['TransactionDetail'] = array('CustomerTransactionId' => ' *** Rate Requ
 				break;	
 		}
 		
+		
 		try
 		{
 		
 			
 			$serviceResponse = $client->processShipment($request); // FedEx web service invocation
+			
 			
 			if($serviceResponse->HighestSeverity != 'FAILURE' && $serviceResponse->HighestSeverity != 'ERROR')
 		    {
@@ -638,12 +647,14 @@ $request['TransactionDetail'] = array('CustomerTransactionId' => ' *** Rate Requ
 		        fwrite($fp, ($serviceResponse->CompletedShipmentDetail->CompletedPackageDetails->Label->Parts->Image));
 		        fclose($fp);
 		        $printedLabels[] = $fileName; 
+				
 		    }
 		    else 
 		    {
 		    	
 		    	$shipSuccess = false;
 				$error = $serviceResponse->Notifications->Message;
+				
 		    }
 			
 		} 
@@ -784,7 +795,7 @@ $request['TransactionDetail'] = array('CustomerTransactionId' => ' *** Rate Requ
     tep_db_query ("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('FedEx Web Services Key', 'MODULE_SHIPPING_FEDEX_WEB_SERVICES_KEY', '', 'Enter FedEx Web Services Key', '6', '3', now())");
     tep_db_query ("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('FedEx Web Services Password', 'MODULE_SHIPPING_FEDEX_WEB_SERVICES_PWD', '', 'Enter FedEx Web Services Password', '6', '3', now())");
     tep_db_query ("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('FedEx Account Number', 'MODULE_SHIPPING_FEDEX_WEB_SERVICES_ACT_NUM', '', 'Enter FedEx Account Number', '6', '3', now())");
-    tep_db_query ("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('FedEx Meter Number', 'MODULE_SHIPPING_FEDEX_WEB_SERVICES_METER_NUM_NUM', '', 'Enter FedEx Meter Number', '6', '4', now())");
+    tep_db_query ("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('FedEx Meter Number', 'MODULE_SHIPPING_FEDEX_WEB_SERVICES_METER_NUM', '', 'Enter FedEx Meter Number', '6', '4', now())");
     tep_db_query ("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Weight Units', 'MODULE_SHIPPING_FEDEX_WEB_SERVICES_WEIGHT', 'LB', 'Weight Units:', '6', '10', 'tep_cfg_select_option(array(\'LB\', \'KG\'), ', now())");
     tep_db_query ("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('First line of street address', 'MODULE_SHIPPING_FEDEX_WEB_SERVICES_ADDRESS_1', '', 'Enter the first line of your ship-from street address, required', '6', '20', now())");
     tep_db_query ("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Second line of street address', 'MODULE_SHIPPING_FEDEX_WEB_SERVICES_ADDRESS_2', '', 'Enter the second line of your ship-from street address, leave blank if you do not need to specify a second line', '6', '21', now())");

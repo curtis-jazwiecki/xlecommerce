@@ -91,4 +91,6 @@ define('TABLE_FACEBOOKSTORE', 'facebook_products');
   
   
   define('TABLE_NEWSLETTERS', 'newsletters');
+  define('AVATAX_LOG', 'avatax_log');
+  define('TABLE_ORDERS_FFL', 'orders_ffl'); // added on 07-06-2016 
 ?>

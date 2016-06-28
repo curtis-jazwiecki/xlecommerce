@@ -213,6 +213,8 @@ if (isset($_POST['action'])){
         'filtered_options' => array(),
 
         'product_stock' => '', 
+		
+		'display_products_stock_availability' => '',
 
         'product_quantity' => 0, 
 
@@ -226,7 +228,7 @@ if (isset($_POST['action'])){
 
 			// modified on 19-10-2015 to include EAN number #start
 
-			$query = "select products_model, products_price, products_tax_class_id, products_quantity, products_image, products_mediumimage, products_largeimage, upc_ean, min_acceptable_price,products_bundle from products join products_extended on (products.products_id= products_extended.osc_products_id) where products_id='" . (int)$temp[0] . "'";
+			$query = "select products_model, products_price, products_tax_class_id, products_quantity, products_image, products_mediumimage, products_largeimage, upc_ean, min_acceptable_price,products_bundle,store_quantity from products join products_extended on (products.products_id= products_extended.osc_products_id) where products_id='" . (int)$temp[0] . "'";
 
 			// modified on 19-10-2015 to include EAN number #ends
 
@@ -265,6 +267,28 @@ if (isset($_POST['action'])){
                 }
 
                 $data[0]['product_stock'] = $stock_message; 
+				
+				// code added on 19-04-2016 #start
+				 $data[0]['display_products_stock_availability'] = '';
+				
+				 if ($info['products_bundle'] != "yes") {
+					// re-calculate stock
+					$total_quantity = $info['products_quantity'] + $info['store_quantity'];
+					
+					recalculate_stock_status($data[0]['product_stock'],$total_quantity); 
+				 }
+				 
+				 if($info['store_quantity'] > 0){
+					$data[0]['display_products_stock_availability'] = 'In Store Availability: <b>In Stock</b>';
+				 }else{
+					$data[0]['display_products_stock_availability'] = 'In Store Availability: <b>'.STORE_STOCK_OUT_OF_STOCK_MESSAGE.'</b>';
+				 }
+				// code added on 19-04-2016 #ends
+				
+				
+				
+				
+				
 
                 $data[0]['image'] = ((tep_not_null($info['products_largeimage'])) ? $info['products_largeimage'] : ((tep_not_null($info['products_mediumimage'])) ? $info['products_mediumimage'] : $info['products_image']));
                 

@@ -1,5 +1,5 @@
 <?php
- 
+
 /*
 
   $Id: general.php,v 1.231 2003/07/09 01:15:48 hpdl Exp $
@@ -250,7 +250,7 @@
 
     $products_id = tep_get_prid($products_id);
 
-    $stock_query = tep_db_query("select products_quantity, products_bundle from " . TABLE_PRODUCTS . " where products_id = '" . (int)$products_id . "'");
+    $stock_query = tep_db_query("select products_quantity, products_bundle,store_quantity from " . TABLE_PRODUCTS . " where products_id = '" . (int)$products_id . "'");
 
     $stock_values = tep_db_fetch_array($stock_query);
 
@@ -269,11 +269,12 @@
       return min($bundle_stock); // return quantity of least plentiful subproduct
 
     } else {
-
-      return $stock_values['products_quantity'];
-
+		if($stock_values['store_quantity'] > 0){
+			return $stock_values['products_quantity'] + $stock_values['store_quantity'];
+		}else{
+			return $stock_values['products_quantity'];
+		}
     }
-
   }
 
 // EOF Bundled Products
@@ -332,21 +333,14 @@
 
     $out_of_stock = '';
 
-
-
     if ($stock_left < 0) {
 
       $out_of_stock = '<span class="markProductOutOfStock">' . STOCK_MARK_PRODUCT_OUT_OF_STOCK . '</span>';
 
     }
 
-
-
     return $out_of_stock;
-
   }
-
-
 
 ////
 
@@ -3809,11 +3803,10 @@ function set_query_telephone_numbers_compatible(&$val){
 
 
 
-  $spec_name_query = tep_db_query("select distinct(specification_id), psv.value, psn.name, psn.id as name_id from product_specifications ps left join product_specification_values psv on ps.specification_id=psv.id left join product_specification_names psn on psv.specification_name_id=psn.id inner join products p on ps.products_id=p.products_id inner join manufacturers m on p.manufacturers_id=m.manufacturers_id  "  . (!empty($price_str) ? " left join " . TABLE_SPECIALS_RETAIL_PRICES . " s on p.products_id = s.products_id ":"") .  (!empty($keywords_str) ? " inner join products_description pd on p.products_id = pd.products_id and pd.language_id='1'" : "") . " inner join " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c on p.products_id=p2c.products_id inner join " . TABLE_CATEGORIES . " c on p2c.categories_id=c.categories_id where 1=1 and c.categories_status='1' and (m.manufacturers_status='1' or m.manufacturers_status is null) and p.products_quantity>='" . (int)STOCK_MINIMUM_VALUE . "' and p.products_status='1' and p.is_store_item='0' "  .$price_str .  $man_str . $keywords_str.  $category_str. " order by psn.name, psv.value" );
-
-
-
- 
+  //$spec_name_query = tep_db_query("select distinct(specification_id), psv.value, psn.name, psn.id as name_id from product_specifications ps left join product_specification_values psv on ps.specification_id=psv.id left join product_specification_names psn on psv.specification_name_id=psn.id inner join products p on ps.products_id=p.products_id inner join manufacturers m on p.manufacturers_id=m.manufacturers_id  "  . (!empty($price_str) ? " left join " . TABLE_SPECIALS_RETAIL_PRICES . " s on p.products_id = s.products_id ":"") .  (!empty($keywords_str) ? " inner join products_description pd on p.products_id = pd.products_id and pd.language_id='1'" : "") . " inner join " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c on p.products_id=p2c.products_id inner join " . TABLE_CATEGORIES . " c on p2c.categories_id=c.categories_id where 1=1 and c.categories_status='1' and (m.manufacturers_status='1' or m.manufacturers_status is null) and p.products_quantity >= '" . (int)STOCK_MINIMUM_VALUE . "' and p.products_status='1' and p.is_store_item='0' "  .$price_str .  $man_str . $keywords_str.  $category_str. " order by psn.name, psv.value" );
+  
+  $spec_name_query = tep_db_query("select distinct(specification_id), psv.value, psn.name, psn.id as name_id from product_specifications ps left join product_specification_values psv on ps.specification_id=psv.id left join product_specification_names psn on psv.specification_name_id=psn.id inner join products p on ps.products_id=p.products_id inner join manufacturers m on p.manufacturers_id=m.manufacturers_id  "  . (!empty($price_str) ? " left join " . TABLE_SPECIALS_RETAIL_PRICES . " s on p.products_id = s.products_id ":"") .  (!empty($keywords_str) ? " inner join products_description pd on p.products_id = pd.products_id and pd.language_id='1'" : "") . " inner join " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c on p.products_id=p2c.products_id inner join " . TABLE_CATEGORIES . " c on p2c.categories_id=c.categories_id where 1=1 and c.categories_status='1' and (m.manufacturers_status='1' or m.manufacturers_status is null) and IF(p.products_bundle = 'no',p.products_quantity+p.store_quantity > '".(int)STOCK_MINIMUM_VALUE."',p.products_quantity > '".(int)STOCK_MINIMUM_VALUE."') and p.products_status='1' and p.is_store_item='0' "  .$price_str .  $man_str . $keywords_str.  $category_str. " order by psn.name, psv.value" );
+  
 
 	while($entry = tep_db_fetch_array($spec_name_query)){
 
@@ -3851,7 +3844,10 @@ function set_query_telephone_numbers_compatible(&$val){
 
 	//$specs_query = tep_db_query("select pa.options_id as specification_id, po.products_options_name as specification from products_attributes pa inner join products_options po on (pa.options_id=po.products_options_id and po.language_id='1') " . (!empty($category_filter) ? " inner join products_to_categories p2c on pa.products_id=p2c.products_id " : "") . " where (pa.options_values_id is null or pa.options_values_id <=0) " . (!empty($category_filter) ? " and p2c.categories_id='" . (int)$category_filter . "' " : "") . " group by pa.options_id order by po.products_options_name");
 
-        $specs_query = tep_db_query("select pa.options_id as specification_id, po.products_options_name as specification from products_attributes pa inner join products_options po on (pa.options_id=po.products_options_id)  inner join " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c on pa.products_id=p2c.products_id inner join products p on pa.products_id=p.products_id inner join manufacturers m on p.manufacturers_id=m.manufacturers_id " . (!empty($keywords_str) ? " inner join products_description pd on p.products_id = pd.products_id and pd.language_id='1'" : "") . " where p.products_status='1' and (m.manufacturers_status='1' or m.manufacturers_status is null) and p.is_store_item='0' and p.products_quantity>='" . (int)STOCK_MINIMUM_VALUE . "' " . $category_str . $man_str . $keywords_str . " group by pa.options_id order by po.products_options_name");
+        //$specs_query = tep_db_query("select pa.options_id as specification_id, po.products_options_name as specification from products_attributes pa inner join products_options po on (pa.options_id=po.products_options_id)  inner join " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c on pa.products_id=p2c.products_id inner join products p on pa.products_id=p.products_id inner join manufacturers m on p.manufacturers_id=m.manufacturers_id " . (!empty($keywords_str) ? " inner join products_description pd on p.products_id = pd.products_id and pd.language_id='1'" : "") . " where p.products_status='1' and (m.manufacturers_status='1' or m.manufacturers_status is null) and p.is_store_item='0' and p.products_quantity>='" . (int)STOCK_MINIMUM_VALUE . "' " . $category_str . $man_str . $keywords_str . " group by pa.options_id order by po.products_options_name");
+		
+		
+		$specs_query = tep_db_query("select pa.options_id as specification_id, po.products_options_name as specification from products_attributes pa inner join products_options po on (pa.options_id=po.products_options_id)  inner join " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c on pa.products_id=p2c.products_id inner join products p on pa.products_id=p.products_id inner join manufacturers m on p.manufacturers_id=m.manufacturers_id " . (!empty($keywords_str) ? " inner join products_description pd on p.products_id = pd.products_id and pd.language_id='1'" : "") . " where p.products_status='1' and (m.manufacturers_status='1' or m.manufacturers_status is null) and p.is_store_item='0' and IF(p.products_bundle = 'no',p.products_quantity+p.store_quantity > '".(int)STOCK_MINIMUM_VALUE."',p.products_quantity > '".(int)STOCK_MINIMUM_VALUE."') " . $category_str . $man_str . $keywords_str . " group by pa.options_id order by po.products_options_name");
       
 
 	while($entry = tep_db_fetch_array($specs_query)){
@@ -4106,7 +4102,12 @@ function getFeaturedManufacturer(){
     $mids = implode(",",array_filter(explode(",",$mlist['configuration_value'])));
     
     if(!empty($mids)){
-        $listing_sql = tep_db_query("select p.products_image, pd.products_name ,p.products_id, p.products_price, p.products_tax_class_id, IF(s.status, s.specials_new_products_price, NULL) as specials_new_products_price, IF(s.status, s.specials_new_products_price, p.products_price) as final_price from " . TABLE_PRODUCTS . " p left join " . TABLE_SPECIALS_RETAIL_PRICES . " s on p.products_id = s.products_id, " . TABLE_PRODUCTS_DESCRIPTION . " pd, " . TABLE_MANUFACTURERS . " m where p.products_status = '1' and pd.products_id = p.products_id and pd.language_id = '" . (int)$languages_id . "' and p.manufacturers_id = m.manufacturers_id and m.manufacturers_id IN (" .$mids. ") and m.manufacturers_status='1' " . (STOCK_HIDE_OUT_OF_STOCK_PRODUCTS=='true' ? " and p.products_quantity>='" . (int)STOCK_MINIMUM_VALUE . "' " : '') . " and p.is_store_item='0' and p.parent_products_model is NULL order by rand() limit 7");
+        //$listing_sql = tep_db_query("select p.products_image, pd.products_name ,p.products_id, p.products_price, p.products_tax_class_id, IF(s.status, s.specials_new_products_price, NULL) as specials_new_products_price, IF(s.status, s.specials_new_products_price, p.products_price) as final_price from " . TABLE_PRODUCTS . " p left join " . TABLE_SPECIALS_RETAIL_PRICES . " s on p.products_id = s.products_id, " . TABLE_PRODUCTS_DESCRIPTION . " pd, " . TABLE_MANUFACTURERS . " m where p.products_status = '1' and pd.products_id = p.products_id and pd.language_id = '" . (int)$languages_id . "' and p.manufacturers_id = m.manufacturers_id and m.manufacturers_id IN (" .$mids. ") and m.manufacturers_status='1' " . (STOCK_HIDE_OUT_OF_STOCK_PRODUCTS=='true' ? " and p.products_quantity>='" . (int)STOCK_MINIMUM_VALUE . "' " : '') . " and p.is_store_item='0' and p.parent_products_model is NULL order by rand() limit 7");
+		
+		$listing_sql = tep_db_query("select p.products_image, pd.products_name ,p.products_id, p.products_price, p.products_tax_class_id, IF(s.status, s.specials_new_products_price, NULL) as specials_new_products_price, IF(s.status, s.specials_new_products_price, p.products_price) as final_price from " . TABLE_PRODUCTS . " p left join " . TABLE_SPECIALS_RETAIL_PRICES . " s on p.products_id = s.products_id, " . TABLE_PRODUCTS_DESCRIPTION . " pd, " . TABLE_MANUFACTURERS . " m where p.products_status = '1' and pd.products_id = p.products_id and pd.language_id = '" . (int)$languages_id . "' and p.manufacturers_id = m.manufacturers_id and m.manufacturers_id IN (" .$mids. ") and m.manufacturers_status='1' " . (STOCK_HIDE_OUT_OF_STOCK_PRODUCTS=='true' ? " and IF(p.products_bundle = 'no',p.products_quantity+p.store_quantity > '".(int)STOCK_MINIMUM_VALUE."',p.products_quantity > '".(int)STOCK_MINIMUM_VALUE."')" : '') . " and p.is_store_item='0' and p.parent_products_model is NULL order by rand() limit 7");
+		
+		
+		
         while ($products = tep_db_fetch_array($listing_sql)) {
         
             $products['specials_new_products_price'] = tep_get_products_special_price($products['products_id']);
@@ -4146,13 +4147,12 @@ function getFFLDealerDetails($fflID){
 	$ffl_data_string = '';
 	if(tep_db_num_rows($ffl_dealer_details)){
 		$ffl_data = tep_db_fetch_array($ffl_dealer_details);
-		$ffl_data_string .= 'licensee : '.$ffl_data['license_name'];
-		//$ffl_data_string .= '<li><b>Phone Number:</b> '.$ffl_data['voice_phone'].'</li>';
-		//$ffl_data_string .= '<li><b>Street Address:</b> '.$ffl_data['premise_street'].'</li>';
-		//$ffl_data_string .= '<li><b>City:</b> '.$ffl_data['premise_city'].'</li>';
-		//$ffl_data_string .= '<li><b>State:</b> '.$ffl_data['premise_state'].'</li>';
-		//$ffl_data_string .= '<li><b>Zip:</b> '.$ffl_data['premise_zip_code'].'</li>';
-		//$ffl_data_string .= '</ul>';
+		$ffl_data_string =  $ffl_data['license_name'].'<br>';
+		$ffl_data_string .= $ffl_data['voice_phone'].'<br>';
+		$ffl_data_string .= $ffl_data['premise_street'].'<br>';
+		$ffl_data_string .= $ffl_data['premise_city'].'<br>';
+		$ffl_data_string .= $ffl_data['premise_state'].'<br>';
+		$ffl_data_string .= $ffl_data['premise_zip_code'].'<br>';
 	}
 	return $ffl_data_string;
 }
@@ -4167,5 +4167,180 @@ function getVendorDetails($vendors_id){
 	}
 	
 	return $vendors_name;
-}						
+}	
+
+function recalculate_stock_status(&$display_products_stock,$total_quantity){
+	
+	if (STORE_STOCK == 'true' && STORE_STOCK_LOW_INVENTORY == 'false') {
+	
+		$display_products_stock = ($total_quantity > 0) ? 'In Stock' : STORE_STOCK_OUT_OF_STOCK_MESSAGE;
+	
+	} elseif (STORE_STOCK == 'true' && STORE_STOCK_LOW_INVENTORY == 'true') {
+	
+		if ($total_quantity <= STORE_STOCK_LOW_INVENTORY_QUANTITY && $total_quantity > 0)
+	
+			$display_products_stock = STORE_STOCK_LOW_INVENTORY_MESSAGE;
+	
+		elseif ($total_quantity > STORE_STOCK_LOW_INVENTORY_QUANTITY)
+	
+			$display_products_stock = 'In Stock';
+	
+		else
+	
+			$display_products_stock = STORE_STOCK_OUT_OF_STOCK_MESSAGE;
+	}
+}
+
+function deduct_stock($priority,$products_quantity,$store_quantity,$ordered_product_quantity,$orders_id,$products_id){
+	
+	$sq = 0;
+	$pq = 0;
+	$left_sq = $store_quantity;
+	$left_pq = $products_quantity;
+	
+	if($priority == 'WQ'){ // subtract from products quantity first
+		if($products_quantity == 0){
+			
+			$left_sq = $store_quantity - $ordered_product_quantity;
+			$sq = $ordered_product_quantity;
+			
+		}else if($store_quantity == 0){
+			
+			$left_pq = $products_quantity - $ordered_product_quantity;
+			$pq = $ordered_product_quantity;
+			
+		}else{
+			if($products_quantity >= $ordered_product_quantity){
+				
+				$pq = $ordered_product_quantity;
+				$left_pq = $products_quantity - $ordered_product_quantity;
+				
+			}else{
+				
+				$pq = $products_quantity;
+				$left_pq = 0;
+				$sq = $ordered_product_quantity - $products_quantity;
+				$left_sq = $store_quantity - $sq;
+			}
+		}
+		
+	}else if($priority == 'SQ'){ // subtract from store quantity first
+		if($store_quantity == 0){
+			
+			$left_pq = $products_quantity - $ordered_product_quantity;
+			$pq = $ordered_product_quantity;
+			
+		}else if($products_quantity == 0){
+			
+			$left_sq = $store_quantity - $ordered_product_quantity;
+			$sq = $ordered_product_quantity;
+			
+		}else{
+			if($store_quantity >= $ordered_product_quantity){
+				
+				$sq = $ordered_product_quantity;
+				$left_sq = $store_quantity - $ordered_product_quantity;
+				
+			}else{
+				
+				$sq = $store_quantity;
+				$left_sq = 0;
+				$pq = $ordered_product_quantity - $store_quantity;
+				$left_pq = $products_quantity - $pq;
+			}
+		}
+		
+	}
+	
+	tep_db_query("update ".TABLE_ORDERS_PRODUCTS. " set sq = '".(int)$sq."', wq = '".(int)$pq."' where orders_id = '".$orders_id."' and products_id = '".$products_id."'");
+	
+	 tep_db_query("update " . TABLE_PRODUCTS . " set products_quantity = '" . $left_pq . "',store_quantity = '".$left_sq."' where products_id = '" . $products_id . "'");
+	 
+	 if($left_sq == 0 && $left_pq == 0){
+	 	tep_db_query("update " . TABLE_PRODUCTS . " set products_status = '0' where products_id = '" . $products_id . "'");
+	 }
+}	
+
+function reduce_bundle_stock($bundle_id, $qty_sold, $order_id, $order_products_id) {
+    global $languages_id;
+
+    $bundle_query = tep_db_query('select pb.subproduct_id, pb.subproduct_qty, p.products_bundle, p.products_quantity, pd.products_name from ' . TABLE_PRODUCTS_BUNDLES . ' pb, ' . TABLE_PRODUCTS . ' p, products_description pd where p.products_id = pb.subproduct_id and p.products_id=pd.products_id and pd.language_id="' . (int) $languages_id . '" and bundle_id = ' . (int) tep_get_prid($bundle_id));
+
+    while ($bundle_info = tep_db_fetch_array($bundle_query)) {
+
+        $sql_data_array = array('orders_id' => $order_id,
+            'orders_products_id' => $order_products_id,
+            'products_options' => 'Included',
+            'products_options_values' => $bundle_info['subproduct_qty'] . 'x' . $bundle_info['products_name']);
+
+
+        tep_db_perform(TABLE_ORDERS_PRODUCTS_ATTRIBUTES, $sql_data_array);
+
+
+        if ($bundle_info['products_bundle'] == 'yes') {
+
+            reduce_bundle_stock($bundle_info['subproduct_id'], ($qty_sold * $bundle_info['subproduct_qty']), $order_id, $order_products_id);
+
+            // update quantity of nested bundle sold
+
+            tep_db_query("update " . TABLE_PRODUCTS . " set products_ordered = products_ordered + " . sprintf('%d', ($qty_sold * $bundle_info['subproduct_qty'])) . " where products_id = " . (int) $bundle_info['subproduct_id']);
+        } else {
+
+            $bundle_stock_left = $bundle_info['products_quantity'] - ($qty_sold * $bundle_info['subproduct_qty']);
+
+            tep_db_query("update " . TABLE_PRODUCTS . " set products_quantity = " . (int) $bundle_stock_left . ", products_ordered = products_ordered + " . (int) ($qty_sold * $bundle_info['subproduct_qty']) . " where products_id = " . (int) $bundle_info['subproduct_id']);
+
+            if (($bundle_stock_left < 1) && (STOCK_ALLOW_CHECKOUT == 'false')) {
+
+                tep_db_query("update " . TABLE_PRODUCTS . " set products_status = '0' where products_id = " . (int) $bundle_info['subproduct_id']);
+            }
+        }
+    }
+}
+
+function updateAvataxLogTable($request,$response,$action){
+	//tep_db_query("insert into " .  AVATAX_LOG . " set response = '".tep_db_prepare_input($response)."',request = '".tep_db_prepare_input($request)."',action = '".tep_db_prepare_input($action)."'");
+	if(MODULE_ORDER_TOTAL_AVATAX_ENABLE_LOGGING == '1'){
+		$sql_data_array = array(
+			'response' => $response,
+			'request'  => $request,
+			'action' =>   $action
+		);
+		tep_db_perform(AVATAX_LOG, $sql_data_array);
+	}
+	
+}
+
+function getAllTrackingDetails($order_id){
+	
+	$query = tep_db_query("select * from manage_order_shipping join manage_shipping_labels USING(manage_order_shipping_id) where  	orders_id = '".$order_id."'");
+	$data = array();
+	
+	while($result = tep_db_fetch_array($query)){
+		
+		$link = '';
+		if( $result['shipping_method'] == 'USPS'){
+			$link = 'http://trkcnfrm1.smi.usps.com/PTSInternetWeb/InterLabelInquiry.do?origTrackNum='.$result['tracking_number'];
+		}else if( $result['shipping_method'] == 'UPS' ){
+			$link = 'http://www.apps.ups.com/etracking/tracking.cgi?InquiryNumber1=' . $result['tracking_number'] . '&InquiryNumber2=&InquiryNumber3=&InquiryNumber4=&InquiryNumber5=&TypeOfInquiryNumber=T&UPS_HTML_Version=3.0&IATA=us&Lang=en&submit=Track+Package';
+		}else if( $result['shipping_method'] == 'FEDEX' ){
+			$link = 'http://www.fedex.com/Tracking?tracknumbers=' . $result['tracking_number'] . '&action=track&language=english&cntry_code=us';
+		}
+		
+		
+		$data[] = array(
+			
+			"title"	=>	'<b>'.$result['shipping_method'].'<b> ( ' .$result['courier']. ' )</b>',
+			"link"	=>	$link
+		
+		
+		);
+		
+		
+	}
+	
+	
+	return $data;
+	
+}
 ?>

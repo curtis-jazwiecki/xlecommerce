@@ -60,4 +60,5 @@ define('TABLE_HEADING_PRICE_INCLUDING_TAX', 'Price (inc)');
 define('TABLE_HEADING_TOTAL_EXCLUDING_TAX', 'Total (ex)');
 define('TABLE_HEADING_TOTAL_INCLUDING_TAX', 'Total (inc)');
 //MVS End
+define('HEADING_FFL_SELECTED','FFL licensee selected');
 ?>

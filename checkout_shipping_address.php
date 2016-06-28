@@ -163,6 +163,11 @@
           $pwa_array_shipping = $sql_data_array;
           tep_session_register('pwa_array_shipping');
           if (tep_session_is_registered('shipping')) tep_session_unregister('shipping');
+		  
+		  // added on 23-06-2016 #start
+			unset($_SESSION['tax_data']); // recalculate avatax if shipping has been changed
+		  // added on 23-06-2016 #ends
+		  
           tep_redirect(tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL'));
         }
 // Ingo PWA Ende
@@ -171,6 +176,10 @@
         $sendto = tep_db_insert_id();
 
         if (tep_session_is_registered('shipping')) tep_session_unregister('shipping');
+		
+		// added on 23-06-2016 #start
+		unset($_SESSION['tax_data']); // recalculate avatax if shipping has been changed
+		// added on 23-06-2016 #ends
 
         tep_redirect(tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL'));
       }
@@ -194,6 +203,9 @@
 
       if ($check_address['total'] == '1') {
         if ($reset_shipping == true) tep_session_unregister('shipping');
+		// added on 23-06-2016 #start
+		unset($_SESSION['tax_data']); // recalculate avatax if shipping has been changed
+		// added on 23-06-2016 #ends
         tep_redirect(tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL'));
       } else {
         tep_session_unregister('sendto');
@@ -201,6 +213,10 @@
     } else {
       if (!tep_session_is_registered('sendto')) tep_session_register('sendto');
       $sendto = $customer_default_address_id;
+	  
+	  // added on 23-06-2016 #start
+		unset($_SESSION['tax_data']); // recalculate avatax if shipping has been changed
+	  // added on 23-06-2016 #ends
 
       tep_redirect(tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL'));
     }
@@ -487,7 +503,85 @@ function check_form_optional(form_name) {
               <tr>
                 <td width="10"><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
                 <td class="main"><?php echo '<b>' . TITLE_CONTINUE_CHECKOUT_PROCEDURE . '</b> &nbsp;' . TEXT_CONTINUE_CHECKOUT_PROCEDURE; ?></td>
-                <td class="main" align="right"><?php echo tep_draw_hidden_field('action', 'submit') . tep_image_submit('button_continue.gif', IMAGE_BUTTON_CONTINUE); ?></td>
+                <td class="main" align="right"><?php echo tep_draw_hidden_field('action', 'submit') . tep_image_submit('button_continue.gif', IMAGE_BUTTON_CONTINUE); ?>
+                
+               
+               <?php
+			   if(MODULE_ORDER_TOTAL_AVATAX_VALIDATE != 'false'){
+					echo tep_image_button('button_validate_address.gif', IMAGE_BUTTON_CONTINUE,' id="validate_avatax_address" onClick="return vaidateAvataxAddress();" ');   
+				   
+				?>
+                <!-- added on 28-04-2016 #start -->
+                &nbsp;&nbsp;
+                
+                
+                <span id="ajaxloader"></span>
+                <script type="text/javascript">
+				
+				function vaidateAvataxAddress(){
+					var success_message = '';		
+					var entry_street_address_original = jQuery('[name="street_address"]').val();
+					var entry_suburb_original 		  = '';
+					var entry_postcode_original 	  = jQuery('[name="postcode"]').val();
+					var entry_city_original 		  = jQuery('[name="city"]').val();
+					var entry_state_original 		  = jQuery('[name="state"]').val();
+					var country_id 					  = jQuery('[name="country"]').val();
+					
+					var list_of_valid_countries = '<?php echo MODULE_ORDER_TOTAL_AVATAX_VALID_COUNTRIES; ?>'.split(",");
+					
+					if(list_of_valid_countries.indexOf(country_id) == -1){
+						alert("Error: This Country is not permissible for address validation!");
+						return false;
+					}
+					
+					jQuery.ajax({
+						
+						url: 'ava_api.php?mode=validateAddressDetails',
+						
+						type: 'post',
+						
+						dataType: 'json',
+						
+						data: 'entry_street_address_original=' + encodeURIComponent(entry_street_address_original) + '&entry_suburb_original=' + encodeURIComponent(entry_suburb_original)+ '&entry_postcode_original=' + encodeURIComponent(entry_postcode_original)+'&entry_city_original=' + encodeURIComponent(entry_city_original)+'&entry_state_original=' + encodeURIComponent(entry_state_original)+'&country_id=' + encodeURIComponent(country_id),
+						beforeSend: function() {
+							
+							jQuery('#ajaxloader').html('<img src="images/ajax_loader_small.gif" alt="" class="attention" align="absmiddle" />');
+							
+						},
+						complete: function() {
+							
+							jQuery('.attention').remove();
+							
+						},
+						success: function(data) {
+							
+							if(data['error']){
+								success_message = 'Error: Not a valid address!' + "\n\n";
+								alert(success_message);
+							}else if(data['success']){
+								success_message = 'Success: Address validated!' + "\n\n";
+								success_message += "=========================================\n\n";
+								success_message += "Street Address: "+data['entry_street_address_original'] + "\n\n";
+								if(data['entry_suburb_original'] != ''){
+									success_message += "Suburb: "+data['entry_suburb_original'] + "\n\n";
+								}
+								success_message += "Post Code: "+data['entry_postcode_original'] + "\n\n";
+								success_message += "City: "+data['entry_city_original'] + "\n\n";
+								success_message += "State: "+data['entry_state_original'] + "\n\n";
+								success_message += "Country: "+data['entry_country_id_original'] + "\n\n";
+								success_message += "=========================================\n\n";
+								alert(success_message);
+								
+							}
+						}
+					});
+				}
+				
+				</script>
+				<!-- added on 28-04-2016 #ends -->
+                <?php } ?>
+                
+                </td>
                 <td width="10"><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
               </tr>
             </table></td>
