@@ -272,7 +272,7 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
         <td colspan="3"><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
       </tr>
       <tr>
-        <td width="5" height="20" align="left" background="images/template/infoboxbg.jpg"><img src="images/template/infoboxbgL.jpg"></td><td class="infoBoxHeadingLogin" align="left"><b>Shipping Information</b></td><td width="5" height="20" align="right" background="images/template/infoboxbg.jpg"><img src="images/template/infoboxbgR.jpg"></td>
+        <td width="5" height="20" align="left" background="images/template/infoboxbg.jpg" class="heading_background_img"><img src="images/template/infoboxbgL.jpg"></td><td class="infoBoxHeadingLogin" align="left"><b>Shipping Information</b></td><td width="5" height="20" align="right" background="images/template/infoboxbg.jpg" class="heading_background_img"><img src="images/template/infoboxbgR.jpg"></td>
       </tr>
       <tr>
         <td colspan="3"><table border="0" width="100%" cellspacing="1" cellpadding="2" class="infoBoxl">
@@ -287,23 +287,54 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
               </tr>
 			  <?php */ ?>
               <tr><!-- PWA BOF -->
-                <td class="main"><?php echo '<b>' . HEADING_DELIVERY_ADDRESS . '</b>' . (((! tep_session_is_registered('customer_is_guest')) || (defined('PURCHASE_WITHOUT_ACCOUNT_SEPARATE_SHIPPING') && PURCHASE_WITHOUT_ACCOUNT_SEPARATE_SHIPPING=='yes') )? ' <a href="' . tep_href_link(FILENAME_CHECKOUT_SHIPPING_ADDRESS, '', 'SSL') . '"><span class="orderEdit">(' . TEXT_EDIT . ')</span></a>':''); ?></td>
+                <td class="main"><?php echo '<b>' . HEADING_DELIVERY_ADDRESS . '</b>'.(((! tep_session_is_registered('customer_is_guest')) || (defined('PURCHASE_WITHOUT_ACCOUNT_SEPARATE_SHIPPING') && PURCHASE_WITHOUT_ACCOUNT_SEPARATE_SHIPPING=='yes') )? ' <a href="' . tep_href_link(FILENAME_CHECKOUT_SHIPPING_ADDRESS, '', 'SSL') . '"><span class="orderEdit">(' . TEXT_EDIT . ')</span></a>':''); ?></td>
               </tr><!-- PWA EOF -->
               <tr>
                 <td class="main"><?php echo tep_address_format($order->delivery['format_id'], $order->delivery, 1, ' ', '<br>'); ?></td>
               </tr>
-<?php
-    if ($order->info['shipping_method']) {
-?>
-              <tr>
-                <td class="main"><?php echo '<b>' . HEADING_SHIPPING_METHOD . '</b> <a href="' . tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL') . '"><span class="orderEdit">(' . TEXT_EDIT . ')</span></a>'; ?></td>
-              </tr>
-              <tr>
-                <td class="main"><?php echo $order->info['shipping_method']; ?></td>
-              </tr>
-<?php
-    }
-?>
+				<?php
+                    if ($order->info['shipping_method']) {?>
+                      <tr>
+                        <td class="main"><?php echo '<b>' . HEADING_SHIPPING_METHOD . '</b> <a href="' . tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL') . '"><span class="orderEdit">(' . TEXT_EDIT . ')</span></a>'; ?></td>
+                      </tr>
+                      <tr>
+                        <td class="main"><?php echo $order->info['shipping_method']; ?></td>
+                      </tr>
+                <?php
+                    }
+                ?>
+                
+                <?php
+                    if ( (isset($_SESSION['ffl_selected']) && (count($_SESSION['ffl_selected']) > 0) ) ) {?>
+						<tr>
+                            <td class="main" style="padding-top:5px;" ><b><?php echo HEADING_FFL_SELECTED; ?></b></td>
+                        </tr>
+                        <tr>
+                        	<td class="main">&nbsp;</td>
+                        </tr>
+                          
+						<?php
+						foreach($_SESSION['ffl_selected'] as $vID => $fflID) {?>
+                          
+                          <tr>
+                            <td class="main"><span style="font-weight:bold;"><?php echo getFFLDealerDetails($fflID); ?></span></td>
+                          </tr>
+                          
+                <?php
+						}
+                    }
+					
+					
+                ?>
+                
+                
+                
+                
+                
+                
+            
+            
+            
             </table></td>
 <?php
   }
@@ -374,7 +405,7 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
         <td colspan="3"><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?><br /><!--<div align="center"><h2 style="color:#FF0000">Site for demonstration purposes only. No orders will be processed or shipped.</h2></div>--></td>
       </tr>
       <tr>
-        <td width="5" height="20" align="left" background="images/template/infoboxbg.jpg"><img src="images/template/infoboxbgL.jpg"></td><td class="infoBoxHeadingLogin" align="left"><b><?php echo HEADING_BILLING_INFORMATION; ?></b></td><td width="5" height="20" align="right" background="images/template/infoboxbg.jpg"><img src="images/template/infoboxbgR.jpg"></td>
+        <td width="5" height="20" align="left" background="images/template/infoboxbg.jpg" class="heading_background_img"><img src="images/template/infoboxbgL.jpg"></td><td class="infoBoxHeadingLogin" align="left"><b><?php echo HEADING_BILLING_INFORMATION; ?></b></td><td width="5" height="20" align="right" background="images/template/infoboxbg.jpg" class="heading_background_img"><img src="images/template/infoboxbgR.jpg"></td>
       </tr>
       <tr>
         <td colspan="3"><table border="0" width="100%" cellspacing="1" cellpadding="2" class="infoBoxl">
@@ -417,7 +448,7 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
         <td colspan="3"><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
       </tr>
       <tr>
-        <td width="5" height="20" align="left" background="images/template/infoboxbg.jpg"><img src="images/template/infoboxbgL.jpg"></td><td class="infoBoxHeadingLogin" align="left"><b><?php echo HEADING_PAYMENT_INFORMATION; ?></b></td><td width="5" height="20" align="right" background="images/template/infoboxbg.jpg"><img src="images/template/infoboxbgR.jpg"></td>
+        <td width="5" height="20" align="left" background="images/template/infoboxbg.jpg" class="heading_background_img"><img src="images/template/infoboxbgL.jpg"></td><td class="infoBoxHeadingLogin" align="left"><b><?php echo HEADING_PAYMENT_INFORMATION; ?></b></td><td width="5" height="20" align="right" background="images/template/infoboxbg.jpg" class="heading_background_img"><img src="images/template/infoboxbgR.jpg"></td>
       </tr>
       
         

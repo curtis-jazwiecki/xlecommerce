@@ -270,7 +270,7 @@ if (file_exists(DIR_FS_CATALOG . DIR_WS_INCLUDES . 'sts_templates/' . MODULE_STS
 // Output a function button in the selected language
   function tep_image_button($image, $alt = '', $parameters = '') {
     global $language;
-	if (file_exists(DIR_FS_CATALOG . DIR_WS_INCLUDES . 'sts_templates/' . MODULE_STS_TEMPLATE_FOLDER . '/images/buttons')){
+	if (file_exists(DIR_FS_CATALOG . DIR_WS_INCLUDES . 'sts_templates/' . MODULE_STS_TEMPLATE_FOLDER . '/images/buttons/'.$image)){
             /*$connection = ENABLE_SSL ? 'SSL' : 'NONSSL';
             if ($connection == 'NONSSL') {
               $link = HTTP_SERVER . DIR_WS_HTTP_CATALOG;

@@ -981,6 +981,8 @@ EOD;
         $response_array = $paypal_express->_app->getApiResult('EC', 'SetExpressCheckout', $params);
 
         if ( in_array($response_array['ACK'], array('Success', 'SuccessWithWarning')) ) {
+          echo '<script>window.location= "'.$paypal_url . 'token=' . $response_array['TOKEN'].'";</script>';
+          exit;
           tep_redirect($paypal_url . 'token=' . $response_array['TOKEN']);
         } else {
           tep_redirect(tep_href_link(FILENAME_SHOPPING_CART, 'error_message=' . stripslashes($response_array['L_LONGMESSAGE0']), 'SSL'));

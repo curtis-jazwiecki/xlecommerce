@@ -60,6 +60,9 @@
 // ###### End Added CCGV Contribution #########
 tep_session_unregister('shipping');
   $cart->reset();
+  // unset if any licensee selected #start
+unset($_SESSION['ffl_selected']);
+// unset if any licensee selected #ends
 ?>
 <!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html <?php echo HTML_PARAMS; ?>>

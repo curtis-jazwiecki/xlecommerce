@@ -1,32 +1,34 @@
  <?php 
  	$current_template = basename(STS_TEMPLATE_DIR);
 	$template_id = str_ireplace('template', '', $current_template);
-  ?>  
-<tr>
-  <td>
-  <style type="text/css">
-.Price_heading{background: #fff none repeat scroll 0 0;
-    border: 1px solid #dadada;
+ if(file_exists(DIR_FS_CATALOG . DIR_WS_INCLUDES . 'sts_templates/' . "full/$current_template/search_filter.css")){
+    echo '<link rel="stylesheet" type="text/css" href="includes/sts_templates/full/'.$current_template.'/search_filter.css" />';
+ }else{?>
+ 
+    <style type="text/css">
+    .Price_heading{
+         background: #fff none repeat scroll 0 0;
+         border: 1px solid #dadada;
     }
 	.Price_heading h4 {
-    -moz-border-bottom-colors: none;
-    -moz-border-left-colors: none;
-    -moz-border-right-colors: none;
-    -moz-border-top-colors: none;
-    border-color: #ccc;
-    border-image: none;
-    border-radius: 0;
-    border-style: solid;
-    border-width: 0 0 1px;
-    color: #008080;
-    cursor: pointer;
-	
-	font-weight:bold;
-    
-   
-    margin: 0;
-    padding: 5px 10px;
-  }
+        -moz-border-bottom-colors: none;
+        -moz-border-left-colors: none;
+        -moz-border-right-colors: none;
+        -moz-border-top-colors: none;
+        border-color: #ccc;
+        border-image: none;
+        border-radius: 0;
+        border-style: solid;
+        border-width: 0 0 1px;
+        color: #008080;
+        cursor: pointer;
+    	
+    	font-weight:bold;
+        
+       
+        margin: 0;
+        padding: 5px 10px;
+    }
 	<?php if($template_id ==1) { ?>
 	.color_template h4{color:#fff !important; }
 	.color_template span{color:#fff !important; }
@@ -70,26 +72,25 @@
 	
 	
 	.Price_heading h4 span {
-    /*border:2px solid #008080;*/
-	/*color:#008080;*/
-    float: left;
-    height: 18px;
-    /*margin: 2px 7px 0 0;*/
-    width: 18px;
-	/*border-radius:10px;*/
-}
-.Price_heading .price_headin_open_box {
-    padding: 8px 0;
-}
-.Price_heading div{
-     border-bottom: 1px solid #dadada;
-    margin: 0;
-    max-height: 167px;
-    min-height: 0;
-	overflow-x: auto;
-        
-}
-
+        /*border:2px solid #008080;*/
+    	/*color:#008080;*/
+        float: left;
+        height: 18px;
+        /*margin: 2px 7px 0 0;*/
+        width: 18px;
+    	/*border-radius:10px;*/
+    }
+    .Price_heading .price_headin_open_box {
+        padding: 8px 0;
+    }
+    .Price_heading div{
+         border-bottom: 1px solid #dadada;
+        margin: 0;
+        max-height: 167px;
+        min-height: 0;
+    	overflow-x: auto;
+            
+    }
 
 /* for ISO */
 @media screen and (-webkit-min-device-pixel-ratio:0) {.Price_heading div{
@@ -137,6 +138,11 @@
     width: 26px;
 }
 </style>
+    
+ <?php } ?>  
+<tr>
+  <td>
+  
 <script type="application/javascript">
   function showHide(element){
   	jQuery('#'+element).toggle('slow');
@@ -326,7 +332,7 @@ ob_start();
 	if (!isset($_GET['manufacturers_id'])){
 			
 		if (!empty($_SESSION['filter_c'])){
-			$manufacturers_query = tep_db_query("select p.manufacturers_id, m.manufacturers_name from products p inner join manufacturers m on p.manufacturers_id=m.manufacturers_id inner join " . TABLE_PRODUCTS_TO_CATEGORIES. " p2c on p.products_id=p2c.products_id where p.products_status='1' and m.manufacturers_status='1' and p.products_quantity >= '" . (int)STOCK_MINIMUM_VALUE . "' and p2c.categories_id='" . $_SESSION['filter_c'] . "' and p.manufacturers_id!=0 group by p.manufacturers_id order by m.manufacturers_name");
+			$manufacturers_query = tep_db_query("select p.manufacturers_id, m.manufacturers_name from products p inner join manufacturers m on p.manufacturers_id=m.manufacturers_id inner join " . TABLE_PRODUCTS_TO_CATEGORIES. " p2c on p.products_id=p2c.products_id where p.products_status='1' and m.manufacturers_status='1' and IF(p.products_bundle = 'no',p.products_quantity+p.store_quantity > '".(int)STOCK_MINIMUM_VALUE."',p.products_quantity > '".(int)STOCK_MINIMUM_VALUE."') and p2c.categories_id='" . $_SESSION['filter_c'] . "' and p.manufacturers_id!=0 group by p.manufacturers_id order by m.manufacturers_name");
 	
 		} elseif (isset($_SESSION['keywords']) &&  $_SESSION['keywords'] != '') { 
 			tep_parse_search_string($keywords, $search_keywords);
@@ -353,7 +359,7 @@ ob_start();
 			$keywords_str .= " )";
 			$keywords_str .= " )";
 								
-		   $manufacturers_query = tep_db_query("select p.manufacturers_id, m.manufacturers_name from products p inner join manufacturers m on p.manufacturers_id=m.manufacturers_id  inner join products_description pd on p.products_id=pd.products_id and pd.language_id='1' where p.products_status='1' and m.manufacturers_status='1' and p.products_quantity >= '" . (int)STOCK_MINIMUM_VALUE . "' and  p.manufacturers_id!=0 " . $keywords_str . " group by p.manufacturers_id order by m.manufacturers_name");
+		   $manufacturers_query = tep_db_query("select p.manufacturers_id, m.manufacturers_name from products p inner join manufacturers m on p.manufacturers_id=m.manufacturers_id  inner join products_description pd on p.products_id=pd.products_id and pd.language_id='1' where p.products_status='1' and m.manufacturers_status='1' and IF(p.products_bundle = 'no',p.products_quantity+p.store_quantity > '".(int)STOCK_MINIMUM_VALUE."',p.products_quantity > '".(int)STOCK_MINIMUM_VALUE."') and  p.manufacturers_id!=0 " . $keywords_str . " group by p.manufacturers_id order by m.manufacturers_name");
 		  // echo "select p.manufacturers_id, m.manufacturers_name from products p inner join manufacturers m on p.manufacturers_id=m.manufacturers_id inner join " . TABLE_PRODUCTS_TO_CATEGORIES. " p2c on p.products_id=p2c.products_id inner join products_description pd on p.products_id=pd.products_id and pd.language_id='1' where p.products_status='1' and m.manufacturers_status='1' and p.products_quantity >= '" . (int)STOCK_MINIMUM_VALUE . "' and p2c.categories_id='" . $_SESSION['filter_c'] . "' and p.manufacturers_id!=0 " . $keywords_str . " group by p.manufacturers_id order by m.manufacturers_name";
 		   
 		  } else {

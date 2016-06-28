@@ -99,7 +99,9 @@
   }
 
   
-
+// unset if any licensee selected #start
+unset($_SESSION['ffl_selected']);
+// unset if any licensee selected #ends
 // PWA BOF 2b
 
 //delete the temporary account

@@ -2063,8 +2063,8 @@ else
     $cart_Worldpay_Junior_ID, $shipping, $cartID, $order_total_modules, $onepage, $credit_covers, $payment,
 
     $payment_modules;
-
-    if (!tep_session_is_registered('comments')) tep_session_register('comments');
+	
+	if (!tep_session_is_registered('comments')) tep_session_register('comments');
 
     $comments = tep_db_prepare_input($_POST['comments']);
 
@@ -2243,6 +2243,36 @@ else
 
     }
 
+	// code added for ffl shipping check on 08-06-2016 #start
+	 if (SELECT_VENDOR_SHIPPING == 'true') {
+	 
+	 	foreach ($shipping['vendor'] as $vendor_id => $vendor_data) {
+
+			if($vendor_data['id'] == 'ffldealershipping_ffldealershipping'){
+				
+				if (!array_key_exists($vendor_id, $_SESSION['ffl_selected'])) {
+                    echo '<script>alert("Select FFL Dealer");</script>';
+		 			exit;
+                }
+				
+			}
+		}
+
+	 }else{
+	     if($shipping['id'] == 'ffldealershipping_ffldealershipping'){
+		
+			if (!array_key_exists(1, $_SESSION['ffl_selected'])) {
+				echo '<script>alert("Select FFL Dealer");</script>';
+				exit;
+			}
+		}
+
+	 }
+	
+	
+	
+	// code added for ffl shipping check on 08-06-2016 #ends
+	
 	
 	//echo "before payment method";
 	

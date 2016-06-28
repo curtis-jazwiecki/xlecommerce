@@ -117,7 +117,14 @@ if (SELECT_VENDOR_SHIPPING == 'true') {
                             } else {
                                 for ($j = 0, $n2 = sizeof($quotes[$i]['methods']); $j < $n2; $j++) {
 // set the radio button to be checked if it is the method chosen
-                                    $checked = ($quotes[$i]['id'] . '_' . $quotes[$i]['methods'][$j]['id'] == $shipping['id'] ? true : false);
+                                    $str_ffl_html = ' hidefflData(1); ';
+
+									if ($quotes[$i]['id'] == 'ffldealershipping') {
+										$str_ffl_html = ' showfflData(1); ';
+									}
+									
+									
+									$checked = ($quotes[$i]['id'] . '_' . $quotes[$i]['methods'][$j]['id'] == $shipping['id'] ? true : false);
                                     ?>
                                     <tr class="moduleRow shippingRow<?php echo ($checked ? ' moduleRowSelected' : ''); ?>">
                                         <td width="10"><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
@@ -126,7 +133,7 @@ if (SELECT_VENDOR_SHIPPING == 'true') {
                                         if (($n > 1) || ($n2 > 1)) {
                                             ?>
                                             <td class="main"><?php echo $currencies->format(tep_add_tax($quotes[$i]['methods'][$j]['cost'], (isset($quotes[$i]['tax']) ? $quotes[$i]['tax'] : 0))); ?></td>
-                                            <td class="main" align="right"><?php echo tep_draw_radio_field('shipping', $quotes[$i]['id'] . '_' . $quotes[$i]['methods'][$j]['id'], $checked, 'onclick="onePage.setShippingMethod($(this));onePage.updateOrderTotals();onePage.updatePayment();"'); ?></td>
+                                            <td class="main" align="right"><?php echo tep_draw_radio_field('shipping', $quotes[$i]['id'] . '_' . $quotes[$i]['methods'][$j]['id'], $checked, 'onclick="onePage.setShippingMethod($(this));onePage.updateOrderTotals();onePage.updatePayment(); ' .$str_ffl_html. '"'); ?></td>
                                             <?php
                                         } else {
                                             if ($checked) {
@@ -147,7 +154,28 @@ if (SELECT_VENDOR_SHIPPING == 'true') {
                                         ?>
                                         <td width="10"><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
                                     </tr>
+                                    
                                     <?php
+									if($quotes[$i]['id'] == 'ffldealershipping'){?>
+									
+									<tr>
+										<td><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
+										<td colspan="2" id="selected_ffl_1" class="main"></td>
+									</tr>
+									
+									<tr id="ffl_dealers_html_1" style="display:none;">
+										<td><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
+										<td colspan="2">
+											<iframe width="100%" height="800" scrolling="yes" frameborder="0" src="ffl_dealers.php?vendors_id=1" id="ffl_dealers_iframe_1"></iframe>
+										</td>
+									</tr>
+									<?php
+										if(sizeof($quotes) == 1){
+											$always_show = 1;
+											$_SESSION['always_show'] = 1;
+										}
+									}
+									
                                     $radio_buttons++;
                                 }
                             }
@@ -164,3 +192,15 @@ if (SELECT_VENDOR_SHIPPING == 'true') {
 //MVS
 }
 ?>
+<script type="text/javascript">
+jQuery(document).ready(function(e) {
+	<?php
+if (ONEPAGE_CHECKOUT_ENABLED == 'True') {
+	if ( (isset($_SESSION['always_show'])) && ($_SESSION['always_show'] != '') ) { ?>
+		showfflData(<?php echo $_SESSION['always_show']; ?>);
+<?php 
+	} 
+}?>
+    
+});
+</script>

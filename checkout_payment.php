@@ -17,7 +17,7 @@
 
   if (SELECT_VENDOR_SHIPPING == 'true'  && $cart->content_type != 'virtual') {  // This test only works under MVS
     if (!is_array ($shipping['vendor']) || count ($shipping['vendor']) != count ($cart->vendor_shipping)) { // No shipping selected or not all selected
-      tep_redirect (tep_href_link (FILENAME_CHECKOUT_SHIPPING, 'error_message=' . ERROR_NO_SHIPPING_SELECTED, 'SSL'));
+     	tep_redirect (tep_href_link (FILENAME_CHECKOUT_SHIPPING, 'error_message=' . ERROR_NO_SHIPPING_SELECTED, 'SSL'));
     }
   } 
 // MVS end
@@ -399,7 +399,7 @@ window.open('cvv_help.php','jav','width=500,height=550,resizable=no,toolbar=no,m
 <?php // #################### THIS MOD IS OPTIONAL! ###################### ?>
       <tr>
         <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
-         <tr><td width="5" height="20" align="left" background="images/template/infoboxbg.jpg"><img src="images/template/infoboxbgL.jpg"></td><td class="infoBoxHeadingLogin" align="left"><b><?php echo HEADING_PRODUCTS; ?></b><? // echo ' <a href="' . tep_href_link(FILENAME_SHOPPING_CART) . '"><span class="orderEdit">(' . TEXT_EDIT . ')</span></a>'; ?></td><td width="5" height="20" align="right" background="images/template/infoboxbg.jpg"><img src="images/template/infoboxbgR.jpg"></td></tr>
+         <tr><td width="5" height="20" align="left" background="images/template/infoboxbg.jpg" class="heading_background_img"><img src="images/template/infoboxbgL.jpg"></td><td class="infoBoxHeadingLogin" align="left"><b><?php echo HEADING_PRODUCTS; ?></b><? // echo ' <a href="' . tep_href_link(FILENAME_SHOPPING_CART) . '"><span class="orderEdit">(' . TEXT_EDIT . ')</span></a>'; ?></td><td width="5" height="20" align="right" background="images/template/infoboxbg.jpg" class="heading_background_img"><img src="images/template/infoboxbgR.jpg"></td></tr>
           <tr>
         </table></td>
       </tr>
@@ -458,7 +458,7 @@ window.open('cvv_help.php','jav','width=500,height=550,resizable=no,toolbar=no,m
 
       <tr>
         <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
-          <tr><td width="5" height="20" align="left" background="images/template/infoboxbg.jpg"><img src="images/template/infoboxbgL.jpg"></td><td class="infoBoxHeadingLogin" align="left"><b><?php echo TABLE_HEADING_BILLING_ADDRESS; ?></b></td><td width="5" height="20" align="right" background="images/template/infoboxbg.jpg"><img src="images/template/infoboxbgR.jpg"></td></tr>
+          <tr><td width="5" height="20" align="left" background="images/template/infoboxbg.jpg" class="heading_background_img"><img src="images/template/infoboxbgL.jpg"></td><td class="infoBoxHeadingLogin" align="left"><b><?php echo TABLE_HEADING_BILLING_ADDRESS; ?></b></td><td width="5" height="20" align="right" background="images/template/infoboxbg.jpg" class="heading_background_img"><img src="images/template/infoboxbgR.jpg" ></td></tr>
         </table></td>
       </tr>
       <tr>
@@ -486,13 +486,13 @@ window.open('cvv_help.php','jav','width=500,height=550,resizable=no,toolbar=no,m
       </tr>
       <tr>
         <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
-          <tr><td width="5" height="20" align="left" background="images/template/infoboxbg.jpg"><img src="images/template/infoboxbgL.jpg"></td><td class="infoBoxHeadingLogin" align="left">
+          <tr><td width="5" height="20" align="left" background="images/template/infoboxbg.jpg" class="heading_background_img"><img src="images/template/infoboxbgL.jpg"></td><td class="infoBoxHeadingLogin" align="left">
 			<?php
 // #################### End Added CGV JONYO ######################
   echo tep_draw_form('checkout_payment', tep_href_link(FILENAME_CHECKOUT_CONFIRMATION, '', 'SSL'), 'post', 'onsubmit="return check_form();"'); 
 // #################### End Added CGV JONYO ######################
 ?>
-<b><?php echo TABLE_HEADING_PAYMENT_METHOD; ?></b></td><td width="5" height="20" align="right" background="images/template/infoboxbg.jpg"><img src="images/template/infoboxbgR.jpg"></td>
+<b><?php echo TABLE_HEADING_PAYMENT_METHOD; ?></b></td><td width="5" height="20" align="right" background="images/template/infoboxbg.jpg" class="heading_background_img"><img src="images/template/infoboxbgR.jpg" ></td>
           </tr>
         </table></td>
 <?php // #################### Added CGV ###################### 
@@ -631,7 +631,7 @@ if ($gv_result['amount']>0){
       </tr>
       <tr>
         <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
- <tr><td width="5" height="20" align="left" background="images/template/infoboxbg.jpg"><img src="images/template/infoboxbgL.jpg"></td><td class="infoBoxHeadingLogin" align="left"><b><?php echo TABLE_HEADING_COMMENTS; ?></b></td><td width="5" height="20" align="right" background="images/template/infoboxbg.jpg"><img src="images/template/infoboxbgR.jpg"></td></tr>
+ <tr><td width="5" height="20" align="left" background="images/template/infoboxbg.jpg" class="heading_background_img"><img src="images/template/infoboxbgL.jpg"></td><td class="infoBoxHeadingLogin" align="left"><b><?php echo TABLE_HEADING_COMMENTS; ?></b></td><td width="5" height="20" align="right" background="images/template/infoboxbg.jpg" class="heading_background_img"><img src="images/template/infoboxbgR.jpg" ></td></tr>
         </table></td>
       </tr>
       <tr>

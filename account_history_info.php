@@ -192,6 +192,9 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
           </tr>
         </table></td>
       </tr>
+      
+      
+      
       <tr>
         <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
       </tr>
@@ -377,6 +380,7 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
 <?php
 }
 ?>
+
             </table></td>
           </tr></table>
         </td>
@@ -453,6 +457,52 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
       </tr>
 <?php
 }
+
+	$tracking_data = getAllTrackingDetails((int)$HTTP_GET_VARS['order_id']);
+	
+	if(count($tracking_data) > 0){ ?>
+	
+	  <tr>
+        <td class="main"><b>Track Packages</b></td>
+      </tr>
+      <tr>
+        <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
+      </tr>
+      
+	
+	
+		
+		 <tr>
+         	<td>
+            	<table border="0" width="100%" cellspacing="1" cellpadding="2" class="infoBox">
+                <?php
+		foreach($tracking_data as $tracking){?>
+                
+                <tr>
+                    <td><?php echo $tracking['title']; ?></td>
+                    <td>
+                    <a target="_blank" href="<?php echo $tracking['link']; ?>">
+                        <img src="<?=DIR_WS_LANGUAGES . $language . '/images/buttons/';?>button_track.gif" alt="Track Packages" border="0">
+                    </a>
+                    </td>
+				</tr>	
+                <?php
+    } ?>
+                </table>
+            </td>
+         </tr>
+         
+         
+         
+	<?php
+    
+	
+    } 
+	
+	
+
+
+
   if (DOWNLOAD_ENABLED == 'true') include(DIR_WS_MODULES . 'downloads.php');
 ?>
 <!-- Package Tracking Plus END -->

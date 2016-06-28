@@ -27,4 +27,5 @@ define('HEADING_PAYMENT_INFORMATION', 'Payment Information');
 define('HEADING_ORDER_COMMENTS', 'Comments About Your Order');
 
 define('TEXT_EDIT', 'Edit');
+define('HEADING_FFL_SELECTED','FFL licensee selected');
 ?>
