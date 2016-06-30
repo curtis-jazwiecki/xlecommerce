@@ -508,7 +508,7 @@ function check_form_optional(form_name) {
                
                <?php
 			   if(MODULE_ORDER_TOTAL_AVATAX_VALIDATE != 'false'){
-					echo tep_image_button('button_validate_address.gif', IMAGE_BUTTON_CONTINUE,' id="validate_avatax_address" onClick="return vaidateAvataxAddress();" ');   
+					echo tep_image_button('button_validate_address.gif', IMAGE_BUTTON_VALIDATE_ADDRESS,' id="validate_avatax_address" onClick="return vaidateAvataxAddress();" ');   
 				   
 				?>
                 <!-- added on 28-04-2016 #start -->

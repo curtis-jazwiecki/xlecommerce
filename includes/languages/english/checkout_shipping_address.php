@@ -28,4 +28,5 @@ define('TEXT_CREATE_NEW_SHIPPING_ADDRESS', 'Please use the following form to cre
 
 define('TITLE_CONTINUE_CHECKOUT_PROCEDURE', 'Continue Checkout Procedure');
 define('TEXT_CONTINUE_CHECKOUT_PROCEDURE', 'to select the preferred shipping method.');
+define('IMAGE_BUTTON_VALIDATE_ADDRESS', 'Validate Address');
 ?>

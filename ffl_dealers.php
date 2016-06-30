@@ -306,7 +306,7 @@ function selectLicensee(x,y){
 </script>
 
 <!-- Include google map lib -->
-<script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script> 
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyAO97IpOYq_INt2cFSdZdCbPM3vUa9n5Bw&sensor=false"></script>
 <style type="text/css"> 
 	label { font-size: large; display: block; }
 	#myMap{width: 94%; height:400px;margin-top:10px;}

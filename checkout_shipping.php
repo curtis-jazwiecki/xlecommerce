@@ -566,7 +566,7 @@ echo (($customer_id > 0 || (defined('PURCHASE_WITHOUT_ACCOUNT_SEPARATE_SHIPPING'
 	
 	<?php
 	if(MODULE_ORDER_TOTAL_AVATAX_VALIDATE != 'false'){
-		echo tep_image_button('button_validate_address.gif', IMAGE_BUTTON_CONTINUE,' id="validate_avatax_address" onClick="return vaidateAvataxAddress();" ');   ?>
+		echo tep_image_button('button_validate_address.gif', IMAGE_BUTTON_VALIDATE_ADDRESS,' id="validate_avatax_address" onClick="return vaidateAvataxAddress();" ');   ?>
 		
         <span id="ajaxloader"></span>
 		<script type="text/javascript">
