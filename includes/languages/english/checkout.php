@@ -1,6 +1,7 @@
 <?php
 define("NAVBAR_TITLE", "Checkout");
 define("NAVBAR_TITLE_1", "Checkout");
+define('HEADING_TITLE', 'Secure Checkout');
 define("TABLE_HEADING_SHIPPING_ADDRESS", "Shipping Address");
 define("TABLE_HEADING_BILLING_ADDRESS", "Billing Address - must match credit card");
 define("TABLE_HEADING_PRODUCTS_MODEL", "Products Model");
