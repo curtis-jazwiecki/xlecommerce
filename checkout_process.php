@@ -222,12 +222,12 @@ if ((isset($_SESSION['ffl_selected']) && (count($_SESSION['ffl_selected']) > 0))
 				'ffl_dealers_data_id'	=> $fflID
 			);
 			
-			$order->delivery['street_address'] = $ffl_data['premise_street'];
-			$order->delivery['suburb'] = '';
-			$order->delivery['city'] = $ffl_data['premise_city'];
-			$order->delivery['postcode'] = $ffl_data['premise_zip_code'];
-			$order->delivery['state'] = $ffl_data['premise_state'];
-			$order->delivery['company'] = $ffl_data['license_name'];
+			$order->delivery['street_address']  = $ffl_data['premise_street'];
+			$order->delivery['suburb'] 			= '';
+			$order->delivery['city'] 			= $ffl_data['premise_city'];
+			$order->delivery['postcode'] 		= $ffl_data['premise_zip_code'];
+			$order->delivery['state'] 			= convert_state($ffl_data['premise_state'],'name');
+			$order->delivery['company'] 		= $ffl_data['license_name'];
 			
 		}
 	}
