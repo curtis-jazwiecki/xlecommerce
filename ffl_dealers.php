@@ -1,10 +1,9 @@
 <?php
 /*
   $Id: ffl_dealers.php,v 1.65 2016/03/22 23:03:52 hpdl Exp $
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-  Copyright (c) 2016 osCommerce
-  Released under the GNU General Public License
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 */
 
   require('includes/application_top.php');
