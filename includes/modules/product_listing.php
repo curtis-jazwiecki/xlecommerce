@@ -5,6 +5,7 @@
   CloudCommerce - Multi-Channel eCommerce Solutions
   http://www.cloudcommerce.org
   Copyright (c) 2016 Outdoor Business Network, Inc.
+
 */
 if (isset($pw_mispell)) //added for search enhancements mod
   {
@@ -291,7 +292,7 @@ if ($listing_split->number_of_rows > 0)
              $lc_align = 'center';
              if (isset($HTTP_GET_VARS['manufacturers_id'])) {
 			 $lc_text='';
-             $lc_image = '<table><tr><td style="border:1px solid #333333;" valign="bottom"><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'manufacturers_id=' . $HTTP_GET_VARS['manufacturers_id'] . '&products_id=' . $listing[$x]['products_id']) . '" >' .  $image . '</a></td></tr></table>';
+             $lc_image = '<table><tr><td style="border:1px solid #333333;" valign="bottom" class="product_listing_box"><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'manufacturers_id=' . $HTTP_GET_VARS['manufacturers_id'] . '&products_id=' . $listing[$x]['products_id']) . '" >' .  $image . '</a></td></tr></table>';
              } else {
 			 $lc_text='';
              $lc_image = '<a href="' . tep_href_link(FILENAME_PRODUCT_INFO, ($cPath ? 'cPath=' . $cPath . '&' : '') . 'products_id=' . $listing[$x]['products_id']) . '"  >' . $image . '</a>';
@@ -655,8 +656,8 @@ if ($listing_split->number_of_rows > 0)
                         &nbsp;&nbsp;<a href="javascript://" onclick="javascript:document.forms['filter_products'].elements['items_per_page'].value='12';document.forms['filter_products'].submit();" <?php echo ($_SESSION['items_per_page']=='12' ? ' style="font-weight:bolder;"' : ''); ?> >12</a>&nbsp;|&nbsp;
                         <a href="javascript://" onclick="javascript:document.forms['filter_products'].elements['items_per_page'].value='24';document.forms['filter_products'].submit();" <?php echo ($_SESSION['items_per_page']=='24' ? ' style="font-weight:bolder;"' : ''); ?> >24</a>&nbsp;|&nbsp;
                         <a href="javascript://" onclick="javascript:document.forms['filter_products'].elements['items_per_page'].value='50';document.forms['filter_products'].submit();" <?php echo ($_SESSION['items_per_page']=='50' ? ' style="font-weight:bolder;"' : ''); ?> >50</a>&nbsp;|&nbsp;
-                        <a href="javascript://" onclick="javascript:document.forms['filter_products'].elements['items_per_page'].value='100';document.forms['filter_products'].submit();" <?php echo ($_SESSION['items_per_page']=='100' ? ' style="font-weight:bolder;"' : ''); ?> >100</a>&nbsp;|&nbsp;
-                        <a href="javascript://" onclick="javascript:document.forms['filter_products'].elements['items_per_page'].value='All';document.forms['filter_products'].submit();" <?php echo ($_SESSION['items_per_page']=='All' ? ' style="font-weight:bolder;"' : ''); ?> >All</a>&nbsp;&nbsp;
+                        <a href="javascript://" onclick="javascript:document.forms['filter_products'].elements['items_per_page'].value='100';document.forms['filter_products'].submit();" <?php echo ($_SESSION['items_per_page']=='100' ? ' style="font-weight:bolder;"' : ''); ?> >100</a>
+    
     </td>
   </tr>
   
@@ -718,8 +719,10 @@ if ($listing_split->number_of_rows > 0)
                         &nbsp;&nbsp;<a href="javascript://" onclick="javascript:document.forms['filter_products'].elements['items_per_page'].value='12';document.forms['filter_products'].submit();" <?php echo ($_SESSION['items_per_page']=='12' ? ' style="font-weight:bolder;"' : ''); ?> >12</a>&nbsp;|&nbsp;
                         <a href="javascript://" onclick="javascript:document.forms['filter_products'].elements['items_per_page'].value='24';document.forms['filter_products'].submit();" <?php echo ($_SESSION['items_per_page']=='24' ? ' style="font-weight:bolder;"' : ''); ?> >24</a>&nbsp;|&nbsp;
                         <a href="javascript://" onclick="javascript:document.forms['filter_products'].elements['items_per_page'].value='50';document.forms['filter_products'].submit();" <?php echo ($_SESSION['items_per_page']=='50' ? ' style="font-weight:bolder;"' : ''); ?> >50</a>&nbsp;|&nbsp;
-                        <a href="javascript://" onclick="javascript:document.forms['filter_products'].elements['items_per_page'].value='100';document.forms['filter_products'].submit();" <?php echo ($_SESSION['items_per_page']=='100' ? ' style="font-weight:bolder;"' : ''); ?> >100</a>&nbsp;|&nbsp;
-                        <a href="javascript://" onclick="javascript:document.forms['filter_products'].elements['items_per_page'].value='All';document.forms['filter_products'].submit();" <?php echo ($_SESSION['items_per_page']=='All' ? ' style="font-weight:bolder;"' : ''); ?> >All</a>&nbsp;&nbsp;
+                        <a href="javascript://" onclick="javascript:document.forms['filter_products'].elements['items_per_page'].value='100';document.forms['filter_products'].submit();" <?php echo ($_SESSION['items_per_page']=='100' ? ' style="font-weight:bolder;"' : ''); ?> >100</a>
+                        
+                        
+    
     </td>
   </tr>
   <?// #06 9Jan2014 (MA) EOF?>
