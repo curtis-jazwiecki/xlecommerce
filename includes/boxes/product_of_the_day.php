@@ -1,4 +1,9 @@
 <?php
+/*
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
+*/
 if ($PHP_SELF=='/index.php'){
 	$pod_query = tep_db_query("select pftd.id, pftd.products_id, pftd.start_date, pftd.status, p.products_image, p.products_mediumimage, p.products_price, p.products_tax_class_id, pd.products_name from product_for_the_day pftd inner join products p on pftd.products_id=p.products_id inner join products_description pd on  (p.products_id=pd.products_id and pd.language_id='1') where pftd.start_date='" . date('Y-m-d', time()) . "' and pftd.status='1' and p.products_status='1' order by id desc limit 0, 1");
 

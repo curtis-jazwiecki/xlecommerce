@@ -3,8 +3,9 @@
 
   Verions 2.04 for OSC 2.2 MS2+
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 
   Copyright (c) 2002, 2003 Steve Fatula of Fatula Consulting
   compconsultant@yahoo.com

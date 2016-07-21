@@ -3,10 +3,9 @@
 /*
   $Id: sts.php,v 4.1 2006/03/06 22:30:54 Rigadin Exp $
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-
-  Released under the GNU General Public License
+ CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
  
 STS PLUS v4.1 by Rigadin (rigadin@osc-help.net)
 Based on: Simple Template System (STS) - Copyright (c) 2004 Brian Gallagher - brian@diamondsea.com

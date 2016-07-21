@@ -10,12 +10,12 @@ define('DIR_WS_IMAGES', 'images/');
 
 <?php
 /*
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
+ 
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 
-  Copyright (c) 2002 osCommerce
 
-  Released under the GNU General Public License
   
   Featured Products V1.1
   Displays a list of featured products, selected from admin

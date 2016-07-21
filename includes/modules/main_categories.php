@@ -1,3 +1,8 @@
+<!--
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
+-->
 <table cellpadding="0" cellspacing="2" width="100%" align="center"><tr>
 <?php
 $categories_query = tep_db_query("select cd.categories_name, c.categories_image, c.categories_id from " . TABLE_CATEGORIES . " c, " . TABLE_CATEGORIES_DESCRIPTION . " cd where c.categories_status = '1' and c.parent_id = '0' and cd.categories_id = c.categories_id and cd.language_id = '" . (int)$languages_id . "' order by cd.categories_name");

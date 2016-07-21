@@ -2,6 +2,10 @@
 /*
   /catalog/includes/header_tags.php
   Add META TAGS and Modify TITLE
+  
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 */
 
 

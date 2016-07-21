@@ -1,10 +1,11 @@
 <?php
 /*
   $Id: contact_us.php,v 1.42 2003/06/12 12:17:07 hpdl Exp $
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-  Copyright (c) 2003 osCommerce
-  Released under the GNU General Public License
+  
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
+
 */
 require('includes/application_top.php');
 require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_CONTACT_US);

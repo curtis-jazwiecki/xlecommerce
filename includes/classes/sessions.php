@@ -2,12 +2,9 @@
 /*
   $Id: sessions.php,v 1.15 2003/06/16 16:24:00 dgw_ Exp $
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-
-  Copyright (c) 2003 osCommerce
-
-  Released under the GNU General Public License
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 
   Original source from Web Application Development with PHP (Tobias Ratschiller, Till Gerken)
   Copyright (c) 2000, New Riders Publishing

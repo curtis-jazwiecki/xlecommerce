@@ -9,7 +9,9 @@
   Copyright (c) 2001,2002 Ian C Wilson
   http://www.phesis.org
 
-  Released under the GNU General Public License
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 */
 
 define('NAVBAR_TITLE', 'Gift Voucher FAQ');

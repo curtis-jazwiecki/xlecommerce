@@ -1,10 +1,11 @@
 <?php
 /*
   $Id: ffl_dealer_shipping.php,v 1.27 2016/04/11 22:41:52 hpdl Exp $
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-  Copyright (c) 2016 osCommerce
-  Released under the GNU General Public License
+  
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
+
 */
 
   class ffldealershipping {

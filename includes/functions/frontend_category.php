@@ -1,5 +1,9 @@
 <?php
-
+/*
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
+*/
 function remove_frontend_category($category_id) {
 	$category_image_query = tep_db_query("select categories_image from frontend_categories where categories_id = '" . (int)$category_id . "'");
 	$category_image = tep_db_fetch_array($category_image_query);

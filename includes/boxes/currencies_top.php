@@ -2,12 +2,9 @@
 /*
   $Id: currencies.php,v 1.16 2003/02/12 20:27:31 hpdl Exp $
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-
-  Copyright (c) 2003 osCommerce
-
-  Released under the GNU General Public License
+ CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 */
 
   if (isset($currencies) && is_object($currencies)) {

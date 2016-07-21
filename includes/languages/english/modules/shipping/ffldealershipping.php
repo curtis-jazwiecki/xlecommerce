@@ -1,4 +1,9 @@
 <?php
+/*
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
+*/
 define("MODULE_SHIPPING_FFL_DEALER_TEXT_TITLE", "FFL Dealer Shipping");
 define("MODULE_SHIPPING_FFL_DEALER_TEXT_DESCRIPTION", "FFL Dealer Shipping");
 define("MODULE_SHIPPING_FFL_DEALER_TEXT_WAY", "Shipment to FFL Dealer of your choice.");

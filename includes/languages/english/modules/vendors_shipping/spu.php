@@ -10,6 +10,9 @@
   Copyright (c) 2002 Arachnia-web Development.
   Released under the GNU General Public License.
   May be used and modified without permission.
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 */
 
 define('MODULE_SHIPPING_SPU_TEXT_TITLE', 'Store Pickup');

@@ -1,4 +1,9 @@
 <?php
+/*
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
+*/
   require('includes/application_top.php');
   require(DIR_WS_LANGUAGES . $language .
   '/modules/payment/eProcessingNetwork.php');

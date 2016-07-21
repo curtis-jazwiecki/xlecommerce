@@ -2,12 +2,9 @@
 /*
   $Id: usps.php,v 1.8 2003/02/14 12:54:38 dgw_ Exp $
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-
-  Copyright (c) 2002 osCommerce
-
-  Released under the GNU General Public License
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 */
 
 define('MODULE_SHIPPING_USPS_TEXT_TITLE', 'United States Postal Service');

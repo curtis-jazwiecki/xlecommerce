@@ -2,12 +2,9 @@
 /*
   $Id: whats_new.php,v 1.31 2003/02/10 22:31:09 hpdl Exp $
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-
-  Copyright (c) 2003 osCommerce
-
-  Released under the GNU General Public License
+ CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 */
  //Categories Status MOD BEGIN by FIW
 /*  if ($random_product = tep_random_select("select p.products_id, p.products_image, p.products_tax_class_id, p.products_price from " . TABLE_PRODUCTS . " p, ".TABLE_PRODUCTS_TO_CATEGORIES." p2c, ".TABLE_CATEGORIES." c where c.categories_status = '1' and p.products_status = '1' and p.products_id = p2c.products_id and p2c.categories_id = c.categories_id order by p.products_date_added desc limit " . MAX_RANDOM_SELECT_NEW)) {

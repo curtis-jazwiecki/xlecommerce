@@ -2,12 +2,9 @@
 /*
   $Id: order_history.php,v 1.5 2003/06/09 22:18:30 hpdl Exp $
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-
-  Copyright (c) 2003 osCommerce
-
-  Released under the GNU General Public License
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 */
 
   if (tep_session_is_registered('customer_id')) {

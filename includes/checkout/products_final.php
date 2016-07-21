@@ -1,3 +1,8 @@
+<!--
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
+-->
 <table border="0" width="100%" cellspacing="0" cellpadding="2">
  <tr>
   <td class="smallText"><b><?php echo TABLE_HEADING_PRODUCTS_NAME;?></b></td>

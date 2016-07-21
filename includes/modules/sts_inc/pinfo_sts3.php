@@ -2,12 +2,9 @@
 /*
   $Id: pinfo_sts3.php,v 4.1 2005/11/04 23:55:58 rigadin Exp $
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-
-  Copyright (c) 2005 osCommerce
-
-  Released under the GNU General Public License
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 
 Include Module for STS v4.1 by Rigadin (rigadin@osc-help.net)
 This module is useful for compatibility with product_info templates made with STS v2 or v3.

@@ -1,9 +1,9 @@
 <?php
 /*
   $Id: merchantpartners.php,v 1.65 2007/02/14 05:51:31 hpdl Exp $
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-  Copyright (c) 2003 osCommerce
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 
   Released under the GNU General Public License
 

@@ -1,4 +1,9 @@
 <?php
+/*
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
+*/
 define("MODULE_SHIPPING_FFL_DEALER_TEXT_TITLE", "Select an FFL Dealer");
 define("MODULE_SHIPPING_FFL_DEALER_TEXT_DESCRIPTION", "AddressSelector");
 define("MODULE_SHIPPING_FFL_DEALER_TEXT_WAY", "Standard Shipping to FFL Dealer. <a href=\"http://www.guns-r-us.co/shipping-returns-i-52.html\" target=\"new\"><font size=\"-2\">FFL Shipping Information</font></a>");

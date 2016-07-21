@@ -2,12 +2,11 @@
 /*
   $Id: form_check.js.php,v 1.9 2003/05/19 19:50:14 hpdl Exp $
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
 
-  Copyright (c) 2003 osCommerce
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 
-  Released under the GNU General Public License
 */
 ?>
 <script language="javascript"><!--

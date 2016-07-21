@@ -8,39 +8,9 @@
 
 $Id: sts_user_code.php,v 4.1 2005/02/05 05:57:21 rigadin Exp $
 
-
-
-
-
-
-
-osCommerce, Open Source E-Commerce Solutions
-
-
-
-http://www.oscommerce.com
-
-
-
-
-
-
-
-Copyright (c) 2005 osCommerce
-
-
-
-
-
-
-
-Released under the GNU General Public License
-
-
-
-
-
-
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 
 Based on: Simple Template System (STS) - Copyright (c) 2004 Brian Gallagher - brian@diamondsea.com
 

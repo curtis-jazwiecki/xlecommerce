@@ -4,7 +4,9 @@
 
   Copyright (c) 2005 Brian Burton
 
-  Released under the GNU General Public License
+   CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 */
 
 define('MODULE_SHIPPING_FXFREIGHT_TEXT_TITLE', 'FedEx Freight');

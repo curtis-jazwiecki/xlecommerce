@@ -1,6 +1,9 @@
 <?php
 /*
   $Id: gv_send.php,v 1.1.2.1 2003/04/18 17:25:44 wilt Exp $
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 
   The Exchange Project - Community Made Shopping!
   http://www.theexchangeproject.org

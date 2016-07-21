@@ -1,4 +1,9 @@
  <?php 
+ /*
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
+*/
  	$current_template = basename(STS_TEMPLATE_DIR);
 	$template_id = str_ireplace('template', '', $current_template);
  if(file_exists(DIR_FS_CATALOG . DIR_WS_INCLUDES . 'sts_templates/' . "full/$current_template/search_filter.css")){

@@ -1,6 +1,10 @@
 <?php
 /*
 $Id: ot_coupon.php,v 1.1.2.38 2006/09/01 22:52:59 Strider Exp $
+  
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 */
 
 class ot_coupon {

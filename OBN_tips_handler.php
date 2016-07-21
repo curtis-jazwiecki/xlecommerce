@@ -1,4 +1,9 @@
 <?php
+/*
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
+*/
 require_once('includes/application_top.php');
 $split_path = explode('/', OBN_TIPS_FEED_URL);
 //$feed_file = DIR_FS_OBN_FEED . OBN_RETAILER_TOKEN . '/' . $split_path[count($split_path)-1];

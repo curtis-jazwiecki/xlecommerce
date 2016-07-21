@@ -1,10 +1,9 @@
 <?php
 /*
 $Id: advanced_search_result.php,v 1.72 2003/06/23 06:50:11 project3000 Exp $
-osCommerce, Open Source E-Commerce Solutions
-http://www.oscommerce.com
-Copyright (c) 2003 osCommerce
-Released under the GNU General Public License
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 */
 
 //header('Cache-Control: no cache'); //no cache

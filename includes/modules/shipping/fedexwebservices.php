@@ -4,6 +4,10 @@
   New contributed code and the hard work credit to Jeff Lew. Thanks Jeff and Numinex!
   
   Support: http://forums.oscommerce.com/topic/375063-fedex-web-services-v9/page__view__findpost__p__1636568
+  
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 */
 
 function d($d){

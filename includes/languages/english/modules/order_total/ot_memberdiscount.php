@@ -1,6 +1,9 @@
 <?php
 /*
   $Id: ot_memberdiscount.php
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 */
 
   define('MODULE_ORDER_TOTAL_MEMBERDISCOUNT_TITLE', 'Membership Discount');

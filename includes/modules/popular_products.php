@@ -4,12 +4,9 @@
 $Id: new_products.php, v1  2002/09/11
 // adapted for Separate Pricing Per Customer v4 2005/02/24
 
-osCommerce, Open Source E-Commerce Solutions
-http://www.oscommerce.com
-
-Copyright (c) 2002 osCommerce
-
-Released under the GNU General Public License
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 */
 if (ENABLE_POPULAR_PRODUCTS=='True') {
 //require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_XSELL_PRODUCTS);

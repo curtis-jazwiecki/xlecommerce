@@ -1,4 +1,9 @@
 <?php
+/*
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
+*/
 $cart->vendor_shipping();
 $vendor_shipping = $cart->vendor_shipping;
 //echo '<pre>';

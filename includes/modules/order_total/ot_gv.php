@@ -3,12 +3,9 @@
   $Id: ot_gv.php,v 1.37.3 2004/01/01 12:52:59 Strider Exp $
   $Id: ot_gv.php,v 1.4.2.12 2003/05/14 22:52:59 wilt Exp $
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-
-  Copyright (c) 2002 osCommerce
-
-  Released under the GNU General Public License
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 */
 
   class ot_gv {

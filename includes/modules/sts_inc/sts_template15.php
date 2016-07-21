@@ -1,4 +1,10 @@
 <?php
+/*
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
+
+*/
 $template15_blocks = array(
 	'block_infobox',
 	'block_infobox_01',

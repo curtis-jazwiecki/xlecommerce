@@ -1,4 +1,9 @@
 <?php
+/*
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
+*/
 define("NAVBAR_TITLE", "Checkout");
 define("NAVBAR_TITLE_1", "Checkout");
 define('HEADING_TITLE', 'Secure Checkout');

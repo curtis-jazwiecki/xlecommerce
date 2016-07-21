@@ -2,12 +2,9 @@
 /*
   $Id: packing.php, v1.0 2007/12/24 JanZ Exp $
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-
-  Copyright (c) 2007 osCommerce
-
-  Released under the GNU General Public License
+ CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
   Adapted from the UPSXML contribution
   
   dimensions support = 0: no dimensions support
