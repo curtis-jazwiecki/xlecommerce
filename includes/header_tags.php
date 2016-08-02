@@ -2,10 +2,6 @@
 /*
   /catalog/includes/header_tags.php
   Add META TAGS and Modify TITLE
-  
-  CloudCommerce - Multi-Channel eCommerce Solutions
-  http://www.cloudcommerce.org
-  Copyright (c) 2016 Outdoor Business Network, Inc.
 */
 
 
@@ -132,7 +128,41 @@ switch (true) {
     break;    
  
 // INDEX.PHP
-  case (strstr($_SERVER['PHP_SELF'],FILENAME_DEFAULT) or strstr($PHP_SELF,FILENAME_DEFAULT) ):
+  case ( strstr($_SERVER['PHP_SELF'],FILENAME_DEFAULT) or strstr($PHP_SELF,FILENAME_DEFAULT) ):
+    if ( HEAD_DESC_TAG_DEFAULT!='' ) {
+      if ( HTDA_DEFAULT_ON=='1' ) {
+        $tags_array['desc']= HEAD_DESC_TAG_DEFAULT . ' ' . HEAD_DESC_TAG_ALL;
+      } else {
+        $tags_array['desc']= HEAD_DESC_TAG_DEFAULT;
+      }
+    } else {
+      $tags_array['desc']= HEAD_DESC_TAG_ALL;
+    }
+
+    if ( HEAD_KEY_TAG_DEFAULT!='' ) {
+      if ( HTKA_DEFAULT_ON=='1' ) {
+        $tags_array['keywords']= HEAD_KEY_TAG_DEFAULT . ' ' . HEAD_KEY_TAG_ALL;
+      } else {
+        $tags_array['keywords']= HEAD_KEY_TAG_DEFAULT;
+      }
+    } else {
+      $tags_array['keywords']= HEAD_KEY_TAG_ALL;
+    }
+
+    if ( HEAD_TITLE_TAG_DEFAULT!='' ) {
+      if ( HTTA_DEFAULT_ON=='1' ) {
+        $tags_array['title']= HEAD_TITLE_TAG_DEFAULT . ' ' . HEAD_TITLE_TAG_ALL;
+      } else {
+        $tags_array['title']= HEAD_TITLE_TAG_DEFAULT;
+      }
+    } else {
+      $tags_array['title']= HEAD_TITLE_TAG_ALL;
+    }
+
+    break;
+    
+   //SHOP.PHP 
+  case (strstr($_SERVER['PHP_SELF'],'shop.php') or strstr($PHP_SELF,'shop.php') ):
   
     $showCatTags = false;
     
@@ -148,64 +178,64 @@ switch (true) {
 
     $the_category = tep_db_fetch_array($the_category_query);
     
-    if (HTDA_DEFAULT_ON=='1') {
+    if (HTDA_SHOP_ON=='1') {
       if ($showCatTags == true) {
-         if (HTTA_CAT_DEFAULT_ON=='1') {
-           $tags_array['desc']= $the_category['htc_desc_tag'] . ' ' . HEAD_DESC_TAG_DEFAULT . ' ' . HEAD_DESC_TAG_ALL;
+         if (HTTA_CAT_SHOP_ON=='1') {
+           $tags_array['desc']= $the_category['htc_desc_tag'] . ' ' . HEAD_DESC_TAG_SHOP . ' ' . HEAD_DESC_TAG_ALL;
          } else {
            $tags_array['desc']= $the_category['htc_desc_tag'] . ' ' . HEAD_DESC_TAG_ALL;
          }
       } else {
-        $tags_array['desc']= HEAD_DESC_TAG_DEFAULT . ' ' . HEAD_DESC_TAG_ALL;
+        $tags_array['desc']= HEAD_DESC_TAG_SHOP . ' ' . HEAD_DESC_TAG_ALL;
       }
     } else {
       if ($showCatTags == true) {
-         if (HTTA_CAT_DEFAULT_ON=='1') {
-           $tags_array['desc']= $the_category['htc_desc_tag'] . ' ' . HEAD_DESC_TAG_DEFAULT;
+         if (HTTA_CAT_SHOP_ON=='1') {
+           $tags_array['desc']= $the_category['htc_desc_tag'] . ' ' . HEAD_DESC_TAG_SHOP;
          } else {
            $tags_array['desc']= $the_category['htc_desc_tag'];
          }
       } else {
-        $tags_array['desc']= HEAD_DESC_TAG_DEFAULT;
+        $tags_array['desc']= HEAD_DESC_TAG_SHOP;
       }  
     }
 
-    if (HTKA_DEFAULT_ON=='1') {
+    if (HTKA_SHOP_ON=='1') {
       if ($showCatTags == true) {
-          if (HTTA_CAT_DEFAULT_ON=='1') {
-            $tags_array['keywords']= $the_category['htc_keywords_tag'] . ', ' . HEAD_KEY_TAG_ALL . ' ' . HEAD_KEY_TAG_DEFAULT;
+          if (HTTA_CAT_SHOP_ON=='1') {
+            $tags_array['keywords']= $the_category['htc_keywords_tag'] . ', ' . HEAD_KEY_TAG_ALL . ' ' . HEAD_KEY_TAG_SHOP;
           } else {  
-            $tags_array['keywords']= $the_category['htc_keywords_tag'] .  ', ' . HEAD_KEY_TAG_DEFAULT;
+            $tags_array['keywords']= $the_category['htc_keywords_tag'] .  ', ' . HEAD_KEY_TAG_SHOP;
           }
       } else {
-        $tags_array['keywords']= HEAD_KEY_TAG_ALL . ', ' . HEAD_KEY_TAG_DEFAULT;
+        $tags_array['keywords']= HEAD_KEY_TAG_ALL . ', ' . HEAD_KEY_TAG_SHOP;
       }  
     } else {
       if ($showCatTags == true) {
-         if (HTTA_CAT_DEFAULT_ON=='1') {
-           $tags_array['keywords']= $the_category['htc_keywords_tag'] . ', ' . HEAD_KEY_TAG_DEFAULT;
+         if (HTTA_CAT_SHOP_ON=='1') {
+           $tags_array['keywords']= $the_category['htc_keywords_tag'] . ', ' . HEAD_KEY_TAG_SHOP;
          } else {
            $tags_array['keywords']= $the_category['htc_keywords_tag'];
          }  
       } else {
-         $tags_array['keywords']= HEAD_KEY_TAG_DEFAULT;
+         $tags_array['keywords']= HEAD_KEY_TAG_SHOP;
       }   
     }
 
-    if (HTTA_DEFAULT_ON=='1') {
+    if (HTTA_SHOP_ON=='1') {
       if ($showCatTags == true) {
-        if (HTTA_CAT_DEFAULT_ON=='1') {
-          $tags_array['title']= $the_category['htc_title_tag'] .' '.  HEAD_TITLE_TAG_DEFAULT . " " .  $the_manufacturers['manufacturers_name'] . ' - ' . HEAD_TITLE_TAG_ALL;
+        if (HTTA_CAT_SHOP_ON=='1') {
+          $tags_array['title']= $the_category['htc_title_tag'] .' '.  HEAD_TITLE_TAG_SHOP . " " .  $the_manufacturers['manufacturers_name'] . ' - ' . HEAD_TITLE_TAG_ALL;
         } else {
           $tags_array['title']= $the_category['htc_title_tag'] .' '.  $the_manufacturers['manufacturers_htc_title_tag'] . ' - ' . HEAD_TITLE_TAG_ALL;
         }
       } else {
-        $tags_array['title']= HEAD_TITLE_TAG_DEFAULT . " " . $the_category['name'] . $the_manufacturers['manufacturers_htc_title_tag'] . ' - ' . HEAD_TITLE_TAG_ALL;
+        $tags_array['title']= HEAD_TITLE_TAG_SHOP . " " . $the_category['name'] . $the_manufacturers['manufacturers_htc_title_tag'] . ' - ' . HEAD_TITLE_TAG_ALL;
       }
     } else {
       if ($showCatTags == true) {
-        if (HTTA_CAT_DEFAULT_ON=='1') {
-          $tags_array['title']= $the_category['htc_title_tag'] . ' ' . HEAD_TITLE_TAG_DEFAULT;
+        if (HTTA_CAT_SHOP_ON=='1') {
+          $tags_array['title']= $the_category['htc_title_tag'] . ' ' . HEAD_TITLE_TAG_SHOP;
         } else {
           $tags_array['title']= $the_category['htc_title_tag'];
         } 
@@ -374,13 +404,6 @@ switch (true) {
    break;
  
 
-// shop.php
-  case (strstr($_SERVER['PHP_SELF'],FILENAME_SHOP) or strstr($PHP_SELF, FILENAME_SHOP));
-    $tags_array = tep_header_tag_page(HTTA_SHOP_ON, HEAD_TITLE_TAG_SHOP, 
-                                      HTDA_SHOP_ON, HEAD_DESC_TAG_SHOP, 
-                                      HTKA_SHOP_ON, HEAD_KEY_TAG_SHOP );
-   break;
-
 // advanced_search.php
   case (strstr($_SERVER['PHP_SELF'],FILENAME_ADVANCED_SEARCH) or strstr($PHP_SELF, FILENAME_ADVANCED_SEARCH));
     $tags_array = tep_header_tag_page(HTTA_ADVANCED_SEARCH_ON, HEAD_TITLE_TAG_ADVANCED_SEARCH, 
@@ -407,6 +430,13 @@ switch (true) {
     $tags_array = tep_header_tag_page(HTTA_SHOP_BY_MANUFACTURER_ON, HEAD_TITLE_TAG_SHOP_BY_MANUFACTURER, 
                                       HTDA_SHOP_BY_MANUFACTURER_ON, HEAD_DESC_TAG_SHOP_BY_MANUFACTURER, 
                                       HTKA_SHOP_BY_MANUFACTURER_ON, HEAD_KEY_TAG_SHOP_BY_MANUFACTURER );
+   break;
+
+// shop.php
+  case (strstr($_SERVER['PHP_SELF'],FILENAME_SHOP) or strstr($PHP_SELF, FILENAME_SHOP));
+    $tags_array = tep_header_tag_page(HTTA_SHOP_ON, HEAD_TITLE_TAG_SHOP, 
+                                      HTDA_SHOP_ON, HEAD_DESC_TAG_SHOP, 
+                                      HTKA_SHOP_ON, HEAD_KEY_TAG_SHOP );
    break;
 
 // ALL OTHER PAGES NOT DEFINED ABOVE
