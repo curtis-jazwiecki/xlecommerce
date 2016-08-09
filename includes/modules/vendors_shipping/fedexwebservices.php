@@ -469,7 +469,9 @@ $request['TransactionDetail'] = array('CustomerTransactionId' => ' *** Rate Requ
                             'error'  => $message);
     }
 // po box hack by JD
-             if (eregi("^P(.+)O(.+)BOX",$order->delivery['street_address']) ||eregi("^PO BOX",$order->delivery['street_address']) || eregi("^P(.+)O(.+)BOX",$order->delivery['suburb']) || eregi("^[A-Z]PO",$order->delivery['street_address']) || eregi("^[A-Z]PO",$order->delivery['suburb'])) {
+             if (preg_match("/^P(.+)O(.+)BOX/",$order->delivery['street_address']) ||preg_match("/^PO BOX/",$order->delivery['street_address']) || preg_match("/^P(.+)O(.+)BOX/",$order->delivery['suburb']) || preg_match("/^[A-Z]PO/",$order->delivery['street_address']) || preg_match("/^[A-Z]PO/",$order->delivery['suburb'])) {
+				 	 
+				 
        $this->quotes = array('module' => $this->title,
                               'error' => '<font size=+2 color=red><b>Federal Express cannot ship to Post Office Boxes.<b></font><br>Use the Change Address button above to use a FedEx accepted street address.'); }
 // end po box hack by JD
