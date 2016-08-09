@@ -220,12 +220,12 @@ $request['TransactionDetail'] = array('CustomerTransactionId' => ' *** Rate Requ
 	    $product_dim_type = 'cm';
       $new_shipping_num_boxes = 0;
       foreach ($products as $product) {
-        $dimensions_query = "SELECT products_ready_to_ship, products_ship_sep FROM " . TABLE_PRODUCTS . " 
+        $dimensions_query = "SELECT products_ready_to_ship FROM " . TABLE_PRODUCTS . " 
                              WHERE products_id = " . (int)$product['id'] . " 
                              LIMIT 1;";
         $dimensions = tep_db_query($dimensions_query);
         if ($product_dimensions = tep_db_fetch_array($dimensions)) {
-          if ($product_dimensions['products_ready_to_ship'] == 1 || $product_dimensions['products_ship_sep'] == 1) {
+          if ($product_dimensions['products_ready_to_ship'] == 1) {
             for ($i = 1; $i <= $product['quantity']; $i++) {
               $packages[] = array('weight' => $product['weight']);
             }    
@@ -826,7 +826,7 @@ $request['TransactionDetail'] = array('CustomerTransactionId' => ' *** Rate Requ
     tep_db_query ("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('International Express Handling Fee', 'MODULE_SHIPPING_FEDEX_WEB_SERVICES_INT_EXPRESS_HANDLING_FEE', '', 'Add an international handling fee or leave blank (example: 15 or 15%)', '6', '25', now())");
     tep_db_query ("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) VALUES ('FedEx Rates','MODULE_SHIPPING_FEDEX_WEB_SERVICES_RATES','LIST','FedEx Rates','6','0','tep_cfg_select_option(array(\'LIST\',\'ACCOUNT\'),',now())");
     tep_db_query ("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Signature Option', 'MODULE_SHIPPING_FEDEX_WEB_SERVICES_SIGNATURE_OPTION', '-1', 'Require a signature on orders greater than or equal to (set to -1 to disable):', '6', '25', now())");
-    tep_db_query ("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Ready to Ship', 'MODULE_SHIPPING_FEDEX_WEB_SERVICES_READY_TO_SHIP', 'false', 'Enable products_ship_sep or products_ready_to_ship field (required to identify products which ship separately', '6', '10', 'tep_cfg_select_option(array(\'true\', \'false\'), ', now())");    
+    tep_db_query ("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Ready to Ship', 'MODULE_SHIPPING_FEDEX_WEB_SERVICES_READY_TO_SHIP', 'false', 'Enable products_ready_to_ship field (required to identify products which ship separately', '6', '10', 'tep_cfg_select_option(array(\'true\', \'false\'), ', now())");    
     tep_db_query ("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, use_function, set_function, date_added) values ('Shipping Zone', 'MODULE_SHIPPING_FEDEX_WEB_SERVICES_ZONE', '0', 'If a zone is selected, only enable this shipping method for that zone.', '6', '98', 'tep_get_zone_class_title', 'tep_cfg_pull_down_zone_classes(', now())");
     tep_db_query ("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, use_function, set_function, date_added) values ('Tax Class', 'MODULE_SHIPPING_FEDEX_WEB_SERVICES_TAX_CLASS', '0', 'Use the following tax class on the shipping fee.', '6', '25', 'tep_get_tax_class_title', 'tep_cfg_pull_down_tax_classes(', now())");
     tep_db_query ("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_SHIPPING_FEDEX_WEB_SERVICES_SORT_ORDER', '0', 'Sort order of display.', '6', '99', now())");
