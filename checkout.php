@@ -1593,7 +1593,7 @@ if (isset($_GET['payment_error']) && is_object(${$_GET['payment_error']}) && ($e
 
                                                             if (MODULE_ORDER_TOTAL_COUPON_STATUS == 'true') {
 
-                                                                echo '<table cellpadding="2" cellspacing="0" border="0">
+                                                                echo '<table cellpadding="2" cellspacing="0" border="0" width="100%">
 
 			 <tr>
 
@@ -1667,7 +1667,7 @@ if (isset($_GET['payment_error']) && is_object(${$_GET['payment_error']}) && ($e
 
                                         <tr>
 
-                                            <td class="main" width="49%" valign="top">
+                                            <td class="main billing_add" width="49%" valign="top">
 
                                                 <div class="block">
 
@@ -1717,7 +1717,7 @@ if (isset($_GET['payment_error']) && is_object(${$_GET['payment_error']}) && ($e
 
                                                         ?>
 
-                                                <td class="main" width="49%" valign="top">
+                                                <td class="main shipping_add" width="49%" valign="top">
 
                                                     <div class="block">
 
