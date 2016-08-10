@@ -3,10 +3,12 @@
 /*
 
   $Id: sts_column_left.php,v 4.3.3 2006/03/12 22:06:41 rigadin Exp $
-
+ 
   CloudCommerce - Multi-Channel eCommerce Solutions
   http://www.cloudcommerce.org
   Copyright (c) 2016 Outdoor Business Network, Inc.
+
+
 
 
 
@@ -81,6 +83,10 @@
 			ob_end_clean();
 
 		    $sts->template['search_filterbox'] = $search_filterbox;
+			$searchmobile_filterbox = str_replace('<form name="filter"','<form name="mobilefilter"',$search_filterbox);
+			$searchmobile_filterbox = str_replace('id="filters"','id="mobilefilters"',$searchmobile_filterbox);
+			 $sts->template['searchmobile_filterbox'] = $searchmobile_filterbox;
+			
             }
 
 	  }else if(($getarray['module_boxes_file'] == 'manufacturer_info.php') && (isset($HTTP_GET_VARS['products_id']))){
@@ -120,6 +126,7 @@
   
 
 	// code to add dyamic modules based on ends
+
 
 
 

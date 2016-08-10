@@ -2,7 +2,7 @@
 /*
   $Id: categories.php,v 1.25 2003/07/09 01:13:58 hpdl Exp $
 
- CloudCommerce - Multi-Channel eCommerce Solutions
+  CloudCommerce - Multi-Channel eCommerce Solutions
   http://www.cloudcommerce.org
   Copyright (c) 2016 Outdoor Business Network, Inc.
 */
@@ -14,7 +14,13 @@
       $categories_string .= "&nbsp;&nbsp;";
     }
 
-    $categories_string .= '<p class="cat"><a href="';
+    $current_template_selected = basename(STS_TEMPLATE_DIR);
+
+    if($current_template_selected == 'template21'){
+		$categories_string .= '<ul><li class="cat mnu_side_row"><a href="';	
+	}else{
+		$categories_string .= '<p class="cat"><a href="';
+	}
 
     if ($tree[$counter]['parent'] == 0) {
       $cPath_new = 'cPath=' . $counter;
@@ -22,7 +28,11 @@
       $cPath_new = 'cPath=' . $tree[$counter]['path'];
     }
 
-    $categories_string .= tep_href_link(FILENAME_DEFAULT, $cPath_new) . '">';
+    if($current_template_selected == 'template21'){
+		$categories_string .= tep_href_link(FILENAME_DEFAULT, $cPath_new) . '" class="mnu_side_lnk">';
+	}else{
+		$categories_string .= tep_href_link(FILENAME_DEFAULT, $cPath_new) . '">';
+	}
 
     if (isset($cPath_array) && in_array($counter, $cPath_array)) {
       $categories_string .= '<b>';
@@ -39,7 +49,11 @@
       $categories_string .= '';
     }
 
-    $categories_string .= '</a></p>';
+    if($current_template_selected == 'template21'){
+		$categories_string .= '</a></li></ul>';
+	}else{
+		$categories_string .= '</a></p>';
+	}
 
     //$categories_string .= '<br>';
     $categories_string .= '';
