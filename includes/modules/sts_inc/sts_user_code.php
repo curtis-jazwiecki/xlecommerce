@@ -3736,7 +3736,6 @@ $sts->template['switch_template_link'] = $template_link;
 
 $sts->template['store_logo'] = 'images/store_logo.png';
 
+
+
 ?>
-
-
-
