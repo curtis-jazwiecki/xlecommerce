@@ -453,15 +453,15 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
 
 <script type="text/javascript">
 
-  function deleteThisFilter(filtername, filtervalue){
+function deleteThisFilter(filtername, filtervalue){
 
-         url = "advanced_search_result.php?action=delete&filter=" + filtername + "&value=" + filtervalue;
+ url = "advanced_search_result.php?action=delete&filter=" + filtername + "&value=" + filtervalue;
 
-         window.location.href=url;          
+ window.location.href=url;          
 
-        }
+}
 
-  </script>
+</script>
 
                                         <?php
 
@@ -935,15 +935,9 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
 
                                 }
 
-
-
                                 $where_str .= " and p2c.products_id = p.products_id and p2c.products_id = pd.products_id and pd.language_id = '" . (int) $languages_id . "' and p2c.categories_id = '" . (int)$temp . "'";
 
                             }
-
-
-
-                  
 
                             if (isset($_POST['m_']) && !empty($_POST['m_'])){
 
@@ -1335,7 +1329,17 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
 
                          }
 
-                            $listing_sql = $select_str . $from_str . $where_str . (!empty($ids) ? " and p.products_id in (" . implode(',', $ids) . ") " : "") .  $order_str;
+							if ( empty( $_GET['items_per_page'] ) ) {
+								if ( empty( $_SESSION['items_per_page'] ) ) {
+									$_SESSION['items_per_page'] = '24';
+								}
+							} else {
+								$_SESSION['items_per_page'] = $_GET['items_per_page'];
+							}
+							
+							$listing_sql = $select_str . $from_str . $where_str . (!empty($ids) ? " and p.products_id in (" . implode(',', $ids) . ") " : "") .  $order_str;
+							
+							
 
                             //$listing_sql = $select_str . $from_str . $where_str . $order_str;
 
@@ -1344,6 +1348,10 @@ if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
                           // echo $listing_sql;
 
                           //  exit;
+						   echo tep_draw_form('filter_products', FILENAME_ADVANCED_SEARCH_RESULT, 'get');
+						  echo '<input type="hidden" name="items_per_page" id="items_per_page" value="' . $_SESSION['items_per_page'] . '" />';
+						  echo '</form>';
+
 
                             require (DIR_WS_MODULES . FILENAME_PRODUCT_LISTING);
 
