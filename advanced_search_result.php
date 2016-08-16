@@ -1348,7 +1348,7 @@ function deleteThisFilter(filtername, filtervalue){
                           // echo $listing_sql;
 
                           //  exit;
-						   echo tep_draw_form('filter_products', FILENAME_ADVANCED_SEARCH_RESULT, 'get');
+						   echo tep_draw_form('filter_products', FILENAME_ADVANCED_SEARCH_RESULT, 'get'); 
 						  echo '<input type="hidden" name="items_per_page" id="items_per_page" value="' . $_SESSION['items_per_page'] . '" />';
 						  echo '</form>';
 
