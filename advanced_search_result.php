@@ -1,34 +1,18 @@
 <?php
-
 /*
-
-$Id: advanced_search_result.php,v 1.72 2003/06/23 06:50:11 project3000 Exp $
-
-
-
+  $Id: advanced_search_result.php,v 1.72 2003/06/23 06:50:11 project3000 Exp $
   CloudCommerce - Multi-Channel eCommerce Solutions
-
   http://www.cloudcommerce.org
-
   Copyright (c) 2016 Outdoor Business Network, Inc.
-
 */
 
-
-
 //header('Cache-Control: no cache'); //no cache
-
-session_cache_limiter('private_no_expire'); // works
-
+//session_cache_limiter('private_no_expire'); // works
 //header("Cache-Control: no-cache, must-revalidate");
 
 require ('includes/application_top.php');
 
-
-
 require (DIR_WS_LANGUAGES . $language . '/' . FILENAME_ADVANCED_SEARCH);
-
-
 
 if (isset($_GET['action']) && $_GET['action'] == 'delete') {
 
@@ -52,8 +36,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete') {
 
     }
 
-    
-
     if ($_GET['filter'] == 'price') {
 
      unset($_SESSION['filter_p']);   
@@ -62,13 +44,16 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete') {
 
 
     if ($_GET['filter'] == 'filter_m') {
+
      foreach ($_SESSION['filter_m'] as $key => $val) {
+
         if ($val == $_GET['value']) {
           unset($_SESSION['filter_m'][$key]);
-          }
-         if (sizeof($_SESSION['filter_m']) <= 0) unset($_SESSION['filter_m']);
-     }   
+        }
 
+        if (sizeof($_SESSION['filter_m']) <= 0) unset($_SESSION['filter_m']);
+
+     }   
     }
 
     if ($_GET['filter'] == 'filter_c') {
@@ -76,8 +61,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete') {
      unset($_SESSION['filter_c']);   
 
     }
-
-    
 
     if ($_GET['filter'] == 'categories_id') {
 
@@ -97,7 +80,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete') {
 
             unset($_SESSION['filter_s'][$key]);
 
-            }
+        }
 
         if (sizeof($_SESSION['filter_s']) <= 0) unset($_SESSION['filter_s']);
 
@@ -105,21 +88,19 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete') {
 
     }
 
-    
-
      if ($_GET['filter'] == 'options') {
 
-     foreach ($_SESSION['filter_o'] as $key => $val) {
-
-        if ($val == $_GET['value']) { 
-
-            unset($_SESSION['filter_o'][$key]);
-
-            }
-
-        if (sizeof($_SESSION['filter_o']) <= 0) unset($_SESSION['filter_o']);
-
-     }  
+		 foreach ($_SESSION['filter_o'] as $key => $val) {
+	
+			if ($val == $_GET['value']) { 
+	
+				unset($_SESSION['filter_o'][$key]);
+	
+			}
+	
+			if (sizeof($_SESSION['filter_o']) <= 0) unset($_SESSION['filter_o']);
+	
+		 }  
 
     }
 
@@ -347,19 +328,10 @@ if ($search_enhancements_keywords != $last_search_insert){
 
 // Search enhancement mod end
 
-
-
 $breadcrumb->add(NAVBAR_TITLE_1, tep_href_link(FILENAME_ADVANCED_SEARCH));
 
-$breadcrumb->add(NAVBAR_TITLE_2, tep_href_link(FILENAME_ADVANCED_SEARCH_RESULT,
-
-
-
-tep_get_all_get_params(), 'NONSSL', true, false));
-
+$breadcrumb->add(NAVBAR_TITLE_2, tep_href_link(FILENAME_ADVANCED_SEARCH_RESULT,tep_get_all_get_params(), 'NONSSL', true, false));
 ?>
-
-
 
 <!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN">
 
@@ -369,17 +341,13 @@ tep_get_all_get_params(), 'NONSSL', true, false));
 
 <?php
 
-
-
 // BOF: Header Tag Controller v2.6.0
 
 if (file_exists(DIR_WS_INCLUDES . 'header_tags.php')) {
 
     require (DIR_WS_INCLUDES . 'header_tags.php');
 
-} else {
-
-?> 
+} else { ?> 
 
   <title><?php echo TITLE; ?></title>
 
@@ -463,11 +431,11 @@ function deleteThisFilter(filtername, filtervalue){
 
 </script>
 
-                                        <?php
+<?php
 
-                                        $keywords_str='';
+$keywords_str='';
 
-                                        if (isset($_SESSION['categories_id']) && $_SESSION['categories_id']>0) {
+if (isset($_SESSION['categories_id']) && $_SESSION['categories_id']>0) {
 
                                             $cat_query = tep_db_query("select categories_name from " . TABLE_CATEGORIES_DESCRIPTION . " where categories_id='" . (int)$_SESSION['categories_id'] . "'");
 
@@ -477,7 +445,7 @@ function deleteThisFilter(filtername, filtervalue){
 
                                         }
 
-                                        if (isset($_SESSION['filter_c']) && $_SESSION['filter_c']>0) {
+if (isset($_SESSION['filter_c']) && $_SESSION['filter_c']>0) {
 
                                           if (strrpos($_SESSION['filter_c'], '_')!==false){
 
@@ -497,7 +465,7 @@ function deleteThisFilter(filtername, filtervalue){
 
                                         }
                                         
-                                          if (isset($_SESSION['filter_m']) && $_SESSION['filter_m']>0) {
+if (isset($_SESSION['filter_m']) && $_SESSION['filter_m']>0) {
                                            foreach ($_SESSION['filter_m'] as $man_id)
                                             $man_query = tep_db_query("select manufacturers_name from " . TABLE_MANUFACTURERS . " where manufacturers_id='" . (int)$man_id . "'");
 
@@ -507,13 +475,13 @@ function deleteThisFilter(filtername, filtervalue){
 
                                         }
 
-                                        if (isset($_SESSION['keywords']) && $_SESSION['keywords'] != '') {
+if (isset($_SESSION['keywords']) && $_SESSION['keywords'] != '') {
 
                                             $keywords_str .= '<b><i>' . stripslashes($keywords). '</b></i>' .  '<a style="cursor:pointer;" onclick="deleteThisFilter(\'keywords\');"><font color=red> X</font></a>' . tep_draw_separator('pixel_trans.gif', '10', '10'); 
 
                                             }
 
-                                       if (isset($_SESSION['filter_p']) && $_SESSION['filter_p'] != '') {
+if (isset($_SESSION['filter_p']) && $_SESSION['filter_p'] != '') {
 
                                             $temp = explode('|',$_SESSION['filter_p']);
 
@@ -547,7 +515,7 @@ function deleteThisFilter(filtername, filtervalue){
 
                                             }     
 
-                                        if (is_array($_SESSION['filter_s']) && sizeof($_SESSION['filter_s'])>0) {
+if (is_array($_SESSION['filter_s']) && sizeof($_SESSION['filter_s'])>0) {
 
                                         foreach ($_SESSION['filter_s'] as $val) {
 
@@ -565,9 +533,7 @@ function deleteThisFilter(filtername, filtervalue){
 
                                       } 
 
-                                      
-
-                                     if (is_array($_SESSION['filter_o']) && sizeof($_SESSION['filter_o'])>0) {
+if (is_array($_SESSION['filter_o']) && sizeof($_SESSION['filter_o'])>0) {
 
                                         foreach ($_SESSION['filter_o'] as $val) {
 
@@ -585,17 +551,9 @@ function deleteThisFilter(filtername, filtervalue){
 
                                       }           
 
-                                        ?>
+?>
 
-                                            <p>
-
-                                            <?php                                           
-
-                                                echo TEXT_REPLACEMENT_SEARCH_RESULTS . $keywords_str ;                                            
-
-                                            ?>
-
-                                            </p>
+<p><?php echo TEXT_REPLACEMENT_SEARCH_RESULTS . $keywords_str ; ?> </p>
 
                                         </td>
 
@@ -739,7 +697,7 @@ function deleteThisFilter(filtername, filtervalue){
 
                                     $status_need_to_get_prices = true;
 
-                            }
+                            	}
 
                             }
 
@@ -849,33 +807,20 @@ function deleteThisFilter(filtername, filtervalue){
 
                             }
 
-
-
                             $from_str .= ", " . TABLE_PRODUCTS_DESCRIPTION . " pd, " . TABLE_CATEGORIES . " c, " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c";
-
-
 
                            if (!empty($_SESSION['filter_s'])) {
 
                              //  $from_str .= " , product_specifications ps ";
 
-
-
                            }
-
-
-
 
 
                             $attributes_query_raw = "select distinct products_options_values_id from products_options_values where";
 
                             $options_str = '';
 
-
-
                             $where_str = " where c.categories_status = '1' and p.products_status = '1' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' and p.products_id = p2c.products_id and p2c.categories_id = c.categories_id ";
-
-
 
                            /*
 
