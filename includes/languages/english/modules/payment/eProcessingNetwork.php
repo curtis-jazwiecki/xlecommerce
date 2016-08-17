@@ -71,4 +71,8 @@
 	define('MODULE_PAYMENT_EPROCESSINGNETWORK_CCFS_BANKNAME_ERROR',
 		'Bank Name is empty');
 	define('MODULE_PAYMENT_EPROCESSINGNETWORK_TEXT_BILLING_INFO', 'Billing Info:');
+	define("CC_TRANTYPE_INVALID", "Your card was declined. Please contact your bank or credit card company for more information - this is a general decline.");
+	define("CC_AVS_ERROR", "Your card was declined. This was due to your address not matching what is on file with your bank or credit card company. Please review your primary address in your <a href=\"../address_book.php\">Address Book</a>.");
+	define("CC_CVV_ERROR", "Your card was declined. Please check your card’s expiration date and CVV2 code.");
+	define("CC_CATCHALL_ERROR", "Your credit card was declined. Please try another card or contact your bank for more info.");
 ?>

@@ -506,6 +506,24 @@ window.open('cvv_help.php','jav','width=500,height=550,resizable=no,toolbar=no,m
 <table border="0" width="100%" cellspacing="1" cellpadding="2" class="infoBoxl">
           <tr class="infoBoxContents">
             <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
+            
+            <!-- START EPN DECLINE MESSAGE DH -->
+            <tr><td colspan="3">
+            <?php $ccnotif = $_GET["error_message"]; ?>
+            <div style="padding-left: 5px; padding-right: 5px; color:#FF0000; font-weight:bold; font-style:italic "> 
+            <?php 
+				if (strpos($ccnotif, 'INV TRAN TYPE') !== false)
+					echo CC_TRANTYPE_INVALID;
+				elseif (strpos($ccnotif, 'ADcln - AVS (N)') !== false)
+					echo CC_AVS_ERROR; 
+				elseif (strpos($ccnotif, 'INV CVV2 MATCH') !== false)
+					echo CC_CVV_ERROR;
+				elseif  (strpos($ccnotif, 'u') !== false)
+					echo CC_CATCHALL_ERROR;
+            ?>
+            </div>
+            <br /></td></tr>
+            <!--END EPN DECLINE MESSAGE DH -->
 <?php
   $selection = $payment_modules->selection();
 
