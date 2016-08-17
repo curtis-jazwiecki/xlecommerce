@@ -390,7 +390,7 @@ if (is_array($wishList->wishID) && !empty($wishList->wishID)) {
       </tr>
 	  <tr>
         <td align="center">
-			<table border="0" width="400px" cellspacing="0" cellpadding="2">
+			<table border="0" width="400px" cellspacing="0" cellpadding="2" class="wishlist_form">
 			  <tr>
 				<td class="main" colspan="2"><table cellpadding="2" cellspacing="0">
 				  <tr>
@@ -433,7 +433,7 @@ if (is_array($wishList->wishID) && !empty($wishList->wishID)) {
       </tr>
 	  <tr>
         <td align="center">
-			<table border="0" width="400px" cellspacing="0" cellpadding="2">
+			<table border="0" width="400px" cellspacing="0" cellpadding="2" class="wishlist_form">
 
 <?php
 

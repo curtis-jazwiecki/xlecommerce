@@ -1,11 +1,9 @@
 <?php
 /*
   $Id: product_listing.php,v 1.44 2003/06/09 22:49:59 hpdl Exp $
-
   CloudCommerce - Multi-Channel eCommerce Solutions
   http://www.cloudcommerce.org
   Copyright (c) 2016 Outdoor Business Network, Inc.
-
 */
 if (isset($pw_mispell)) //added for search enhancements mod
   {
@@ -20,9 +18,7 @@ $template_query = tep_db_query("select configuration_value from " . TABLE_CONFIG
 $rows = tep_db_fetch_array($template_query);
 $selected_template = $rows['configuration_value'];
 // Get selected template
-
 //end added search enhancements mod
-
 // if template number 3 is selected, show 30 products per page - OBN
 if(PRODUCT_LISTING_TEMPLATE == 2)
   { 
@@ -52,7 +48,6 @@ if ( ($listing_split->number_of_rows > 0) && ( (PREV_NEXT_BAR_LOCATION == '1') |
 	</table>
 	<?php
   }
-
 // Begin Compare Button - OBN
 	/*if(COMPARE_PRODUCTS_SIDEBYSIDE_ENABLE == 'true')
 	  {
@@ -60,8 +55,6 @@ if ( ($listing_split->number_of_rows > 0) && ( (PREV_NEXT_BAR_LOCATION == '1') |
 //  		echo '<table border="0" width="100%" cellspacing="0" cellpadding="2"><tr><td colspan="2" align="right"><a href="compare.php?'.tep_get_all_get_params(array('action')).'"><input border="0" type="Submit" alt="Compare" title="Compare" name=" Compare " value=" Compare "></a></td></tr></table>';
 	  }*/
 // End Compare Button - OBN
-
-
 $list_box_contents = array();
   /* BoF Compare Products side-by-side
          Insert first column to add checkbox to compare products */
@@ -69,7 +62,6 @@ $list_box_contents[0][] = array('align' => "center",
                                 'params' => 'class="productListing-heading"',
                                 'text' => TABLE_HEADING_COMPARE . '<br>' . tep_image_submit('button_continue.gif', IMAGE_BUTTON_CONTINUE) . '</form>');
   /* EoF Compare Products side-by-side */
-
 if ($listing_split->number_of_rows > 0)
   {
     $rows = 0;
@@ -85,12 +77,10 @@ if ($listing_split->number_of_rows > 0)
           }
       }
      /* EoF Compare Products side-by-side */
-
     $listing_query = tep_db_query($listing_split->sql_query);
     $row = 0;
     $column = 0;
     $no_of_listings = tep_db_num_rows($listing_query);
-
     while ($_listing = tep_db_fetch_array($listing_query))
 	  {
         $rows++;
@@ -106,7 +96,6 @@ if ($listing_split->number_of_rows > 0)
 		/* EoF Compare Products side-by-side */
 		$listing[] = $_listing;
 	  }
-
       
           if(isset($_SESSION['sppc_customer_group_id']) && $_SESSION['sppc_customer_group_id'] != '0') {
   $customer_group_id = $_SESSION['sppc_customer_group_id'];
@@ -141,7 +130,6 @@ if ($listing_split->number_of_rows > 0)
         $scustomer_group_price_query = tep_db_query("select customers_group_price from " . TABLE_PRODUCTS_GROUPS . " where products_id = '" . $listing[$x]['products_id']. "' and customers_group_id =  '" . $customer_group_id . "'");
         $scustomer_group_price = tep_db_fetch_array($scustomer_group_price_query);
       } // end if ($customer_group_id > 0)
-
        $new_price = tep_get_products_special_price($listing[$x]['products_id']); 
        $p_query = tep_db_query("select products_price, products_tax_class_id from products where products_id = ".$listing[$x]['products_id']);
        $p_query_res = tep_db_fetch_array($p_query);
@@ -273,7 +261,6 @@ if ($listing_split->number_of_rows > 0)
                           $lc_text = '&nbsp;' . tep_get_products_stock($listing['products_id']) . '&nbsp;';
                         break;
                         // EOF Bundled Products
-
           	case 'PRODUCT_LIST_WEIGHT':
              $lc_align = 'right';
              $lc_text = '&nbsp;' . $listing[$x]['products_weight'] . '&nbsp;';
@@ -283,8 +270,11 @@ if ($listing_split->number_of_rows > 0)
 			 if ($feed_status && stripos($listing[$x]['products_image'], 'http://')!==false){
 				if (@getimagesize($listing[$x]['products_image'])){
 					$image = '<img src="' . $listing[$x]['products_image'] . '" title="' . $listing[$x]['products_name'] . '" class="subcatimages" border="0">';
-				} else {
+				} elseif (@getimagesize($listing[$x]['products_mediumimage'])) {
 					$image = '<img src="' . $listing[$x]['products_mediumimage'] . '" title="' . $listing[$x]['products_name'] . '" width="150" height="150" class="subcatimages" border="0">';
+				} else {
+				    	$image = tep_small_image(DEFAULT_IMAGE, $listing[$x]['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT,'class="subcatimages"');
+				    
 				}
 			 } else {
 				$image = tep_small_image(DIR_WS_IMAGES . $listing[$x]['products_image'], $listing[$x]['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT,'class="subcatimages"');
@@ -314,30 +304,25 @@ if ($listing_split->number_of_rows > 0)
               }
               break;
           // EOF Bundled Products
-
 		  }
         $product_contents[] = $lc_text;
 	  }
-
 // Query to hide price
 	$hide_price_query = tep_db_query("select hide_price from products where products_id = '" . $listing[$x]['products_id'] . "'");
 	$hide_price_result = tep_db_fetch_array($hide_price_query);
 	$listing[$x]['hide_price'] = $hide_price_result['hide_price'];
 // End hide price
-
 // Check for current layout choice
 	if(PRODUCT_LISTING_TEMPLATE == 0)
       {
 		$product_listing_template_0 = file("includes/sts_templates/".$selected_template."/product_listing_standard.php");
 	    $text_display = '';
-
 		// Begin - Old Product Listing Layout
 		$lc_text = implode('<br>', $product_contents);
 		$list_box_contents[$row][$column] = array('align' => 'left',
 												  'params' => 'class="productListing-data" ');
 		for($p=0;sizeof($product_listing_template_0) > $p; $p++)
 		  { $text_display .= $product_listing_template_0[$p]; }
-
 		$lc_text_compare = '';
 		if(COMPARE_PRODUCTS_SIDEBYSIDE_ENABLE == 'true')
 		  {
@@ -349,7 +334,6 @@ if ($listing_split->number_of_rows > 0)
 			$lc_text_compare .= tep_hide_session_id();
 			$lc_text_compare .= '</form>';
 		  }
-
   		$text_display = str_replace("DISPLAY_PRODUCT_IMAGE",$lc_image, $text_display);
 		if($listing[$x]['hide_price'] == 1)
 			$text_display = str_replace("DISPLAY_PRODUCT_PRICE","<b>Add to cart<br />to see price</b>", $text_display);
@@ -358,9 +342,7 @@ if ($listing_split->number_of_rows > 0)
 		$text_display = str_replace("DISPLAY_PRODUCT_NAME",$lc_name, $text_display);
 		$text_display = str_replace("DISPLAY_PRODUCT_COMPARE",$lc_text_compare, $text_display);
 		$text_display = str_replace("DISPLAY_PRODUCT_SEPARATOR",tep_draw_separator('pixel_trans.gif','100%','5'), $text_display);
-
 		$list_box_contents[$row][$column] = array('text'  => $text_display);
-
 		$column ++;
 		if ($column >= 4)
 		  {
@@ -373,9 +355,7 @@ if ($listing_split->number_of_rows > 0)
 	  {
 		// Begin - Ebay Style Listing
 		$product_listing_template_1 = file("includes/sts_templates/".$selected_template."/product_listing_column.php");
-
 		$text_display = '';
-
 		$lc_text = implode('<br>', $product_contents);
 		$product_info_query = tep_db_query("select p.products_quantity from " . TABLE_PRODUCTS . " p  where p.products_id = '" . $listing[$x]['products_id'] . "'");
 		$product_info_2 = tep_db_fetch_array($product_info_query);
@@ -401,14 +381,12 @@ if ($listing_split->number_of_rows > 0)
 			$stock_info .= '</b>';
 		  }
 	
-
 		// Begin - Old Product Listing Layout
 		$lc_text = implode('<br>', $product_contents);
 		$list_box_contents[$row][$column] = array('align' => 'left',
 													'params' => 'class="productListing-data" ');
 		for($p=0;sizeof($product_listing_template_1) > $p; $p++)
 		  { $text_display .= $product_listing_template_1[$p]; }
-
 		$lc_text_compare = '';
 		if(COMPARE_PRODUCTS_SIDEBYSIDE_ENABLE == 'true')
 		  {
@@ -420,7 +398,6 @@ if ($listing_split->number_of_rows > 0)
 			$lc_text_compare .= tep_hide_session_id();
 			$lc_text_compare .= '</form>';
 		  }
-
   		$text_display = str_replace("DISPLAY_PRODUCT_IMAGE",$lc_image, $text_display);
 		if($listing[$x]['hide_price'] == 1)
 			$text_display = str_replace("DISPLAY_PRODUCT_PRICE","<b>Add to cart<br />to see price</b>", $text_display);
@@ -430,9 +407,7 @@ if ($listing_split->number_of_rows > 0)
 		$text_display = str_replace("DISPLAY_PRODUCT_STOCK",$stock_info, $text_display);
 		$text_display = str_replace("DISPLAY_PRODUCT_COMPARE",$lc_text_compare, $text_display);
 		$text_display = str_replace("DISPLAY_PRODUCT_SEPARATOR",tep_draw_separator('pixel_trans.gif','100%','5'), $text_display);
-
 		$list_box_contents[$row][$column] = array('text'  => $text_display);
-
 		$column ++;
 		if ($column >= 1)
 		  {
@@ -447,7 +422,6 @@ if ($listing_split->number_of_rows > 0)
 		//begin medium picture
 		$product_listing_template_2 = file("includes/sts_templates/".$selected_template."/product_listing_large.php");
 		$text_display = '';
-
         $feed_status = is_xml_feed_product($listing[$x]['products_id']);
 		if ($feed_status && stripos($listing[$x]['products_image'], 'http://')!==false){
 			if (@getimagesize($listing[$x]['products_mediumimage'])){
@@ -475,7 +449,6 @@ if ($listing_split->number_of_rows > 0)
 			$lc_image_med = '<a href="' . tep_href_link(FILENAME_PRODUCT_INFO, ($cPath ? 'cPath=' . $cPath . '&' : '') . 'products_id=' . $listing[$x]['products_id']) . '"  >' . $image . '</a>';
 			//end medium picture
 		  }
-
 		// Begin - Descriptive Template
 		$lc_text = implode('<br>', $product_contents);
 		$product_info_query = tep_db_query("select p.products_quantity from " . TABLE_PRODUCTS . " p  where p.products_id = '" . $listing[$x]['products_id'] . "'");
@@ -503,11 +476,8 @@ if ($listing_split->number_of_rows > 0)
 	
 		$list_box_contents[$row][$column] = array('align' => 'left',
 													'params' => 'class="productListing-data" ');
-
 		for($p=0;sizeof($product_listing_template_2) > $p; $p++)
 		  { $text_display .= $product_listing_template_2[$p]; }
-
-
 		$lc_text_compare = '';
 		if(COMPARE_PRODUCTS_SIDEBYSIDE_ENABLE == 'true')
 		  {
@@ -519,7 +489,6 @@ if ($listing_split->number_of_rows > 0)
 			$lc_text_compare .= tep_hide_session_id();
 			$lc_text_compare .= '</form>';
 		  }
-
   		$text_display = str_replace("DISPLAY_PRODUCT_IMAGE",str_replace("noimage.gif","noimage_large.gif",$lc_image_med), $text_display);
 		if($listing[$x]['hide_price'] == 1)
 			$text_display = str_replace("DISPLAY_PRODUCT_PRICE","<b>Add to cart<br />to see price</b>", $text_display);
@@ -529,9 +498,7 @@ if ($listing_split->number_of_rows > 0)
 		$text_display = str_replace("DISPLAY_PRODUCT_STOCK",$stock_info, $text_display);
 		$text_display = str_replace("DISPLAY_PRODUCT_COMPARE",$lc_text_compare, $text_display);
 		$text_display = str_replace("DISPLAY_PRODUCT_SEPARATOR",tep_draw_separator('pixel_trans.gif','100%','5'), $text_display);
-
 		$list_box_contents[$row][$column] = array('text'  => $text_display);
-
 		unset($stock_info);
 		$column ++;
 		if ($column >= 3)
@@ -547,13 +514,16 @@ if ($listing_split->number_of_rows > 0)
 		//begin medium picture
 		$product_listing_template_3 = file("includes/sts_templates/".$selected_template."/product_listing_large_description.php");
 		$text_display = '';
-
 		$feed_status = is_xml_feed_product($listing[$x]['products_id']);
 		if ($feed_status && stripos($listing[$x]['products_image'], 'http://')!==false){
 			if (@getimagesize($listing[$x]['products_image'])){
 				$image = '<img src="' . $listing[$x]['products_image'] . '" title="' . $listing[$x]['products_name'] . '" class="subcatimages" border="0">';
-			} else {
+			} elseif (@getimagesize($listing[$x]['products_mediumimage'])) {
 				$image = '<img src="' . $listing[$x]['products_mediumimage'] . '" title="' . $listing[$x]['products_name'] . '" width="150" height="150" class="subcatimages" border="0">';
+			} else {
+				
+				$image = '<img src="' . DIR_WS_IMAGES . DEFAULT_IMAGE . '" title="' . $listing[$x]['products_name'] . '" width="150" height="150" class="subcatimages" border="0">'; 
+			 
 			}
 		} else {
 			$image = tep_image(DIR_WS_IMAGES . $listing[$x]['products_image'], $listing[$x]['products_name'], 150, 150,'class="subcatimages" border="0"');
@@ -569,13 +539,13 @@ if ($listing_split->number_of_rows > 0)
 			$lc_text='';
 			$lc_image_med = '<a href="' . tep_href_link(FILENAME_PRODUCT_INFO, ($cPath ? 'cPath=' . $cPath . '&' : '') . 'products_id=' . $listing[$x]['products_id']) . '"  >' . str_replace("/small/","/medium/",$image) . '</a>';
 		//end medium picture
-		  }
-
+    	}
+          //$add_to_cart = '<a href="' . tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action')) . 'action=buy_now&products_id=' . $listing[$x]['products_id']) . '">' . tep_image_button('button_in_cart.gif', IMAGE_BUTTON_IN_CART) . '</a> '; 
+          $add_to_cart = '<input type="button" name="addtocart_btn" value="'. IMAGE_BUTTON_IN_CART .'" onclick="javascript:window.location=\''. tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action')) . 'action=buy_now&products_id=' . $listing[$x]['products_id']) . '\'">'; 
 	  	// Get thedescription of the product
 		$description_query = tep_db_query("select products_description from products_description where products_id = '" . $listing[$x]['products_id'] . "'");
 		$description_result = tep_db_fetch_array($description_query);
 		$products_description = $description_result['products_description'];
-
 		// Begin - Descriptive Template
 		$lc_text = implode('<br>', $product_contents);
 		$product_info_query = tep_db_query("select p.products_quantity from " . TABLE_PRODUCTS . " p  where p.products_id = '" . $listing[$x]['products_id'] . "'");
@@ -600,12 +570,10 @@ if ($listing_split->number_of_rows > 0)
 					$stock_info .= STORE_STOCK_OUT_OF_STOCK_MESSAGE;
 			$stock_info .= '</b>';
 		  }
-
 		$list_box_contents[$row][$column] = array('align' => 'left',
 												  'params' => 'class="productListing-data" ');
 		for($p=0;sizeof($product_listing_template_3) > $p; $p++)
 		  { $text_display .= $product_listing_template_3[$p]; }
-
 		$lc_text_compare = '';
 		if(COMPARE_PRODUCTS_SIDEBYSIDE_ENABLE == 'true')
 		  {
@@ -617,7 +585,6 @@ if ($listing_split->number_of_rows > 0)
 			$lc_text_compare .= tep_hide_session_id();
 			$lc_text_compare .= '</form>';
 		  }
-
 		$text_display = str_replace("DISPLAY_PRODUCT_IMAGE",str_replace("noimage.gif","noimage_large.gif",$lc_image_med), $text_display);
 		if($listing[$x]['hide_price'] == 1)
 			$text_display = str_replace("DISPLAY_PRODUCT_PRICE","<b>Add to cart<br />to see price</b>", $text_display);
@@ -629,6 +596,24 @@ if ($listing_split->number_of_rows > 0)
 		$text_display = str_replace("DISPLAY_PRODUCT_DESCRIPTION", $products_description, $text_display);
 		$text_display = str_replace("DISPLAY_PRODUCT_COMPARE",$lc_text_compare, $text_display);
 		$text_display = str_replace("DISPLAY_PRODUCT_ADD_TO_CART", $add_to_cart, $text_display);		  
+        
+		// code added for template 21 so that header does not repeat on listing page #starts
+		if($row != 0 && $template_id == 21){
+			$template_21_header_bof = stripos($text_display, '<!--header_bof-->');		
+			$template_21_header_eof = stripos($text_display, '<!--header_eof-->');		
+			if ( $template_21_header_bof !== false && $template_21_header_eof !== false ){			
+				$header_content_21 = substr( $text_display,  $template_21_header_bof, $template_21_header_eof - $template_21_header_bof );			
+				$header_content_21 = substr( $header_content_21,  stripos( $header_content_21, '>' ) + 1 );			
+				$text_display = str_ireplace($header_content_21, '', $text_display);		
+			}	
+			
+        }
+		// code added for template 21 so that header does not repeat on listing page #ends
+		
+		
+		
+		
+		
 		
 		$list_box_contents[$row][$column] = array('text'  => $text_display);
 		
@@ -645,7 +630,6 @@ if ($listing_split->number_of_rows > 0)
 /* boe mod add paging to top of page too */
  if ( ($listing_split->number_of_rows > 0) && ((PREV_NEXT_BAR_LOCATION == '2') || (PREV_NEXT_BAR_LOCATION == '3')) ) {
 ?>
-
 <table class="paging" border="0" width="100%" cellspacing="0" cellpadding="2">
     <?//// #06 9Jan2014 (MA) BOF?>
   <tr>
@@ -657,7 +641,6 @@ if ($listing_split->number_of_rows > 0)
                         <a href="javascript://" onclick="javascript:document.forms['filter_products'].elements['items_per_page'].value='24';document.forms['filter_products'].submit();" <?php echo ($_SESSION['items_per_page']=='24' ? ' style="font-weight:bolder;"' : ''); ?> >24</a>&nbsp;|&nbsp;
                         <a href="javascript://" onclick="javascript:document.forms['filter_products'].elements['items_per_page'].value='50';document.forms['filter_products'].submit();" <?php echo ($_SESSION['items_per_page']=='50' ? ' style="font-weight:bolder;"' : ''); ?> >50</a>&nbsp;|&nbsp;
                         <a href="javascript://" onclick="javascript:document.forms['filter_products'].elements['items_per_page'].value='100';document.forms['filter_products'].submit();" <?php echo ($_SESSION['items_per_page']=='100' ? ' style="font-weight:bolder;"' : ''); ?> >100</a>
-    
     </td>
   </tr>
   
@@ -666,7 +649,7 @@ if ($listing_split->number_of_rows > 0)
 // Begin Compare Button - OBN
 	if(COMPARE_PRODUCTS_SIDEBYSIDE_ENABLE == 'true')
 	  {
-  		echo '<tr><td colspan="2"><table border="0" width="100%" cellspacing="0" cellpadding="2"><tr><td colspan="2" align="right"><a href="compare.php?'.tep_get_all_get_params(array('action')).'">'.tep_image_button('button_compare.gif', "Compare Products").'</a></td></tr></table></td></tr>';
+  		echo '<tr><td colspan="2"><table border="0" width="100%" cellspacing="0" cellpadding="2"><tr><td colspan="2" align="right" class="compare_BTTN"><a href="compare.php?'.tep_get_all_get_params(array('action')).'">'.tep_image_button('button_compare.gif', "Compare Products").'</a></td></tr></table></td></tr>';
 	  }
 // End Compare Button - OBN
 ?>
@@ -674,7 +657,6 @@ if ($listing_split->number_of_rows > 0)
 <?php
   }
 /* eoe mod add paging to top of page too */
-
     new productListingBox($list_box_contents);
     /* BoF Compare Products side-by-side
            Add checkbox to compare products */
@@ -708,7 +690,6 @@ if ($listing_split->number_of_rows > 0)
   }
   if ( ($listing_split->number_of_rows > 0) && ((PREV_NEXT_BAR_LOCATION == '2') || (PREV_NEXT_BAR_LOCATION == '3')) ) {
 ?>
-
 <table class="paging" border="0" width="100%" cellspacing="0" cellpadding="2">
 <?// #06 9Jan2014 (MA) BOF?>
   <tr>
@@ -720,9 +701,6 @@ if ($listing_split->number_of_rows > 0)
                         <a href="javascript://" onclick="javascript:document.forms['filter_products'].elements['items_per_page'].value='24';document.forms['filter_products'].submit();" <?php echo ($_SESSION['items_per_page']=='24' ? ' style="font-weight:bolder;"' : ''); ?> >24</a>&nbsp;|&nbsp;
                         <a href="javascript://" onclick="javascript:document.forms['filter_products'].elements['items_per_page'].value='50';document.forms['filter_products'].submit();" <?php echo ($_SESSION['items_per_page']=='50' ? ' style="font-weight:bolder;"' : ''); ?> >50</a>&nbsp;|&nbsp;
                         <a href="javascript://" onclick="javascript:document.forms['filter_products'].elements['items_per_page'].value='100';document.forms['filter_products'].submit();" <?php echo ($_SESSION['items_per_page']=='100' ? ' style="font-weight:bolder;"' : ''); ?> >100</a>
-                        
-                        
-    
     </td>
   </tr>
   <?// #06 9Jan2014 (MA) EOF?>

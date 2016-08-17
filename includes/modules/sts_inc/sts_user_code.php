@@ -1968,10 +1968,6 @@ if(basename($_SERVER['PHP_SELF']) == 'advanced_search.php'){
 
 
 
-                    //'<script type="text/javascript" src="' . STS_TEMPLATE_DIR . 'ext/jquery/css_browser_selector.js"></script>' . "\n" . 
-
-
-
                     '<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet" type="text/css" />' . "\n" . 
 
 
@@ -2310,6 +2306,13 @@ if(basename($_SERVER['PHP_SELF']) == 'advanced_search.php'){
 
 }
 
+
+// set TEXT_MAIN #start
+$text_main_page_query = tep_db_fetch_array(tep_db_query("select information_description from ".TABLE_INFORMATION." where information_group_id = '2'"));
+
+$sts->template['TEXT_MAIN'] = $text_main_page_query['information_description'];
+
+// set TEXT_MAIN #ends
 
 
 $sts->template['login_url'] = tep_href_link(FILENAME_LOGIN, '', 'SSL');
@@ -3736,7 +3739,6 @@ $sts->template['switch_template_link'] = $template_link;
 
 $sts->template['store_logo'] = 'images/store_logo.png';
 
+
+
 ?>
-
-
-
