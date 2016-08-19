@@ -4,6 +4,11 @@
 ////
 // Get products_head_title_tag
 // TABLES: products_description
+/*
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
+*/
 function tep_get_header_tag_products_title($product_id) {
   global $languages_id, $HTTP_GET_VARS; 
 

@@ -9,7 +9,9 @@
 
   Copyright (c) 2000,2001 The Exchange Project
 
-  Released under the GNU General Public License
+   CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
   ----------------------------------------------------------
   BearHappy 09/04/2004
 */

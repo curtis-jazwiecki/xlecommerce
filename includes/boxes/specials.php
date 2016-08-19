@@ -2,12 +2,9 @@
 /*
   $Id: specials.php,v 1.31 2003/06/09 22:21:03 hpdl Exp $
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-
-  Copyright (c) 2003 osCommerce
-
-  Released under the GNU General Public License
+ CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 */
  //Categories Status MOD BEGIN by FIW
  // if ($random_product = tep_random_select("select p.products_id, pd.products_name, p.products_price, p.products_tax_class_id, p.products_image, s.specials_new_products_price from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd, " . TABLE_SPECIALS . " s, ".TABLE_PRODUCTS_TO_CATEGORIES." p2c, ".TABLE_CATEGORIES." c where  c.categories_status = '1' and p.products_status = '1' and p.products_id = s.products_id and pd.products_id = s.products_id and pd.products_id = p2c.products_id and p2c.categories_id = c.categories_id and pd.language_id = '" . (int)$languages_id . "' and s.status = '1' order by s.specials_date_added desc limit " . MAX_RANDOM_SELECT_SPECIALS)) {

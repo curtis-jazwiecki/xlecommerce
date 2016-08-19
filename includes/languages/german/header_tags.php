@@ -1,4 +1,9 @@
 <?php
+/*
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
+*/
 // /catalog/includes/languages/english/header_tags.php
 // WebMakers.com Added: Header Tags Generator v2.5.2
 // Add META TAGS and Modify TITLE

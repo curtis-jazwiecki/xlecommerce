@@ -5,18 +5,10 @@
   $Id: checkout_success.php,v 1.49 2003/06/09 23:03:53 hpdl Exp $
 
 
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 
-  osCommerce, Open Source E-Commerce Solutions
-
-  http://www.oscommerce.com
-
-
-
-  Copyright (c) 2003 osCommerce
-
-
-
-  Released under the GNU General Public License
 
 */
 

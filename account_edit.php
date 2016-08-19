@@ -2,12 +2,9 @@
 /*
   $Id: account_edit.php,v 1.65 2003/06/09 23:03:52 hpdl Exp $
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-
-  Copyright (c) 2003 osCommerce
-
-  Released under the GNU General Public License
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 */
 
   require('includes/application_top.php');
@@ -152,10 +149,21 @@
   $account_query = tep_db_query("select customers_gender, customers_firstname, customers_lastname, customers_dob, customers_email_address, customers_telephone, customers_fax, entry_company_tax_id from " . TABLE_CUSTOMERS . " where customers_id = '" . (int)$customer_id . "'");
 // EOF Separate Pricing Per Customer
 
-  $account = tep_db_fetch_array($account_query);
+   $account = tep_db_fetch_array($account_query);
+	
+   $breadcrumb->add(NAVBAR_TITLE_1, tep_href_link(FILENAME_ACCOUNT, '', 'SSL'));
+   $breadcrumb->add(NAVBAR_TITLE_2, tep_href_link(FILENAME_ACCOUNT_EDIT, '', 'SSL'));
+  
+   $sts->template['action_url'] =  tep_href_link(FILENAME_ACCOUNT_EDIT, '', 'SSL');
+   $sts->template['back_url'] = tep_href_link(FILENAME_ACCOUNT, '', 'SSL');
+   
+   
+   $sts->template['message'] = '';
+   
+   if ($messageStack->size('account_edit') > 0) {
+	$sts->template['message'] = $messageStack->output('account_edit');
+   }
 
-  $breadcrumb->add(NAVBAR_TITLE_1, tep_href_link(FILENAME_ACCOUNT, '', 'SSL'));
-  $breadcrumb->add(NAVBAR_TITLE_2, tep_href_link(FILENAME_ACCOUNT_EDIT, '', 'SSL'));
 ?>
 <!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html <?php echo HTML_PARAMS; ?>>
@@ -235,6 +243,20 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
       $male = ($account['customers_gender'] == 'm') ? true : false;
     }
     $female = !$male;
+	
+	$sts->template['male']   = $male;
+	$sts->template['female'] = $female;
+	
+	$sts->template['customers_firstname'] 	  = $account['customers_firstname'];
+	$sts->template['customers_lastname'] 	  = $account['customers_lastname'];
+	$sts->template['customers_dob'] 		  = tep_date_short($account['customers_dob']);
+	$sts->template['customers_email_address'] = $account['customers_email_address'];
+	$sts->template['customers_telephone']	  = $account['customers_telephone'];
+	$sts->template['customers_fax']			  = $account['customers_fax'];
+	$sts->template['entry_company_tax_id']	  = $account['entry_company_tax_id'];
+	
+	
+	
 ?>
                   <tr>
                     <td class="main"><?php echo ENTRY_GENDER; ?></td>

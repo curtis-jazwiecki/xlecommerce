@@ -3,12 +3,9 @@
 
    Released under the GNU General Public License
 
-   
-
-   osCommerce, Open Source E-Commerce Solutions
-
-   http://www.oscommerce.com
-
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 
 
    Original portions copyright 2003 osCommerce

@@ -6,12 +6,9 @@
 /*
   $Id: cvs_help.php,v 1.3 2004/02/4 07:28:00 hpdl Exp $
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-
-  Copyright (c) 2003 osCommerce
-
-  Released under the GNU General Public License
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 */
 ?>
 <!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN">

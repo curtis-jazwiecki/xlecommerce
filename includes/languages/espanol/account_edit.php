@@ -2,12 +2,9 @@
 /*
   $Id: account_edit.php,v 1.9 2003/07/08 16:45:35 dgw_ Exp $
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-
-  Copyright (c) 2003 osCommerce
-
-  Released under the GNU General Public License
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 */
 
 define('NAVBAR_TITLE_1', 'Mi Cuenta');

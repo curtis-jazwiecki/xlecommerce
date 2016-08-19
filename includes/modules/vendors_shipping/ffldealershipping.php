@@ -2,10 +2,9 @@
 /*
   $Id: ffl_dealer_shipping.php,v 1.27 2003/02/05 22:41:52 hpdl Exp $
   Modified for MVS V1.0 2016/03/18 EMM
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-  Copyright (c) 2016 osCommerce
-  Released under the GNU General Public License
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 */
 
   class ffldealershipping {

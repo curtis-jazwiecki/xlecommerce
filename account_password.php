@@ -2,12 +2,9 @@
 /*
   $Id: account_password.php,v 1.1 2003/05/19 19:55:45 hpdl Exp $
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-
-  Copyright (c) 2003 osCommerce
-
-  Released under the GNU General Public License
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 */
 
   require('includes/application_top.php');
@@ -63,6 +60,17 @@
 
   $breadcrumb->add(NAVBAR_TITLE_1, tep_href_link(FILENAME_ACCOUNT, '', 'SSL'));
   $breadcrumb->add(NAVBAR_TITLE_2, tep_href_link(FILENAME_ACCOUNT_PASSWORD, '', 'SSL'));
+  
+   $sts->template['action_url'] =  tep_href_link(FILENAME_ACCOUNT_PASSWORD, '', 'SSL');
+   $sts->template['back_url'] = tep_href_link(FILENAME_ACCOUNT, '', 'SSL');
+   
+   $sts->template['message'] = '';
+   
+   if ($messageStack->size('account_password') > 0) {
+		$sts->template['message'] = $messageStack->output('account_password');
+   }
+  
+  
 ?>
 <!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html <?php echo HTML_PARAMS; ?>>
@@ -80,7 +88,7 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
 ?>
 <base href="<?php echo (($request_type == 'SSL') ? HTTPS_SERVER : HTTP_SERVER) . DIR_WS_CATALOG; ?>">
 <link rel="stylesheet" type="text/css" href="stylesheet.css">
-<?php require('includes/form_check.js.php'); ?>
+
 </head>
 <body marginwidth="0" marginheight="0" topmargin="0" bottommargin="0" leftmargin="0" rightmargin="0">
 <!-- header //-->
@@ -96,7 +104,7 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
 <!-- left_navigation_eof //-->
     </table></td>
 <!-- body_text //-->
-    <td width="100%" valign="top"><?php echo tep_draw_form('account_password', tep_href_link(FILENAME_ACCOUNT_PASSWORD, '', 'SSL'), 'post', 'onSubmit="return check_form(account_password);"') . tep_draw_hidden_field('action', 'process'); ?><table border="0" width="100%" cellspacing="0" cellpadding="0">
+    <td width="100%" valign="top"><?php echo tep_draw_form('account_password', tep_href_link(FILENAME_ACCOUNT_PASSWORD, '', 'SSL'), 'post', 'onSubmit="return check_form(account_password);"') . tep_draw_hidden_field('action', 'process'); ?>&nbsp;<table border="0" width="100%" cellspacing="0" cellpadding="0">
       <tr>
         <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
           <tr>
@@ -138,9 +146,9 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
                     <td class="main"><?php echo ENTRY_PASSWORD_CURRENT; ?></td>
                     <td class="main"><?php echo tep_draw_password_field('password_current') . '&nbsp;' . (tep_not_null(ENTRY_PASSWORD_CURRENT_TEXT) ? '<span class="inputRequirement">' . ENTRY_PASSWORD_CURRENT_TEXT . '</span>': ''); ?></td>
                   </tr>
-                  <tr>
-                    <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
-                  </tr>
+                  <!--<tr>
+                    <td colspan="2"><?php //echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
+                  </tr>-->
                   <tr>
                     <td class="main"><?php echo ENTRY_PASSWORD_NEW; ?></td>
                     <td class="main"><?php echo tep_draw_password_field('password_new') . '&nbsp;' . (tep_not_null(ENTRY_PASSWORD_NEW_TEXT) ? '<span class="inputRequirement">' . ENTRY_PASSWORD_NEW_TEXT . '</span>': ''); ?></td>

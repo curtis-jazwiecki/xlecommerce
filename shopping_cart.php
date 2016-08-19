@@ -2,12 +2,9 @@
 /*
   $Id: shopping_cart.php,v 1.73 2003/06/09 23:03:56 hpdl Exp $
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-
-  Copyright (c) 2003 osCommerce
-
-  Released under the GNU General Public License
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 */
 
 require("includes/application_top.php");
@@ -105,22 +102,22 @@ if ($cart->count_contents() > 0) {
                         <?php
                                 $info_box_contents = array();
                                 $info_box_contents[0][] = array(
-                                    'params' => 'class="infoBoxHeading product_qty_new"',
+                                    'params' => 'class="infoBoxHeading product_qty_new mnu_side_hdr"',
                                     'text' => TABLE_HEADING_PRODUCTS);
 
                                 $info_box_contents[0][] = array(
                                     'align' => 'center',
-                                    'params' => 'class="infoBoxHeading product_qty_new"',
+                                    'params' => 'class="infoBoxHeading product_qty_new mnu_side_hdr"',
                                     'text' => TABLE_HEADING_QUANTITY);
 
                                 $info_box_contents[0][] = array(
                                     'align' => 'right',
-                                    'params' => 'class="infoBoxHeading product_qty_new"',
+                                    'params' => 'class="infoBoxHeading product_qty_new mnu_side_hdr"',
                                     'text' => TABLE_HEADING_PRICE);
 	
                                 $info_box_contents[0][] = array(
                                     'align' => 'center',
-                                    'params' => 'class="infoBoxHeading product_qty_new"',
+                                    'params' => 'class="infoBoxHeading product_qty_new mnu_side_hdr"',
                                     'text' => TABLE_HEADING_REMOVE);
 
                                 $any_out_of_stock = 0;
@@ -417,7 +414,7 @@ if ($cart->count_contents() > 0) {
                             <td>
                                 <table border="0" width="100%" cellspacing="0" cellpadding="2">
                                     <tr>
-                                        <td width="10"><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
+                                        <!--<td width="10"><?php //echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>-->
                                         <td class="main new_Button_update_cart btn_update"><?php echo tep_image_submit('button_update_cart.gif', IMAGE_BUTTON_UPDATE_CART); ?></td>
                                         <?php
                                         //$back = sizeof($navigation->path)-1;

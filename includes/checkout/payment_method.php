@@ -1,3 +1,8 @@
+<!--
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
+-->
 <div id="noPaymentAddress" class="main noAddress" align="center" style="font-size:15px;">Please fill in your <b>billing address</b> for payment options</div>
 <table border="0" width="100%" cellspacing="0" cellpadding="2" id="pay2">
 <?php

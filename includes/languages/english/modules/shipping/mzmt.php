@@ -4,12 +4,9 @@
 
   Copyright (c) 2004 Josh Dechant
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-
-  Protions Copyright (c) 2003 osCommerce
-
-  Released under the GNU General Public License
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 *//*
   Create text & icons for geo zones and their tables following template below where
     $n = geo zone number (in the shipping module) and

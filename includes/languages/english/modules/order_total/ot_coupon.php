@@ -2,12 +2,9 @@
 /*
   $Id: ot_coupon.php,v 1.1.2.5 2003/05/14 22:52:59 wilt Exp $
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-
-  Copyright (c) 2002 osCommerce
-
-  Released under the GNU General Public License
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 */
   
   define('MODULE_ORDER_TOTAL_COUPON_TITLE', 'Discount Coupons');

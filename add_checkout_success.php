@@ -1,4 +1,9 @@
 <?php
+/*
+CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
+*/
 //ICW ADDED FOR ORDER_TOTAL CREDIT SYSTEM - Start Addition
   $gv_query=tep_db_query("select amount from " . TABLE_COUPON_GV_CUSTOMER . " where customer_id='".$customer_id."'");
   if ($gv_result=tep_db_fetch_array($gv_query)) {

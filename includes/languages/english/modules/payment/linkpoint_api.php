@@ -5,6 +5,9 @@
 The Exchange Project - Community Made Shopping
 http://www.theexchangeproject.org
 
+ CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 Copyright (c) 2000,2001 The Exchange Project
 
   Released under the GNU General Public License

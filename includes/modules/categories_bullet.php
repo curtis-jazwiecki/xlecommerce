@@ -1,3 +1,10 @@
+<!--
+
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
+
+-->
 <table cellpadding="0" cellspacing="2" width="100%" align="center"><tr>
 <?php
     $number_of_categories = tep_db_num_rows($categories_query);

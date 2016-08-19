@@ -1,4 +1,9 @@
 <?php
+/*
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
+*/
   define('FILENAME_GV_FAQ', 'gv_faq.php');
   define('FILENAME_GV_REDEEM', 'gv_redeem.php');
   define('FILENAME_GV_REDEEM_PROCESS', 'gv_redeem_process.php');

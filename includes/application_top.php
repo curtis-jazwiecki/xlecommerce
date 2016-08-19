@@ -2,12 +2,9 @@
 /*
   $Id: application_top.php,v 1.280 2003/07/12 09:38:07 hpdl Exp $
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-
-  Copyright (c) 2003 osCommerce
-
-  Released under the GNU General Public License
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 */
 
 ini_alter("date.timezone", "America/Chicago");

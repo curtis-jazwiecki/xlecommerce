@@ -2,10 +2,11 @@
 /*
   $Id: gv_faq.php,v 1.2 2003/02/17 23:53:04 wilt Exp $
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
+  
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 
-  Copyright (c) 2002 - 2003 osCommerce
 
   Gift Voucher System v1.0
   Copyright (c) 2001, 2002 Ian C Wilson

@@ -8,37 +8,9 @@
 
 $Id: sts_user_code.php,v 4.1 2005/02/05 05:57:21 rigadin Exp $
 
-
-
-
-
-
-
-osCommerce, Open Source E-Commerce Solutions
-
-
-
-http://www.oscommerce.com
-
-
-
-
-
-
-
-Copyright (c) 2005 osCommerce
-
-
-
-
-
-
-
-Released under the GNU General Public License
-
-
-
-
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 
 
 
@@ -806,6 +778,90 @@ if (!empty($current_template)){
 
 
         }
+		
+		function tep_information_show($information_group_id) {
+									
+					global $languages_id;
+					$child_information = array();
+					$information_tree = array();
+					$informationString = array();
+					$parent_child_selected = '';
+					
+				
+					$information_query = tep_db_query("SELECT information_id, information_title, parent_id FROM " . TABLE_INFORMATION . " WHERE visible='1' and is_hidden='0' and information_title<>'' and language_id='" . (int)$languages_id ."' and information_group_id = '" . (int)$information_group_id . "' ORDER BY sort_order");
+					
+					while($information = tep_db_fetch_array($information_query)) {
+						$information_tree[$information['information_id']] = array(
+							'info_title' 	=> $information['information_title'],
+							'parent_id' 	=> $information['parent_id'],
+							'info_next_id' 	=> 0
+						);
+						if ($information_tree[$information['information_id']]['parent_id'] != '0') {
+							$child_information[] = array (
+								'parent_info_id' => $information['parent_id'],
+								'child_info_id'  => $information['information_id']
+							);
+						}
+					}
+					$count_child = count($child_information);
+				
+					// Test if a child has been requested and set $parent_child_selected
+					for ( $i = 0; $i < ($count_child); $i++ ) {
+						if ((isset($_GET['info_id'])) && ($child_information[$i]['child_info_id'] == $_GET['info_id'])) {
+							$parent_child_selected = $child_information[$i]['parent_info_id'];
+						}
+					}
+				
+					// Run through the $information_tree to find all pages
+					while ( $element = each ( $information_tree ) )  {
+						if (!isset($information_tree[$element['key']]['parent_id']) || ($information_tree[$element['key']]['parent_id'] == 0)) {
+				
+							//Set the main title to bold if it was selected or one of its children were selected
+							if (((isset($_GET['info_id'])) && ($_GET['info_id'] == $element['key'])) || ($parent_child_selected == $element['key'])) {
+								$informationString[$element['key']] = array(
+									"link"	=>	tep_href_link(FILENAME_INFORMATION, 'info_id=' . $element['key']),
+									"title"	=>	$information_tree[$element['key']]['info_title']
+								);
+								
+								
+							} else {
+								
+								$informationString[$element['key']] = array(
+									"link"	=>	tep_href_link(FILENAME_INFORMATION, 'info_id=' . $element['key']),
+									"title"	=>	$information_tree[$element['key']]['info_title']
+								);
+							}
+				
+							
+							//Show children if they exist
+							if (((isset($_GET['info_id'])) && ($_GET['info_id'] == $element['key'])) || ($parent_child_selected == $element['key'])) {
+								for ( $i = 0; $i < ($count_child); $i++ ) {
+									
+									if ($child_information[$i]['parent_info_id'] == $element['key'])
+				
+									//Show a child as bold if it was selected
+									if ((isset($_GET['info_id'])) && ($_GET['info_id'] == $child_information[$i]['child_info_id'])) {
+										$informationString[$element['key']]['child'] = array(
+											"link"	=>	tep_href_link(FILENAME_INFORMATION, 'info_id=' . $child_information[$i]['child_info_id']),
+											"title"	=>	$information_tree[$child_information[$i]['child_info_id']]['info_title']
+										);
+										
+									} else {
+										
+										$informationString[$element['key']]['child'] = array(
+											"link"	=>	tep_href_link(FILENAME_INFORMATION, 'info_id=' . $child_information[$i]['child_info_id']),
+											"title"	=>	$information_tree[$child_information[$i]['child_info_id']]['info_title'] 
+										);
+										
+									}
+								}
+							}
+						}
+					}
+					
+					return $informationString;
+					
+				}
 
 
 
@@ -1605,7 +1661,100 @@ if (!empty($current_template)){
 
                 break;
 
+			case '21':
 
+            	$show_search_filter = show_search_filter($script);
+
+                if ($script=='index.php' || !$show_search_filter){
+                    $sts->template['search_filterbox'] = '';
+					$sts->template['searchmobile_filterbox']='';
+                } else {
+                    $sts->template['categorybox'] = '';
+                }
+                $categories_html = '<ul class="nav">' . getCategoriesHtmlTpl21() . '</ul>';
+                
+				$str_search_javascript = '';
+
+				if(basename($_SERVER['PHP_SELF']) == 'advanced_search.php'){
+					$str_search_javascript = "function popupWindow(url) {
+window.open(url,'popupWindow','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,copyhistory=no,width=450,height=280,screenX=150,screenY=150,top=150,left=150')}";
+				}
+
+			    $template18_stylesheet1 = 
+
+					'<script type="text/javascript"> 
+					'.$str_search_javascript.'
+					function removeWishlistProducts(products_id){
+						jQuery.ajax({
+							url: "compare.php", 
+							method: "post", 
+							data: "mode=removewishlist&products_id="+products_id, 
+							success: function(response){
+								if(response != ""){
+									alert("Success: Product removed from compare list!");
+									location.reload();
+								}
+							}
+						});
+					} </script>'. "\n" .
+                    '<script type="text/javascript" src="star_rating.js"></script>'. "\n" .'
+					<link  href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic" rel="stylesheet" type="text/css">' . "\n" . 
+                    '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/css/mj-template.css" />' . "\n" .
+                    '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/jquery/ui/redmond/jquery-ui-1.10.4.min.css" />' . "\n" . '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/css/mj_tabcontent.css" />' . "\n" . '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/css/template.css" />' . "\n" . '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/css/mj-tab.css" />' . "\n" . '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/css/bootstrap.css" />' . "\n" . '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/css/bootstrap-responsive.css" />' . "\n" . '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/css/mj-general.css" />' . "\n" . '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/css/mj-mobile.css" />' . "\n" .  '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/css/mj-ie.css" />' . "\n" . '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/css/mj-layout.css" />' . "\n" . '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/css/flexslider.css" />' . "\n" . '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/css/font-awesome/css/font-awesome.css" />' . "\n" . '<link href="' . STS_TEMPLATE_DIR . 'ext/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />' . "\n" . '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/css/jquery.cookiebar.css" />' . "\n" . '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/css/mj-cyan.css" />' . "\n" . (((basename($PHP_SELF) == FILENAME_DEFAULT && $cPath == '') && !isset($_GET['manufacturers_id'])) ? '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/css/homepage.css" />' . "\n" : '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/css/nohomepage.css" />' . "\n" ) . '<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>' . "\n" . '<script type="text/javascript" src="' . STS_TEMPLATE_DIR . 'ext/jquery/bootstrap.min.js"></script>' . "\n" . '<script type="text/javascript" src="' . STS_TEMPLATE_DIR . 'ext/jquery/jquery.flexslider.js"></script>' . "\n" . '<script type="text/javascript" src="' . STS_TEMPLATE_DIR . 'ext/jquery/jquery.cookiebar.js"></script>' . "\n" . '<script type="text/plain" class="cc-onconsent-inline-advertising" src="https://pagead2.googlesyndication.com/pagead/show_ads.js"></script>' . "\n" . '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/colorbox/colorbox.css" />' . "\n" . '<script type="text/javascript" src="' . STS_TEMPLATE_DIR . 'ext/photoset-grid/jquery.photoset-grid.min.js"></script>' . "\n" . '<script type="text/javascript" src="' . STS_TEMPLATE_DIR . 'ext/colorbox/jquery.colorbox-min.js"></script>' . "\n" . '<script type="text/javascript" src="' . STS_TEMPLATE_DIR . 'ext/jquery/jquery.carouFredSel-6.0.4-packed.js"></script>' . "\n" . '<script type="text/javascript" src="' . STS_TEMPLATE_DIR . 'ext/jquery/osmart.js"></script>' . "\n" . '<script type="text/javascript" src="' . STS_TEMPLATE_DIR . 'ext/jquery/tabcontent.js"></script>' . "\n" . '<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet" type="text/css" />' . "\n" . '<link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet" type="text/css" />' . "\n" . '<link href="https://fonts.googleapis.com/css?family=Dosis:200,400,700" rel="stylesheet" type="text/css">' . "\n" . '<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic" rel="stylesheet" type="text/css">' . "\n";
+
+                if (tep_session_is_registered('customer_id')) {
+                    $sts->template['loginofflogo'] = '<a href=' . tep_href_link(FILENAME_LOGOFF, '', 'SSL') . ' id="tdb2" class="mnu_side_lnk">Log Off</a>';
+                } else {
+                    $sts->template['loginofflogo'] = '<a href=' . tep_href_link(FILENAME_LOGIN, '', 'SSL') . ' id="tdb2" class="mnu_side_lnk">Log In</a>';
+                }
+				
+				// added on 08-07-2016 to get all information pages #start
+				$information_pages_array = tep_information_show(1);
+				$information_pages_html = '';
+				if(count($information_pages_array) > 0){
+					
+					foreach($information_pages_array as $information_id => $information){
+						
+						$information_pages_html .= '<li><a href="'.$information['link'].'">'.$information['title'].'</a>';
+						
+						
+						if(count($information['child']) > 0){
+							
+							$information_pages_html .= '<ul>';
+							
+							foreach($information['child'] as $child_information_id => $child_information){
+							
+								$information_pages_html .= '<li><a href="'.$child_information['link'].'">'.$child_information['title'].'</a><li>';
+							
+							}
+							
+							$information_pages_html .= '</ul>';
+							
+							
+							
+						}
+						
+						$information_pages_html .= '</li>';
+					
+					}
+					
+					
+					
+				}
+				
+				
+				
+				
+				$sts->template['information_pages'] = $information_pages_html;
+				
+				
+				
+				
+				// added on 08-07-2016  #ends 
+				
+				
+				
+                break;
 
             case '18':
 
@@ -1816,10 +1965,6 @@ if(basename($_SERVER['PHP_SELF']) == 'advanced_search.php'){
 
 
                     '<script type="text/javascript" src="' . STS_TEMPLATE_DIR . 'ext/jquery/tabcontent.js"></script>' . "\n" . 
-
-
-
-                    //'<script type="text/javascript" src="' . STS_TEMPLATE_DIR . 'ext/jquery/css_browser_selector.js"></script>' . "\n" . 
 
 
 
@@ -2162,6 +2307,13 @@ if(basename($_SERVER['PHP_SELF']) == 'advanced_search.php'){
 }
 
 
+// set TEXT_MAIN #start
+$text_main_page_query = tep_db_fetch_array(tep_db_query("select information_description from ".TABLE_INFORMATION." where information_group_id = '2'"));
+
+$sts->template['TEXT_MAIN'] = $text_main_page_query['information_description'];
+
+// set TEXT_MAIN #ends
+
 
 $sts->template['login_url'] = tep_href_link(FILENAME_LOGIN, '', 'SSL');
 
@@ -2351,6 +2503,10 @@ function generateSlider($template_id, $banner_group_name){
         $html = '<script src="includes/jquery.cycle2.min.js"></script>';
 
 		$html .= '<div class="cycle-slideshow" data-cycle-fx=scrollHorz data-cycle-timeout=5000 data-cycle-slides="> a">';
+        
+        if($template_id ==21){
+		$html .= '<span class="cycle-prev"><img src="/images/controls_prev.png"></span><span class="cycle-next"><img src="/images/controls_next.png"></span>';
+	  }
 
         while ($image = tep_db_fetch_array($query)){
 
@@ -2641,7 +2797,375 @@ function getCategoriesHtmlTpl19($parent_id='0', $level = '0'){
 
 }
 
+function getCategoriesHtmlTpl21($parent_id='0', $level = '0'){
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    $response = '';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    $sql = tep_db_query("select c.categories_id, cd.categories_name from " . TABLE_CATEGORIES . " c inner join " . TABLE_CATEGORIES_DESCRIPTION . " cd on (c.categories_id=cd.categories_id and cd.language_id='1') where c.parent_id='" . (int)$parent_id . "' and c.categories_status='1' order by cd.categories_name");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     while($category = tep_db_fetch_array($sql)){
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        $cPath = $category['categories_id'];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        if ($parent_id=='0'){
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            $response .= '<li class="selected_0">';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            $response .= '<a class="current_parent" href="' . tep_href_link(FILENAME_DEFAULT, 'cPath=' . $cPath) . '">' . $category['categories_name'] . '</a>' . "\n";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            $response .= '<ul class="nav-child unstyled">';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        } else {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            $response .= '<li class="selected_' . $level . '">';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            $response .= '<a href="' . tep_href_link(FILENAME_DEFAULT, 'cPath=' . $cPath) . '">' . $category['categories_name'] . '</a>' . "\n";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            $response .= '</li>';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        if ($level<1){
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            $response .= getCategoriesHtmlTpl18($category['categories_id'], $level + 1);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        if ($parent_id=='0'){
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            $response .= '</ul>';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            $response .= '</li>';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     return $response;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
 
 
 
@@ -3213,9 +3737,8 @@ if (checkmobile2()){
 
 $sts->template['switch_template_link'] = $template_link;
 
+$sts->template['store_logo'] = 'images/store_logo.png';
+
 
 
 ?>
-
-
-

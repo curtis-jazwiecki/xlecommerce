@@ -5,10 +5,9 @@
           Based on the FAQ script of adgrafics
           Adjusted by Joeri Stegeman (joeri210 at yahoo.com), The Netherlands
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-
-  Released under the GNU General Public License
+CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
   */
 
 define('INFORMATION_PAGE404_TITLE', 'Page not found');

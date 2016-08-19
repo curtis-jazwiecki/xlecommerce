@@ -1,3 +1,8 @@
+<!--
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
+-->
 <table border="0" width="100%" cellspacing="0" cellpadding="0"><?php
   while ($banner = tep_catbanner_exists('dynamic', $cat_banners)) {
   	$cat_banners[] = $banner['banners_id'];

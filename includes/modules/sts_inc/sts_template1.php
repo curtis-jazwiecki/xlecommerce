@@ -1,4 +1,9 @@
 <?php
+/*
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
+*/
 $sts->start_capture();
 require_once(DIR_WS_LANGUAGES . $language . '/' . FILENAME_ADVANCED_SEARCH);
 ?>

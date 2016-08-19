@@ -2,12 +2,9 @@
 /*
   $Id: espanol.php,v 1.107 2003/07/09 18:13:39 dgw_ Exp $
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-
-  Copyright (c) 2003 osCommerce
-
-  Released under the GNU General Public License
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 */
 
 // look in your $PATH_LOCALE/locale directory for available locales

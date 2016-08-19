@@ -1,4 +1,9 @@
 <?php
+/*
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
+*/
 
 if ( file_exists(DIR_FS_CATALOG . STS_TEMPLATE_DIR . 'dresscode_constants.php') ) {
     require( DIR_FS_CATALOG . STS_TEMPLATE_DIR. 'dresscode_constants.php');

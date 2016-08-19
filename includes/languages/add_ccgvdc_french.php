@@ -1,4 +1,9 @@
 <?php
+/*
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
+*/
 define('BOX_INFORMATION_GV', 'Gift Voucher FAQ');
 define('VOUCHER_BALANCE', 'Voucher Balance');
 define('BOX_HEADING_GIFT_VOUCHER', 'Gift Voucher Account'); 

@@ -5,10 +5,11 @@
           Based on the FAQ script of adgrafics
           Adjusted by Joeri Stegeman (joeri210 at yahoo.com), The Netherlands
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
+ 
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 
-  Released under the GNU General Public License
   */
 require('includes/application_top.php');
 

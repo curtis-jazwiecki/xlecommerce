@@ -2,12 +2,9 @@
 /*
   $Id: sts_index.php,v 1.0 2005/11/03 23:09:49 Rigadin Exp $
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-
-  Copyright (c) 2005 osCommerce
-
-  Released under the GNU General Public License
+ CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
   * Module for STS v4
 */
 

@@ -8,10 +8,9 @@
  * @internal  $Id: linkpoint_api.php 67 2008-10-21 16:37:43Z jared0x90 $
  * @link      http://code.google.com/p/jared0x90-php/source/browse/trunk/osCommerce/catalog/includes/modules/payment/linkpoint_api.php
  *
- * osCommerce, Open Source E-Commerce Solutions
- * http://www.oscommerce.com
- * Copyright (c) 2003 osCommerce
- * Released under the GNU General Public License Version 3
+ * CloudCommerce - Multi-Channel eCommerce Solutions
+ * http://www.cloudcommerce.org
+ * Copyright (c) 2016 Outdoor Business Network, Inc.
  *
  *  ********* TEST CARDS *********
  * For testing purposes, you can use any of the card numbers listed below. The

@@ -1,4 +1,9 @@
 <?php
+/*
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
+*/
 require('includes/application_top.php');
 
 $index = isset($_GET['index']) && !empty($_GET['index']) ? trim($_GET['index']) : null;

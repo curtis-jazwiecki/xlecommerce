@@ -8,6 +8,11 @@
 
 ////
 // Clean out HTML comments code
+/*
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
+*/
 function clean_html_comments($clean_html) {
 global $its_cleaned;
 

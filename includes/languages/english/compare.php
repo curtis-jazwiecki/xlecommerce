@@ -2,12 +2,9 @@
 /*
   $Id: compare.php,v 1.0 2004/05/30 22:22:22 bruyndoncx Exp $
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-
-  Copyright (c) 2003 osCommerce
-
-  Released under the GNU General Public License
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 */
   define('TABLE_HEADING_DESCRIPTION', 'Description');
   define('TABLE_HEADING_IMAGE', '');

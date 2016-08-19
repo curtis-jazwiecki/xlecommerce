@@ -2,12 +2,10 @@
 /*
   $Id: checkout_shipping_address.php,v 1.15 2003/06/09 23:03:53 hpdl Exp $
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 
-  Copyright (c) 2003 osCommerce
-
-  Released under the GNU General Public License
 */
 
   require('includes/application_top.php');
@@ -359,7 +357,7 @@ function check_form_optional(form_name) {
       <tr>
         <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
           <tr>
-            <td class="main"><b><?php echo TABLE_HEADING_SHIPPING_ADDRESS; ?></b></td>
+            <td class="main mnu_side_hdr2"><b><?php echo TABLE_HEADING_SHIPPING_ADDRESS; ?></b></td>
           </tr>
         </table></td>
       </tr>
@@ -369,7 +367,7 @@ function check_form_optional(form_name) {
             <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
               <tr>
                 <td><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
-                <td class="main" width="50%" valign="top"><?php echo TEXT_SELECTED_SHIPPING_DESTINATION; ?></td>
+                <td class="main " width="50%" valign="top"><?php echo TEXT_SELECTED_SHIPPING_DESTINATION; ?></td>
                 <td align="right" width="50%" valign="top"><table border="0" cellspacing="0" cellpadding="2">
                   <tr>
                     <td class="main" align="center" valign="top"><?php echo '<b>' . TITLE_SHIPPING_ADDRESS . '</b><br>' . tep_image(DIR_WS_IMAGES . 'arrow_south_east.gif'); ?></td>

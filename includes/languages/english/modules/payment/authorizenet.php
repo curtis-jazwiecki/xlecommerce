@@ -2,12 +2,9 @@
 /*
   $Id: authorizenet.php,v 1.13 2003/01/03 17:25:43 thomasamoulton Exp $
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-
-  Copyright (c) 2002 osCommerce
-
-  Released under the GNU General Public License
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 */
 
   define('MODULE_PAYMENT_AUTHORIZENET_TEXT_TITLE', 'Authorize.net');

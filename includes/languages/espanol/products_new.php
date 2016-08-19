@@ -2,12 +2,9 @@
 /*
   $Id: products_new.php,v 1.4 2002/11/12 00:45:21 dgw_ Exp $
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-
-  Copyright (c) 2002 osCommerce
-
-  Released under the GNU General Public License
+ CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 */
 
 define('NAVBAR_TITLE', 'Novedades');

@@ -1,10 +1,9 @@
 <?php
 /*
   $Id: wishlist.php,v 3.0  2005/04/20 Dennis Blake
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-
-  Released under the GNU General Public License
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 */
 // This version, removes the product when adding to a cart now, replaced all of the  HTTP_POST_VARS for $_POST
 
@@ -391,7 +390,7 @@ if (is_array($wishList->wishID) && !empty($wishList->wishID)) {
       </tr>
 	  <tr>
         <td align="center">
-			<table border="0" width="400px" cellspacing="0" cellpadding="2">
+			<table border="0" width="400px" cellspacing="0" cellpadding="2" class="wishlist_form">
 			  <tr>
 				<td class="main" colspan="2"><table cellpadding="2" cellspacing="0">
 				  <tr>
@@ -434,7 +433,7 @@ if (is_array($wishList->wishID) && !empty($wishList->wishID)) {
       </tr>
 	  <tr>
         <td align="center">
-			<table border="0" width="400px" cellspacing="0" cellpadding="2">
+			<table border="0" width="400px" cellspacing="0" cellpadding="2" class="wishlist_form">
 
 <?php
 

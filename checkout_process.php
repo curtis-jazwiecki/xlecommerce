@@ -2,10 +2,11 @@
 
 /*
   $Id: checkout_process.php,v 1.128 2003/05/28 18:00:29 hpdl Exp $
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-  Copyright (c) 2003 osCommerce
-  Released under the GNU General Public License
+  
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
+
  */
 
 
@@ -191,15 +192,15 @@ if (ONEPAGE_CHECKOUT_ENABLED == 'True') {
 }
 
 //EOF:one_page_checkout
-// load the before_process function from the payment modules
-
-$payment_modules->before_process();
-
 require(DIR_WS_CLASSES . 'order_total.php');
 
 $order_total_modules = new order_total;
 
 $order_totals = $order_total_modules->process();
+
+// load the before_process function from the payment modules
+
+$payment_modules->before_process();
 
 $is_ffl_selected = 0;
 // insert ffl licensee selected if any #start
@@ -222,12 +223,12 @@ if ((isset($_SESSION['ffl_selected']) && (count($_SESSION['ffl_selected']) > 0))
 				'ffl_dealers_data_id'	=> $fflID
 			);
 			
-			$order->delivery['street_address'] = $ffl_data['premise_street'];
-			$order->delivery['suburb'] = '';
-			$order->delivery['city'] = $ffl_data['premise_city'];
-			$order->delivery['postcode'] = $ffl_data['premise_zip_code'];
-			$order->delivery['state'] = $ffl_data['premise_state'];
-			$order->delivery['company'] = $ffl_data['license_name'];
+			$order->delivery['street_address']  = $ffl_data['premise_street'];
+			$order->delivery['suburb'] 			= '';
+			$order->delivery['city'] 			= $ffl_data['premise_city'];
+			$order->delivery['postcode'] 		= $ffl_data['premise_zip_code'];
+			$order->delivery['state'] 			= convert_state($ffl_data['premise_state'],'name');
+			$order->delivery['company'] 		= $ffl_data['license_name'];
 			
 		}
 	}

@@ -2,12 +2,9 @@
 /*
   $Id: checkout_payment.php,v 1.113 2003/06/29 23:03:27 hpdl Exp $
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-
-  Copyright (c) 2003 osCommerce
-
-  Released under the GNU General Public License
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 */
 
   require('includes/application_top.php');
@@ -413,7 +410,7 @@ window.open('cvv_help.php','jav','width=500,height=550,resizable=no,toolbar=no,m
 
  for ($i=0, $n=sizeof($order->products); $i<$n; $i++) {
    echo '          <tr>' . "\n" .
-        '            <td width="10%" class="main" align="right" valign="top" width="30">' . $order->products[$i]['qty'] . ' x</td>' . "\n" .
+        '            <td width="10%" class="main" align="left" valign="top" width="30">' . $order->products[$i]['qty'] . ' x</td>' . "\n" .
         '            <td width="60%" class="main" valign="top">' . $order->products[$i]['name'];
 
    if (STOCK_CHECK == 'true') {
@@ -507,6 +504,24 @@ window.open('cvv_help.php','jav','width=500,height=550,resizable=no,toolbar=no,m
 <table border="0" width="100%" cellspacing="1" cellpadding="2" class="infoBoxl">
           <tr class="infoBoxContents">
             <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
+            
+            <!-- START EPN DECLINE MESSAGE DH -->
+            <tr><td colspan="3">
+            <?php $ccnotif = $_GET["error_message"]; ?>
+            <div style="padding-left: 5px; padding-right: 5px; color:#FF0000; font-weight:bold; font-style:italic "> 
+            <?php 
+				if (strpos($ccnotif, 'INV TRAN TYPE') !== false)
+					echo CC_TRANTYPE_INVALID;
+				elseif (strpos($ccnotif, 'ADcln - AVS (N)') !== false)
+					echo CC_AVS_ERROR; 
+				elseif (strpos($ccnotif, 'INV CVV2 MATCH') !== false)
+					echo CC_CVV_ERROR;
+				elseif  (strpos($ccnotif, 'u') !== false)
+					echo CC_CATCHALL_ERROR;
+            ?>
+            </div>
+            <br /></td></tr>
+            <!--END EPN DECLINE MESSAGE DH -->
 <?php
   $selection = $payment_modules->selection();
 
@@ -574,9 +589,9 @@ window.open('cvv_help.php','jav','width=500,height=550,resizable=no,toolbar=no,m
 ?>
                       <tr>
                         <td width="10"><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
-                        <td class="main"><?php echo $selection[$i]['fields'][$j]['title']; ?></td>
+                        <td class="main payment_title"><?php echo $selection[$i]['fields'][$j]['title']; ?></td>
                         <td><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
-                        <td class="main"><?php echo $selection[$i]['fields'][$j]['field']; ?></td>
+                        <td class="main payment_textbox"><?php echo $selection[$i]['fields'][$j]['field']; ?></td>
                         <td width="10"><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
                       </tr>
 <?php

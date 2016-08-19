@@ -1,3 +1,8 @@
+<!--
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
+-->
 <table cellpadding="0" cellspacing="0" border="0" width="93%">
 <?php
 	//if ($addresses_count > 1) {

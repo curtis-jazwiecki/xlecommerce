@@ -2,12 +2,9 @@
 /*
   $Id: merchantpartners_ck.php,v 1.1.1.1 2005/05/31 06:59:57 lane Exp $
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-
-  Copyright (c) 2002 osCommerce
-
-  Released under the GNU General Public License
+   CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 ----- support@fastcharge.com ------
 
 	Updated by: IFD OSC-MODSQUAD.COM

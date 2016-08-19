@@ -2,12 +2,9 @@
 /*
   $Id: product_info.php,v 4.3SP1 2006/11/15 23:55:58 rigadin Exp $
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-
-  Copyright (c) 2006 osCommerce
-
-  Released under the GNU General Public License
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 Based on: Simple Template System (STS) - Copyright (c) 2004 Brian Gallagher - brian@diamondsea.com
 STS v4.3SP1 by Rigadin (rigadin@osc-help.net)
 */

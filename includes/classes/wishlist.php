@@ -1,10 +1,9 @@
 <?php
 /*
   $Id: wishlist.php,v 3.0  2005/08/24 Dennis Blake
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-
-  Released under the GNU General Public License
+ CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 */
 
   class wishlist {

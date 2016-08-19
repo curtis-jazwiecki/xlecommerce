@@ -2,12 +2,9 @@
 /*
   $Id: cc_validation.php,v 1.3 2003/02/12 20:43:41 hpdl Exp $
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-
-  Copyright (c) 2003 osCommerce
-
-  Released under the GNU General Public License
+ CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 */
 
   class cc_validation {
@@ -20,10 +17,10 @@
         $this->cc_type = 'Visa';
       } elseif (preg_match('/^5[1-5][0-9]{14}$/', $this->cc_number)) {
         $this->cc_type = 'Master Card';
-      //} elseif (preg_match('/^3[47][0-9]{13}$/', $this->cc_number)) {
-      //  $this->cc_type = 'American Express';
-      //} elseif (preg_replace('/^3(0[0-5]|[68][0-9])[0-9]{11}$/', $this->cc_number)) {
-      //  $this->cc_type = 'Diners Club';
+      } elseif (preg_match('/^3[47][0-9]{13}$/', $this->cc_number)) {
+        $this->cc_type = 'American Express';
+      } elseif (preg_replace('/^3(0[0-5]|[68][0-9])[0-9]{11}$/', $this->cc_number)) {
+        $this->cc_type = 'Diners Club';
       } elseif (preg_match('/^6011[0-9]{12}$/', $this->cc_number)) {
         $this->cc_type = 'Discover';
       //} elseif (preg_match('/^(3[0-9]{4}|2131|1800)[0-9]{11}$/', $this->cc_number)) {
@@ -31,7 +28,7 @@
       //} elseif (preg_match('/^5610[0-9]{12}$/', $this->cc_number)) { 
       //  $this->cc_type = 'Australian BankCard';
       } else {
-        return -1;
+     		  return -1;
       }
 
       if (is_numeric($expiry_m) && ($expiry_m > 0) && ($expiry_m < 13)) {

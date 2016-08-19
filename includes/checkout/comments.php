@@ -1,4 +1,10 @@
-<?php /*
+<?php
+/*
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
+*/
+ /*
 <table border="0" width="100%" cellspacing="0" cellpadding="2">
  <tr>
   <td width="50%"><?php echo tep_draw_textarea_field('comments', 'soft', '60', '5', $comments); ?></td>

@@ -1,4 +1,9 @@
 <?php
+/*
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
+*/
 $mcontent = '';
 $manufacture_query = tep_db_query("SELECT m.manufacturers_id, m.manufacturers_name, m.manufacturers_image, count(p.products_id) as 'total_product' FROM manufacturers m, products p WHERE m.manufacturers_id = p.manufacturers_id and m.manufacturers_status = '1' and`products_status` = '1' group by p.manufacturers_id order by manufacturers_image desc, total_product desc limit 5");
 while($manufacture = tep_db_fetch_array($manufacture_query)){

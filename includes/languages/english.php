@@ -2,12 +2,9 @@
 /*
   $Id: english.php,v 1.114 2003/07/09 18:13:39 dgw_ Exp $
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-
-  Copyright (c) 2003 osCommerce
-
-  Released under the GNU General Public License
+  CloudCommerce - Multi-Channel eCommerce Solutions
+  http://www.cloudcommerce.org
+  Copyright (c) 2016 Outdoor Business Network, Inc.
 */
 
 // look in your $PATH_LOCALE/locale directory for available locales
@@ -266,7 +263,7 @@ define('IMAGE_BUTTON_DELETE', 'Delete');
 define('IMAGE_BUTTON_EDIT_ACCOUNT', 'Edit Account');
 define('IMAGE_BUTTON_HISTORY', 'Order History');
 define('IMAGE_BUTTON_LOGIN', 'Sign In');
-define('IMAGE_BUTTON_IN_CART', 'Add to Cart : ');
+define('IMAGE_BUTTON_IN_CART', 'Add to Cart');
 define('IMAGE_BUTTON_NOTIFICATIONS', 'Notifications');
 define('IMAGE_BUTTON_QUICK_FIND', 'Quick Find');
 define('IMAGE_BUTTON_REMOVE_NOTIFICATIONS', 'Remove Notifications');
