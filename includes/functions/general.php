@@ -1656,9 +1656,14 @@ function set_query_telephone_numbers_compatible(&$val){
               $category_str .= " and p2c.categories_id = '" . (int)$temp . "'";
        }
     
-    if (is_array($manufacturers_id)) {
-            $man_str = " and p.manufacturers_id in (" . implode(",", $manufacturers_id) . ") ";
-    }
+		if (is_array($manufacturers_id) && count($manufacturers_id) > 0) {
+		
+			// fix applied on 23-08-2016
+			$tmp_manufacturers_id = implode(",", $manufacturers_id);
+			if( !empty($tmp_manufacturers_id)){ 
+				$man_str = " and p.manufacturers_id in (" . implode(",", $manufacturers_id) . ") ";
+			}
+		}
     
            if ($pfrom > 0)
               $price_str = " and (IF(s.status AND s.customers_group_id = '" . $customer_group_id . "', s.specials_new_products_price, p.products_price) >= " . (double)$pfrom . ")";
