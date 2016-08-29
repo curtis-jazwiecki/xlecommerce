@@ -10,7 +10,7 @@
   class cc_validation {
     var $cc_type, $cc_number, $cc_expiry_month, $cc_expiry_year;
 
-    function validate($number, $expiry_m, $expiry_y, $cc_cvv) {
+    function validate($number, $expiry_m, $expiry_y, $cc_cvv='') {
       $this->cc_number = preg_replace('/[^0-9]/', '', $number);
 
       if (preg_match('/^4[0-9]{12}([0-9]{3})?$/', $this->cc_number)) {
@@ -19,7 +19,7 @@
         $this->cc_type = 'Master Card';
       } elseif (preg_match('/^3[47][0-9]{13}$/', $this->cc_number)) {
         $this->cc_type = 'American Express';
-      } elseif (preg_replace('/^3(0[0-5]|[68][0-9])[0-9]{11}$/', $this->cc_number)) {
+      } elseif (preg_match('/^3(0[0-5]|[68][0-9])[0-9]{11}$/', $this->cc_number)) {
         $this->cc_type = 'Diners Club';
       } elseif (preg_match('/^6011[0-9]{12}$/', $this->cc_number)) {
         $this->cc_type = 'Discover';
