@@ -1820,17 +1820,19 @@ function deepest_category($parent_id = '0') {
 	}
     return $deepest_category;
 }
+
 function getFeaturedProductsByGroup($featured_group){
    
     $featured_array = array();
+	
     global $languages_id,$currencies;
-    $featured_query = tep_db_query("select p.products_largeimage,p.products_id,p.products_image,p.products_price,p.products_tax_class_id, pd.products_name, s.featured_id, s.expires_date, s.status from " . TABLE_PRODUCTS . " p, " . TABLE_FEATURED . " s, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = pd.products_id and pd.language_id = '" . $languages_id . "' and p.products_id = s.products_id and s.featured_group = '".$featured_group."' and s.status = '1' and (s.expires_date > now() or s.expires_date = '0000-00-00 00:00:00') order by pd.products_name"); 
+	
+    $featured_query = tep_db_query("select p.products_largeimage,p.products_id,p.products_image,p.products_price,p.products_tax_class_id, pd.products_name, s.featured_id, s.expires_date, s.status, p.hide_price from " . TABLE_PRODUCTS . " p, " . TABLE_FEATURED . " s, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = pd.products_id and pd.language_id = '" . $languages_id . "' and p.products_id = s.products_id and s.featured_group = '".$featured_group."' and s.status = '1' and (s.expires_date > now() or s.expires_date = '0000-00-00 00:00:00') order by pd.products_name"); 
    
-    
     while ($featured = tep_db_fetch_array($featured_query)) {
         
-        
 		$featured['specials_new_products_price'] = tep_get_products_special_price($featured['products_id']);
+
         if ($featured['specials_new_products_price']) {
              $featured_price =  '<s>' . $currencies->display_price($featured['products_price'], tep_get_tax_rate($featured['products_tax_class_id'])) . '</s><br>';
              $featured_price .= $currencies->display_price($featured['specials_new_products_price'], tep_get_tax_rate($featured['products_tax_class_id']));
@@ -1875,7 +1877,7 @@ function getFeaturedProductsByGroup($featured_group){
             "featured_image" => $image,
             "featured_link" => tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $featured['products_id']),
             "featured_name" => $featured['products_name'],
-            "featured_price" => $featured_price
+            "featured_price" => (($featured['hide_price'] == '1') ? HIDE_PRICE_TEXT : $featured_price)
         );
         
     }
@@ -1883,6 +1885,7 @@ function getFeaturedProductsByGroup($featured_group){
     
     return $featured_array;
 }
+
 function getFeaturedManufacturer(){
     global $languages_id,$currencies;
     $manufacturer_featured_array = array();
