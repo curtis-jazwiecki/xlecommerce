@@ -1808,10 +1808,10 @@ function deepest_category($parent_id = '0') {
 			$categories_query2 = tep_db_query("select count(*) as total from " . TABLE_CATEGORIES . " where parent_id = '" . (int)$categories['categories_id']. "' order by sort_order");
 			$categories2 = tep_db_fetch_array($categories_query2);
 			if ($categories2['total'] >0) {
-				$deepest_category  = tep_get_deepest_category($categories['categories_id']);
+				$deepest_category = deepest_category($categories['categories_id']);
 				if ($deepest_category >0) break;
 			} else {
-				$deepest_category = 	$categories['categories_id'];
+				$deepest_category = $categories['categories_id'];
 				break;
 			}
 		} 
