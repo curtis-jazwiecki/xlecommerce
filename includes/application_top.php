@@ -703,7 +703,7 @@ if (basename($PHP_SELF) != FILENAME_ADVANCED_SEARCH_RESULT) {
         unset($_SESSION['filter_m']);
         unset($_SESSION['filter_s']);
         unset($_SESSION['filter_o']);
-        unset($_SESSION['filter_c']);
+        //unset($_SESSION['filter_c']);
         unset($_SESSION['categories_id']);
         unset($_SESSION['inc_subcat']);
 }
