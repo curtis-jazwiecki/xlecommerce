@@ -1961,7 +1961,7 @@ function recalculate_stock_status(&$display_products_stock,$total_quantity){
 	
 	if (STORE_STOCK == 'true' && STORE_STOCK_LOW_INVENTORY == 'false') {
 	
-		$display_products_stock = ($total_quantity > 0) ? 'In Stock' : STORE_STOCK_OUT_OF_STOCK_MESSAGE;
+		$display_products_stock = ($total_quantity > 0) ? TXT_IN_STOCK : STORE_STOCK_OUT_OF_STOCK_MESSAGE;
 	
 	} elseif (STORE_STOCK == 'true' && STORE_STOCK_LOW_INVENTORY == 'true') {
 	
@@ -1971,7 +1971,7 @@ function recalculate_stock_status(&$display_products_stock,$total_quantity){
 	
 		elseif ($total_quantity > STORE_STOCK_LOW_INVENTORY_QUANTITY)
 	
-			$display_products_stock = 'In Stock';
+			$display_products_stock = TXT_IN_STOCK;
 	
 		else
 	

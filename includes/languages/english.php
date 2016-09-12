@@ -370,4 +370,9 @@ define('IMAGE_REDEEM_VOUCHER', 'Redeem');
 //MVS
 define('MULTIPLE_SHIP_METHODS_TITLE', 'Combined Shipping');
 define('TEXT_PASSWORD_FORGOTTEN', 'Password forgotten? Click here.');
+// added on 12-09-2016
+define('TXT_IN_STOCK','In Stock');
+define('TXT_OUT_OF_STOCK','Out of Stock');
+define('TXT_LOW_STOCK','Low Stock');
+define('TXT_IN_STORE_AVAILABILITY','In Store Availability:');
 ?>
