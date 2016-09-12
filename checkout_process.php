@@ -2,7 +2,7 @@
 
 /*
   $Id: checkout_process.php,v 1.128 2003/05/28 18:00:29 hpdl Exp $
-  
+
   CloudCommerce - Multi-Channel eCommerce Solutions
   http://www.cloudcommerce.org
   Copyright (c) 2016 Outdoor Business Network, Inc.
@@ -11,7 +11,7 @@
 
 
 include('includes/application_top.php');
-		
+
 //BOF:one_page_checkout
 
 if (ONEPAGE_CHECKOUT_ENABLED == 'True') {
@@ -83,6 +83,7 @@ require(DIR_WS_CLASSES . 'payment.php');
 
 if ($credit_covers)
     $payment = ''; //ICW added for CREDIT CLASS
+
 
 
     
@@ -206,41 +207,33 @@ $is_ffl_selected = 0;
 // insert ffl licensee selected if any #start
 if ((isset($_SESSION['ffl_selected']) && (count($_SESSION['ffl_selected']) > 0))) {
     foreach ($_SESSION['ffl_selected'] as $vID => $fflID) {
-        
-		$is_ffl_selected = 1;
-		$ffl_dealer_details = tep_db_query("select * from ffl_dealers_data where ffl_dealers_data_id = '".tep_db_prepare_input($fflID)."'");
-		if(tep_db_num_rows($ffl_dealer_details)){
-			
-			$ffl_data = tep_db_fetch_array($ffl_dealer_details);
-			
-			$sql_ffl_data_array = array(
-				'license_name' 			=> $ffl_data['license_name'],
-				'voice_phone' 			=> '',
-				'premise_street' 		=> $order->delivery['street_address'],
-				'premise_city' 			=> $order->delivery['city'],
-				'premise_state' 		=> $order->delivery['state'],
-				'premise_zip_code' 		=> $order->delivery['postcode'],
-				'ffl_dealers_data_id'	=> $fflID
-			);
-			
-			$order->delivery['street_address']  = $ffl_data['premise_street'];
-			$order->delivery['suburb'] 			= '';
-			$order->delivery['city'] 			= $ffl_data['premise_city'];
-			$order->delivery['postcode'] 		= $ffl_data['premise_zip_code'];
-			$order->delivery['state'] 			= convert_state($ffl_data['premise_state'],'name');
-			$order->delivery['company'] 		= $ffl_data['license_name'];
-			
-		}
-	}
+
+        $is_ffl_selected = 1;
+        $ffl_dealer_details = tep_db_query("select * from ffl_dealers_data where ffl_dealers_data_id = '" . tep_db_prepare_input($fflID) . "'");
+        if (tep_db_num_rows($ffl_dealer_details)) {
+
+            $ffl_data = tep_db_fetch_array($ffl_dealer_details);
+
+            $sql_ffl_data_array = array(
+                'license_name' => $ffl_data['license_name'],
+                'voice_phone' => '',
+                'premise_street' => $order->delivery['street_address'],
+                'premise_city' => $order->delivery['city'],
+                'premise_state' => $order->delivery['state'],
+                'premise_zip_code' => $order->delivery['postcode'],
+                'ffl_dealers_data_id' => $fflID
+            );
+
+            $order->delivery['street_address'] = $ffl_data['premise_street'];
+            $order->delivery['suburb'] = '';
+            $order->delivery['city'] = $ffl_data['premise_city'];
+            $order->delivery['postcode'] = $ffl_data['premise_zip_code'];
+            $order->delivery['state'] = convert_state($ffl_data['premise_state'], 'name');
+            $order->delivery['company'] = $ffl_data['license_name'];
+        }
+    }
 }
 // insert ffl licensee selected if any #start
-
-
-
-
-
-
-
 
 
 $sql_data_array = array('customers_id' => $customer_id,
@@ -258,8 +251,7 @@ $sql_data_array = array('customers_id' => $customer_id,
     // PWA BOF
     'customers_dummy_account' => $order->customer['is_dummy_account'],
     // PWA EOF
-    
-	'delivery_name' => $order->delivery['firstname'] . ' ' . $order->delivery['lastname'],
+    'delivery_name' => $order->delivery['firstname'] . ' ' . $order->delivery['lastname'],
     'delivery_company' => $order->delivery['company'],
     'delivery_street_address' => $order->delivery['street_address'],
     'delivery_suburb' => $order->delivery['suburb'],
@@ -268,8 +260,6 @@ $sql_data_array = array('customers_id' => $customer_id,
     'delivery_state' => $order->delivery['state'],
     'delivery_country' => $order->delivery['country']['title'],
     'delivery_address_format_id' => $order->delivery['format_id'],
-	
-	
     'billing_name' => $order->billing['firstname'] . ' ' . $order->billing['lastname'],
     'billing_company' => $order->billing['company'],
     'billing_street_address' => $order->billing['street_address'],
@@ -299,16 +289,15 @@ tep_db_perform(TABLE_ORDERS, $sql_data_array);
 
 $insert_id = tep_db_insert_id();
 
-if($is_ffl_selected == 1 ){
-	
-	$sql_ffl_data_array['orders_id'] = $insert_id;
-	
-	tep_db_perform(TABLE_ORDERS_FFL, $sql_ffl_data_array);
-			
-	$orders_ffl_id = tep_db_insert_id();
-	
-	tep_db_query("update orders_shipping set ffl_licensee = '" . $orders_ffl_id . "' where vendors_id = '" . $vID . "' and orders_id = '" . $insert_id . "'");
+if ($is_ffl_selected == 1) {
 
+    $sql_ffl_data_array['orders_id'] = $insert_id;
+
+    tep_db_perform(TABLE_ORDERS_FFL, $sql_ffl_data_array);
+
+    $orders_ffl_id = tep_db_insert_id();
+
+    tep_db_query("update orders_shipping set ffl_licensee = '" . $orders_ffl_id . "' where vendors_id = '" . $vID . "' and orders_id = '" . $insert_id . "'");
 }
 
 
@@ -325,24 +314,23 @@ for ($i = 0, $n = sizeof($order_totals); $i < $n; $i++) {
             if (!$exists) {
                 tep_db_query("ALTER TABLE `orders` ADD `avalara_data` TEXT NOT NULL");
             }
-			
-			
-			// added on 24-06-2016 to hit avalara api page to update doc code #start
-			$postData = "oID". '='.$insert_id.'&'."mode=update_doc_code&doc_type=".$_SESSION['avalara_data']['doc_type']."&doc_code=".$_SESSION['avalara_data']['doc_code']."&doc_date=".$_SESSION['avalara_data']['doc_date']."&doc_amount=".$_SESSION['avalara_data']['doc_amount']."&doc_total_tax=".$_SESSION['avalara_data']['doc_total_tax']."&doc_hash_code=".$_SESSION['avalara_data']['doc_hash_code'];
-			
-			$ch = curl_init();  
-			curl_setopt($ch,CURLOPT_URL,HTTP_SERVER."/ava_api.php");
-			curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
-			curl_setopt($ch,CURLOPT_POST, count($postData));
-			curl_setopt($ch,CURLOPT_POSTFIELDS, $postData);    
-			$alavara_response = curl_exec($ch);
-			curl_close($ch);
-			
-			$_SESSION['avalara_data']['doc_code'] = "OBN-".$insert_id;
-			// added on 24-06-2016 to hit avalara api page to update doc code #ends
-			
-			tep_db_query("update " . TABLE_ORDERS . " set avalara_data = '" . tep_db_prepare_input(serialize($_SESSION['avalara_data'])) . "' where orders_id = '" . $insert_id . "'");
-			
+
+
+            // added on 24-06-2016 to hit avalara api page to update doc code #start
+            $postData = "oID" . '=' . $insert_id . '&' . "mode=update_doc_code&doc_type=" . $_SESSION['avalara_data']['doc_type'] . "&doc_code=" . $_SESSION['avalara_data']['doc_code'] . "&doc_date=" . $_SESSION['avalara_data']['doc_date'] . "&doc_amount=" . $_SESSION['avalara_data']['doc_amount'] . "&doc_total_tax=" . $_SESSION['avalara_data']['doc_total_tax'] . "&doc_hash_code=" . $_SESSION['avalara_data']['doc_hash_code'];
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, HTTP_SERVER . "/ava_api.php");
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_POST, count($postData));
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+            $alavara_response = curl_exec($ch);
+            curl_close($ch);
+
+            $_SESSION['avalara_data']['doc_code'] = "OBN-" . $insert_id;
+            // added on 24-06-2016 to hit avalara api page to update doc code #ends
+
+            tep_db_query("update " . TABLE_ORDERS . " set avalara_data = '" . tep_db_prepare_input(serialize($_SESSION['avalara_data'])) . "' where orders_id = '" . $insert_id . "'");
         }
     }
 
@@ -359,88 +347,47 @@ for ($i = 0, $n = sizeof($order_totals); $i < $n; $i++) {
 }
 
 
-
-
-
 #### Points/Rewards Module V2.1rc2a balance customer points BOF ####
-
-
 
 if ((USE_POINTS_SYSTEM == 'true') && (USE_REDEEM_SYSTEM == 'true')) {
 
-
-
 // customer pending points added 
-
-
 
     if ($order->info['total'] > 0) {
 
-
-
         $points_toadd = get_points_toadd($order);
-
-
 
         $points_comment = 'TEXT_DEFAULT_COMMENT';
 
-
-
         $points_type = 'SP';
 
-
-
         if ((get_redemption_awards($customer_shopping_points_spending) == true) && ($points_toadd > 0)) {
-
-
 
             tep_add_pending_points($customer_id, $insert_id, $points_toadd, $points_comment, $points_type);
         }
     }
 
-
-
 // customer referral points added 
-
-
 
     if ((tep_session_is_registered('customer_referral')) && (tep_not_null(USE_REFERRAL_SYSTEM))) {
 
-
-
         $referral_twice_query = tep_db_query("select unique_id from " . TABLE_CUSTOMERS_POINTS_PENDING . " where orders_id = '" . (int) $insert_id . "' and points_type = 'RF' limit 1");
-
-
 
         if (!tep_db_num_rows($referral_twice_query)) {
 
-
-
             $points_toadd = USE_REFERRAL_SYSTEM;
-
-
 
             $points_comment = 'TEXT_DEFAULT_REFERRAL';
 
-
-
             $points_type = 'RF';
-
-
 
             tep_add_pending_points($customer_referral, $insert_id, $points_toadd, $points_comment, $points_type);
         }
     }
 
-
-
 // customer shoppping points account balanced 
 
-
-
     if ($customer_shopping_points_spending) {
-
-
 
         tep_redeemed_points($customer_id, $insert_id, $customer_shopping_points_spending);
     }
@@ -576,10 +523,10 @@ if ($any_bundle_only)
 
 
 for ($i = 0, $n = sizeof($order->products); $i < $n; $i++) {
-	$stock_update_flag = true;
-    
-	$sql_data_array = array(
-		'orders_id' => $insert_id,
+    $stock_update_flag = true;
+
+    $sql_data_array = array(
+        'orders_id' => $insert_id,
         'products_id' => tep_get_prid($order->products[$i]['id']),
         'products_model' => $order->products[$i]['model'],
         'products_name' => $order->products[$i]['name'],
@@ -589,7 +536,7 @@ for ($i = 0, $n = sizeof($order->products); $i < $n; $i++) {
         'products_quantity' => $order->products[$i]['qty'],
         'is_ok_for_shipping' => $order->products[$i]['is_ok_for_shipping'],
         'vendors_id' => $order->products[$i]['vendors_id']
-	);
+    );
 
     tep_db_perform(TABLE_ORDERS_PRODUCTS, $sql_data_array);
 
@@ -623,7 +570,7 @@ for ($i = 0, $n = sizeof($order->products); $i < $n; $i++) {
 
             $stock_values = tep_db_fetch_array($stock_query);
 
-		// do not decrement quantities if products_attributes_filename exists
+            // do not decrement quantities if products_attributes_filename exists
 
             if ((DOWNLOAD_ENABLED != 'true') || (!$stock_values['products_attributes_filename'])) {
 
@@ -634,35 +581,31 @@ for ($i = 0, $n = sizeof($order->products); $i < $n; $i++) {
 
 
                     //$stock_left = $stock_values['products_bundle']; // products_quantity has no meaning for bundles but must be at least one for bundle to sell, bundle quantity check is done by other means
-					
-					 $stock_left = $stock_values['products_quantity']; // modified on 29-04-2016 to solve product display in the front end
-					
-					
+
+                    $stock_left = $stock_values['products_quantity']; // modified on 29-04-2016 to solve product display in the front end
                 } else {
 
                     // added on 21-04-2016 #start
-					//function defined in general.php
-					deduct_stock(PRODUCTS_DEDUCTION_PRIORITY,$stock_values['products_quantity'],$stock_values['store_quantity'],$order->products[$i]['qty'],$insert_id,tep_get_prid($order->products[$i]['id']));
-					$stock_update_flag = false;
-					// added on 21-04-2016 #ends
-					
-					//$stock_left = $stock_values['products_quantity'] - $order->products[$i]['qty'];
+                    //function defined in general.php
+                    deduct_stock(PRODUCTS_DEDUCTION_PRIORITY, $stock_values['products_quantity'], $stock_values['store_quantity'], $order->products[$i]['qty'], $insert_id, tep_get_prid($order->products[$i]['id']));
+                    $stock_update_flag = false;
+                    // added on 21-04-2016 #ends
+                    //$stock_left = $stock_values['products_quantity'] - $order->products[$i]['qty'];
                 }
             } else {
 
                 $stock_left = $stock_values['products_quantity'];
             }
 
-            if($stock_update_flag){
-				
-				tep_db_query("update " . TABLE_PRODUCTS . " set products_quantity = '" . $stock_left . "' where products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
+            if ($stock_update_flag) {
 
-            	if (($stock_left < 1) && (STOCK_ALLOW_CHECKOUT == 'false')) {
-                
-					tep_db_query("update " . TABLE_PRODUCTS . " set products_status = '0' where products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
-            	
-				}
-			}
+                tep_db_query("update " . TABLE_PRODUCTS . " set products_quantity = '" . $stock_left . "' where products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
+
+                if (($stock_left < 1) && (STOCK_ALLOW_CHECKOUT == 'false')) {
+
+                    tep_db_query("update " . TABLE_PRODUCTS . " set products_status = '0' where products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
+                }
+            }
         }
     }
 
@@ -1074,77 +1017,9 @@ function vendors_email($vendors_id, $oID, $status, $vendor_order_sent) {
 
 
 
-        $vendor_orders_products_query = tep_db_query("select o.orders_id, 
-
-
-
-                                                            o.orders_products_id, 
-
-
-
-                                                            o.products_model, 
-
-
-
-                                                            o.products_id, 
-
-
-
-                                                            o.products_quantity, 
-
-
-
-                                                            o.products_name, 
-
-
-
-                                                            p.vendors_id,
-
-
-
-                                                            p.vendors_prod_comments, 
-
-
-
-                                                            p.vendors_prod_id, 
-
-
-
-                                                            p.vendors_product_price 
-
-
-
-                                                   from " . TABLE_ORDERS_PRODUCTS . " o, 
-
-
-
-                                                        " . TABLE_PRODUCTS . " p 
-
-
-
-                                                   where p.vendors_id = '" . (int) $vendor_order['vendors_id'] . "' 
-
-
-
-                                                     and o.products_id = p.products_id 
-
-
-
-                                                     and o.orders_id='" . $oID . "' 
-
-
-
-                                                   order by o.products_name
-
-
-
-                                                 ");
-
-
+        $vendor_orders_products_query = tep_db_query("select o.orders_id, o.orders_products_id, o.products_model, o.products_id, o.products_quantity, o.products_name, p.vendors_id, p.vendors_prod_comments, p.vendors_prod_id, p.vendors_product_price from " . TABLE_ORDERS_PRODUCTS . " o, " . TABLE_PRODUCTS . " p where p.vendors_id = '" . (int) $vendor_order['vendors_id'] . "' and o.products_id = p.products_id and o.orders_id='" . $oID . "' and o.package_product_id = '1' order by o.products_name");
 
         while ($vendor_orders_products = tep_db_fetch_array($vendor_orders_products_query)) {
-
-
 
             $vendor_products[$index2]['vendor_orders_products'][$index] = array(
                 'Pqty' => $vendor_orders_products['products_quantity'],

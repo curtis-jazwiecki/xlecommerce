@@ -2049,13 +2049,38 @@ function deduct_stock($priority,$products_quantity,$store_quantity,$ordered_prod
 }	
 function reduce_bundle_stock($bundle_id, $qty_sold, $order_id, $order_products_id) {
     global $languages_id;
-    $bundle_query = tep_db_query('select pb.subproduct_id, pb.subproduct_qty, p.products_bundle, p.products_quantity, pd.products_name from ' . TABLE_PRODUCTS_BUNDLES . ' pb, ' . TABLE_PRODUCTS . ' p, products_description pd where p.products_id = pb.subproduct_id and p.products_id=pd.products_id and pd.language_id="' . (int) $languages_id . '" and bundle_id = ' . (int) tep_get_prid($bundle_id));
+    
+    $bundle_query = tep_db_query('select pb.subproduct_id, pb.subproduct_qty, p.products_bundle, p.products_quantity, pd.products_name,p.products_model,p.is_ok_for_shipping,p.vendors_id,p.products_price from ' . TABLE_PRODUCTS_BUNDLES . ' pb, ' . TABLE_PRODUCTS . ' p, products_description pd where p.products_id = pb.subproduct_id and p.products_id=pd.products_id and pd.language_id="' . (int) $languages_id . '" and bundle_id = ' . (int) tep_get_prid($bundle_id));
+    
     while ($bundle_info = tep_db_fetch_array($bundle_query)) {
+        
         $sql_data_array = array('orders_id' => $order_id,
             'orders_products_id' => $order_products_id,
             'products_options' => 'Included',
             'products_options_values' => $bundle_info['subproduct_qty'] . 'x' . $bundle_info['products_name']);
+        
         tep_db_perform(TABLE_ORDERS_PRODUCTS_ATTRIBUTES, $sql_data_array);
+        
+        // add to order products table also with package_product_id = 1 #start
+        $sql_bundle_product_array = array(
+            'orders_id'             => $order_id,
+            'products_id'           => $bundle_info['subproduct_id'],
+            'products_model'        => $bundle_info['products_model'],
+            'products_name'         => $bundle_info['products_name'],
+            'products_price'        => $bundle_info['products_price'],
+            'final_price'           => $bundle_info['products_price'],
+            'products_tax'          => '0',
+            'products_quantity'     => $bundle_info['subproduct_qty'],
+            'is_ok_for_shipping'    => $bundle_info['is_ok_for_shipping'],
+            'vendors_id'            => $bundle_info['vendors_id'],
+            'package_product_id'    => '1'
+        );
+
+        tep_db_perform(TABLE_ORDERS_PRODUCTS, $sql_bundle_product_array);
+        
+        // add to order products table also with package_product_id = 1 #ends
+        
+        
         if ($bundle_info['products_bundle'] == 'yes') {
             reduce_bundle_stock($bundle_info['subproduct_id'], ($qty_sold * $bundle_info['subproduct_qty']), $order_id, $order_products_id);
             // update quantity of nested bundle sold
