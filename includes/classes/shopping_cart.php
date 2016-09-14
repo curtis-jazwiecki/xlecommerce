@@ -238,6 +238,7 @@ if (MODULE_ORDER_TOTAL_MEMBERDISCOUNT_STATUS && MODULE_ORDER_TOTAL_MEMBERDISCOUN
     }
 
     function in_cart($products_id) {
+
       if (isset($this->contents[$products_id])) {
         return true;
       } else {
@@ -513,23 +514,45 @@ function attributes_price($products_id) {
 		//BOF:mod 16DEC
 		*/
         $customer_group_price_query = tep_db_query("select customers_group_price from " . TABLE_PRODUCTS_GROUPS . " where products_id = '" . (!empty($parent['products_id']) ? (int)$parent['products_id'] : (int)$prid )  . "' and customers_group_id =  '" . $this->cg_id . "'");
+		
 		//EOF:mod 16DEC
-        if ($customer_group_price = tep_db_fetch_array($customer_group_price_query)) {
-        $products_price = $customer_group_price['customers_group_price'];
+		/*if ($customer_group_price = tep_db_fetch_array($customer_group_price_query)) {
+        	$products_price = $customer_group_price['customers_group_price'];
         }
 		if ($products_price > $org_products_price){
 			$products_price = $org_products_price;
 			$specials_price = $org_specials_price;
-		}
+		}*/
       } 
           
 	//$specials_price = tep_get_products_special_price((int)$prid);
-      if (tep_not_null($specials_price)) {
+      /*if (tep_not_null($specials_price)) {
           
           if($products_price > $specials_price )
                $products_price = $specials_price;          
-      } 
+      } */
 // EOF Separate Pricing Per Customer
+
+
+		// fix added on 02-09-2016 #start
+		if ($customer_group_price = tep_db_fetch_array($customer_group_price_query)) {
+			if (tep_not_null($specials_price)) {
+				$products_price = $specials_price; 
+			}else{
+				$products_price = $customer_group_price['customers_group_price'];
+			}
+		
+		
+		}else{ 
+			  if (tep_not_null($specials_price)) {
+				  $products_price = $specials_price;
+			  } else {
+				  $products_price = $org_products_price;
+			  }
+		}
+		// fix added on 02-09-2016 #ends
+
+
 
           $products_array[] = array('id' => $products_id,
                                     'name' => $products['products_name'],
@@ -755,7 +778,8 @@ function attributes_price($products_id) {
       }
       return $_cg_id;
     }
-    function count_contents_virtual() {  // get total number of items in cart disregard gift vouchers
+    
+	function count_contents_virtual() {  // get total number of items in cart disregard gift vouchers
       $total_items = 0;
       if (is_array($this->contents)) {
         reset($this->contents);
@@ -824,11 +848,15 @@ function attributes_price($products_id) {
 			$quantity = $this->contents[$products_id]['qty'];
 			$products_query = tep_db_query("select products_id, products_price, products_tax_class_id, products_weight, parent_products_model, vendors_id from " . TABLE_PRODUCTS . " where products_id = '" . (int)$products_id . "'");
 			if ($products = tep_db_fetch_array($products_query)) {
+				
 				$products_price = $products['products_price'];
+				
 				$specials_price = tep_get_products_special_price($products_id);
+				
 				if ($specials_price>0 && $specials_price<$products_price){
-					$products_price = $specials_price;
+					//$products_price = $specials_price;
 				}
+				
 				if ( !empty($products['parent_products_model']) ){
 					$parent_product_query = tep_db_query("select products_id, products_price from products where products_model='" . tep_db_input($products['parent_products_model']) . "'");
 					
@@ -836,7 +864,7 @@ function attributes_price($products_id) {
 						$products_price = $parent_product['products_price'];
 						$specials_price = tep_get_products_special_price($parent_product['products_id']);
 						if ($specials_price>0 && $specials_price<$products_price){
-							$products_price = $specials_price;
+							//$products_price = $specials_price;
 						}
 					}
 				}
@@ -847,19 +875,41 @@ function attributes_price($products_id) {
 					if ($customer_group_price = tep_db_fetch_array($customer_group_price_query)) {
 						$customer_group_products_price = $customer_group_price['customers_group_price'];
 						if ($customer_group_products_price < $products_price){
-							$products_price = $customer_group_products_price;
+							//$products_price = $customer_group_products_price;
 						}
 					}
 				}
+				
 				$products_weight = $products['products_weight'];
 				$vendors_id = ($products['vendors_id'] <= 0) ? 1 : $products['vendors_id'];
 				$products_tax = tep_get_tax_rate($products['products_tax_class_id']);
 				//Find special prices (if any)
-				$specials_query = tep_db_query("select specials_new_products_price from " . TABLE_SPECIALS . " where products_id = '" . (int)$products_id . "' and status = '1'");
-				if (tep_db_num_rows ($specials_query)) {
-					$specials = tep_db_fetch_array($specials_query);
-					$products_price = $specials['specials_new_products_price'];
-				}
+				//$specials_query = tep_db_query("select specials_new_products_price from " . TABLE_SPECIALS . " where products_id = '" . (int)$products_id . "' and status = '1'");
+				//if (tep_db_num_rows ($specials_query)) {
+					//$specials = tep_db_fetch_array($specials_query);
+					//$products_price = $specials['specials_new_products_price'];
+				//}
+				
+				// fix added on 02-09-2016 #start
+					if ($customer_group_products_price > 0) {
+						if (tep_not_null($specials_price)) {
+							$products_price = $specials_price; 
+						}else{
+							$products_price = $customer_group_products_price;
+						}
+					
+					
+					}else{ 
+						  if (tep_not_null($specials_price)) {
+							  $products_price = $specials_price;
+						  } else {
+							  $products_price = $products_price;
+						  }
+					}
+				// fix added on 02-09-2016 #ends
+				
+				
+				
 				//Add values to the output array
 				$this->vendor_shipping[$vendors_id]['weight'] += ($quantity * $products_weight);
 				$this->vendor_shipping[$vendors_id]['cost'] += tep_add_tax($products_price, $products_tax) * $quantity;
@@ -902,7 +952,7 @@ function attributes_price($products_id) {
 				$products_price = $products['products_price'];
 				$specials_price = tep_get_products_special_price($prid);
 				if ($specials_price>0 && $specials_price<$products_price){
-					$products_price = $specials_price;
+					//$products_price = $specials_price;
 				}
 				if ( !empty($products['parent_products_model']) ){
 					$parent_product_query = tep_db_query("select products_id, products_price from products where products_model='" . tep_db_input($products['parent_products_model']) . "'");
@@ -911,7 +961,7 @@ function attributes_price($products_id) {
 						$products_price = $parent_product['products_price'];
 						$specials_price = tep_get_products_special_price($parent_product['products_id']);
 						if ($specials_price>0 && $specials_price<$products_price){
-							$products_price = $specials_price;
+							//$products_price = $specials_price;
 						}
 					}
 				}
@@ -922,10 +972,29 @@ function attributes_price($products_id) {
 					if ($customer_group_price = tep_db_fetch_array($customer_group_price_query)) {
 						$customer_group_products_price = $customer_group_price['customers_group_price'];
 						if ($customer_group_products_price < $products_price){
-							$products_price = $customer_group_products_price;
+							//$products_price = $customer_group_products_price;
 						}
 					}
 				}
+				
+				
+				// fix added on 02-09-2016 #start
+					if ($customer_group_products_price > 0) {
+						if (tep_not_null($specials_price)) {
+							$products_price = $specials_price; 
+						}else{
+							$products_price = $customer_group_products_price;
+						}
+					}else{ 
+						  if (tep_not_null($specials_price)) {
+							  $products_price = $specials_price;
+						  } else {
+							  $products_price = $products_price;
+						  }
+					}
+				// fix added on 02-09-2016 #ends
+				
+				
 
 				$products_array[] = array(
 					'id' => $products_id,

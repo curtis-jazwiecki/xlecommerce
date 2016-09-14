@@ -27,7 +27,7 @@
     );
 
     $index = 0;
-    $orders_products_query = tep_db_query("select orders_products_id, products_name, products_model, products_price, products_tax, products_quantity, final_price, vendors_id from " . TABLE_ORDERS_PRODUCTS . " where orders_id = '" . (int) $order_id . "' and vendors_id = '" . (int) $vendor_order['vendors_id'] . "'");
+    $orders_products_query = tep_db_query("select orders_products_id, products_name, products_model, products_price, products_tax, products_quantity, final_price, vendors_id from " . TABLE_ORDERS_PRODUCTS . " where orders_id = '" . (int) $order_id . "' and vendors_id = '" . (int) $vendor_order['vendors_id'] . "' and package_product_id = '0'");
 
     while ($orders_products = tep_db_fetch_array($orders_products_query)) {
       $these_products[$index2]['orders_products'][$index] = array (

@@ -1808,10 +1808,10 @@ function deepest_category($parent_id = '0') {
 			$categories_query2 = tep_db_query("select count(*) as total from " . TABLE_CATEGORIES . " where parent_id = '" . (int)$categories['categories_id']. "' order by sort_order");
 			$categories2 = tep_db_fetch_array($categories_query2);
 			if ($categories2['total'] >0) {
-				$deepest_category  = tep_get_deepest_category($categories['categories_id']);
+				$deepest_category = deepest_category($categories['categories_id']);
 				if ($deepest_category >0) break;
 			} else {
-				$deepest_category = 	$categories['categories_id'];
+				$deepest_category = $categories['categories_id'];
 				break;
 			}
 		} 
@@ -1820,17 +1820,19 @@ function deepest_category($parent_id = '0') {
 	}
     return $deepest_category;
 }
+
 function getFeaturedProductsByGroup($featured_group){
    
     $featured_array = array();
+	
     global $languages_id,$currencies;
-    $featured_query = tep_db_query("select p.products_largeimage,p.products_id,p.products_image,p.products_price,p.products_tax_class_id, pd.products_name, s.featured_id, s.expires_date, s.status from " . TABLE_PRODUCTS . " p, " . TABLE_FEATURED . " s, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = pd.products_id and pd.language_id = '" . $languages_id . "' and p.products_id = s.products_id and s.featured_group = '".$featured_group."' and s.status = '1' and (s.expires_date > now() or s.expires_date = '0000-00-00 00:00:00') order by pd.products_name"); 
+	
+    $featured_query = tep_db_query("select p.products_largeimage,p.products_id,p.products_image,p.products_price,p.products_tax_class_id, pd.products_name, s.featured_id, s.expires_date, s.status, p.hide_price from " . TABLE_PRODUCTS . " p, " . TABLE_FEATURED . " s, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = pd.products_id and pd.language_id = '" . $languages_id . "' and p.products_id = s.products_id and s.featured_group = '".$featured_group."' and s.status = '1' and (s.expires_date > now() or s.expires_date = '0000-00-00 00:00:00') order by pd.products_name"); 
    
-    
     while ($featured = tep_db_fetch_array($featured_query)) {
         
-        
 		$featured['specials_new_products_price'] = tep_get_products_special_price($featured['products_id']);
+
         if ($featured['specials_new_products_price']) {
              $featured_price =  '<s>' . $currencies->display_price($featured['products_price'], tep_get_tax_rate($featured['products_tax_class_id'])) . '</s><br>';
              $featured_price .= $currencies->display_price($featured['specials_new_products_price'], tep_get_tax_rate($featured['products_tax_class_id']));
@@ -1875,7 +1877,7 @@ function getFeaturedProductsByGroup($featured_group){
             "featured_image" => $image,
             "featured_link" => tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $featured['products_id']),
             "featured_name" => $featured['products_name'],
-            "featured_price" => $featured_price
+            "featured_price" => (($featured['hide_price'] == '1') ? HIDE_PRICE_TEXT : $featured_price)
         );
         
     }
@@ -1883,6 +1885,7 @@ function getFeaturedProductsByGroup($featured_group){
     
     return $featured_array;
 }
+
 function getFeaturedManufacturer(){
     global $languages_id,$currencies;
     $manufacturer_featured_array = array();
@@ -1958,7 +1961,7 @@ function recalculate_stock_status(&$display_products_stock,$total_quantity){
 	
 	if (STORE_STOCK == 'true' && STORE_STOCK_LOW_INVENTORY == 'false') {
 	
-		$display_products_stock = ($total_quantity > 0) ? 'In Stock' : STORE_STOCK_OUT_OF_STOCK_MESSAGE;
+		$display_products_stock = ($total_quantity > 0) ? TXT_IN_STOCK : STORE_STOCK_OUT_OF_STOCK_MESSAGE;
 	
 	} elseif (STORE_STOCK == 'true' && STORE_STOCK_LOW_INVENTORY == 'true') {
 	
@@ -1968,7 +1971,7 @@ function recalculate_stock_status(&$display_products_stock,$total_quantity){
 	
 		elseif ($total_quantity > STORE_STOCK_LOW_INVENTORY_QUANTITY)
 	
-			$display_products_stock = 'In Stock';
+			$display_products_stock = TXT_IN_STOCK;
 	
 		else
 	
@@ -2046,13 +2049,38 @@ function deduct_stock($priority,$products_quantity,$store_quantity,$ordered_prod
 }	
 function reduce_bundle_stock($bundle_id, $qty_sold, $order_id, $order_products_id) {
     global $languages_id;
-    $bundle_query = tep_db_query('select pb.subproduct_id, pb.subproduct_qty, p.products_bundle, p.products_quantity, pd.products_name from ' . TABLE_PRODUCTS_BUNDLES . ' pb, ' . TABLE_PRODUCTS . ' p, products_description pd where p.products_id = pb.subproduct_id and p.products_id=pd.products_id and pd.language_id="' . (int) $languages_id . '" and bundle_id = ' . (int) tep_get_prid($bundle_id));
+    
+    $bundle_query = tep_db_query('select pb.subproduct_id, pb.subproduct_qty, p.products_bundle, p.products_quantity, pd.products_name,p.products_model,p.is_ok_for_shipping,p.vendors_id,p.products_price from ' . TABLE_PRODUCTS_BUNDLES . ' pb, ' . TABLE_PRODUCTS . ' p, products_description pd where p.products_id = pb.subproduct_id and p.products_id=pd.products_id and pd.language_id="' . (int) $languages_id . '" and bundle_id = ' . (int) tep_get_prid($bundle_id));
+    
     while ($bundle_info = tep_db_fetch_array($bundle_query)) {
+        
         $sql_data_array = array('orders_id' => $order_id,
             'orders_products_id' => $order_products_id,
             'products_options' => 'Included',
             'products_options_values' => $bundle_info['subproduct_qty'] . 'x' . $bundle_info['products_name']);
+        
         tep_db_perform(TABLE_ORDERS_PRODUCTS_ATTRIBUTES, $sql_data_array);
+        
+        // add to order products table also with package_product_id = 1 #start
+        $sql_bundle_product_array = array(
+            'orders_id'             => $order_id,
+            'products_id'           => $bundle_info['subproduct_id'],
+            'products_model'        => $bundle_info['products_model'],
+            'products_name'         => $bundle_info['products_name'],
+            'products_price'        => $bundle_info['products_price'],
+            'final_price'           => $bundle_info['products_price'],
+            'products_tax'          => '0',
+            'products_quantity'     => $bundle_info['subproduct_qty'],
+            'is_ok_for_shipping'    => $bundle_info['is_ok_for_shipping'],
+            'vendors_id'            => $bundle_info['vendors_id'],
+            'package_product_id'    => '1'
+        );
+
+        tep_db_perform(TABLE_ORDERS_PRODUCTS, $sql_bundle_product_array);
+        
+        // add to order products table also with package_product_id = 1 #ends
+        
+        
         if ($bundle_info['products_bundle'] == 'yes') {
             reduce_bundle_stock($bundle_info['subproduct_id'], ($qty_sold * $bundle_info['subproduct_qty']), $order_id, $order_products_id);
             // update quantity of nested bundle sold

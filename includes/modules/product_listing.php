@@ -135,39 +135,24 @@ if ($listing_split->number_of_rows > 0)
        $p_query_res = tep_db_fetch_array($p_query);
           
          
-          if($customer_group_id > 0 && isset($scustomer_group_price['customers_group_price']) && !empty($scustomer_group_price['customers_group_price']))
-          {
-             if(isset($new_price) && !empty($new_price))
-             {
-                 
-                if($scustomer_group_price['customers_group_price'] < $new_price) 
-                { 
-                   $lc_price = '<s>' . $currencies->display_price($p_query_res['products_price'], tep_get_tax_rate($product_info['products_tax_class_id'])) . '</s> <span class="productSpecialPrice">' . $currencies->display_price($scustomer_group_price['customers_group_price'], tep_get_tax_rate($p_query_res['products_tax_class_id'])) . '</span>';
-                   // $products_price =  $currencies->display_price($scustomer_group_price['customers_group_price'], '0') ; 
-                }
-                 else { 
-                    $lc_price = '<s>' . $currencies->display_price($scustomer_group_price['customers_group_price'], tep_get_tax_rate($product_info['products_tax_class_id'])) . '</s> <span class="productSpecialPrice">' . $currencies->display_price($new_price, tep_get_tax_rate($p_query_res['products_tax_class_id'])) . '</span>';
-                }
-             }
-             else
-             { 
-                 if($p_query_res['products_price'] < $scustomer_group_price['customers_group_price'])
-                 {
-                   $lc_price =  $currencies->display_price($p_query_res['products_price'], '0') ;   
-                 }
-                 else
-                 {
-                $lc_price =  $currencies->display_price($scustomer_group_price['customers_group_price'], '0') ; 
-                 }
-             }
-          }
-          else
-          { 
-              if(isset($new_price) && !empty($new_price))
-             {
+          if($customer_group_id > 0 && isset($scustomer_group_price['customers_group_price']) && !empty($scustomer_group_price['customers_group_price'])){
+			  
+			  if($new_price > 0) { 
+                   
+			   $lc_price = '<s>' . $currencies->display_price($scustomer_group_price['customers_group_price'], tep_get_tax_rate($product_info['products_tax_class_id'])) . '</s> <span class="productSpecialPrice">' . $currencies->display_price($new_price, tep_get_tax_rate($p_query_res['products_tax_class_id'])) . '</span>';
+			  
+			}else { 
+			   
+			   $lc_price = '<s>' . $currencies->display_price($p_query_res['products_price'], tep_get_tax_rate($product_info['products_tax_class_id'])) . '</s> <span class="productSpecialPrice">' . $currencies->display_price($scustomer_group_price['customers_group_price'], tep_get_tax_rate($p_query_res['products_tax_class_id'])) . '</span>';
+			
+			}
+			  
+			  
+		  }else{ 
+              if(isset($new_price) && !empty($new_price)){
                   $lc_price = '<s>' . $currencies->display_price($p_query_res['products_price'], tep_get_tax_rate($p_query_res['products_tax_class_id'])) . '</s> <span class="productSpecialPrice">' . $currencies->display_price($new_price, tep_get_tax_rate($product_info['products_tax_class_id'])) . '</span>';
               } else {
-              $lc_price =  $currencies->display_price($p_query_res['products_price'], '0') ;
+              	  $lc_price =  $currencies->display_price($p_query_res['products_price'], '0') ;
               }
           }
      
@@ -364,7 +349,7 @@ if ($listing_split->number_of_rows > 0)
 		if (STORE_STOCK == 'true' && STORE_STOCK_LOW_INVENTORY == 'false')
 		  {
 			$stock_info = '<b>';
-			$stock_info .= ($product_info_2['products_quantity'] > 0) ? 'In Stock' : STORE_STOCK_OUT_OF_STOCK_MESSAGE;
+			$stock_info .= ($product_info_2['products_quantity'] > 0) ? TXT_IN_STOCK : STORE_STOCK_OUT_OF_STOCK_MESSAGE;
 			$stock_info .= '</b>';
 		  }
 			// Low Stock message if below given value - OBN
@@ -375,7 +360,7 @@ if ($listing_split->number_of_rows > 0)
 				if($product_info_2['products_quantity'] <= STORE_STOCK_LOW_INVENTORY_QUANTITY && $product_info_2['products_quantity'] > 0)
 					$stock_info .= STORE_STOCK_LOW_INVENTORY_MESSAGE;
 				elseif($product_info_2['products_quantity'] > STORE_STOCK_LOW_INVENTORY_QUANTITY)
-					$stock_info .= 'In Stock';
+					$stock_info .= TXT_IN_STOCK;
 				else
 					$stock_info .= STORE_STOCK_OUT_OF_STOCK_MESSAGE;
 			$stock_info .= '</b>';
@@ -458,7 +443,7 @@ if ($listing_split->number_of_rows > 0)
 		if (STORE_STOCK == 'true' && STORE_STOCK_LOW_INVENTORY == 'false')
 		  {
 			$stock_info = '<b>';
-			$stock_info .= ($product_info_2['products_quantity'] > 0) ? 'In Stock' : STORE_STOCK_OUT_OF_STOCK_MESSAGE;
+			$stock_info .= ($product_info_2['products_quantity'] > 0) ? TXT_IN_STOCK : STORE_STOCK_OUT_OF_STOCK_MESSAGE;
 			$stock_info .= '</b>';
 		  }
 			// Low Stock message if below given value - OBN
@@ -468,7 +453,7 @@ if ($listing_split->number_of_rows > 0)
 				if($product_info_2['products_quantity'] <= STORE_STOCK_LOW_INVENTORY_QUANTITY && $product_info_2['products_quantity'] > 0)
 					$stock_info .= STORE_STOCK_LOW_INVENTORY_MESSAGE;
 				elseif($product_info_2['products_quantity'] > STORE_STOCK_LOW_INVENTORY_QUANTITY)
-					$stock_info .= 'In Stock';
+					$stock_info .= TXT_IN_STOCK;
 				else
 					$stock_info .= STORE_STOCK_OUT_OF_STOCK_MESSAGE;
 			$stock_info .= '</b>';
@@ -555,7 +540,7 @@ if ($listing_split->number_of_rows > 0)
 		if (STORE_STOCK == 'true' && STORE_STOCK_LOW_INVENTORY == 'false')
 		  {
 			$stock_info = '<b>';
-			$stock_info .= ($product_info_2['products_quantity'] > 0) ? 'In Stock' : STORE_STOCK_OUT_OF_STOCK_MESSAGE;
+			$stock_info .= ($product_info_2['products_quantity'] > 0) ? TXT_IN_STOCK : STORE_STOCK_OUT_OF_STOCK_MESSAGE;
 			$stock_info .= '</b>';
 		  }
 			// Low Stock message if below given value - OBN
@@ -565,7 +550,7 @@ if ($listing_split->number_of_rows > 0)
 				if($product_info_2['products_quantity'] <= STORE_STOCK_LOW_INVENTORY_QUANTITY && $product_info_2['products_quantity'] > 0)
 					$stock_info .= STORE_STOCK_LOW_INVENTORY_MESSAGE;
 				elseif($product_info_2['products_quantity'] > STORE_STOCK_LOW_INVENTORY_QUANTITY)
-					$stock_info .= 'In Stock';
+					$stock_info .= TXT_IN_STOCK;
 				else
 					$stock_info .= STORE_STOCK_OUT_OF_STOCK_MESSAGE;
 			$stock_info .= '</b>';

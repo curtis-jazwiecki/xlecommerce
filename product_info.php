@@ -1,18 +1,10 @@
 <?php
-
 /*
-
   $Id: product_info.php,v 1.97 2003/07/01 14:34:54 hpdl Exp $
-
-  
-
   CloudCommerce - Multi-Channel eCommerce Solutions
-
   http://www.cloudcommerce.org
-
   Copyright (c) 2016 Outdoor Business Network, Inc.
-
- */
+*/
 
 require ('includes/application_top.php');
 
@@ -62,15 +54,15 @@ function get_stock_message($quantity) {
 
     if ($quantity <= 0)
 
-        $resp = 'Out of Stock';
+        $resp = TXT_OUT_OF_STOCK;
 
     elseif ($quantity <= 10)
 
-        $resp = 'Low Stock';
+        $resp = TXT_LOW_STOCK;
 
     else
 
-        $resp = 'In Stock';
+        $resp = TXT_IN_STOCK;
 
     return $resp;
 
@@ -228,8 +220,6 @@ if ($info['child_count'] > 0) {?>
 
                 if (oPt('select#attribute').length) {
 
-                    //oPt('select#attribute').find('option:eq(0)').attr('disabled', 'disabled');
-
                     oPt.ajax({
 
                         url: '<?php echo (($request_type == 'SSL') ? HTTPS_SERVER . DIR_WS_HTTPS_CATALOG : HTTP_SERVER . DIR_WS_HTTP_CATALOG) ?>control_specifications_scope.php',
@@ -327,12 +317,6 @@ if ($info['child_count'] > 0) {?>
                         }
 
                     });
-
-                    //option_id = oPt(this).attr('name').replace('id[', '').replace(']', '');
-
-                    //value_id = oPt(this).val();
-
-                    //filters += option_id + '_' + oPt(this).val() + '|';
 
                     if (filters != '') {
 
@@ -440,198 +424,13 @@ if ($info['child_count'] > 0) {?>
 
                                 }
 
-                                /*  for(var i=0; i<response[0].filtered_options.length; i++){
-
-                                 
-
-                                 
-
-                                 
-
-                                 
-
-                                 
-
-                                 option_id = response[0].filtered_options[i].option;
-
-                                 
-
-                                 
-
-                                 
-
-                                 elem = oPt('select[id="attribute"][name="id[' + option_id + ']"]');
-
-                                 
-
-                                 
-
-                                 
-
-                                 //oPt(elem).find('option:gt(0)').attr('disabled', 'disabled');
-
-                                 
-
-                                 
-
-                                 
-
-                                 //oPt(elem).find('option:gt(0)').css('display', 'none');
-
-                                 
-
-                                 
-
-                                 
-
-                                 oPt(elem).find('option:gt(0)').css({'font-weight': 'normal', 'color': 'gray'});
-
-                                 
-
-                                 
-
-                                 
-
-                                 
-
-                                 
-
-                                 
-
-                                 
-
-                                 current_value = oPt(elem).val();
-
-                                 
-
-                                 
-
-                                 
-
-                                 match_located = false;
-
-                                 
-
-                                 
-
-                                 
-
-                                 
-
-                                 
-
-                                 
-
-                                 
-
-                                 for(j=0; j<response[0].filtered_options[i].values.length; j++){
-
-                                 
-
-                                 
-
-                                 
-
-                                 value_id = response[0].filtered_options[i].values[j];
-
-                                 
-
-                                 
-
-                                 
-
-                                 //oPt(elem).find('option[value="' + value_id + '"]').removeAttr('disabled');
-
-                                 
-
-                                 
-
-                                 
-
-                                 //oPt(elem).find('option[value="' + value_id + '"]').css('display', '');
-
-                                 
-
-                                 
-
-                                 
-
-                                 oPt(elem).find('option[value="' + value_id + '"]').css({'font-weight': 'bold', 'color': 'black' });
-
-                                 
-
-                                 
-
-                                 
-
-                                 
-
-                                 
-
-                                 
-
-                                 
-
-                                 if (current_value==value_id) match_located = true;
-
-                                 
-
-                                 
-
-                                 
-
-                                 }
-
-                                 
-
-                                 
-
-                                 
-
-                                 if (!match_located){
-
-                                 
-
-                                 
-
-                                 
-
-                                 oPt(elem).val(value_id);
-
-                                 
-
-                                 
-
-                                 
-
-                                 }
-
-                                 
-
-                                 
-
-                                 
-
-                                 
-
-                                 
-
-                                 }*/
-
-								 
-
-								 
-
-								oPt('#view3').html('');
+                                oPt('#view3').html('');
 
 								if(response[1]['html'] != ''){
 
 									oPt('#view3').html(response[1]['html']);
 
 								}
-
-								
-
                             }
 
                         });
@@ -1307,7 +1106,7 @@ $display_products_name = $product_info['products_name'];?>
 
     if (STORE_STOCK == 'true' && STORE_STOCK_LOW_INVENTORY == 'false') {
 
-        $display_products_stock = ($product_info['products_quantity'] > 0) ? 'In Stock' : STORE_STOCK_OUT_OF_STOCK_MESSAGE;
+        $display_products_stock = ($product_info['products_quantity'] > 0) ? TXT_IN_STOCK : STORE_STOCK_OUT_OF_STOCK_MESSAGE;
 
     } elseif (STORE_STOCK == 'true' && STORE_STOCK_LOW_INVENTORY == 'true') {
 
@@ -1319,7 +1118,7 @@ $display_products_name = $product_info['products_name'];?>
 
         elseif ($product_info['products_quantity'] > STORE_STOCK_LOW_INVENTORY_QUANTITY)
 
-            $display_products_stock = 'In Stock';
+            $display_products_stock = TXT_IN_STOCK;
 
         else
 
@@ -1363,11 +1162,11 @@ $display_products_name = $product_info['products_name'];?>
 
 	 if($product_info['store_quantity'] > 0){
 
-		$display_products_stock_availability = '<span id="products_stock_availability_message">In Store Availability: <b>In Stock</b></span>';
+		$display_products_stock_availability = '<span id="products_stock_availability_message">'.TXT_IN_STORE_AVAILABILITY.' <b>'.TXT_IN_STOCK.'</b></span>';
 
 	 }else{
 
-		$display_products_stock_availability = '<span id="products_stock_availability_message">In Store Availability: <b>'.STORE_STOCK_OUT_OF_STOCK_MESSAGE.'</b></span>';
+		$display_products_stock_availability = '<span id="products_stock_availability_message">'.TXT_IN_STORE_AVAILABILITY.' <b>'.STORE_STOCK_OUT_OF_STOCK_MESSAGE.'</b></span>';
 
 	 }
 

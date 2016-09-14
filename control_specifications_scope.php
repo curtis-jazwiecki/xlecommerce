@@ -89,7 +89,7 @@ if (isset($_POST['action'])){
 
                 if (STORE_STOCK == 'true' && STORE_STOCK_LOW_INVENTORY == 'false') {
 
-                    $stock_message = ($info['products_quantity'] > 0) ? 'In Stock' : STORE_STOCK_OUT_OF_STOCK_MESSAGE;
+                    $stock_message = ($info['products_quantity'] > 0) ? TXT_IN_STOCK : STORE_STOCK_OUT_OF_STOCK_MESSAGE;
 
                 } elseif (STORE_STOCK == 'true' && STORE_STOCK_LOW_INVENTORY == 'true') {
 
@@ -99,7 +99,7 @@ if (isset($_POST['action'])){
 
                     elseif ($info['products_quantity'] > STORE_STOCK_LOW_INVENTORY_QUANTITY)
 
-                        $stock_message = 'In Stock';
+                        $stock_message = TXT_IN_STOCK;
 
                     else
 
@@ -263,7 +263,7 @@ if (isset($_POST['action'])){
 
                     elseif ($info['products_quantity'] > STORE_STOCK_LOW_INVENTORY_QUANTITY)
 
-                        $stock_message = 'In Stock';
+                        $stock_message = TXT_IN_STOCK;
 
                     else
 
@@ -284,9 +284,9 @@ if (isset($_POST['action'])){
 				 }
 				 
 				 if($info['store_quantity'] > 0){
-					$data[0]['display_products_stock_availability'] = 'In Store Availability: <b>In Stock</b>';
+					$data[0]['display_products_stock_availability'] = TXT_IN_STORE_AVAILABILITY.' <b>'.TXT_IN_STOCK.'</b>';
 				 }else{
-					$data[0]['display_products_stock_availability'] = 'In Store Availability: <b>'.STORE_STOCK_OUT_OF_STOCK_MESSAGE.'</b>';
+					$data[0]['display_products_stock_availability'] = TXT_IN_STORE_AVAILABILITY.' <b>'.STORE_STOCK_OUT_OF_STOCK_MESSAGE.'</b>';
 				 }
 				// code added on 19-04-2016 #ends
 				
