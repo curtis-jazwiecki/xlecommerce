@@ -482,7 +482,7 @@ if (isset($HTTP_GET_VARS['manufacturers_id']))
       }
       //echo $filterlist_sql;
       $filterlist_query = tep_db_query($filterlist_sql);
-      if (tep_db_num_rows($filterlist_query) > 1) {
+      if (tep_db_num_rows($filterlist_query) > 0) {
         echo '            <td align="left" class="main">' . tep_draw_form('filter_products', FILENAME_DEFAULT, 'get') . TEXT_SHOW . '&nbsp;';
         if (isset($HTTP_GET_VARS['manufacturers_id'])) {
           echo tep_draw_hidden_field('manufacturers_id', $HTTP_GET_VARS['manufacturers_id']);
