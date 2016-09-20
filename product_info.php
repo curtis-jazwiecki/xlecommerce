@@ -134,12 +134,9 @@ function display_bundle($bundle_id, $bundle_price) {
 
     return $return_str;
 
-}
-
-?>
+}?>
 
 <!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN">
-
 <html <?php echo HTML_PARAMS; ?>>
 
     <head>
@@ -1394,7 +1391,8 @@ $display_products_name = $product_info['products_name'];?>
 
                 $set_disclaimer = 'no';
 
-                $child_product_info_query = tep_db_query("select p.products_id, pd.products_name, pd.products_description, pd.products_specifications, p.products_model, p.products_quantity,p.store_quantity, p.products_image, p.products_mediumimage, p.products_price, p.products_tax_class_id, p.disclaimer_needed from " . TABLE_PRODUCTS . " p , " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_status = '1' ".(STOCK_HIDE_OUT_OF_STOCK_PRODUCTS == "true" ? " and IF(p.products_bundle = 'no',p.products_quantity+p.store_quantity > '".(int)STOCK_MINIMUM_VALUE."',p.products_quantity > '".(int)STOCK_MINIMUM_VALUE."')" : '')." and p.parent_products_model = '" . $product_info['products_model'] . "' and pd.products_id = p.products_id and  pd.language_id = '" . (int) $languages_id . "'");
+                // fixed applied 
+				$child_product_info_query = tep_db_query("select p.products_id, pd.products_name, pd.products_description, pd.products_specifications, p.products_model, p.products_quantity,p.store_quantity, p.products_image, p.products_mediumimage, p.products_price, p.products_tax_class_id, p.disclaimer_needed from " . TABLE_PRODUCTS . " p , " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_status = '1' ".(STOCK_HIDE_OUT_OF_STOCK_PRODUCTS == "true" ? " and IF(p.products_bundle = 'no',p.products_quantity+p.store_quantity > '".(int)STOCK_MINIMUM_VALUE."',p.products_quantity > '".(int)STOCK_MINIMUM_VALUE."')" : '')." and p.parent_products_model = '" . $product_info['products_model'] . "' and pd.products_id = p.products_id and  pd.language_id = '" . (int) $languages_id . "'");
 
                 while ($child_product_info = tep_db_fetch_array($child_product_info_query)) {
 
