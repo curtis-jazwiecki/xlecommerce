@@ -725,17 +725,15 @@ class osC_onePageCheckout {
 
     }
 
-
-
     $json = '';
-
-    if (isset($_GET['rType']) && $_GET['rType'] == 'ajax'){
+	
+	if ( (isset($_GET['rType']) && $_GET['rType'] == 'ajax') || (isset($_GET['Type']) && $_GET['Type'] == 'ajax')){
 
       $json = json_encode(array(
 
           'success' => true
 
-        ));
+      ));
 
     }else{
 
