@@ -1326,15 +1326,16 @@ function is_xml_feed_product($product_id) {
                     if (!empty($price_level_to_compare)){
                         if ($products_price < $price_level_to_compare){
                             if ($show_in_percent){
-                                $savings = ( ($price_level_to_compare - $products_price) / ( ($products_price + $price_level_to_compare) / 2 ) ) * 100;
+                                //$savings = ( ($price_level_to_compare - $products_price) / ( ($products_price + $price_level_to_compare) / 2 ) ) * 100;
+								$savings = ( ($price_level_to_compare - $products_price) /  $price_level_to_compare ) * 100;
                             } else {
                                 $savings = $price_level_to_compare - $products_price;
                             }
                             
                             if (!empty($savings)){
-                                $savings = number_format($savings, 2);
+                                $savings = number_format($savings, 2,'.','');
                                 $response[] = $savings;
-                                $response[] = '<span style="font-weight:12px;color:red;"><del>' . $currencies->display_price($price_level_to_compare, 0)  . '</del>&nbsp;' . str_replace('{saving}', ($show_in_percent ? $savings : $currencies->display_price($savings, 0) ), PRODUCTS_PRICE_COMPARISON_MESSAGE) . '</span>';
+                                $response[] = '<span style="font-weight:12px;color:red;"><del>' . $currencies->display_price($price_level_to_compare, 0)  . '</del>&nbsp;' . str_replace('{saving}', ($show_in_percent ? $savings.'% ' : $currencies->display_price($savings, 0) ), PRODUCTS_PRICE_COMPARISON_MESSAGE) . '</span>';
                             }
                         }
                     }
@@ -1343,7 +1344,7 @@ function is_xml_feed_product($product_id) {
             }
         }
     }
-    return $response;
+	return $response;
   }
   
 	function fire_order_feed_to_obn($orders_id){
@@ -2209,5 +2210,49 @@ function convert_state($name, $to='name') {
 		}
 	}
 	return $return;
+}
+
+function getCurrencies($class = ''){
+
+	global $currencies;
+	
+	$currency_contents = array();
+	
+	if (isset($currencies) && is_object($currencies)) {
+			
+		reset($currencies->currencies);
+
+		$currencies_array = array();
+
+		while (list($key, $value) = each($currencies->currencies)) {
+
+		  $currencies_array[] = array('id' => $key, 'text' => $value['title']);
+
+		}
+	
+		$hidden_get_variables = '';
+
+		reset($HTTP_GET_VARS);
+
+		while (list($key, $value) = each($HTTP_GET_VARS)) {
+
+		  if ( ($key != 'currency') && ($key != tep_session_name()) && ($key != 'x') && ($key != 'y') ) {
+
+			$hidden_get_variables .= tep_draw_hidden_field($key, $value);
+
+		  }
+		}
+	
+		$currency_contents = array(
+			
+			'hidden' 		=> $hidden_get_variables . tep_hide_session_id(),
+			'form' 			=> tep_draw_form('currencies', tep_href_link(basename($PHP_SELF), '', $request_type, false), 'get'),
+			'currency' 		=> $currencies_array,
+			'active_currency'	=>	$currency  
+		
+		);
+		
+	}
+	return $currency_contents;
 }
 ?>
