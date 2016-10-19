@@ -133,7 +133,6 @@ if (SEO_ENABLED == 'true') { //run chemo's code
     return $link;
   }
 
-
 ////
 // The HTML image wrapper function
   function tep_image($src, $alt = '', $width = '', $height = '', $parameters = '') {
@@ -234,29 +233,27 @@ if (SEO_ENABLED == 'true') { //run chemo's code
 ////
 // The HTML form submit button wrapper function
 // Outputs a button in the selected language
-  function tep_image_submit($image, $alt = '', $parameters = '') {
+  function tep_image_submit($image, $alt = '', $parameters = '',$default_btn_class = '') {
     global $language;
-        /*$connection = ENABLE_SSL ? 'SSL' : 'NONSSL';
-    if ($connection == 'NONSSL') {
-      $link = HTTP_SERVER . DIR_WS_HTTP_CATALOG;
-    } elseif ($connection == 'SSL') {
-      if (ENABLE_SSL == true) {
-        $link = HTTPS_SERVER . DIR_WS_HTTPS_CATALOG;
-      } else {
-        $link = HTTP_SERVER . DIR_WS_HTTP_CATALOG;
-      }
-    }*/
-if (file_exists(DIR_FS_CATALOG . DIR_WS_INCLUDES . 'sts_templates/' . MODULE_STS_TEMPLATE_FOLDER . '/images/buttons')){
-    $image_submit = '<input type="image" src="' . tep_output_string(DIR_WS_INCLUDES . 'sts_templates/' . MODULE_STS_TEMPLATE_FOLDER . '/images/buttons/' . $image) . '" border="0" alt="' . tep_output_string($alt) . '"';
-} else {
-    $image_submit = '<input type="image" src="' . tep_output_string(DIR_WS_LANGUAGES . $language . '/images/buttons/' . $image) . '" border="0" alt="' . tep_output_string($alt) . '"';
-}
+	
+	if(defined(USE_CSS_BUTTON)){
+		
+		$image_submit = '<input type="submit" name="btn_'.tep_output_string($alt).'" value="'.tep_output_string($alt).'" alt="'.tep_output_string($alt).'" '.$parameters.' class="'.USE_CSS_BUTTON_CLASS.' '.$default_btn_class.'" />';
+		return $image_submit;
+	}
+	
+	
+	if (file_exists(DIR_FS_CATALOG . DIR_WS_INCLUDES . 'sts_templates/' . MODULE_STS_TEMPLATE_FOLDER . '/images/buttons')){
+		$image_submit = '<input type="image" src="' . tep_output_string(DIR_WS_INCLUDES . 'sts_templates/' . MODULE_STS_TEMPLATE_FOLDER . '/images/buttons/' . $image) . '" border="0" alt="' . tep_output_string($alt) . '"';
+	} else {
+		$image_submit = '<input type="image" src="' . tep_output_string(DIR_WS_LANGUAGES . $language . '/images/buttons/' . $image) . '" border="0" alt="' . tep_output_string($alt) . '"';
+	}
 
+    if (tep_not_null($alt)) 
+		$image_submit .= ' title=" ' . tep_output_string($alt) . ' "';
 
-
-    if (tep_not_null($alt)) $image_submit .= ' title=" ' . tep_output_string($alt) . ' "';
-
-    if (tep_not_null($parameters)) $image_submit .= ' ' . $parameters;
+    if (tep_not_null($parameters)) 
+		$image_submit .= ' ' . $parameters;
 
     $image_submit .= '>';
 
@@ -268,20 +265,9 @@ if (file_exists(DIR_FS_CATALOG . DIR_WS_INCLUDES . 'sts_templates/' . MODULE_STS
   function tep_image_button($image, $alt = '', $parameters = '') {
     global $language;
 	if (file_exists(DIR_FS_CATALOG . DIR_WS_INCLUDES . 'sts_templates/' . MODULE_STS_TEMPLATE_FOLDER . '/images/buttons/'.$image)){
-            /*$connection = ENABLE_SSL ? 'SSL' : 'NONSSL';
-            if ($connection == 'NONSSL') {
-              $link = HTTP_SERVER . DIR_WS_HTTP_CATALOG;
-            } elseif ($connection == 'SSL') {
-              if (ENABLE_SSL == true) {
-                $link = HTTPS_SERVER . DIR_WS_HTTPS_CATALOG;
-              } else {
-                $link = HTTP_SERVER . DIR_WS_HTTP_CATALOG;
-              }
-            }
-		return tep_image($link . DIR_WS_INCLUDES . 'sts_templates/' . MODULE_STS_TEMPLATE_FOLDER . '/images/buttons/' . $image, $alt, '', '', $parameters);*/
-    return tep_image(DIR_WS_INCLUDES . 'sts_templates/' . MODULE_STS_TEMPLATE_FOLDER . '/images/buttons/' . $image, $alt, '', '', $parameters);
+	    return tep_image(DIR_WS_INCLUDES . 'sts_templates/' . MODULE_STS_TEMPLATE_FOLDER . '/images/buttons/' . $image, $alt, '', '', $parameters);
 	} else {
-            return tep_image(DIR_WS_LANGUAGES . $language . '/images/buttons/' . $image, $alt, '', '', $parameters);
+        return tep_image(DIR_WS_LANGUAGES . $language . '/images/buttons/' . $image, $alt, '', '', $parameters);
 	}
   }
 
@@ -444,7 +430,7 @@ if (file_exists(DIR_FS_CATALOG . DIR_WS_INCLUDES . 'sts_templates/' . MODULE_STS
     return tep_draw_pull_down_menu($name, $countries_array, $selected, $parameters);
   }
   
-   function tep_small_image($src, $alt = '', $width = '', $height = '', $parameters = '') {
+  function tep_small_image($src, $alt = '', $width = '', $height = '', $parameters = '') {
      //$src = 'http://datafeed.wildcatsoftware.net/productimages/thumbs/' . $src;
 // alt is added to the img tag even if it is null to prevent browsers from outputting
 // the image filename as default

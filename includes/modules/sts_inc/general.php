@@ -59,6 +59,10 @@ if (tep_session_is_registered('customer_id')) {
         $sts->template['account_history'] = tep_href_link(FILENAME_LOGIN, '', 'SSL');
 }
 
+// added on 29-09-2016 for template3 #start
+$sts->template['urlwishlist'] = tep_href_link(FILENAME_WISHLIST, '', 'SSL');
+// added on 29-09-2016 for template3 #ends
+
 $sts->template['cartcontents']    = '<a href=' . tep_href_link(FILENAME_SHOPPING_CART) . ' class="headerNavigation">' . HEADER_TITLE_CART_CONTENTS . '</a>';
 $sts->template['urlcartcontents'] = tep_href_link(FILENAME_SHOPPING_CART, '', 'SSL');  // A real URL since v4.3, before was same as $cartcontents
 

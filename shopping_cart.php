@@ -77,7 +77,7 @@ if ($cart->count_contents() > 0) {
                 </td>
                 <!-- body_text //-->
                 <td width="100%" valign="top">
-                <?php echo tep_draw_form('cart_quantity', tep_href_link(FILENAME_SHOPPING_CART, 'action=update_product')); ?>
+                <?php echo tep_draw_form('cart_quantity', tep_href_link(FILENAME_SHOPPING_CART, 'action=update_product','SSL')); ?>
                     <table border="0" width="100%" cellspacing="0" cellpadding="0">
                         <tr>
                             <td>

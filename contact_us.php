@@ -124,7 +124,9 @@ for($p=0;sizeof($contact_us_template_0) > $p; $p++){
                                 </tr>
                             </table>
                         </td>
+                        
                     </tr>
+                    
                     <tr>
                         <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
                     </tr>
@@ -156,7 +158,7 @@ for($p=0;sizeof($contact_us_template_0) > $p; $p++){
                                         <table border="0" width="100%" cellspacing="0" cellpadding="2">
                                             <tr>
                                                 <td width="10"><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
-                                                <td align="right"><?php echo '<a href="' . tep_href_link(FILENAME_DEFAULT) . '">' . tep_image_button('button_continue.gif', IMAGE_BUTTON_CONTINUE) . '</a>'; ?></td>
+                                                <td align="right" class="Button_Continue"><?php echo '<a href="' . tep_href_link(FILENAME_DEFAULT) . '">' . tep_image_button('button_continue.gif', IMAGE_BUTTON_CONTINUE) . '</a>'; ?></td>
                                                 <td width="10"><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
                                             </tr>
                                         </table>
@@ -199,6 +201,15 @@ for($p=0;sizeof($contact_us_template_0) > $p; $p++){
                                                     ?>
                                                 </td>
                                                 </tr>
+                                                
+                                                <tr>
+                    <td>
+                     <div class="contact_us_map" style="display:none">
+                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2984.228655339001!2d-83.66694678456801!3d41.58593587924654!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x883c77587aa7412d%3A0x8b244cb5b97abc53!2s1512+S+Reynolds+Rd%2C+Maumee%2C+OH+43537%2C+USA!5e0!3m2!1sen!2sin!4v1475222344567" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+                     </div>
+                    </td>
+                    </tr>
+                                                
                                                 <tr>
                                                 <td class="main" valign="top" width="40%"><br>
                                                     Name:<br>
@@ -255,7 +266,7 @@ for($p=0;sizeof($contact_us_template_0) > $p; $p++){
                                         <table border="0" width="100%" cellspacing="0" cellpadding="2">
                                             <tr>
                                                 <td width="10"><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
-                                                <td align="right"><?php echo tep_image_submit('button_continue.gif', IMAGE_BUTTON_CONTINUE); ?></td>
+                                                <td align="right" class="Button_Continue"><?php echo tep_image_submit('button_continue.gif', IMAGE_BUTTON_CONTINUE); ?></td>
                                                 <td width="10"><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
                                             </tr>
                                         </table>

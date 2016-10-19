@@ -220,12 +220,12 @@ function popupWindow(url) {
               </tr>
               <tr>
                 <td class="fieldKey"><?php echo ENTRY_PRICE_FROM; ?></td>
-                <td class="fieldValue"><?php echo tep_draw_input_field('pfrom'); ?></td>
-              </tr>
-              <tr>
-                <td class="fieldKey"><?php echo ENTRY_PRICE_TO; ?></td>
-                <td class="fieldValue"><?php echo tep_draw_input_field('pto'); ?></td>
-              </tr>
+               <td class="fieldValue"><?php echo tep_draw_input_field('pfrom'); ?></td>
+             </tr>
+             <tr>
+               <td class="fieldKey"><?php echo ENTRY_PRICE_TO; ?></td>
+               <td class="fieldValue"><?php echo tep_draw_input_field('pto'); ?></td>
+             </tr>
               <tr>
                 <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
               </tr>

@@ -10,8 +10,8 @@
 ini_alter("date.timezone", "America/Chicago");
 date_default_timezone_set('America/Chicago');
 // start the timer for the page parse time log
-  define('PAGE_PARSE_START_TIME', microtime());
-  $debug = array();
+define('PAGE_PARSE_START_TIME', microtime());
+$debug = array();
 $HTTP_POST_VARS = $_POST;
 $HTTP_GET_VARS = $_GET;
 $HTTP_SERVER_VARS = $_SERVER;
@@ -91,7 +91,31 @@ if(is_array($_GET) && !empty($_GET)){
 			exit(); 
 		}
 	}
-	// added on 10-12-2015 #start
+	// added on 10-12-2015 #ends
+	
+	// added on 04-10-2016 #start
+	if ( file_exists( DIR_FS_CATALOG . DIR_WS_INCLUDES . 'sts_templates/' . MODULE_STS_TEMPLATE_FOLDER. '/template.config.php' ) ){
+
+		$read_template_config = trim(file_get_contents(DIR_FS_CATALOG . DIR_WS_INCLUDES . 'sts_templates/' . MODULE_STS_TEMPLATE_FOLDER. '/template.config.php'));
+		
+		if(trim($read_template_config) != ''){
+			
+			$template_config_array = preg_split("/[=;]/",$read_template_config);
+			
+			$template_config_size = sizeof($template_config_array);
+			
+			for ($i = 0; $i < $template_config_size; $i += 2) {
+				
+				define(trim($template_config_array[$i]),trim($template_config_array[$i+1])); 
+			
+			}
+			
+		}
+	}
+
+	// added on 04-10-2016 #ends
+
+
   
 //MVS Start
 // Set the vendor shipping constants
@@ -459,7 +483,7 @@ $navigation->add_current_page();
                     $is_registered = '1';
                 }
                 tep_db_query("insert into subscribers (email, name, is_registered) values ('" . tep_db_prepare_input($email) . "', '" . tep_db_prepare_input($name) . "', '" . (int)$is_registered . "') on duplicate key update name='" . tep_db_prepare_input($name) . "', is_registered='" . (int)$is_registered . "'");            }
-            tep_redirect(tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action'))));
+            tep_redirect(tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action')).'signup=success'));
             break;
       // customer wants to update the product quantity in their shopping cart
       case 'update_product' : 
@@ -679,7 +703,7 @@ if (basename($PHP_SELF) != FILENAME_INDEX) {
   define('WARN_SESSION_AUTO_START', 'true');
   define('WARN_DOWNLOAD_DIRECTORY_NOT_READABLE', 'true');
 // ###### Added CCGV Contribution #########
-require(DIR_WS_INCLUDES . 'add_ccgvdc_application_top.php');  // ICW CREDIT CLASS Gift Voucher Addittion
+  require(DIR_WS_INCLUDES . 'add_ccgvdc_application_top.php');  // ICW CREDIT CLASS Gift Voucher Addittion
 // ###### end CCGV Contribution #########
   // BOF: Header Tags Controller v2.6.0
   require(DIR_WS_FUNCTIONS . 'header_tags.php');
@@ -698,7 +722,7 @@ require(DIR_WS_INCLUDES . 'add_ccgvdc_application_top.php');  // ICW CREDIT CLAS
 // PWA EOF
 
 if (basename($PHP_SELF) != FILENAME_ADVANCED_SEARCH_RESULT) {
-     unset($_SESSION['keywords']);
+     	unset($_SESSION['keywords']);
         unset($_SESSION['filter_p']); 
         unset($_SESSION['filter_m']);
         unset($_SESSION['filter_s']);

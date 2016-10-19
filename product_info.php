@@ -1646,7 +1646,7 @@ $display_products_name = $product_info['products_name'];?>
 
     //$display_product_add_to_wishlist = '<input type="image" src="includes/languages/english/images/buttons/" border="0" alt="Add to Wishlist" title=" Add to Wishlist " name="wishlist" value="wishlist">';                                
 
-    $display_product_add_to_wishlist = tep_image_submit('wishlist.gif', 'Add to Wishlist', 'border="0" alt="Add to Wishlist" title=" Add to Wishlist " name="wishlist" value="wishlist"');
+    $display_product_add_to_wishlist = tep_image_submit('wishlist.gif', 'Add to Wishlist', 'border="0" alt="Add to Wishlist" title=" Add to Wishlist " name="wishlist" value="wishlist"','ddd');
 
     //}
 

@@ -483,6 +483,7 @@ if ($listing_split->number_of_rows > 0)
 		$text_display = str_replace("DISPLAY_PRODUCT_STOCK",$stock_info, $text_display);
 		$text_display = str_replace("DISPLAY_PRODUCT_COMPARE",$lc_text_compare, $text_display);
 		$text_display = str_replace("DISPLAY_PRODUCT_SEPARATOR",tep_draw_separator('pixel_trans.gif','100%','5'), $text_display);
+		$text_display = str_replace("DISPLAY_PRODUCT_LINK",tep_href_link(FILENAME_PRODUCT_INFO, ($cPath ? 'cPath=' . $cPath . '&' : '') . 'products_id=' . $listing[$x]['products_id']), $text_display);
 		$list_box_contents[$row][$column] = array('text'  => $text_display);
 		unset($stock_info);
 		$column ++;
@@ -634,7 +635,7 @@ if ($listing_split->number_of_rows > 0)
 // Begin Compare Button - OBN
 	if(COMPARE_PRODUCTS_SIDEBYSIDE_ENABLE == 'true')
 	  {
-  		echo '<tr><td colspan="2"><table border="0" width="100%" cellspacing="0" cellpadding="2"><tr><td colspan="2" align="right" class="compare_BTTN"><a href="compare.php?'.tep_get_all_get_params(array('action')).'">'.tep_image_button('button_compare.gif', "Compare Products").'</a></td></tr></table></td></tr>';
+  		echo '<tr><td colspan="5" align="center"><table border="0" width="100%" cellspacing="0" cellpadding="5"><tr><td colspan="5" align="center" class="compare_BTTN"><a href="compare.php?'.tep_get_all_get_params(array('action')).'">'.tep_image_button('button_compare.gif', "Compare Products").'</a></td></tr></table></td></tr>';
 	  }
 // End Compare Button - OBN
 ?>
@@ -693,7 +694,7 @@ if ($listing_split->number_of_rows > 0)
 // Begin Compare Button - OBN
 	if(COMPARE_PRODUCTS_SIDEBYSIDE_ENABLE == 'true')
 	  {
-  		echo '<tr><td colspan="2"><table border="0" width="100%" cellspacing="0" cellpadding="2"><tr><td colspan="2" align="right"><a href="compare.php?'.tep_get_all_get_params(array('action')).'">'.tep_image_button('button_compare.gif', "Compare Products").'</a></td></tr></table></td></tr>';
+  		echo '<tr><td colspan="5" align="center"><table border="0" width="100%" cellspacing="0" cellpadding="2"><tr><td colspan="5" align="center"><a href="compare.php?'.tep_get_all_get_params(array('action')).'">'.tep_image_button('button_compare.gif', "Compare Products").'</a></td></tr></table></td></tr>';
 	  }
 // End Compare Button - OBN
 ?>

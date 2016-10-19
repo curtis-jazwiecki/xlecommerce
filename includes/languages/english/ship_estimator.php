@@ -35,4 +35,5 @@ define('ERROR_SHIPCOUNTRY', 'Error: You must provide a country to ship to.');
 
 define('IMAGE_BUTTON_RESET_FORM', 'Click to change your shipping destination');
 define('IMAGE_BUTTON_PROCESS_QUOTE', 'Click to get a shipping quote');
+define('IMAGE_BUTTON_CLOSE','Click to close')
 ?>

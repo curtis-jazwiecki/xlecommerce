@@ -175,6 +175,12 @@
 
 
  $breadcrumb->add(NAVBAR_TITLE_WISHLIST, tep_href_link(FILENAME_WISHLIST, '', 'SSL'));
+ 
+ $sts->template['action_url'] =  tep_href_link(FILENAME_WISHLIST);
+ $sts->template['friend'] = $friend;
+ $sts->template['email'] = $email;
+ $sts->template['message_error'] = $message_error;
+ 
 ?>
 <!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html <?php echo HTML_PARAMS; ?>>
@@ -218,6 +224,7 @@
 
 <?php
   if ($messageStack->size('wishlist') > 0) {
+    $sts->template['msgStack'] = $messageStack->output('wishlist');
 ?>
       <tr>
         <td><?php echo $messageStack->output('wishlist'); ?></td>
@@ -231,7 +238,7 @@
 
 if (is_array($wishList->wishID) && !empty($wishList->wishID)) {
 	reset($wishList->wishID);
-
+$wishlist_data_present = 1;
 ?>
 	  <tr>
 		<td>
@@ -245,8 +252,9 @@ if (is_array($wishList->wishID) && !empty($wishList->wishID)) {
 
 <?php
 		$i = 0;
+        $wishlisht_products = array();
 		while (list($wishlist_id, ) = each($wishList->wishID)) {
-
+            $wishlisht_products[$i]['wishlist_id'] = $wishlist_id;
 			$product_id = tep_get_prid($wishlist_id);
 		
 		    $products_query = tep_db_query("select p.products_mediumimage, pd.products_id, pd.products_name, pd.products_description, p.products_image, p.products_status, p.products_price, p.products_tax_class_id, IF(s.status, s.specials_new_products_price, NULL) as specials_new_products_price, IF(s.status, s.specials_new_products_price, p.products_price) as final_price from ( " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd ) left join " . TABLE_SPECIALS . " s on p.products_id = s.products_id where pd.products_id = '" . $product_id . "' and p.products_id = pd.products_id and pd.language_id = '" . $languages_id . "' order by products_name");
@@ -257,19 +265,32 @@ if (is_array($wishList->wishID) && !empty($wishList->wishID)) {
 		      } else {
 		        $class = "productListing-odd wishListing-odd";
 		      }
+              $wishlisht_products[$i]['class'] = $class;
 
 ?>
 				  <tr class="<?php echo $class; ?>">
 					<td valign="top" class="productListing-data wishlist-Data" align="left"><?php if($products['products_status'] == 0) {
-				   			 echo tep_small_image( $products['products_mediumimage'], $products['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT,'id="subpimage-1" class="subcatimages"'); 
+				   			 echo tep_small_image( $products['products_mediumimage'], $products['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT,'id="subpimage-1" class="subcatimages"');
+                                $wishlisht_products[$i]['image'] = tep_small_image( $products['products_mediumimage'], $products['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT,'id="subpimage-1" class="subcatimages"');
+                                $wishlisht_products[$i]['href'] = '';
+                                 
 				   			}
                             else
                             {
 							?>
 				   <a href="<?php echo tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $wishlist_id, 'NONSSL'); ?>"><?php echo tep_small_image( $products['products_mediumimage'], $products['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT,'id="subpimage-1" class="subcatimages"'); ?></a>
-                   <?php } ?>
+                        
+                   <?php 
+                   $wishlisht_products[$i]['image'] = tep_small_image( $products['products_mediumimage'], $products['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT,'id="subpimage-1" class="subcatimages"');
+                                $wishlisht_products[$i]['href'] = tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $wishlist_id, 'NONSSL');;
+                   
+                   } 
+                   ?>
 
-					<td valign="top" class="productListing-data wishlist-Data" align="left" class="main"><b><?php if($products['products_status'] == 0) {
+					<td valign="top" class="productListing-data wishlist-Data" align="left" class="main"><b>
+                    <?php
+                     $wishlisht_products[$i]['name'] = $products['products_name'];    
+                     if($products['products_status'] == 0) {
 					echo $products['products_name']; 
 					}
 					else {
@@ -287,13 +308,16 @@ if (is_array($wishList->wishID) && !empty($wishList->wishID)) {
 *******************************************************************/
 
                   $attributes_addon_price = 0;
-
+                    $prod_attributes = array();
                   // Now get and populate product attributes
 					$att_name = "";
 					if (isset($wishList->wishID[$wishlist_id]['attributes'])) {
+					   $j=0;
 						while (list($option, $value) = each($wishList->wishID[$wishlist_id]['attributes'])) {
                       		echo tep_draw_hidden_field('id[' . $wishlist_id . '][' . $option . ']', $value);
-
+                            
+                            $prod_attributes[$j]['option'] = $option;
+                            $prod_attributes[$j]['value'] =$value;
          					$attributes = tep_db_query("select popt.products_options_name, poval.products_options_values_name, pa.options_values_price, pa.price_prefix
                                       from " . TABLE_PRODUCTS_OPTIONS . " popt, " . TABLE_PRODUCTS_OPTIONS_VALUES . " poval, " . TABLE_PRODUCTS_ATTRIBUTES . " pa
                                       where pa.products_id = '" . $wishlist_id . "'
@@ -311,11 +335,16 @@ if (is_array($wishList->wishID) && !empty($wishList->wishID)) {
                          		$attributes_addon_price -= $attributes_values['options_values_price'];
 							}
 							$att_name .= " (" . $attributes_values['products_options_name'] . ": " . $attributes_values['products_options_values_name'] . ") ";
+                            
+                            $prod_attributes[$j]['option_name'] = $attributes_values['products_options_name'];
+                            $prod_attributes[$j]['option_value'] = $attributes_values['products_options_values_name'];
+                            
                        		echo '<br /><small><i> ' . $attributes_values['products_options_name'] . ': ' . $attributes_values['products_options_values_name'] . '</i></small>';
+                            $j++;
                     	} // end while attributes for product
 
 					}
-
+                    $wishlisht_products[$i]['att_name'] = $att_name;
 					echo '<input type="hidden" name="prod_att[]" value="' . $att_name . '" />';
 
                    	if (tep_not_null($products['specials_new_products_price'])) {
@@ -323,22 +352,31 @@ if (is_array($wishList->wishID) && !empty($wishList->wishID)) {
                    	} else {
                        	$products_price = $currencies->display_price($products['products_price']+$attributes_addon_price, tep_get_tax_rate($products['products_tax_class_id']));
                     }
+                    
+                    $wishlisht_products[$i]['products_price'] = $products_price;
+                    $wishlisht_products[$i]['prod_attributes'] = $prod_attributes;
 
 /*******************************************************************
 ******* CHECK TO SEE IF PRODUCT HAS BEEN ADDED TO THEIR CART *******
 *******************************************************************/
-
-			if($cart->in_cart($wishlist_id)) {
+                 
+			  $in_cart = 0;
+            if($cart->in_cart($wishlist_id)) {
+			     $in_cart = 1;
 				echo '<br /><font color="#FF0000"><b>' . TEXT_ITEM_IN_CART . '</b></font>';
 			}
+            $wishlisht_products[$i]['in_cart'] = $in_cart;
+            
 
 /*******************************************************************
 ********** CHECK TO SEE IF PRODUCT IS NO LONGER AVAILABLE **********
 *******************************************************************/
-
+            $status =0;
    			if($products['products_status'] == 0) {
-   				echo '<br /><font color="#FF0000"><b>' . TEXT_ITEM_NOT_AVAILABLE . '</b></font>';
+   				$status =1;
+                   echo '<br /><font color="#FF0000"><b>' . TEXT_ITEM_NOT_AVAILABLE . '</b></font>';
   			}
+            $wishlisht_products[$i]['status'] = $status;
 	
 			$i++;
 ?>
@@ -360,6 +398,7 @@ if (is_array($wishList->wishID) && !empty($wishList->wishID)) {
 
 <?php
 		}
+        $sts->template['wishlist_products'] = $wishlisht_products;
 ?>
 		</table>
 		</td>
@@ -374,9 +413,13 @@ if (is_array($wishList->wishID) && !empty($wishList->wishID)) {
 *********** CODE TO SPECIFY HOW MANY EMAILS TO DISPLAY *************
 *******************************************************************/
 
-
+    
 	if(!tep_session_is_registered('customer_id')) {
-
+	$session_customer = 0;    
+    $sts->template['guest_errors'] = $guest_errors;
+    $sts->template['your_name'] = $your_name;
+    $sts->template['your_email'] = $your_email;
+    
 ?>
 	<table border="0" width="100%" cellspacing="0" cellpadding="2">
       <tr>
@@ -418,7 +461,7 @@ if (is_array($wishList->wishID) && !empty($wishList->wishID)) {
 <?php 
 
 	} else {
-
+        $session_customer = 1;
 ?>
 
 	<table border="0" width="100%" cellspacing="0" cellpadding="2">
@@ -438,7 +481,8 @@ if (is_array($wishList->wishID) && !empty($wishList->wishID)) {
 <?php
 
 	}
-
+    $sts->template['session_customer'] = $session_customer;
+    $sts->template['email_errors'] = $email_errors;
 ?>
 			  <tr>
 				<td colspan="2"><?php echo $email_errors; ?></td>
@@ -477,7 +521,7 @@ if (is_array($wishList->wishID) && !empty($wishList->wishID)) {
 <?php
 
 } else { // Nothing in the customers wishlist
-
+$wishlist_data_present=0;
 ?>
   <tr>
 	<td>
@@ -498,6 +542,7 @@ if (is_array($wishList->wishID) && !empty($wishList->wishID)) {
 
 <?php 
 }
+$sts->template['wishlist_data_present'] = $wishlist_data_present;
 ?>
 <!-- customer_wishlist_eof //-->
 	</td>
