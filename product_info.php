@@ -728,7 +728,29 @@ $display_products_name = $product_info['products_name'];?>
 
         //  $display_product_image = '<script language="javascript"><!--' . "\n";
 
-        $display_product_image .= '<a data-lightbox="image-1" title="' . $product_info['products_name'] . '" href="' . $largeImg . '" >' . $image . '<br>' .'<div id="HDpic">' . TEXT_CLICK_TO_ENLARGE  .'</div>'. '</a>' . "\n";
+        $display_product_image .= '<a data-lightbox="image-1" id="largeimg1" title="' . $product_info['products_name'] . '" href="' . $largeImg . '" >' . $image . '<br>' .'<div id="HDpic">'.'<span class="TEXT_CLICK_TO_image">'. TEXT_CLICK_TO_ENLARGE  .'</span>'.'<span class="zoom-image-products" style="display:none"><i class="fa fa-expand" aria-hidden="true"></i>
+</span>'.'</div>'. '</a>' . "\n";
+
+ if (!empty($product_info['product_image_2']) || !empty($product_info['product_image_3']) || !empty($product_info['product_image_4']) || !empty($product_info['product_image_5']) || !empty($product_info['product_image_6'])) {
+            
+                 if (!empty($product_info['product_image_2'])) {
+                     $display_product_image .= '<a style="display:none" data-lightbox="image-1" id="largeimg2" title="' . $product_info['products_name'] . '" href="' . DIR_WS_IMAGES . $product_info['product_image_2'] . '" >' . tep_image(DIR_WS_IMAGES . $product_info['product_image_2']) . '<br>' .'<div>' . TEXT_CLICK_TO_ENLARGE  .'</div>'. '</a>' . "\n";   
+                    }
+                    if (!empty($product_info['product_image_3'])) {
+                     $display_product_image .= '<a style="display:none" data-lightbox="image-1" id="largeimg3" title="' . $product_info['products_name'] . '" href="' . DIR_WS_IMAGES . $product_info['product_image_3'] . '" >' . tep_image(DIR_WS_IMAGES . $product_info['product_image_3']) . '<br>' .'<div>' . TEXT_CLICK_TO_ENLARGE  .'</div>'. '</a>' . "\n";   
+                    }
+                    if (!empty($product_info['product_image_4'])) {
+                     $display_product_image .= '<a style="display:none" data-lightbox="image-1" id="largeimg4" title="' . $product_info['products_name'] . '" href="' . DIR_WS_IMAGES . $product_info['product_image_4'] . '" >' . tep_image(DIR_WS_IMAGES . $product_info['product_image_4']) . '<br>' .'<div>' . TEXT_CLICK_TO_ENLARGE  .'</div>'. '</a>' . "\n";   
+                    }
+                    if (!empty($product_info['product_image_5'])) {
+                     $display_product_image .= '<a style="display:none" data-lightbox="image-1" id="largeimg5" title="' . $product_info['products_name'] . '" href="' . DIR_WS_IMAGES . $product_info['product_image_5'] . '" >' . tep_image(DIR_WS_IMAGES . $product_info['product_image_5']) . '<br>' .'<div>' . TEXT_CLICK_TO_ENLARGE  .'</div>'. '</a>' . "\n";   
+                    }
+                    if (!empty($product_info['product_image_6'])) {
+                     $display_product_image .= '<a style="display:none" data-lightbox="image-1" id="largeimg6" title="' . $product_info['products_name'] . '" href="' . DIR_WS_IMAGES . $product_info['product_image_6'] . '" >' . tep_image(DIR_WS_IMAGES . $product_info['product_image_6']) . '<br>' .'<div>' . TEXT_CLICK_TO_ENLARGE  .'</div>'. '</a>' . "\n";   
+                    }
+                
+            
+            }
 
         /*    $display_product_image .= '//--></script>' . "\n";
 
@@ -744,7 +766,7 @@ $display_products_name = $product_info['products_name'];?>
 
             $display_product_extra_images = '<div id="all_pImages" style="width:100%; float:left;">';
 
-            $display_product_extra_images .= '<div style="width:25%; float:left; display:none;" id="pimage1"><a href="#" onclick="swap_image(\'' . $largeImg . '\',\'1\',\'' . $largeImg . '\');return false;">' . tep_small_image(str_replace("images/", "", $largeImg), $product_info['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'id="subpimage-1" class="subcatimages"') . '</a></div>';
+            $display_product_extra_images .= '<div style="width:25%; float:left; display:none;" id="pimage1"><a href="#" onclick="swap_image(\'' . $largeImg . '\',\'1\',\'' . $largeImg . '\');return false;">' . tep_small_image($largeImg, $product_info['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'id="subpimage-1" class="subcatimages"') . '</a></div>';
 
             if (!empty($product_info['product_image_2'])) {
 
@@ -782,6 +804,7 @@ $display_products_name = $product_info['products_name'];?>
 
                                         <script>
 
+
      function swap_image(image_url,image_no,large_image){
 
 					
@@ -791,18 +814,33 @@ $display_products_name = $product_info['products_name'];?>
 					jQuery(\'#popup\').attr("href", "javascript:popupWindow(\\\'' . tep_href_image_link(FILENAME_POPUP_IMAGE, 'pID=' . $product_info['products_id'] . '&image=') . '\\\'"+image_no+")");
 
 					jQuery(\'#image_link\').attr("href", image_url);
-
-					
-
-					jQuery(\'.cboxElement\').attr("href", image_url);
-
+                    
 					jQuery(\'#pimage\').attr("src",image_url);
-
-					jQuery(\'#all_pImages > div\').show();
+                    
+                    var oldlink = jQuery(\'#largeimg1\').attr("href");
+                    
+                    jQuery(\'#largeimg1\').attr("href", image_url);
+                     
+                    var total_image = jQuery("#all_pImages > div").length
+                    var j=2; 
+                    for(i=1;i<=total_image;i++){
+                        if(i!=image_no){
+                        oldsrc = jQuery(\'#pimage\'+i +\'> a > img\' ).attr("src");
+                        jQuery(\'#largeimg\' + j).attr("href", oldsrc);    
+                        jQuery(\'#largeimg\' + j + \'> a > img\' ).attr("src", oldsrc);
+                        j++;
+                        }
+                    }   
+                    
+                    //jQuery(\'#largeimg\' + new_imageno).attr("href", oldlink);
+                    
+                    //jQuery(\'#largeimg\' + new_imageno + \'> a > img\' ).attr("src", oldsrc);
+                    
+					
+                    jQuery(\'#all_pImages > div\').show();
 
 					jQuery(currdiv).hide();
-
-				
+                    
 
 	 }
 
@@ -1414,13 +1452,13 @@ $display_products_name = $product_info['products_name'];?>
 
                         $display_child_product_image = '<script language="javascript"><!--' . "\n";
 
-                        $display_child_product_image .= "document.write('" . '<a href="javascript:popupWindow(\\\'' . tep_href_image_link(FILENAME_POPUP_IMAGE, 'pID=' . $child_product_info['products_id']) . '\\\')">' . $image . '<br>' .'<div id="HDpic">' . TEXT_CLICK_TO_ENLARGE  .'</div>'. '</a>' . "');" . "\n";
+                        $display_child_product_image .= "document.write('" . '<a href="javascript:popupWindow(\\\'' . tep_href_image_link(FILENAME_POPUP_IMAGE, 'pID=' . $child_product_info['products_id']) . '\\\')">' . $image . '<br>' .'<div id="HDpic">' .'<span class="TEXT_CLICK_TO_image">'. TEXT_CLICK_TO_ENLARGE  .'</span>'.'<span class="zoom-image-products" style="display:none"><i class="fa fa-expand" aria-hidden="true"></i></span>'.'</div>'. '</a>' . "');" . "\n";
 
                         $display_child_product_image .= '//--></script>' . "\n";
 
                         $display_child_product_image .= '<noscript>' . "\n";
 
-                        $display_child_product_image .= '<a href="' . tep_href_image_link(DIR_WS_IMAGES . $child_product_info['products_image']) . '" target="_blank">' . $image . '<br>' .'<div id="HDpic">' . TEXT_CLICK_TO_ENLARGE  .'</div>'. '</a>' . "\n";
+                        $display_child_product_image .= '<a href="' . tep_href_image_link(DIR_WS_IMAGES . $child_product_info['products_image']) . '" target="_blank">' . $image . '<br>' .'<div id="HDpic">' .'<span class="TEXT_CLICK_TO_image">'. TEXT_CLICK_TO_ENLARGE  .'</span>' .'<span class="zoom-image-products" style="display:none"><i class="fa fa-expand" aria-hidden="true"></i></span>'.'</div>'. '</a>' . "\n";
 
                         $display_child_product_image .= '</noscript>' . "\n" . '</script>';
 
@@ -1834,7 +1872,7 @@ $display_product_share_link.="<style type='text/css'> .pinterest > span{backgrou
 
 //$display_product_share_link = '<div> <span class="shareText">Share this product:</span><br /><a href="' . tep_href_link('tell_a_friend.php', 'products_id=' . $product_info['products_id']) . '"><img src="images/shareicons/shareIcon_email.gif" alt="E-mail" title="Email this product" border="0"></a>&nbsp;  <a target="_blank" href="http://www.facebook.com/sharer.php?u=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;t=' . $product_info['products_name'] . '"><img  class="shareIcon" src="images/shareicons/shareIcon_Facebook.gif" alt="Facebook" title="Facebook" border="0"></a>&nbsp;<a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&amp;url=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;title=' . $product_info['products_name'] . '&amp;summary="><img class="shareIcon" width="23" height="23" src="images/shareicons/shareIcon_LinkedIn.gif" alt="LinkedIn" title="LinkedIn" border="0"></a>&nbsp;  <a target="_blank" href="http://twitthis.com/twit?url=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;title=' . $product_info['products_name'] . '"><img class="shareIcon" src="images/shareicons/shareIcon_Twitter.gif" alt="Twitter" title="Twitter" border="0"></a> ';
 
-$display_product_share_link = '<div> <span class="shareText">Share this product:</span><br /><a target="_blank" href="http://www.facebook.com/sharer.php?u=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;t=' . $product_info['products_name'] . '"><img  class="shareIcon" src="images/shareicons/shareIcon_Facebook.gif" alt="Facebook" title="Facebook" border="0"></a>&nbsp;';
+$display_product_share_link = '<div> <span class="shareText">Share this product:</span><br /><a target="_blank" href="http://www.facebook.com/sharer.php?u=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;t=' . $product_info['products_name'] . '"><img  class="shareIcon" src="images/shareicons/shareIcon_Facebook.gif" alt="Facebook" title="Facebook" border="0"><span class="shared-link" style="display:none"><i class="fa fa-facebook" aria-hidden="true"></i></span></a>&nbsp;';
 
 	
 
@@ -1842,11 +1880,11 @@ $display_product_share_link = '<div> <span class="shareText">Share this product:
 
 	// pin interest code #start
 
-	$display_product_share_link .= '<span class="pinterest"><a title="'.$product_info['products_name'].'" href="http://pinterest.com/pin/create/button/?url='.tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id'], 'NONSSL').'&media=' . $largeImg.'"></a> <script type="text/javascript" src="//assets.pinterest.com/js/pinit.js"></script></span>&nbsp;';
+	$display_product_share_link .= '<span class="pinterest"><a title="'.$product_info['products_name'].'" href="http://pinterest.com/pin/create/button/?url='.tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id'], 'NONSSL').'&media=' . $largeImg.'"> <span class="shared-link" style="display:none"><i class="fa fa-pinterest" aria-hidden="true"></i></span> </a> <script type="text/javascript" src="//assets.pinterest.com/js/pinit.js"></script></span>&nbsp;';
 
 	// pin interest code #ends
 
-$display_product_share_link .='<a href="' . tep_href_link('tell_a_friend.php', 'products_id=' . $product_info['products_id']) . '"><img src="images/shareicons/shareIcon_email.gif" alt="E-mail" title="Email this product" border="0"></a>&nbsp;<a target="_blank" href="http://twitthis.com/twit?url=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;title=' . $product_info['products_name'] . '"><img class="shareIcon" src="images/shareicons/shareIcon_Twitter.gif" alt="Twitter" title="Twitter" border="0"></a>&nbsp;';
+$display_product_share_link .='<a href="' . tep_href_link('tell_a_friend.php', 'products_id=' . $product_info['products_id']) . '"><img src="images/shareicons/shareIcon_email.gif" alt="E-mail" title="Email this product" border="0"><span class="shared-link" style="display:none"><i class="fa fa-envelope" aria-hidden="true"></i></span></a>&nbsp;<a target="_blank" href="http://twitthis.com/twit?url=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;title=' . $product_info['products_name'] . '"><img class="shareIcon" src="images/shareicons/shareIcon_Twitter.gif" alt="Twitter" title="Twitter" border="0"> <span class="shared-link" style="display:none"><i class="fa fa-twitter" aria-hidden="true"></i></span> </a>&nbsp;';
 
     
 
@@ -1854,7 +1892,7 @@ $display_product_share_link .='<a href="' . tep_href_link('tell_a_friend.php', '
 
 	// google plus share icon #start
 
-	$display_product_share_link .= '<span class="google_plus"><div class="g-plus" data-action="share" data-annotation="bubble" data-href="'.tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id'], 'NONSSL').'"></div> <script type="text/javascript">
+	$display_product_share_link .= '<span class="google_plus"><div class="g-plus" data-action="share" data-annotation="bubble" data-href="'.tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id'], 'NONSSL').'"> <span class="shared-link" style="display:none"><i class="fa fa-google-plus" aria-hidden="true"></i> </span> </div> <script type="text/javascript">
 
   (function() {
 
