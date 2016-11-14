@@ -180,7 +180,11 @@ function popupWindow(url) {
   <tr>
     <td width="<?php echo BOX_WIDTH; ?>" valign="top"><table border="0" width="<?php echo BOX_WIDTH; ?>" cellspacing="0" cellpadding="2">
 <!-- left_navigation //-->
-<?php require(DIR_WS_INCLUDES . 'column_left.php'); ?>
+<?php require(DIR_WS_INCLUDES . 'column_left.php'); 
+$sts->template['action_url'] = tep_href_link(FILENAME_PRODUCT_REVIEWS_WRITE, 'action=process&products_id=' . $HTTP_GET_VARS['products_id']);
+$sts->template['products_name'] = $products_name;
+$sts->template['products_price'] = $products_price;
+?>
 <!-- left_navigation_eof //-->
     </table></td>
 <!-- body_text //-->
@@ -196,6 +200,8 @@ function popupWindow(url) {
 <!-- // Points/Rewards Module V2.1rc2a bof //-->
 <?php
   if ((USE_POINTS_SYSTEM == 'true') && (tep_not_null(USE_POINTS_FOR_REVIEWS))) {
+    $sts->template['use_points'] = 1;
+    $sts->template['review_help_link'] = sprintf(REVIEW_HELP_LINK, $currencies->format(tep_calc_shopping_pvalue(USE_POINTS_FOR_REVIEWS)), '<a href="' . tep_href_link(FILENAME_MY_POINTS_HELP,'faq_item=13', 'NONSSL') . '" title="' . BOX_INFORMATION_MY_POINTS_HELP . '">' . BOX_INFORMATION_MY_POINTS_HELP . '</a>');
 ?>
       <tr>
         <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
@@ -212,6 +218,7 @@ function popupWindow(url) {
       </tr>
 <?php
   if ($messageStack->size('review') > 0) {
+    $sts->template['message'] = $messageStack->output('review');
 ?>
       <tr>
         <td><?php echo $messageStack->output('review'); ?></td>
@@ -221,6 +228,10 @@ function popupWindow(url) {
       </tr>
 <?php
   }
+  
+  $sts->template['customer_nickname_value'] = (!empty($customer['customers_nickname']) ? ' value="' . $customer['customers_nickname'] . '" disabled' : '');
+  $sts->template['customer_nickname_textbox'] = (!empty($customer['customers_nickname']) ? '<input type="hidden" name="existing_nickname" value="' . $customer['customers_nickname'] . '">' : '');
+  $sts->template['product_reviews_link'] = tep_href_link(FILENAME_PRODUCT_REVIEWS, tep_get_all_get_params(array('reviews_id', 'action')));
 ?>
       <tr>
         <td><table width="100%" border="0" cellspacing="0" cellpadding="2">
@@ -289,6 +300,10 @@ function popupWindow(url) {
    $image = tep_small_image($product_info['products_image'], $product_info['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT,'class="subcatimages"');
     else 
    $image = tep_image(DIR_WS_IMAGES . $product_info['products_image'], $product_info['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT,'class="subcatimages"');
+$sts->template['image'] = $image;
+$sts->template['popup_image_link'] = tep_href_link(FILENAME_POPUP_IMAGE, 'pID=' . $product_info['products_id']);
+$sts->template['normal_image_link'] = tep_href_link(DIR_WS_IMAGES . $product_info['products_image']);
+$sts->template['buy_now_link'] = tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action')) . 'action=buy_now');
 ?>
 <script language="javascript">
 document.write('<?php echo '<a href="javascript:popupWindow(\\\'' . tep_href_link(FILENAME_POPUP_IMAGE, 'pID=' . $product_info['products_id']) . '\\\')">' .$image . '<br>' . TEXT_CLICK_TO_ENLARGE . '</a>'; ?>');

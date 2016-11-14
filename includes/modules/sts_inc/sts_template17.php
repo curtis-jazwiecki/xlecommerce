@@ -94,7 +94,7 @@ $template17_blocks = array(
 
             'enabled'=> ENABLE_HOT_PRODUCTS=='True' ? true : false, 
 
-            'parameters'=>array() 
+            'parameters'=>array('custom'=>true, 'on_home_page'=>true, 'max_count'=>'4', 'items_per_row'=>'1') 
 
     ), 
 

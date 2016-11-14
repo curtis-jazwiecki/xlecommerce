@@ -88,7 +88,13 @@ function popupWindow(url) {
   <tr>
     <td width="<?php echo BOX_WIDTH; ?>" valign="top"><table border="0" width="<?php echo BOX_WIDTH; ?>" cellspacing="0" cellpadding="2">
 <!-- left_navigation //-->
-<?php require(DIR_WS_INCLUDES . 'column_left.php'); ?>
+<?php require(DIR_WS_INCLUDES . 'column_left.php'); 
+$sts->template['products_name'] = $products_name;
+$sts->template['products_price'] = $products_price;
+$sts->template['product_info_link'] = tep_href_link(FILENAME_PRODUCT_INFO, tep_get_all_get_params());
+$sts->template['product_review_write_link'] = tep_href_link(FILENAME_PRODUCT_REVIEWS_WRITE, tep_get_all_get_params()); 
+
+?>
 <!-- left_navigation_eof //-->
     </table></td>
 <!-- body_text //-->
@@ -102,6 +108,8 @@ function popupWindow(url) {
 <!-- // Points/Rewards Module V2.1rc2a bof //-->
 <?php
    if ((USE_POINTS_SYSTEM == 'true') && (tep_not_null(USE_POINTS_FOR_REVIEWS))) {
+    $sts->template['use_points'] = 1;
+    $sts->template['review_help_link'] = sprintf(REVIEW_HELP_LINK, $currencies->format(tep_calc_shopping_pvalue(USE_POINTS_FOR_REVIEWS)), '<a href="' . tep_href_link(FILENAME_MY_POINTS_HELP,'faq_item=13', 'NONSSL') . '" title="' . BOX_INFORMATION_MY_POINTS_HELP . '">' . BOX_INFORMATION_MY_POINTS_HELP . '</a>');
 ?>
           <tr>
             <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
@@ -127,6 +135,10 @@ function popupWindow(url) {
   $reviews_split = new splitPageResults($reviews_query_raw, MAX_DISPLAY_NEW_REVIEWS);
 
   if ($reviews_split->number_of_rows > 0) {
+    $sts->template['no_of_reviews'] = 1;
+    $sts->template['prev_next_bar_loc'] = PREV_NEXT_BAR_LOCATION;
+    $sts->template['display_count'] = $reviews_split->display_count(TEXT_DISPLAY_NUMBER_OF_REVIEWS); 
+    $sts->template['result_page'] = TEXT_RESULT_PAGE . ' ' . $reviews_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info')));
     if ((PREV_NEXT_BAR_LOCATION == '1') || (PREV_NEXT_BAR_LOCATION == '3')) {
 ?>
               <tr>
@@ -144,6 +156,8 @@ function popupWindow(url) {
     }
 
     $reviews_query = tep_db_query($reviews_split->sql_query);
+    $rev = array();
+    $i=0;
     while ($reviews = tep_db_fetch_array($reviews_query)) {
     	if ($reviews['customers_nickname'] != '') {
 			$reviews['customers_name'] = $reviews['customers_nickname'];
@@ -154,8 +168,10 @@ function popupWindow(url) {
       if (isset($reviews['entry_zone_id']) && tep_not_null($reviews['entry_zone_id'])) {
         $state = tep_get_zone_code($reviews['entry_country_id'], $reviews['entry_zone_id'], $reviews['entry_state']);
       }
-    $address .= $state;  
-	
+    $address .= $state;
+    $rev[$i]['review_by'] = '<a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id'] . '&reviews_id=' . $reviews['reviews_id']) . '"><u><b>' . sprintf(TEXT_REVIEW_BY, tep_output_string_protected($reviews['customers_name'])) . ' from ' . $address . '</b></u></a>';  
+	$rev[$i]['date_added'] = sprintf(TEXT_REVIEW_DATE_ADDED, tep_date_long($reviews['date_added']));
+    $rev[$i]['rating_string'] = tep_break_string(tep_output_string_protected($reviews['reviews_text']), 60, '-<br>') . ((strlen($reviews['reviews_text']) >= 100) ? '..' : '') . '<br><br><i>' . sprintf(TEXT_REVIEW_RATING, tep_image(DIR_WS_IMAGES . 'stars_' . $reviews['reviews_rating'] . '.gif', sprintf(TEXT_OF_5_STARS, $reviews['reviews_rating'])), sprintf(TEXT_OF_5_STARS, $reviews['reviews_rating'])) . '</i>';
 ?>
               <tr>
                 <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
@@ -182,13 +198,17 @@ function popupWindow(url) {
                 <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
               </tr>
 <?php
+$i++;
     }
+   $sts->template['review'] = $rev; 
 ?>
 <?php
   } else {
+    $text_no_review = new infoBox(array(array('text' => TEXT_NO_REVIEWS)));
+    $sts->template['text_no_review'] = $text_no_review;
 ?>
               <tr>
-                <td><?php new infoBox(array(array('text' => TEXT_NO_REVIEWS))); ?></td>
+                <td><?php echo $text_no_review; ?></td>
               </tr>
               <tr>
                 <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
@@ -232,6 +252,11 @@ function popupWindow(url) {
                 <td align="center" class="smallText">
 <?php
   if (tep_not_null($product_info['products_image'])) {
+    $sts->template['product_image'] = tep_image(DIR_WS_IMAGES . $product_info['products_image'], addslashes($product_info['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"');
+    $sts->template['popup_image_link'] =tep_href_link(FILENAME_POPUP_IMAGE, 'pID=' . $product_info['products_id']);
+    $sts->template['normal_image_link'] = tep_href_link(DIR_WS_IMAGES . $product_info['products_image']);
+    $sts->template['image'] =tep_image(DIR_WS_IMAGES . $product_info['products_image'], $product_info['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"');
+    
 ?>
 <script language="javascript"><!--
 document.write('<?php echo '<a href="javascript:popupWindow(\\\'' . tep_href_link(FILENAME_POPUP_IMAGE, 'pID=' . $product_info['products_id']) . '\\\')">' . tep_image(DIR_WS_IMAGES . $product_info['products_image'], addslashes($product_info['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '<br>' . TEXT_CLICK_TO_ENLARGE . '</a>'; ?>');
@@ -241,6 +266,7 @@ document.write('<?php echo '<a href="javascript:popupWindow(\\\'' . tep_href_lin
 </noscript>
 <?php
   }
+$sts->template['buy_now_link'] = tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action')) . 'action=buy_now');
 
   echo '<p><a href="' . tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action')) . 'action=buy_now') . '">' . tep_image_button('button_in_cart.gif', IMAGE_BUTTON_IN_CART) . '</a></p>';
 ?>

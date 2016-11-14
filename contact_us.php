@@ -100,6 +100,7 @@ $text_display = '';
 for($p=0;sizeof($contact_us_template_0) > $p; $p++){
     $text_display .= $contact_us_template_0[$p];
 }*/
+$sts->template['action_url'] = tep_href_link(FILENAME_CONTACT_US, 'action=send');
 ?>
 <!-- body //-->
     <table border="0" width="100%" cellspacing="3" cellpadding="3">
@@ -132,6 +133,7 @@ for($p=0;sizeof($contact_us_template_0) > $p; $p++){
                     </tr>
                     <?php
                     if ($messageStack->size('contact') > 0) {
+                        $sts->template['message'] = $messageStack->output('contact');
                     ?>
                     <tr>
                         <td><?php echo $messageStack->output('contact'); ?></td>
@@ -143,6 +145,8 @@ for($p=0;sizeof($contact_us_template_0) > $p; $p++){
                     }
 
                     if (isset($HTTP_GET_VARS['action']) && ($HTTP_GET_VARS['action'] == 'send')) {
+                        $sts->template['action'] = $HTTP_GET_VARS['action']; 
+                        $sts->template['link'] = tep_href_link(FILENAME_DEFAULT);
                     ?>
                     <tr>
                         <td class="main" align="center"><?php echo tep_image(DIR_WS_IMAGES . 'table_background_man_on_board.gif', HEADING_TITLE, '0', '0', 'align="left"') . TEXT_SUCCESS; ?></td>
@@ -171,10 +175,13 @@ for($p=0;sizeof($contact_us_template_0) > $p; $p++){
                     <?php
                     } else {
                         if (tep_session_is_registered('customer_id')) {
+                            $sts->template['in_session_customer_id'] =1;
                             $account_query = tep_db_query("select customers_firstname, customers_lastname, customers_email_address from " . TABLE_CUSTOMERS . " where customers_id = '" . (int)$customer_id . "'");
                             $account = tep_db_fetch_array($account_query);
                             $name = $account['customers_firstname'] . ' ' . $account['customers_lastname'];
                             $email = $account['customers_email_address'];
+                            $sts->template['name'] = $name;
+                            $sts->template['email'] = $email;
                     }
                     ?>
                     <tr>
@@ -198,6 +205,7 @@ for($p=0;sizeof($contact_us_template_0) > $p; $p++){
                                                     $information_query = tep_db_query("select information_title, information_description from " . TABLE_INFORMATION . " where language_id = '" . (int)$languages_id . "' and information_id = '" . (int)$information_id . "'");
                                                     $info = tep_db_fetch_array($information_query);
                                                     echo $info['information_description'];
+                                                    $sts->template['information_description'] = $info['information_description'];
                                                     ?>
                                                 </td>
                                                 </tr>

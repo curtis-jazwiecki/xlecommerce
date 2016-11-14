@@ -65,7 +65,11 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
       <tr>
         <td>
 <?php
+$sts->template['back_url'] = tep_href_link(FILENAME_ACCOUNT, '', 'SSL');
   $orders_total = tep_count_customer_orders();
+$history_orders = array();
+   $i=0;
+$sts->template['orders_total'] = $orders_total; 
 
   if ($orders_total > 0) {
     $history_query_raw = "select o.orders_id, o.date_purchased, o.delivery_name, o.billing_name, ot.text as order_total, s.orders_status_name from " . TABLE_ORDERS . " o, " . TABLE_ORDERS_TOTAL . " ot, " . TABLE_ORDERS_STATUS . " s where o.customers_id = '" . (int)$customer_id . "' and o.orders_id = ot.orders_id and ot.class = 'ot_total' and o.orders_status = s.orders_status_id and s.language_id = '" . (int)$languages_id . "' order by orders_id DESC";
@@ -83,6 +87,14 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
         $order_type = TEXT_ORDER_BILLED_TO;
         $order_name = $history['billing_name'];
       }
+       $history_orders[$i]['order_type'] = $order_type;
+      $history_orders[$i]['order_name'] = tep_output_string_protected($order_name);
+      $history_orders[$i]['orders_id'] =$history['orders_id'];
+      $history_orders[$i]['orders_status_name'] = $history['orders_status_name'];
+      $history_orders[$i]['date_purchased'] = tep_date_long($history['date_purchased']);
+      $history_orders[$i]['product_count'] = $products['count'];
+      $history_orders[$i]['order_total'] = strip_tags($history['order_total']);
+      $history_orders[$i]['order_url'] = tep_href_link(FILENAME_ACCOUNT_HISTORY_INFO, (isset($HTTP_GET_VARS['page']) ? 'page=' . $HTTP_GET_VARS['page'] . '&' : '') . 'order_id=' . $history['orders_id'], 'SSL');
 ?>
           <table border="0" width="100%" cellspacing="0" cellpadding="2">
             <tr>
@@ -107,7 +119,9 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
             </tr>
           </table>
 <?php
+$i++;
     }
+    $sts->template['history_orders'] = $history_orders;
   } else {
 ?>
           <table border="0" width="100%" cellspacing="1" cellpadding="2" class="infoBox">
@@ -126,6 +140,8 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
       </tr>
 <?php
   if ($orders_total > 0) {
+    $sts->template['text_no_orders'] = $history_split->display_count(TEXT_DISPLAY_NUMBER_OF_ORDERS);
+    $sts->template['link_pages'] = $history_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info', 'x', 'y')));
 ?>
       <tr>
         <td><table border="0" width="100%" cellspacing="0" cellpadding="2">

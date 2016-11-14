@@ -156,6 +156,7 @@ function popupWindow(url) {
       </tr>
 <?php
   if ($messageStack->size('search') > 0) {
+    $sts->template['message'] = $messageStack->output('search');
 ?>
       <tr>
         <td><?php echo $messageStack->output('search'); ?></td>
@@ -165,6 +166,10 @@ function popupWindow(url) {
       </tr>
 <?php
   }
+  $sts->template['popup_url'] = tep_href_link(FILENAME_POPUP_SEARCH_HELP);
+  $sts->template['action_url'] = tep_href_link(FILENAME_ADVANCED_SEARCH_RESULT, '', 'NONSSL', false);
+  $sts->template['categories_dropdown'] = tep_draw_pull_down_menu('categories_id', tep_get_categories_enabled(array(array('id' => '', 'text' => TEXT_ALL_CATEGORIES))));
+  $sts->template['manufacturer_dropdown'] = tep_draw_pull_down_menu('manufacturers_id', tep_get_manufacturers(array(array('id' => '', 'text' => TEXT_ALL_MANUFACTURERS))));
 ?>
       <tr>
         <td>

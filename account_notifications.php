@@ -106,7 +106,11 @@ function checkBox(object) {
   <tr>
     <td width="<?php echo BOX_WIDTH; ?>" valign="top"><table border="0" width="<?php echo BOX_WIDTH; ?>" cellspacing="0" cellpadding="2">
 <!-- left_navigation //-->
-<?php require(DIR_WS_INCLUDES . 'column_left.php'); ?>
+<?php require(DIR_WS_INCLUDES . 'column_left.php'); 
+$sts->template['action_url'] = tep_href_link(FILENAME_ACCOUNT_NOTIFICATIONS, '', 'SSL');
+$sts->template['back_url'] = tep_href_link(FILENAME_ACCOUNT, '', 'SSL');
+$sts->template['global_product_notifications'] = $global['global_product_notifications'];
+?>
 <!-- left_navigation_eof //-->
     </table></td>
 <!-- body_text //-->
@@ -186,6 +190,7 @@ function checkBox(object) {
     $products_check_query = tep_db_query("select count(*) as total from " . TABLE_PRODUCTS_NOTIFICATIONS . " where customers_id = '" . (int)$customer_id . "'");
     $products_check = tep_db_fetch_array($products_check_query);
     if ($products_check['total'] > 0) {
+        $sts->template['products_check_total'] = $products_check['total'];
 ?>
                   <tr>
                     <td class="main" colspan="2"><?php echo NOTIFICATIONS_DESCRIPTION; ?></td>
@@ -193,7 +198,11 @@ function checkBox(object) {
 <?php
       $counter = 0;
       $products_query = tep_db_query("select pd.products_id, pd.products_name from " . TABLE_PRODUCTS_DESCRIPTION . " pd, " . TABLE_PRODUCTS_NOTIFICATIONS . " pn where pn.customers_id = '" . (int)$customer_id . "' and pn.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' order by pd.products_name");
+      $prod=array();
       while ($products = tep_db_fetch_array($products_query)) {
+        $prod[$counter]['number'] = 'products[' . $counter . ']';
+        $prod[$counter]['product_id'] = $products['products_id'];
+        $prod[$counter]['name'] = $products['products_name']; 
 ?>
                   <tr class="moduleRow" onMouseOver="rowOverEffect(this)" onMouseOut="rowOutEffect(this)" onClick="checkBox('products[<?php echo $counter; ?>]')">
                     <td class="main" width="30"><?php echo tep_draw_checkbox_field('products[' . $counter . ']', $products['products_id'], true, 'onclick="checkBox(\'products[' . $counter . ']\')"'); ?></td>
@@ -202,6 +211,7 @@ function checkBox(object) {
 <?php
         $counter++;
       }
+      $sts->template['prod'] = $prod;
     } else {
 ?>
                   <tr>

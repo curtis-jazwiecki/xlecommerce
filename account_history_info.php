@@ -60,7 +60,13 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
   <tr>
     <td width="<?php echo BOX_WIDTH; ?>" valign="top"><table border="0" width="<?php echo BOX_WIDTH; ?>" cellspacing="0" cellpadding="2">
 <!-- left_navigation //-->
-<?php require(DIR_WS_INCLUDES . 'column_left.php'); ?>
+<?php 
+require(DIR_WS_INCLUDES . 'column_left.php');
+$sts->template['heading_order_number'] = sprintf(HEADING_ORDER_NUMBER, $HTTP_GET_VARS['order_id']) . ' <small>(' . $order->info['orders_status'] . ')</small>'; 
+$sts->template['heading_order_date'] = HEADING_ORDER_DATE . ' ' .tep_date_long($order->info['date_purchased']);
+$sts->template['heading_order_total'] = HEADING_ORDER_TOTAL . ' ' . $order->info['total'];
+
+?>
 <!-- left_navigation_eof //-->
     </table></td>
 <!-- body_text //-->
@@ -92,6 +98,8 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
           <tr class="infoBoxContents">
 <?php
   if ($order->delivery != false) {
+    $sts->template['order_delivery'] =1;
+    $sts->template['delivery_address_label'] = tep_address_format($order->delivery['format_id'], $order->delivery, 1, ' ', '<br>');
 ?>
             <td width="30%" valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="2">
               <tr>
@@ -118,6 +126,7 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
     }
 //MVS end
     if (tep_not_null($order->info['shipping_method'])) {
+        $sts->template['shipping_method'] = $order->info['shipping_method'];
 ?>
               <tr>
                 <td class="main"><b><?php echo HEADING_SHIPPING_METHOD; ?></b></td>
@@ -131,12 +140,15 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
             </table></td>
 <?php
   }
+  $sts->template['order_delivery'] = $order->delivery;
+  
 ?>
             <td width="<?php echo (($order->delivery != false) ? '70%' : '100%'); ?>" valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="0">
               <tr>
 <?php
 //MVS start
-      if (tep_not_null ($orders_shipping_id)) {   
+      if (tep_not_null ($orders_shipping_id)) {
+        $sts->template['order_shipping_id'] =1;
         require_once (DIR_WS_INCLUDES . 'vendor_order_data.php');
         require_once (DIR_WS_INCLUDES . 'vendor_order_info.php');
       } else {
@@ -145,6 +157,7 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
                 <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
 <?php
   if (sizeof($order->info['tax_groups']) > 1) {
+    $sts->template['tax_groups'] = $order->info['tax_groups'];
 ?>
                   <tr>
                     <td class="main" colspan="2"><b><?php echo HEADING_PRODUCTS; ?></b></td>
@@ -159,27 +172,34 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
                   </tr>
 <?php
   }
-
+$prods = array();
   for ($i=0, $n=sizeof($order->products); $i<$n; $i++) {
+    $prods[$i]['qty'] = $order->products[$i]['qty'];
+    $prods[$i]['name'] = $order->products[$i]['name'];
     echo '          <tr>' . "\n" .
          '            <td class="main" align="right" valign="top" width="30">' . $order->products[$i]['qty'] . '&nbsp;x</td>' . "\n" .
          '            <td class="main" valign="top">' . $order->products[$i]['name'];
-
+    $attribu = array();
     if ( (isset($order->products[$i]['attributes'])) && (sizeof($order->products[$i]['attributes']) > 0) ) {
       for ($j=0, $n2=sizeof($order->products[$i]['attributes']); $j<$n2; $j++) {
+        $attribu[$j]['option'] = $order->products[$i]['attributes'][$j]['option'];
+        $attribu[$j]['value'] = $order->products[$i]['attributes'][$j]['value'];
         echo '<br><nobr><small>&nbsp;<i> - ' . $order->products[$i]['attributes'][$j]['option'] . ': ' . $order->products[$i]['attributes'][$j]['value'] . '</i></small></nobr>';
       }
     }
-
+$prods[$i]['attributes'] = $attribu;
     echo '</td>' . "\n";
 
     if (sizeof($order->info['tax_groups']) > 1) {
+        $prods[$i]['tax'] = tep_display_tax_value($order->products[$i]['tax']) . '%';
       echo '            <td class="main" valign="top" align="right">' . tep_display_tax_value($order->products[$i]['tax']) . '%</td>' . "\n";
     }
-
+        $prods[$i]['price'] = $currencies->format(tep_add_tax($order->products[$i]['final_price'], $order->products[$i]['tax']) * $order->products[$i]['qty'], true, $order->info['currency'], $order->info['currency_value']);
+        
     echo '            <td class="main" align="right" valign="top">' . $currencies->format(tep_add_tax($order->products[$i]['final_price'], $order->products[$i]['tax']) * $order->products[$i]['qty'], true, $order->info['currency'], $order->info['currency_value']) . '</td>' . "\n" .
          '          </tr>' . "\n";
   }
+  $sts->template['products']=$prods;
 //MVS
   }
 ?>
@@ -191,7 +211,10 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
       </tr>
       
       
-      
+      <?php
+        $sts->template['billing_address_label'] = tep_address_format($order->billing['format_id'], $order->billing, 1, ' ', '<br>');
+        $sts->template['payment_method'] = $order->info['payment_method'];
+      ?>
       <tr>
         <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
       </tr>
@@ -220,6 +243,7 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
             </table></td>
             <td width="70%" valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="2">
 <?php
+$sts->template['order_totals'] = $order->totals; 
   for ($i=0, $n=sizeof($order->totals); $i<$n; $i++) {
     echo '              <tr>' . "\n" .
          '                <td class="main" align="right" width="100%">' . $order->totals[$i]['title'] . '</td>' . "\n" .
@@ -246,13 +270,21 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
             <td valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="2">
 <?php
   $statuses_query = tep_db_query("select os.orders_status_name, osh.date_added, osh.comments from " . TABLE_ORDERS_STATUS . " os, " . TABLE_ORDERS_STATUS_HISTORY . " osh where osh.orders_id = '" . (int)$HTTP_GET_VARS['order_id'] . "' and osh.orders_status_id = os.orders_status_id and os.language_id = '" . (int)$languages_id . "' order by osh.date_added");
+  $status = array();
+  $i=0;
   while ($statuses = tep_db_fetch_array($statuses_query)) {
+    $status[$i]['date'] =   tep_date_short($statuses['date_added']);
+    $status[$i]['name'] = $statuses['orders_status_name'];
+    $status[$i]['comments'] = (empty($statuses['comments']) ? '&nbsp;' : nl2br(tep_output_string_protected($statuses['comments'])));
+    
     echo '              <tr>' . "\n" .
          '                <td class="main" valign="top" width="70">' . tep_date_short($statuses['date_added']) . '</td>' . "\n" .
          '                <td class="main" valign="top" width="70">' . $statuses['orders_status_name'] . '</td>' . "\n" .
          '                <td class="main" valign="top">' . (empty($statuses['comments']) ? '&nbsp;' : nl2br(tep_output_string_protected($statuses['comments']))) . '</td>' . "\n" .
          '              </tr>' . "\n";
+  $i++;
   }
+  $sts->template['status'] = $status;
 ?>
             </table></td>
           </tr>
@@ -265,12 +297,15 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
 <!-- Package Tracking Plus BEGIN -->
 <?php
     if ($order->info['usps_track_num'] == NULL & $order->info['usps_track_num2'] == NULL & $order->info['ups_track_num'] == NULL & $order->info['ups_track_num2'] == NULL & $order->info['fedex_track_num'] == NULL & $order->info['fedex_track_num2'] == NULL & $order->info['dhl_track_num'] == NULL & $order->info['dhl_track_num2'] == NULL & $order->info['extra_track_num'] == NULL) {
+        $sts->template['and_null'] =1;
+        
 ?>
       <tr>
         <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
       </tr>
 <?php
 }else if ($order->info['usps_track_num'] == NULL or $order->info['usps_track_num2'] == NULL or $order->info['ups_track_num'] == NULL or $order->info['ups_track_num2'] == NULL or $order->info['fedex_track_num'] == NULL or $order->info['fedex_track_num2'] == NULL or $order->info['dhl_track_num'] == NULL or $order->info['dhl_track_num2'] == NULL or $order->info['extra_track_num'] == NULL) {
+    $sts->template['or_null'] =1;
 ?>
       <tr>
         <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
@@ -286,8 +321,11 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
           <tr class="infoBoxContents">
             <td width="100%" valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="2">
 <?php
-      if ($order->info['usps_track_num'] == NULL) {
+      if ($order->info['usps_track_num1'] == NULL) {
+        $sts->template['usps_num_present1']=0;
 }else{
+    $sts->template['usps_num_present1']=1;
+    $sts->template['usps_track_num1'] = $order->info['usps_track_num1'];
 ?>
               <tr>
 			    <td class="main" align="left">USPS(1):</td>
@@ -298,17 +336,23 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
 <?php
 }
       if ($order->info['usps_track_num2'] == NULL) {
+        $sts->template['usps_num_present2']=0;
 }else{
+    $sts->template['usps_num_present2']=1;
+    $sts->template['usps_track_num2'] = $order->info['usps_track_num2'];
 ?>
               <tr>
 			    <td class="main" align="left">USPS(2):</td>
-                <td class="main" align="left"><a target="_blank" href="http://trkcnfrm1.smi.usps.com/PTSInternetWeb/InterLabelInquiry.do?origTrackNum=<?php echo $order->info['usps_track_num']; ?>"><?php echo $order->info['usps_track_num2']; ?></a></td>
+                <td class="main" align="left"><a target="_blank" href="http://trkcnfrm1.smi.usps.com/PTSInternetWeb/InterLabelInquiry.do?origTrackNum=<?php echo $order->info['usps_track_num2']; ?>"><?php echo $order->info['usps_track_num2']; ?></a></td>
                 <td class="main" align="left"><a target="_blank" href="http://trkcnfrm1.smi.usps.com/PTSInternetWeb/InterLabelInquiry.do?origTrackNum=<?php echo $order->info['usps_track_num2']; ?>"><img src="<?=DIR_WS_LANGUAGES . $language . '/images/buttons/';?>button_track.gif" alt="Track Packages" border="0"></a></td>
               </tr>
 <?php
 }
       if ($order->info['ups_track_num'] == NULL) {
+        $sts->template['ups_num_present']=0;
 }else{
+    $sts->template['ups_num_present']=1;
+    $sts->template['ups_track_num'] = $order->info['ups_track_num'];
 ?>
               <tr>
 			    <td class="main" align="left">UPS(1):</td>
@@ -318,7 +362,10 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
 <?php
 }
       if ($order->info['ups_track_num2'] == NULL) {
+        $sts->template['ups_num_present2']=0;
 }else{
+    $sts->template['ups_num_present2']=1;
+    $sts->template['ups_track_num2'] = $order->info['ups_track_num2'];
 ?>
               <tr>
 			    <td class="main" align="left">UPS(2):</td>
@@ -328,7 +375,10 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
 <?php
 }
       if ($order->info['fedex_track_num'] == NULL) {
+        $sts->template['fedex_num_present']=0;
 }else{
+    $sts->template['fedex_num_present']=1;
+    $sts->template['fedex_track_num']=$order->info['fedex_track_num'];
 ?>
               <tr>
 			    <td class="main" align="left">Fedex(1):</td>
@@ -338,17 +388,23 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
 <?php
 }
       if ($order->info['fedex_track_num2'] == NULL) {
+        $sts->template['fedex_num_present2']=0;
 }else{
+    $sts->template['fedex_num_present2']=1;
+    $sts->template['fedex_track_num2']=$order->info['fedex_track_num2'];
 ?>
               <tr>
 			    <td class="main" align="left">Fedex(2):</td>
-                <td class="main" align="left"><a target="_blank" href="http://www.fedex.com/Tracking?tracknumbers=<?php echo $order->info['fedex_track_num2']; ?>&action=track&language=english&cntry_code=us"><?php echo $order->info['fedex_track_num']; ?></a></td>
+                <td class="main" align="left"><a target="_blank" href="http://www.fedex.com/Tracking?tracknumbers=<?php echo $order->info['fedex_track_num2']; ?>&action=track&language=english&cntry_code=us"><?php echo $order->info['fedex_track_num2']; ?></a></td>
                 <td class="main" align="left"><a target="_blank" href="http://www.fedex.com/Tracking?tracknumbers=<?php echo $order->info['fedex_track_num2']; ?>&action=track&language=english&cntry_code=us"><img src="<?=DIR_WS_LANGUAGES . $language . '/images/buttons/';?>button_track.gif" alt="Track Packages" border="0"></a></td>
 			  </tr>
 <?php
 }
       if ($order->info['dhl_track_num'] == NULL) {
+        $sts->template['dhl_num_present1']=0;
 }else{
+    $sts->template['dhl_num_present1']=1;
+    $sts->template['dhl_track_num']=$order->info['dhl_track_num'];
 ?>
               <tr>
 			    <td class="main" align="left">DHL(1):</td>
@@ -358,17 +414,23 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
 <?php
 }
       if ($order->info['dhl_track_num2'] == NULL) {
+        $sts->template['dhl_num_present2']=0;
 }else{
+    $sts->template['dhl_num_present2']=1;
+    $sts->template['dhl_track_num2']=$order->info['dhl_track_num2'];
 ?>
               <tr>
 			    <td class="main" align="left">DHL(2):</td>
-                <td class="main" align="left"><a target="_blank" href="http://track.dhl-usa.com/atrknav.asp?ShipmentNumber=<?php echo $order->info['dhl_track_num2']; ?>&action=track&language=english&cntry_code=us"><?php echo $order->info['dhl_track_num']; ?></a></td>
+                <td class="main" align="left"><a target="_blank" href="http://track.dhl-usa.com/atrknav.asp?ShipmentNumber=<?php echo $order->info['dhl_track_num2']; ?>&action=track&language=english&cntry_code=us"><?php echo $order->info['dhl_track_num2']; ?></a></td>
                 <td class="main" align="left"><a target="_blank" href="http://track.dhl-usa.com/atrknav.asp?ShipmentNumber=<?php echo $order->info['dhl_track_num2']; ?>&action=track&language=english&cntry_code=us"><img src="<?=DIR_WS_LANGUAGES . $language . '/images/buttons/';?>button_track.gif" alt="Track Packages" border="0"></a></td>
 			  </tr>
 <?php
 } 
  if ($order->info['extra_track_num'] == NULL) {
+    $sts->template['extra_num_present']=0;
 }else{
+    $sts->template['extra_num_present']=1;
+    $sts->template['extra_track_num']=$order->info['extra_track_num'];
 ?>
               <tr>
 			    <td class="main" align="left"><?=EXTRA_TRACKING_NUMBER;?></td>
@@ -387,6 +449,16 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
       </tr>
 <?php
 }else if ($order->info['usps_track_num'] != NULL & $order->info['usps_track_num2'] != NULL & $order->info['ups_track_num'] != NULL & $order->info['ups_track_num2'] != NULL & $order->info['fedex_track_num'] != NULL & $order->info['fedex_track_num2'] != NULL & $order->info['dhl_track_num'] != NULL & $order->info['dhl_track_num2'] != NULL & $order->info['extra_track_num'] != NULL) {
+    $sts->template['no_null'] = 1;
+    $sts->template['usps_track_num1'] = $order->info['usps_track_num1'];
+$sts->template['usps_track_num2'] = $order->info['usps_track_num2'];
+ $sts->template['ups_track_num'] = $order->info['ups_track_num'];
+$sts->template['ups_track_num2'] = $order->info['ups_track_num2'];
+$sts->template['fedex_track_num']=$order->info['fedex_track_num'];
+$sts->template['fedex_track_num2']=$order->info['fedex_track_num2'];
+$sts->template['dhl_track_num']=$order->info['dhl_track_num'];
+$sts->template['dhl_track_num2']=$order->info['dhl_track_num2'];
+$sts->template['extra_track_num']=$order->info['extra_track_num'];
 ?>
       <tr>
         <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
@@ -456,7 +528,7 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
 }
 
 	$tracking_data = getAllTrackingDetails((int)$HTTP_GET_VARS['order_id']);
-	
+	$sts->template['tracking_data'] = $tracking_data;
 	if(count($tracking_data) > 0){ ?>
 	
 	  <tr>
@@ -499,7 +571,7 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
 	
 
 
-
+$sts->template['download_enabled'] = DOWNLOAD_ENABLED;
   if (DOWNLOAD_ENABLED == 'true') include(DIR_WS_MODULES . 'downloads.php');
 ?>
 <!-- Package Tracking Plus END -->

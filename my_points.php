@@ -150,13 +150,15 @@ function rowOutEffect(object) {
               <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
 
             </tr>
+            <tr>
 
 <?php
 
   $has_point = tep_get_shopping_points($customer_id);
-
+$sts->template['has_point'] = $has_point;
   if ($has_point > 0) {
-
+$sts->template['my_points_current_balance'] = sprintf(MY_POINTS_CURRENT_BALANCE, number_format($has_point,POINTS_DECIMAL_PLACES),$currencies->format(tep_calc_shopping_pvalue($has_point))); 
+$sts->template['points_auto_expires'] = POINTS_AUTO_EXPIRES; 
 ?>
 
               <td class="main"><?php echo sprintf(MY_POINTS_CURRENT_BALANCE, number_format($has_point,POINTS_DECIMAL_PLACES),$currencies->format(tep_calc_shopping_pvalue($has_point))); ?></td>
@@ -164,7 +166,8 @@ function rowOutEffect(object) {
 <?php
 
 	  if (tep_not_null(POINTS_AUTO_EXPIRES)) {
-
+	   
+            $sts->template['customer_points_expires_dt'] = tep_date_short($expires['customers_points_expires']);
 		  $expires_query = tep_db_query("select customers_points_expires from " . TABLE_CUSTOMERS . " where customers_id = '" . (int)$customer_id . "' and customers_points_expires > curdate() limit 1");
 
 		  $expires = tep_db_fetch_array($expires_query);
@@ -200,7 +203,7 @@ function rowOutEffect(object) {
 
 
     if (tep_db_num_rows($pending_points_query)) {
-
+$sts->template['pending_points_number'] = 1;
 ?>
 
           <table border="0" width="100%" cellspacing="1" cellpadding="2" class="productListing-heading productsHeading">
@@ -230,7 +233,8 @@ function rowOutEffect(object) {
                 <tr>
 
 <?php
-
+    $pending = array();
+    $i=0;
     while ($pending_points = tep_db_fetch_array($pending_points_query)) {
 
 	    $orders_status_query = tep_db_query("select o.orders_id, o.orders_status, s.orders_status_name from " . TABLE_ORDERS . " o, " . TABLE_ORDERS_STATUS . " s where o.customers_id = '" . (int)$customer_id . "' and o.orders_id = '" . (int)$pending_points['orders_id'] . "' and o.orders_status = s.orders_status_id and s.language_id = '" . (int)$languages_id . "'");
@@ -254,6 +258,7 @@ function rowOutEffect(object) {
 		    $points_status_name = TEXT_POINTS_PROCESSING;
 
 	    }
+        $pending[$i]['point_status']= $points_status_name;
 
 	    
 
@@ -294,10 +299,13 @@ function rowOutEffect(object) {
 		$pending_points['points_comment'] = TEXT_DEFAULT_REVIEWS;
 
 	}
-
+    $pending[$i]['points_comment'] = $pending_points['points_comment'];
+    $pending[$i]['points_type'] = $pending_points['points_type'];
 	
 
 	if (($pending_points['orders_id'] > '0') && (($pending_points['points_type'] == 'SP')||($pending_points['points_type'] == 'RD'))) {
+	 $pending[$i]['orders_id'] = $pending_points['orders_id'];
+     $pending[$i]['history_info_link'] =  tep_href_link(FILENAME_ACCOUNT_HISTORY_INFO, 'order_id=' . $pending_points['orders_id'], 'SSL');
 
 ?>
 
@@ -310,7 +318,7 @@ function rowOutEffect(object) {
 	
 
 	if ($pending_points['points_type'] == 'RV') {
-
+    $pending[$i]['product_info_link'] =  tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $pending_points['orders_id'], 'NONSSL');    
 ?>
 
         <tr class="moduleRow" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="document.location.href='<?php echo tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $pending_points['orders_id'], 'NONSSL'); ?>'" title="<?php echo TEXT_REVIEW_HISTORY; ?>">
@@ -328,6 +336,12 @@ function rowOutEffect(object) {
 		$pending_points['orders_id'] = '<span class="pointWarning">' . TEXT_ORDER_ADMINISTATION . '</span>';
 
 	}
+    
+    $pending[$i]['date_added_text'] = tep_date_short($pending_points['date_added']);
+    $pending[$i]['pending_points'] = number_format($pending_points['points_pending'],POINTS_DECIMAL_PLACES);
+    $pending[$i]['orders_status_name'] = $orders_status['orders_status_name'] ;
+    $pending[$i]['text_order_admin'] =  $pending_points['orders_id'];
+    $pending[$i]['customers_name'] = $referred_name['customers_name'];
 
 ?>
 
@@ -345,7 +359,9 @@ function rowOutEffect(object) {
 
 <?php
 
+$i++;
 	}
+   $sts->template['pending_points'] = $pending; 
 
 ?>
 
@@ -374,7 +390,7 @@ function rowOutEffect(object) {
         <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
 
           <tr>
-
+            
             <td class="smallText" valign="top"><?php echo $pending_points_split->display_count(TEXT_DISPLAY_NUMBER_OF_RECORDS); ?></td>
 
             <td class="smallText" align="right"><?php echo TEXT_RESULT_PAGE . ' ' . $pending_points_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info', 'x', 'y'))); ?></td>
@@ -386,6 +402,9 @@ function rowOutEffect(object) {
       </tr>
 
 <?php
+
+$sts->template['pending_points_split'] = $pending_points_split->display_count(TEXT_DISPLAY_NUMBER_OF_RECORDS);
+$sts->template['text_result_page'] = TEXT_RESULT_PAGE . ' ' . $pending_points_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info', 'x', 'y')));
 
   }
 
