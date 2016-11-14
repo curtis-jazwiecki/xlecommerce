@@ -72,6 +72,7 @@ function rowOutEffect(object) {
       </tr>
 <?php
   if ($messageStack->size('account') > 0) {
+    $sts->template['msgStack'] = $messageStack->output('account');
 ?>
       <tr>
         <td><?php echo $messageStack->output('account'); ?></td>
@@ -81,6 +82,14 @@ function rowOutEffect(object) {
       </tr>
 <?php
   }
+  $sts->template['account_edit_url'] = tep_href_link(FILENAME_ACCOUNT_EDIT, '', 'SSL');
+  $sts->template['address_book_url'] = tep_href_link(FILENAME_ADDRESS_BOOK,'', 'SSL');
+  $sts->template['account_password_url'] = tep_href_link(FILENAME_ACCOUNT_PASSWORD, '', 'SSL');
+  $sts->template['account_history_url'] = tep_href_link(FILENAME_ACCOUNT_HISTORY, '', 'SSL');
+  $sts->template['account_newsletter_url']=tep_href_link(FILENAME_ACCOUNT_NEWSLETTERS, '', 'SSL');
+  $sts->template['account_notifications_url'] = tep_href_link(FILENAME_ACCOUNT_NOTIFICATIONS, '','SSL');
+  $sts->template['my_points_url'] = tep_href_link(FILENAME_MY_POINTS, '', 'SSL');
+  $sts->template['my_points_help_url'] = tep_href_link(FILENAME_MY_POINTS_HELP, '', 'SSL'); 
 
  /* if (tep_count_customer_orders() > 0) {
 ?>
@@ -140,7 +149,7 @@ function rowOutEffect(object) {
       <tr>
         <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
           <tr>
-            <td class="infoBoxHeading"><b><?php echo MY_ACCOUNT_TITLE; ?></b></td>
+            <td class="infoBoxHeading account-info-heading"><b><?php echo MY_ACCOUNT_TITLE; ?></b></td>
           </tr>
         </table></td>
       </tr>
@@ -165,6 +174,9 @@ function rowOutEffect(object) {
                   <tr>
                     <td class="main"><?php echo tep_image(DIR_WS_IMAGES . 'arrow_m.gif') . ' <a href="' . tep_href_link(FILENAME_ACCOUNT_PASSWORD, '', 'SSL') . '">' . MY_ACCOUNT_PASSWORD . '</a>'; ?></td>
                   </tr>
+                  <tr>
+                    <td class="main"><?php echo tep_image(DIR_WS_IMAGES . 'arrow_m.gif')?>  <a href="<?php echo tep_href_link(FILENAME_LOGOFF, '', 'SSL'); ?>" class="headerNavigation"><?php echo HEADER_TITLE_LOGOFF; ?></a></td>
+                  </tr>
                 </table></td>
                 <td width="10" align="right"><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
               </tr>
@@ -178,7 +190,7 @@ function rowOutEffect(object) {
       <tr>
         <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
           <tr>
-            <td class="infoBoxHeading"><b><?php echo MY_ORDERS_TITLE; ?></b></td>
+            <td class="infoBoxHeading account-info-heading"><b><?php echo MY_ORDERS_TITLE; ?></b></td>
           </tr>
         </table></td>
       </tr>
@@ -210,7 +222,7 @@ function rowOutEffect(object) {
       <tr>
         <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
           <tr>
-            <td class="infoBoxHeading"><b><?php echo EMAIL_NOTIFICATIONS_TITLE; ?></b></td>
+            <td class="infoBoxHeading account-info-heading"><b><?php echo EMAIL_NOTIFICATIONS_TITLE; ?></b></td>
           </tr>
         </table></td>
       </tr>
@@ -242,7 +254,9 @@ function rowOutEffect(object) {
       </tr>
       <!-- // Points/Rewards Module V2.1rc2a points_system_box_bof //-->
 <?php 	
+        $use_points = 0;
     if (USE_POINTS_SYSTEM == 'true') {
+        $use_points = 1;
 ?>
       <tr>
         <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
@@ -265,12 +279,15 @@ function rowOutEffect(object) {
                 <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
 <?php
   $has_points = tep_get_shopping_points($customer_id);
+  $sts->template['has_points'] = $has_points;
   if ($has_points > 0) {
+    $sts->template['has_points_text'] = sprintf(MY_POINTS_CURRENT_BALANCE, number_format($has_points,POINTS_DECIMAL_PLACES),$currencies->format(tep_calc_shopping_pvalue($has_points)));
 ?>
                   <tr>
                     <td class="main"><?php echo tep_image(DIR_WS_IMAGES . 'indicator.gif') .'&nbsp;&nbsp;'.  sprintf(MY_POINTS_CURRENT_BALANCE, number_format($has_points,POINTS_DECIMAL_PLACES),$currencies->format(tep_calc_shopping_pvalue($has_points))); ?></td>
                   </tr>
 <?php
+$sts->template['use_points'] = $use_points;
   }
 ?>
                   <tr>

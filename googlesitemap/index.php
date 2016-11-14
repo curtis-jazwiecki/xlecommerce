@@ -34,6 +34,7 @@
 	require_once(DIR_WS_FUNCTIONS . 'database.php');
 	require_once(DIR_WS_FUNCTIONS . 'general.php');
 
+
 	tep_db_connect() or die('Unable to connect to database server!');
 
 	$configuration_query = tep_db_query('select configuration_key as cfgKey, configuration_value as cfgValue from ' . TABLE_CONFIGURATION);
@@ -41,6 +42,16 @@
 	while ($configuration = tep_db_fetch_array($configuration_query)) {
 		define($configuration['cfgKey'], $configuration['cfgValue']);
 	}
+
+        if (USE_FRONTEND_CATEGORIES == 'true') {
+    	define('TABLE_CATEGORIES', 'frontend_categories');
+        define('TABLE_CATEGORIES_DESCRIPTION', 'frontend_categories_description');
+        define('TABLE_PRODUCTS_TO_CATEGORIES', 'frontend_products_to_categories');
+      } else {
+    	define('TABLE_CATEGORIES', 'categories');
+        define('TABLE_CATEGORIES_DESCRIPTION', 'categories_description');
+        define('TABLE_PRODUCTS_TO_CATEGORIES', 'products_to_categories');
+      }
 
 
 
@@ -66,7 +77,7 @@
 
 //if ( defined('SEO_URLS') && SEO_URLS == 'true' || defined('SEO_ENABLED') && SEO_ENABLED == 'true' ) {
 
- if ( (SEARCH_ENGINE_FRIENDLY_URLS == 'true') ) {
+ if ( (SEO_ENABLED == 'true') ) {
 
 	function tep_session_is_registered( $var ){
 		return false;
@@ -115,6 +126,9 @@
 	}
 } # end if
 
+define('GOOGLE_SITEMAP_INFO_CHANGE_FREQ','weekly');
+define('GOOGLE_SITEMAP_INFO_PRIORITY','0.5');
+
 require_once('googlesitemap/sitemap.class.php');
 
 $google = new GoogleSitemap(DB_SERVER, DB_SERVER_USERNAME, DB_DATABASE, DB_SERVER_PASSWORD);
@@ -146,6 +160,19 @@ if ($google->GenerateCategorySitemap()){
 	echo 'ERROR: Google Category Sitemap Generation FAILED!' . "\n\n";
 
 }
+
+if ($google->GenerateInfoPagesSitemap()){
+
+	echo 'Generated Google Info Pages Sitemap Successfully' . "\n\n";
+
+} else {
+
+	$submit = false;
+
+	echo 'ERROR: Google Info Pages Sitemap Generation FAILED!' . "\n\n";
+
+}
+
 
 
 
@@ -182,7 +209,7 @@ if ($submit){
 
 	echo 'Here is your category sitemap: ' . $google->base_url . 'sitemapcategories.xml' . "\n";
 	
-
+     echo 'Here is your information sitemap: ' . $google->base_url . 'sitemapinformation.xml' . "\n";
 
 } else {
 

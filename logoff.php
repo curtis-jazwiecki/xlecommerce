@@ -96,7 +96,10 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
   <tr>
     <td width="<?php echo BOX_WIDTH; ?>" valign="top"><table border="0" width="<?php echo BOX_WIDTH; ?>" cellspacing="0" cellpadding="2">
 <!-- left_navigation //-->
-<?php require(DIR_WS_INCLUDES . 'column_left.php'); ?>
+<?php require(DIR_WS_INCLUDES . 'column_left.php');
+$sts->template['back_url'] = tep_href_link(FILENAME_DEFAULT);
+
+ ?>
 <!-- left_navigation_eof //-->
     </table></td>
 <!-- body_text //-->

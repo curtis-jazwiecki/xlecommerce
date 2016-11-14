@@ -375,4 +375,11 @@ define('TXT_IN_STOCK','In Stock');
 define('TXT_OUT_OF_STOCK','Out of Stock');
 define('TXT_LOW_STOCK','Low Stock');
 define('TXT_IN_STORE_AVAILABILITY','In Store Availability:');
+define('BOX_HEADING_ACCOUNT','Manage Your Account');
+define('TEXT_MY_ACCOUNT_INFORMATION','View or change my account information');
+define('TEXT_MY_ACCOUNT_ADDRESS_BOOK','View or change entries in my address book');
+define('TEXT_MY_ACCOUNT_PASSWORD','Change my account password');
+define('TEXT_MY_ORDERS_VIEW','View the orders I have made');
+define('TEXT_EMAIL_NOTIFICATIONS_NEWSLETTERS','Subscribe or unsubscribe from newsletters');
+define('TEXT_EMAIL_NOTIFICATIONS_PRODUCTS','View or change my product notification list');
 ?>

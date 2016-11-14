@@ -80,6 +80,7 @@ function rowOutEffect(object) {
       </tr>
 <?php
   if ($messageStack->size('addressbook') > 0) {
+    $sts->template['message'] = $messageStack->output('addressbook');
 ?>
       <tr>
         <td><?php echo $messageStack->output('addressbook'); ?></td>
@@ -89,6 +90,10 @@ function rowOutEffect(object) {
       </tr>
 <?php
   }
+  $sts->template['primary_address_label'] = tep_address_label($customer_id, $customer_default_address_id, true, ' ', '<br>');
+  $sts->template['back_url'] = tep_href_link(FILENAME_ACCOUNT, '', 'SSL');
+  $sts->template['max_entries_text'] = sprintf(TEXT_MAXIMUM_ENTRIES, MAX_ADDRESS_BOOK_ENTRIES); 
+
 ?>
       <tr>
         <td class="main"><b><?php echo PRIMARY_ADDRESS_TITLE; ?></b></td>
@@ -124,9 +129,17 @@ function rowOutEffect(object) {
           <tr class="infoBoxContents">
             <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
 <?php
+$address=array();
+  $i=0;
+  $sts->template['customer_default_address_id'] = $customer_default_address_id;
   $addresses_query = tep_db_query("select address_book_id, entry_firstname as firstname, entry_lastname as lastname, entry_company as company, entry_street_address as street_address, entry_suburb as suburb, entry_city as city, entry_postcode as postcode, entry_state as state, entry_zone_id as zone_id, entry_country_id as country_id from " . TABLE_ADDRESS_BOOK . " where customers_id = '" . (int)$customer_id . "' order by firstname, lastname");
   while ($addresses = tep_db_fetch_array($addresses_query)) {
     $format_id = tep_get_address_format_id($addresses['country_id']);
+    $address[$i]['process_edit_url'] = tep_href_link(FILENAME_ADDRESS_BOOK_PROCESS, 'edit=' . $addresses['address_book_id'], 'SSL');
+    $address[$i]['customer_fullname'] = tep_output_string_protected($addresses['firstname'] . ' ' . $addresses['lastname']);
+    $address[$i]['address_book_id'] = $addresses['address_book_id'];
+    $address[$i]['process_delete_url'] = tep_href_link(FILENAME_ADDRESS_BOOK_PROCESS, 'delete=' . $addresses['address_book_id'], 'SSL');
+    $address[$i]['address'] = tep_address_format($format_id, $addresses, true, ' ', '<br>');
 ?>
               <tr>
                 <td><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
@@ -149,7 +162,10 @@ function rowOutEffect(object) {
                 <td><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
               </tr>
 <?php
+$i++;
   }
+  $sts->template['address'] = $address;
+
 ?>
             </table></td>
           </tr>
@@ -167,6 +183,8 @@ function rowOutEffect(object) {
                 <td class="smallText"><?php echo '<a href="' . tep_href_link(FILENAME_ACCOUNT, '', 'SSL') . '">' . tep_image_button('button_back.gif', IMAGE_BUTTON_BACK) . '</a>'; ?></td>
 <?php
   if (tep_count_customer_address_book_entries() < MAX_ADDRESS_BOOK_ENTRIES) {
+    $sts->template['add_new_address'] = 1;
+    $sts->template['process_new_url'] = tep_href_link(FILENAME_ADDRESS_BOOK_PROCESS, '', 'SSL');
 ?>
                 <td class="smallText" align="right"><?php echo '<a href="' . tep_href_link(FILENAME_ADDRESS_BOOK_PROCESS, '', 'SSL') . '">' . tep_image_button('button_add_address.gif', IMAGE_BUTTON_ADD_ADDRESS) . '</a>'; ?></td>
 <?php

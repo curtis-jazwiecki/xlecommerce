@@ -100,6 +100,7 @@ $text_display = '';
 for($p=0;sizeof($contact_us_template_0) > $p; $p++){
     $text_display .= $contact_us_template_0[$p];
 }*/
+$sts->template['action_url'] = tep_href_link(FILENAME_CONTACT_US, 'action=send');
 ?>
 <!-- body //-->
     <table border="0" width="100%" cellspacing="3" cellpadding="3">
@@ -124,12 +125,15 @@ for($p=0;sizeof($contact_us_template_0) > $p; $p++){
                                 </tr>
                             </table>
                         </td>
+                        
                     </tr>
+                    
                     <tr>
                         <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
                     </tr>
                     <?php
                     if ($messageStack->size('contact') > 0) {
+                        $sts->template['message'] = $messageStack->output('contact');
                     ?>
                     <tr>
                         <td><?php echo $messageStack->output('contact'); ?></td>
@@ -141,6 +145,8 @@ for($p=0;sizeof($contact_us_template_0) > $p; $p++){
                     }
 
                     if (isset($HTTP_GET_VARS['action']) && ($HTTP_GET_VARS['action'] == 'send')) {
+                        $sts->template['action'] = $HTTP_GET_VARS['action']; 
+                        $sts->template['link'] = tep_href_link(FILENAME_DEFAULT);
                     ?>
                     <tr>
                         <td class="main" align="center"><?php echo tep_image(DIR_WS_IMAGES . 'table_background_man_on_board.gif', HEADING_TITLE, '0', '0', 'align="left"') . TEXT_SUCCESS; ?></td>
@@ -156,7 +162,7 @@ for($p=0;sizeof($contact_us_template_0) > $p; $p++){
                                         <table border="0" width="100%" cellspacing="0" cellpadding="2">
                                             <tr>
                                                 <td width="10"><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
-                                                <td align="right"><?php echo '<a href="' . tep_href_link(FILENAME_DEFAULT) . '">' . tep_image_button('button_continue.gif', IMAGE_BUTTON_CONTINUE) . '</a>'; ?></td>
+                                                <td align="right" class="Button_Continue"><?php echo '<a href="' . tep_href_link(FILENAME_DEFAULT) . '">' . tep_image_button('button_continue.gif', IMAGE_BUTTON_CONTINUE) . '</a>'; ?></td>
                                                 <td width="10"><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
                                             </tr>
                                         </table>
@@ -169,10 +175,13 @@ for($p=0;sizeof($contact_us_template_0) > $p; $p++){
                     <?php
                     } else {
                         if (tep_session_is_registered('customer_id')) {
+                            $sts->template['in_session_customer_id'] =1;
                             $account_query = tep_db_query("select customers_firstname, customers_lastname, customers_email_address from " . TABLE_CUSTOMERS . " where customers_id = '" . (int)$customer_id . "'");
                             $account = tep_db_fetch_array($account_query);
                             $name = $account['customers_firstname'] . ' ' . $account['customers_lastname'];
                             $email = $account['customers_email_address'];
+                            $sts->template['name'] = $name;
+                            $sts->template['email'] = $email;
                     }
                     ?>
                     <tr>
@@ -196,9 +205,19 @@ for($p=0;sizeof($contact_us_template_0) > $p; $p++){
                                                     $information_query = tep_db_query("select information_title, information_description from " . TABLE_INFORMATION . " where language_id = '" . (int)$languages_id . "' and information_id = '" . (int)$information_id . "'");
                                                     $info = tep_db_fetch_array($information_query);
                                                     echo $info['information_description'];
+                                                    $sts->template['information_description'] = $info['information_description'];
                                                     ?>
                                                 </td>
                                                 </tr>
+                                                
+                                                <tr>
+                    <td>
+                     <div class="contact_us_map" style="display:none">
+                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2984.228655339001!2d-83.66694678456801!3d41.58593587924654!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x883c77587aa7412d%3A0x8b244cb5b97abc53!2s1512+S+Reynolds+Rd%2C+Maumee%2C+OH+43537%2C+USA!5e0!3m2!1sen!2sin!4v1475222344567" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+                     </div>
+                    </td>
+                    </tr>
+                                                
                                                 <tr>
                                                 <td class="main" valign="top" width="40%"><br>
                                                     Name:<br>
@@ -255,7 +274,7 @@ for($p=0;sizeof($contact_us_template_0) > $p; $p++){
                                         <table border="0" width="100%" cellspacing="0" cellpadding="2">
                                             <tr>
                                                 <td width="10"><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
-                                                <td align="right"><?php echo tep_image_submit('button_continue.gif', IMAGE_BUTTON_CONTINUE); ?></td>
+                                                <td align="right" class="Button_Continue"><?php echo tep_image_submit('button_continue.gif', IMAGE_BUTTON_CONTINUE); ?></td>
                                                 <td width="10"><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
                                             </tr>
                                         </table>

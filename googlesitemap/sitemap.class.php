@@ -947,6 +947,93 @@ class GoogleSitemap{
 	} # end function
 
 
+/**
+
+ * Funciton to generate Info pages sitemap data
+
+ * @author Bobby Easland 
+
+ * @version 1.1
+
+ * @return boolean
+
+ */	
+
+	function GenerateInfoPagesSitemap(){
+
+		$sql = "select  i.`information_group_id` as ig_id,`information_id` as i_id,`information_title` as i_title,
+                `information_meta_title` as i_meta_title,`information_description` as i_descp
+                from  information i
+                where i.`information_group_id`=1";
+
+		if ( $info_query = $this->DB->Query($sql) ){
+
+			$this->debug['QUERY']['INFO']['STATUS'] = 'success';
+
+			$this->debug['QUERY']['INFO']['NUM_ROWS'] = $this->DB->NumRows($info_query);
+
+			$container = array();
+
+			$number = 0;
+
+			while( $result = $this->DB->FetchArray($info_query) ){
+
+				//$location = $this->hrefLink('category' . $this->GetFullcPath($result['cID']) . FILENAME_DEFAULT, 'source=google', 'NONSSL', false);
+				$location = $this->hrefLink('information.php','info_id=' . $result['i_id'], 'NONSSL', false);
+
+				//$lastmod = $this->NotNull($result['last_mod']) ? $result['last_mod'] : $result['date_added'];
+                
+				    $changefreq = GOOGLE_SITEMAP_INFO_CHANGE_FREQ;
+                
+				    $priority = GOOGLE_SITEMAP_INFO_PRIORITY; 
+                
+                
+				
+
+				$container[] = array('loc' => htmlspecialchars(utf8_encode($location)),
+
+				                     'lastmod' => date ("Y-m-d", strtotime("now")),
+
+									 'changefreq' => $changefreq,
+
+									 'priority' => $priority
+
+				                     );
+
+				if ( sizeof($container) >= 50000 ){
+
+					$type = $number == 0 ? 'information' : 'information' . $number;
+
+					$this->GenerateSitemap($container, $type);
+
+					$container = array();
+
+					$number++;
+
+				}
+
+			} # end while
+
+			$this->DB->Free($info_query);			
+
+			if ( sizeof($container) > 1 ) {
+
+				$type = $number == 0 ? 'information' : 'information' . $number;
+
+				return $this->GenerateSitemap($container, $type);
+
+			} # end if			
+
+		} else {
+
+			$this->debug['QUERY']['INFO']['STATUS'] = 'false';
+
+			$this->debug['QUERY']['INFO']['NUM_ROWS'] = '0';
+
+		}
+
+	} # end function
+
 
 /**
 
@@ -1093,7 +1180,7 @@ class GoogleSitemap{
 	function hrefLink($page, $parameters, $connection, $add_session_id) {
 
 		//if ( defined('SEO_URLS') && SEO_URLS == 'true' || defined('SEO_ENABLED') && SEO_ENABLED == 'true' ) {
-		if ( (SEARCH_ENGINE_FRIENDLY_URLS == 'true') ) {
+		if ( (SEO_ENABLED == 'true') ) {
 
 			return tep_href_link($page, $parameters, $connection, $add_session_id);
 

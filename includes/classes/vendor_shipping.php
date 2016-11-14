@@ -90,19 +90,29 @@ class shipping {
 
 						$installed_modules = @constant ('MODULE_VENDOR_SHIPPING_INSTALLED_' . $vendors_id);
 
-						for ($n = 0; $n < sizeof($installed_modules) ; $n++) {
+						// added on 07-10-2016 #start
+						if (isset ($installed_modules) && tep_not_null ($installed_modules)) {
+							$modules_array = explode(";",$installed_modules);
+						}
+						// added on 07-10-2016 #ends
+						
+						foreach ($modules_array as $module_name) {
 
 							// check to see if a shipping module is not de-installed
 
-							if ( in_array($installed_modules[$n], $temp_shipment_array ) ) {
-
-								$shipment_array[] = $installed_modules[$n];
+							if ( in_array($module_name, $temp_shipment_array ) ) {
+							 
+                                 if (!in_array ($module_name, $installed_modules_array)) { 
+    
+    								$installed_modules_array[] = $module_name;
+									
+                                 }
 
 							}
 
 						} // end for loop
 
-						$this->modules[$vendors_id] = $shipment_array;
+						$this->modules[$vendors_id] = $installed_modules_array;
 
 					}
 

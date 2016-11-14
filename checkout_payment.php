@@ -431,7 +431,7 @@ window.open('cvv_help.php','jav','width=500,height=550,resizable=no,toolbar=no,m
         '          </tr>' . "\n";
  }
  ?>
-                <tr><td><?php echo '<a href="' . tep_href_link(FILENAME_SHOPPING_CART,'', 'SSL') . '">' . tep_image_button('button_edit_product.gif') . '</a>'; ?></td>
+                <tr><td class="button_edit_product_BTTN"><?php echo '<a href="' . tep_href_link(FILENAME_SHOPPING_CART,'', 'SSL') . '">' . tep_image_button('button_edit_product.gif') . '</a>'; ?></td>
             <td COLSPAN="2" valign="top" align="right">
            <table border="0" cellspacing="0" cellpadding="3">
  <?php

@@ -28,8 +28,8 @@ if ($num_popular_products > 0) {
     if (MODULE_STS_DEFAULT_STATUS=='true' && MODULE_STS_TEMPLATE_FOLDER!='' && file_exists(DIR_FS_CATALOG . DIR_WS_INCLUDES . 'sts_templates/' . MODULE_STS_TEMPLATE_FOLDER . '/blocks/infobox_06.php.html') ) {	
         //if (!isset($on_home_page) || !$on_home_page){
 		$content = file_get_contents(DIR_FS_CATALOG . DIR_WS_INCLUDES . 'sts_templates/' . MODULE_STS_TEMPLATE_FOLDER . '/blocks/infobox_06.php.html');
-        		
-        $output = '';
+		
+		$output = '';
         $header_bof = stripos($content, '<!--header_bof-->');		
         $header_eof = stripos($content, '<!--header_eof-->');		
         if ($header_bof!==false && $header_eof!==false){			
@@ -72,9 +72,37 @@ if ($num_popular_products > 0) {
             }						
             $link = tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $popular_products['products_id']);			
             $name = $popular_products['products_name'];
-			$entry = str_ireplace( array('$image', '$link', '$name', '$price'), array($image, $link, $name, $price), $block_content);			
-			$output .= $entry;
-        }				
+			
+			
+		
+			if (!empty($items_per_row) && $items_per_row>1){
+					if (empty($temp)) $temp = $block_content;
+					
+					$temp = str_ireplace( array('$image_' . $count, '$link_' . $count, '$name_' . $count, '$price_' . $count,'$manufacturer_'.$count,'$link_manufacturer_'.$count,'$msrp_price_'.$count), array($image, $link, $name, $price,$manufacturer,$link_manufacturer,$msrp_price), $temp);
+					if ($count==$items_per_row){
+						$output .= $temp;
+						$temp = '';
+						$count = 1;
+					} else {
+						$count++;
+					}
+				} else {
+					$entry = str_ireplace( array('$image', '$link', '$name', '$price'), array($image, $link, $name, $price), $block_content);			
+					$output .= $entry;
+				}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		}				
         $footer_bof = stripos($content, '<!--footer_bof-->');		
         $footer_eof = stripos($content, '<!--footer_eof-->');		
         if ($footer_bof!==false && $footer_eof!==false){			
@@ -89,6 +117,7 @@ if ($num_popular_products > 0) {
         }		
         $output .= $footer_content;		
         echo $output;	
+		
     } else {?>
 <!-- xsell_products //-->
 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="padding-top: 10px;">

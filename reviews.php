@@ -62,6 +62,8 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
 <!-- // Points/Rewards Module V2.00 bof //-->
 <?php
   if ((USE_POINTS_SYSTEM == 'true') && (tep_not_null(USE_POINTS_FOR_REVIEWS))) {
+    $sts->template['show_points_for_review_block'] = 1;
+    $sts->template['review_help_link_text'] = sprintf(REVIEW_HELP_LINK, $currencies->format(tep_calc_shopping_pvalue(USE_POINTS_FOR_REVIEWS)), '<a href="' . tep_href_link(FILENAME_MY_POINTS_HELP,'faq_item=13', 'NONSSL') . '" title="' . BOX_INFORMATION_MY_POINTS_HELP . '">' . BOX_INFORMATION_MY_POINTS_HELP . '</a>');
 ?>
       <tr>
         <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
@@ -83,6 +85,10 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
   $reviews_split = new splitPageResults($reviews_query_raw, MAX_DISPLAY_NEW_REVIEWS);
 
   if ($reviews_split->number_of_rows > 0) {
+    $sts->template['no_of_reviews'] =1;
+    $sts->template['prev_next_bar_loc'] = PREV_NEXT_BAR_LOCATION;
+    $sts->template['display_count_text'] = $reviews_split->display_count(TEXT_DISPLAY_NUMBER_OF_REVIEWS);
+    $sts->template['display_links_text'] = $reviews_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info')));
     if ((PREV_NEXT_BAR_LOCATION == '1') || (PREV_NEXT_BAR_LOCATION == '3')) {
 ?>
           <tr>
@@ -100,7 +106,17 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
     }
 
     $reviews_query = tep_db_query($reviews_split->sql_query);
+    $review = array();
+    $i=0;
     while ($reviews = tep_db_fetch_array($reviews_query)) {
+        $review[$i]['product_review_info_url'] = tep_href_link(FILENAME_PRODUCT_REVIEWS_INFO, 'products_id=' . $reviews['products_id'] . '&reviews_id=' . $reviews['reviews_id']);
+        $review[$i]['products_name'] = $reviews['products_name'];
+        $review[$i]['review_by_text'] = sprintf(TEXT_REVIEW_BY, tep_output_string_protected($reviews['customers_name']));
+        $review[$i]['reiew_date_text'] = sprintf(TEXT_REVIEW_DATE_ADDED, tep_date_long($reviews['date_added']));
+        $review[$i]['review_product_image'] = tep_image(DIR_WS_IMAGES . $reviews['products_image'], $reviews['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT);
+        $review[$i]['review_text'] = tep_break_string(tep_output_string_protected($reviews['reviews_text']), 60, '-<br>') . ((strlen($reviews['reviews_text']) >= 100) ? '..' : '');
+        $review[$i]['rating']= sprintf(TEXT_REVIEW_RATING, tep_image(DIR_WS_IMAGES . 'stars_' . $reviews['reviews_rating'] . '.gif', sprintf(TEXT_OF_5_STARS, $reviews['reviews_rating'])), sprintf(TEXT_OF_5_STARS, $reviews['reviews_rating']));
+        
 ?>
           <tr>
             <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
@@ -128,13 +144,17 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
             <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
           </tr>
 <?php
+$i++;
     }
+    $sts->template['review'] = $review;
 ?>
 <?php
   } else {
+   $text_no_reviews = new infoBox(array(array('text' => TEXT_NO_REVIEWS)));
+   $sts->template['text_no_reviews'] = $text_no_reviews;
 ?>
           <tr>
-            <td><?php new infoBox(array(array('text' => TEXT_NO_REVIEWS))); ?></td>
+            <td><?php $text_no_reviews ; ?></td>
           </tr>
           <tr>
             <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>

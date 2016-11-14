@@ -3,8 +3,8 @@
   CloudCommerce - Multi-Channel eCommerce Solutions
   http://www.cloudcommerce.org
   Copyright (c) 2016 Outdoor Business Network, Inc.
-*/
 
+*/
 if ( file_exists(DIR_FS_CATALOG . STS_TEMPLATE_DIR . 'dresscode_constants.php') ) {
     require( DIR_FS_CATALOG . STS_TEMPLATE_DIR. 'dresscode_constants.php');
 }
@@ -38,7 +38,12 @@ if (tep_session_is_registered('customer_id')) {
 
     $create_account_url = tep_href_link(FILENAME_CREATE_ACCOUNT, '', 'SSL');
 }
-
+/*footer links*/
+if (tep_session_is_registered('customer_id')) {
+    $account_history = tep_href_link(FILENAME_ACCOUNT_HISTORY, '', 'SSL');
+    } else {
+    $account_history  = tep_href_link(FILENAME_LOGIN, '', 'SSL');
+    }
 
 
 /* functions for texts */

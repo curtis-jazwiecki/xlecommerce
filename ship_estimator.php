@@ -4320,7 +4320,7 @@ TEXT_CART_EMPTY; ?></b></td>
 
 'action=end', 'NONSSL') . '">' . tep_image_button('button_close_window.gif',
 
-IMAGE_BUTTON_CLOSE) . '</a>'; ?> </p></td>
+IMAGE_BUTTON_CLOSE,'id="close_estimator" onclick="parent.tba.colorbox.close();"') . '</a>'; ?> </p></td>
 
   </tr>
 

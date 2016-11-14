@@ -465,13 +465,15 @@ if (isset($_SESSION['filter_c']) && $_SESSION['filter_c']>0) {
 
                                         }
                                         
-if (isset($_SESSION['filter_m']) && $_SESSION['filter_m']>0) {
-                                           foreach ($_SESSION['filter_m'] as $man_id)
+                                        
+if (isset($_SESSION['filter_m']) && sizeof($_SESSION['filter_m'])>0) {
+                                           foreach ($_SESSION['filter_m'] as $man_id) {
                                             $man_query = tep_db_query("select manufacturers_name from " . TABLE_MANUFACTURERS . " where manufacturers_id='" . (int)$man_id . "'");
 
                                             $man = tep_db_fetch_array($man_query);
 
                                             $keywords_str .= '<b><i>' . stripslashes($man['manufacturers_name']). '</b></i>' .  '<a style="cursor:pointer;" onclick="deleteThisFilter(\'filter_m\', \'' . $man_id . '\');"><font color=red> X</font></a>' . tep_draw_separator('pixel_trans.gif', '10', '10'); 
+                                            }
 
                                         }
 
@@ -884,9 +886,9 @@ if (is_array($_SESSION['filter_o']) && sizeof($_SESSION['filter_o'])>0) {
 
                             }
 
-                            if (isset($_POST['m_']) && !empty($_POST['m_'])){
+                            if (isset($_SESSION['filter_m']) && !empty($_SESSION['filter_m'])){
 
-                                $where_str .= " and m.manufacturers_id in (" . implode(',', $_POST['m_']) . ") ";
+                                $where_str .= " and m.manufacturers_id in (" . implode(',', $_SESSION['filter_m']) . ") ";
 
                             }
 

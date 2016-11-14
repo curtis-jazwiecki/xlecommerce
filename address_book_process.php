@@ -257,7 +257,10 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
 ?>
 <?php
   if (!isset($HTTP_GET_VARS['delete'])) {
+    $sts->template['delete'] = 0;
     include('includes/form_check.js.php');
+  }else{
+    $sts->template['delete'] = 1;
   }
 ?>
 </head>
@@ -272,6 +275,17 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
     <td width="<?php echo BOX_WIDTH; ?>" valign="top"><table border="0" width="<?php echo BOX_WIDTH; ?>" cellspacing="0" cellpadding="2">
 <!-- left_navigation //-->
 <?php require(DIR_WS_INCLUDES . 'column_left.php'); ?>
+<?php 
+if (isset($HTTP_GET_VARS['edit'])) {
+        $sts->template['heading'] = HEADING_TITLE_MODIFY_ENTRY; 
+    } elseif (isset($HTTP_GET_VARS['delete'])) { 
+        $sts->template['heading'] = HEADING_TITLE_DELETE_ENTRY; 
+    } else {
+        $sts->template['heading'] = HEADING_TITLE_ADD_ENTRY; 
+    }
+    $sts->template['heading_image'] = tep_image(DIR_WS_IMAGES . 'table_background_address_book.gif', (isset($HTTP_GET_VARS['edit']) ? HEADING_TITLE_MODIFY_ENTRY : HEADING_TITLE_ADD_ENTRY), HEADING_IMAGE_WIDTH, HEADING_IMAGE_HEIGHT); 
+    $sts->template['action_url'] = tep_href_link(FILENAME_ADDRESS_BOOK_PROCESS, (isset($HTTP_GET_VARS['edit']) ? 'edit=' . $HTTP_GET_VARS['edit'] : ''), 'SSL');
+?>
 <!-- left_navigation_eof //-->
     </table></td>
 <!-- body_text //-->
@@ -289,6 +303,7 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
       </tr>
 <?php
   if ($messageStack->size('addressbook') > 0) {
+    $sts->template['message'] = $messageStack->output('addressbook');
 ?>
       <tr>
         <td><?php echo $messageStack->output('addressbook'); ?></td>
@@ -298,8 +313,10 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
       </tr>
 <?php
   }
-
+$sts->template['back_url'] =tep_href_link(FILENAME_ADDRESS_BOOK, '', 'SSL');
   if (isset($HTTP_GET_VARS['delete'])) {
+    $sts->template['address_selected_label'] = tep_address_label($customer_id, $HTTP_GET_VARS['delete'], true, ' ', '<br>');
+    $sts->template['delete_link'] = tep_href_link(FILENAME_ADDRESS_BOOK_PROCESS, 'delete=' . $HTTP_GET_VARS['delete'] . '&action=deleteconfirm', 'SSL'); 
 ?>
       <tr>
         <td class="main"><b><?php echo DELETE_ADDRESS_TITLE; ?></b></td>
@@ -343,6 +360,9 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
       </tr>
 <?php
   } else {
+    $sts->template['include_link'] = DIR_WS_MODULES . 'address_book_details.php';
+    
+    
 ?>
       <tr>
         <td><?php include(DIR_WS_MODULES . 'address_book_details.php'); ?></td>
@@ -352,6 +372,8 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
       </tr>
 <?php
     if (isset($HTTP_GET_VARS['edit']) && is_numeric($HTTP_GET_VARS['edit'])) {
+        $sts->template['edit'] = $HTTP_GET_VARS['edit'];
+        
 ?>
       <tr>
         <td><table border="0" width="100%" cellspacing="1" cellpadding="2" class="infoBox">
@@ -374,6 +396,8 @@ if ( file_exists(DIR_WS_INCLUDES . 'header_tags.php') ) {
       } else {
         $back_link = tep_href_link(FILENAME_ADDRESS_BOOK, '', 'SSL');
       }
+      
+      $sts->template['back_link'] = $back_link;
 ?>
       <tr>
         <td><table border="0" width="100%" cellspacing="1" cellpadding="2" class="infoBox">

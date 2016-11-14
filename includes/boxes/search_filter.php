@@ -889,6 +889,18 @@ if (isset($_SESSION['keywords'])) {
 
 	<?php } ?>
 
+	<?php if($template_id == 17) { ?>
+	
+			jQuery('.initial_action').toggle();
+
+			jQuery('.initial_action_img').html('+');
+	
+	
+	<?php } ?>
+
+	   
+	   
+	   
 	   
 
 	   
