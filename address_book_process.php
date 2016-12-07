@@ -360,7 +360,7 @@ $sts->template['back_url'] =tep_href_link(FILENAME_ADDRESS_BOOK, '', 'SSL');
       </tr>
 <?php
   } else {
-    $sts->template['include_link'] = DIR_WS_MODULES . 'address_book_details.php';
+    //$sts->template['include_link'] = DIR_WS_MODULES . 'address_book_details.php';
     
     
 ?>

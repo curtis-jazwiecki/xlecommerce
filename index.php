@@ -161,7 +161,7 @@ $sts->template['get_featured_manufacturer_products'] = $get_featured_manufacture
 
                 $current_template = strtolower(basename(STS_TEMPLATE_DIR));
 
-                if ($current_template=='template11' || $current_template=='template12' || $current_template=='template18' || $current_template=='template19' || $current_template=='template21'  || $current_template=='template3' || $current_template=='template17'){
+                if ($current_template=='template11' || $current_template=='template12' || $current_template=='template18' || $current_template=='template19' || $current_template=='template21'  || $current_template=='template3' || $current_template=='template16' || $current_template=='template17'){
 
                     include_once('includes/sts_templates/' . $check['configuration_value'] . '/blocks/main_content.php.html');
 
