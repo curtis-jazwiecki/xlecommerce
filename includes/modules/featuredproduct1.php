@@ -59,19 +59,22 @@ if(FEATURED_PRODUCTS_DISPLAY == 'true'){
         }
     
          //$featured_products_query = tep_db_query("select distinct p.products_id, p.products_image, p.products_tax_class_id, s.status as specstat, s.specials_new_products_price, p.products_price from " . TABLE_PRODUCTS . " p left join " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c using(products_id) left join " . TABLE_CATEGORIES . " c using(categories_id) left join " . TABLE_FEATURED . " f on p.products_id = f.products_id left join " . TABLE_SPECIALS . " s on p.products_id = s.products_id where c.parent_id = '" . $featured_products_category_id . "' and p.products_status = '1' and f.status = '1' order by rand() DESC limit " . MAX_DISPLAY_FEATURED_PRODUCTS);     
-         $featured_products_query = tep_db_query("select distinct p.products_id, p.products_image, p.products_mediumimage, p.products_tax_class_id, s.status as specstat, s.specials_new_products_price, p.products_price, p.hide_price from " . TABLE_PRODUCTS . " p left join " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c using(products_id) left join " . TABLE_CATEGORIES . " c using(categories_id) left join " . TABLE_FEATURED . " f on p.products_id = f.products_id left join " . TABLE_SPECIALS . " s on p.products_id = s.products_id where c.parent_id = '" . $featured_products_category_id . "' and p.products_status = '1' and f.status = '1' order by rand() DESC limit " . (!empty($max_count) ? $max_count : MAX_DISPLAY_FEATURED_PRODUCTS) );     
+         $featured_products_query = tep_db_query("select distinct p.products_id, p.products_image, p.products_mediumimage, p.products_tax_class_id, s.status as specstat, s.specials_new_products_price, p.products_price, p.hide_price from " . TABLE_PRODUCTS . " p left join " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c using(products_id) left join " . TABLE_CATEGORIES . " c using(categories_id) left join " . TABLE_FEATURED . " f on p.products_id = f.products_id left join " . TABLE_SPECIALS . " s on p.products_id = s.products_id where c.parent_id = '" . $featured_products_category_id . "' and p.products_status = '1' and f.status = '1' and f.featured_group='1' order by rand() DESC limit " . (!empty($max_count) ? $max_count : MAX_DISPLAY_FEATURED_PRODUCTS) );     
 	}
     
     $total_featured = tep_db_num_rows($featured_products_query);
+    
+    
     if ($total_featured >= $items_per_row) {
     
 	if (tep_db_num_rows($featured_products_query)){
 		if (MODULE_STS_DEFAULT_STATUS=='true' && MODULE_STS_TEMPLATE_FOLDER!='' && ( ( ( !isset($on_home_page) || !$on_home_page ) && file_exists(DIR_FS_CATALOG . DIR_WS_INCLUDES . 'sts_templates/' . MODULE_STS_TEMPLATE_FOLDER . '/blocks/infobox_06.php.html') ) || ( $on_home_page && file_exists(DIR_FS_CATALOG . DIR_WS_INCLUDES . 'sts_templates/' . MODULE_STS_TEMPLATE_FOLDER . '/blocks/featured_products1.php.html')  ) ) ) {	
-			if (empty($custom)){
-				$content = file_get_contents(DIR_FS_CATALOG . DIR_WS_INCLUDES . 'sts_templates/' . MODULE_STS_TEMPLATE_FOLDER . '/blocks/infobox_06.php.html');
+			if ($custom){
+			    $content = file_get_contents(DIR_FS_CATALOG . DIR_WS_INCLUDES . 'sts_templates/' . MODULE_STS_TEMPLATE_FOLDER . '/blocks/infobox_06.php.html');
 			} else {
-				$content = file_get_contents(DIR_FS_CATALOG . DIR_WS_INCLUDES . 'sts_templates/' . MODULE_STS_TEMPLATE_FOLDER . '/blocks/featured_products1.php.html');
+			    $content = file_get_contents(DIR_FS_CATALOG . DIR_WS_INCLUDES . 'sts_templates/' . MODULE_STS_TEMPLATE_FOLDER . '/blocks/featured_products1.php.html');
 			}
+            
         		
 			$output = '';
 			$header_bof = stripos($content, '<!--header_bof-->');		
@@ -80,7 +83,7 @@ if(FEATURED_PRODUCTS_DISPLAY == 'true'){
 				$header_exists = true;			
 				$header_content = substr( $content,  $header_bof, $header_eof - $header_bof );			
 				$header_content = substr( $header_content,  stripos( $header_content, '>' ) + 1 );			
-				$header_content = str_ireplace('$header', 'Popular Products', $header_content);		
+				$header_content = str_ireplace('$header', 'Featured Products Group Two', $header_content);		
 			} else {			
 				$header_exists = false;			
 				$header = '';			
@@ -93,11 +96,17 @@ if(FEATURED_PRODUCTS_DISPLAY == 'true'){
 				$block_exists = true;			
 				$block_content = substr( $content,  $block_bof, $block_eof - $block_bof );			
 				$block_content = substr( $block_content,  stripos( $block_content, '>' ) + 1 );		
+                
+                
+                
+           
 			} else {			
 				$block_exists = false;			
 				$block_content = '';		
 			}
 			$count = 1;
+            
+            
 			while ($featured_products = tep_db_fetch_array($featured_products_query)) {
 				//BOF seperate pricing
 				$pg_query = tep_db_query("select pg.products_id, customers_group_price as price from " . TABLE_PRODUCTS_GROUPS . " pg where pg.products_id = '".$featured_products['products_id']."' and pg.customers_group_id = '" . $customer_group_id . "' and pg.customers_group_id <> 0");
@@ -147,12 +156,17 @@ if(FEATURED_PRODUCTS_DISPLAY == 'true'){
                     $link_manufacturer = tep_href_link('shop.php','manufacturers_id='.$manufacturer_row['manufacturers_id']); 
                 }
                 $msrp_price="";
-                $msrp_query = tep_db_query("select unit_msrp from products_extended where osc_products_id =". $featured_products['products_id']);                 while($msrp_row = tep_db_fetch_array($msrp_query)){
+                $msrp_query = tep_db_query("select unit_msrp from products_extended where osc_products_id =". $featured_products['products_id']);                 
+                while($msrp_row = tep_db_fetch_array($msrp_query)){
                     if($msrp_row['unit_msrp']>0){
                         $msrp_price = "<b> MSRP: </b> $". $msrp_row['unit_msrp'];
                     }
                 }    
 				
+                if(empty($items_per_row)){
+                    $items_per_row = 3;
+                }
+                
 				if (!empty($items_per_row) && $items_per_row>1){
 					if (empty($temp)) $temp = $block_content;
 					$temp = str_ireplace( array('$image_' . $count, '$link_' . $count, '$name_' . $count, '$price_' . $count,'$manufacturer_'.$count,'$link_manufacturer_'.$count,'$msrp_price_'.$count), array($image, $link, $name, $price,$manufacturer,$link_manufacturer,$msrp_price), $temp);
@@ -168,8 +182,6 @@ if(FEATURED_PRODUCTS_DISPLAY == 'true'){
 					$output .= $entry;
 				}
 			}
-            
-                 
 			$footer_bof = stripos($content, '<!--footer_bof-->');		
 			$footer_eof = stripos($content, '<!--footer_eof-->');		
 			if ($footer_bof!==false && $footer_eof!==false){			
@@ -235,7 +247,7 @@ if(FEATURED_PRODUCTS_DISPLAY == 'true'){
 					}
 				}
                 
-	   if($featured_products['hide_price'] == '1') {
+     if($featured_products['hide_price'] == '1') {
    	    					$info_box_contents[$row][$col] = array(
 						'align' => 'center',
 						'params' => 'class="smallText" style="padding: 10px; border-spacing: 5px; border-bottom: solid 1px silver; border-top: solid 1px silver; border-right: solid 1px silver; border-left: solid 1px silver;" width="31%" valign="middle"',
