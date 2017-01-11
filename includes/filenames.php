@@ -133,6 +133,7 @@
   define('FILENAME_FEATURED', 'featured.php');
 
   define('FILENAME_FEATURED_PRODUCTS', 'featured_products.php');
+define('FILENAME_FEATURED_MANUFACTURERS', 'featured_manufacturers.php');
 
   define('FILENAME_POPUP_CVV_HELP', 'cvv_help.php');
 

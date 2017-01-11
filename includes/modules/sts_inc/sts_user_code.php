@@ -272,9 +272,127 @@ if (!empty($current_template)){
                 } 
                 $categories_html = getCategoriesHtml();
 				break;
+				case '16':
+				$show_search_filter = show_search_filter($script);
+                if ( ($script != 'shop.php' && $script != 'advanced_search_result.php') || (!$show_search_filter)){
+				    $sts->template['search_filterbox'] = '';
+					$sts->template['categorybox'] = '';
+				} 
+                $categories_html = '<ul class="nav">' . getCategoriesHtmlTpl18() . '</ul>';
+				$str_search_javascript = '';
+				
+				if(basename($_SERVER['PHP_SELF']) == 'advanced_search.php'){
+				
+					$str_search_javascript = "function popupWindow(url) {window.open(url,'popupWindow','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,copyhistory=no,width=450,height=280,screenX=150,screenY=150,top=150,left=150')}";
+				
+				}
+               
+			    $template16_stylesheet1 = 
+					'<script type="text/javascript"> 
+					'.$str_search_javascript.'
+					function removeWishlistProducts(products_id){
+						jQuery.ajax({
+							url: "compare.php", 
+							method: "post", 
+							data: "mode=removewishlist&products_id="+products_id, 
+							success: function(response){
+								if(response != ""){
+									alert("Success: Product removed from compare list!");
+									location.reload();
+								}
+							}
+						});
+					} </script>'. "\n" .
+                    '<script type="text/javascript" src="star_rating.js"></script>'. "\n" .'
+					<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic" rel="stylesheet" type="text/css">' . "\n" . 
+                    '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/css/mj-template.css" />' . "\n" .
+                    '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/jquery/ui/redmond/jquery-ui-1.10.4.min.css" />' . "\n" .
+                    '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/css/mj_tabcontent.css" />' . "\n" . 
+                    '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/css/template.css" />' . "\n" .
+                    '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/css/mj-tab.css" />' . "\n" .
+                    '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/css/bootstrap.css" />' . "\n" .
+                    '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/css/bootstrap-responsive.css" />' . "\n" .
+                    '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/css/mj-general.css" />' . "\n" .
+                    '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/css/mj-mobile.css" />' . "\n" . 
+                    '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/css/mj-ie.css" />' . "\n" . 
+                    '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/css/mj-layout.css" />' . "\n" . 
+                    '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/css/flexslider.css" />' . "\n" . 
+                    '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/css/font-awesome/css/font-awesome.css" />' . "\n" . 
+                    '<link href="' . STS_TEMPLATE_DIR . 'ext/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />' . "\n" . 
+                    '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/css/jquery.cookiebar.css" />' . "\n" . 
+                    '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/css/mj-cyan.css" />' . "\n" . 
+                    (((basename($PHP_SELF) == FILENAME_DEFAULT && $cPath == '') && !isset($_GET['manufacturers_id'])) 
+                    ? 
+                    '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/css/homepage.css" />' . "\n" 
+                    : 
+                    '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/css/nohomepage.css" />' . "\n" 
+                    ) .
+                    '<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>' . "\n" . 
+                    '<script type="text/javascript" src="' . STS_TEMPLATE_DIR . 'ext/jquery/bootstrap.min.js"></script>' . "\n" . 
+                    
+                    '<script type="text/javascript" src="' . STS_TEMPLATE_DIR . 'ext/jquery/jquery.flexslider.js"></script>' . "\n" . 
+                    '<script type="text/javascript" src="' . STS_TEMPLATE_DIR . 'ext/jquery/jquery.cookiebar.js"></script>' . "\n" . 
+                    '<script type="text/plain" class="cc-onconsent-inline-advertising" src="https://pagead2.googlesyndication.com/pagead/show_ads.js"></script>' . "\n" . 
+                    '<link rel="stylesheet" type="text/css" href="' . STS_TEMPLATE_DIR . 'ext/colorbox/colorbox.css" />' . "\n" . 
+                    '<script type="text/javascript" src="' . STS_TEMPLATE_DIR . 'ext/photoset-grid/jquery.photoset-grid.min.js"></script>' . "\n" . 
+                    '<script type="text/javascript" src="' . STS_TEMPLATE_DIR . 'ext/colorbox/jquery.colorbox-min.js"></script>' . "\n" . 
+                    '<script type="text/javascript" src="' . STS_TEMPLATE_DIR . 'ext/jquery/jquery.carouFredSel-6.0.4-packed.js"></script>' . "\n" . 
+                    '<script type="text/javascript" src="' . STS_TEMPLATE_DIR . 'ext/jquery/osmart.js"></script>' . "\n" . 
+                    '<script type="text/javascript" src="' . STS_TEMPLATE_DIR . 'ext/jquery/tabcontent.js"></script>' . "\n" . 
+                    '<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet" type="text/css" />' . "\n" . 
+                    '<link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet" type="text/css" />' . "\n" . 
+                    '<link href="https://fonts.googleapis.com/css?family=Dosis:200,400,700" rel="stylesheet" type="text/css">' . "\n" . 
+                    '<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic" rel="stylesheet" type="text/css">' . "\n";
+                if (tep_session_is_registered('customer_id')) {
+                    $sts->template['loginofflogo'] = '<a href=' . tep_href_link(FILENAME_LOGOFF, '', 'SSL') . ' id="tdb2">Log Off</a>';
+                } else {
+                    $sts->template['loginofflogo'] = '<a href=' . tep_href_link(FILENAME_LOGIN, '', 'SSL') . ' id="tdb2">Log In</a>';
+                }
+				
+				
+				$information_pages_array = tep_information_show(1);
+				$information_pages_html = '';
+				if(count($information_pages_array) > 0){
+					
+					foreach($information_pages_array as $information_id => $information){
+						
+						$information_pages_html .= '<li><a href="'.$information['link'].'">'.$information['title'].'</a>';
+						
+						
+						if(count($information['child']) > 0){
+							
+							$information_pages_html .= '<ul>';
+							
+							foreach($information['child'] as $child_information_id => $child_information){
+							
+								$information_pages_html .= '<li><a href="'.$child_information['link'].'">'.$child_information['title'].'</a><li>';
+							
+							}
+							
+							$information_pages_html .= '</ul>';
+							
+							
+							
+						}
+						
+						$information_pages_html .= '</li>';
+					
+					}
+					
+					
+					
+				}
+				
+				
+				
+				
+				$sts->template['information_pages'] = $information_pages_html;
+				
+                break;
+				
 			case '2':
 			case '13':
-				$show_search_filter = show_search_filter($script);
+			$show_search_filter = show_search_filter($script);
                 if ( ($script != 'shop.php' && $script != 'advanced_search_result.php') || (!$show_search_filter)){
 				    $sts->template['search_filterbox'] = '';
 					$sts->template['categorybox'] = '';
@@ -442,6 +560,10 @@ if (!empty($current_template)){
                 }
                 
                 break;
+				
+				
+				
+				
 			case '21':
 			case '9':
             	$show_search_filter = show_search_filter($script);
@@ -1155,6 +1277,7 @@ $sts->template['cart_items_count'] = $cart_items_count;
 $sts->template['cart_total_amount'] = $cart_total_amount;
 $sts->template['template18_stylesheet1'] = $template18_stylesheet1;
 $sts->template['template2_stylesheet1'] = $template2_stylesheet1;
+$sts->template['template16_stylesheet1'] = $template16_stylesheet1;
 $sts->template['copyright_year'] = date('Y', time());
 $sts->template['categories_list_chunk1'] = $categories_list_chunk1;
 $sts->template['categories_list_chunk2'] = $categories_list_chunk2;

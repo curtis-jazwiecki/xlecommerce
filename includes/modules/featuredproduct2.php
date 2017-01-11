@@ -152,7 +152,8 @@ if(FEATURED_PRODUCTS_DISPLAY == 'true'){
                     $link_manufacturer = tep_href_link('shop.php','manufacturers_id='.$manufacturer_row['manufacturers_id']); 
                 }
                 $msrp_price="";
-                $msrp_query = tep_db_query("select unit_msrp from products_extended where osc_products_id =". $featured_products['products_id']);                 while($msrp_row = tep_db_fetch_array($msrp_query)){
+                $msrp_query = tep_db_query("select unit_msrp from products_extended where osc_products_id =". $featured_products['products_id']);                 
+                while($msrp_row = tep_db_fetch_array($msrp_query)){
                     if($msrp_row['unit_msrp']>0){
                         $msrp_price = "<b> MSRP: </b> $". $msrp_row['unit_msrp'];
                     }

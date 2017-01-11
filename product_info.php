@@ -1741,7 +1741,12 @@ $display_products_name = $product_info['products_name'];?>
     }
 
     $display_products_ratings = '<img src="images/stars_' . $rating . '.gif">&nbsp;' . (($rating_text != '') ? $rating_text : number_format($rating, 1) . ' out of 5');
-
+    
+    $display_only_star_ratings = '<img src="images/stars_' . $rating . '.gif">&nbsp;';
+    
+    $display_rating_count_text = '('.$rating.')';
+    
+    
     $sql = tep_db_query("select count(reviews_id) as count from " . TABLE_REVIEWS . " where products_id='" . (int) $HTTP_GET_VARS['products_id'] . "'");
 
     $sql_info = tep_db_fetch_array($sql);
@@ -2079,6 +2084,10 @@ $text_display = str_replace("DISPLAY_CHILD_PRODUCTS", $display_child_products, $
 $text_display = str_replace("DISPLAY_PRODUCT_RATINGS", $display_products_ratings, $text_display);
 
 $sts->template['product_ratings'] = $display_products_ratings;
+
+$sts->template['display_only_star_ratings'] = $display_only_star_ratings;
+
+$sts->template['display_rating_count_text'] = $display_rating_count_text;
 
 $text_display = str_replace("DISPLAY_PRODUCT_WRITE_RATINGS", $display_products_ratings_write, $text_display);
 

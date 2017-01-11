@@ -3191,6 +3191,14 @@ var checkout = {
                                 }                             
 
                             });
+                            
+                            // added on 03-01-2017 #start
+                            var order_comments = $('textarea[name="comments"]').val();
+                            order_comments = order_comments.replace(/^\s+|\s+$/gm,'');
+                            if(order_comments != ''){
+                                checkoutPostFields = checkoutPostFields + '&comments=' + order_comments;    
+                            }
+                            // added on 03-01-2017 #ends
 
                             $('select').each(function(){
 

@@ -409,7 +409,9 @@ window.open('cvv_help.php','jav','width=500,height=550,resizable=no,toolbar=no,m
  //}
 
  for ($i=0, $n=sizeof($order->products); $i<$n; $i++) {
-   echo '          <tr>' . "\n" .
+   echo '          <tr>' . "\n" .'<table cellspacing="0" cellpadding="3" border="0" width="100%">'. '<tr>'. 
+   
+   
         '            <td width="10%" class="main" align="left" valign="top" width="30">' . $order->products[$i]['qty'] . ' x</td>' . "\n" .
         '            <td width="60%" class="main" valign="top">' . $order->products[$i]['name'];
 
@@ -428,11 +430,12 @@ window.open('cvv_help.php','jav','width=500,height=550,resizable=no,toolbar=no,m
    if (sizeof($order->info['tax_groups']) > 1) echo '            <td class="main" valign="top" align="right">' . tep_display_tax_value($order->products[$i]['tax']) . '% </td>' . "\n";
 
    echo '            <td width="30%"class="main" align="right" valign="top">' . $currencies->display_price($order->products[$i]['final_price'], $order->products[$i]['tax'], $order->products[$i]['qty']) . ' </td>' . "\n" .
-        '          </tr>' . "\n";
+        '          </tr>' . "\n" .'</tr>'.'</table>';
  }
  ?>
-                <tr><td class="button_edit_product_BTTN"><?php echo '<a href="' . tep_href_link(FILENAME_SHOPPING_CART,'', 'SSL') . '">' . tep_image_button('button_edit_product.gif') . '</a>'; ?></td>
-            <td COLSPAN="2" valign="top" align="right">
+                <tr>
+                <td class="button_edit_product_BTTN" style="display:none"><?php echo '<a href="' . tep_href_link(FILENAME_SHOPPING_CART,'', 'SSL') . '">' . tep_image_button('button_edit_product.gif') . '</a>'; ?></td>
+            <td COLSPAN="5" valign="top" align="right">
            <table border="0" cellspacing="0" cellpadding="3">
  <?php
  if (MODULE_ORDER_TOTAL_INSTALLED) {
@@ -443,6 +446,7 @@ window.open('cvv_help.php','jav','width=500,height=550,resizable=no,toolbar=no,m
                     </table>
          </td>
           </tr>
+          <tr><td class="button_edit_product_BTTN" style="width:100%"><?php echo '<a href="' . tep_href_link(FILENAME_SHOPPING_CART,'', 'SSL') . '">' . tep_image_button('button_edit_product.gif') . '</a>'; ?></td></tr>
       </table>
    </td>
           </tr>

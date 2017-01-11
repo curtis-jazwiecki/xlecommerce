@@ -10,6 +10,7 @@
 */
 ?>
 <!-- featured_products //-->
+
 <?php
 $output='';
 $temp='';
@@ -59,16 +60,18 @@ if(FEATURED_PRODUCTS_DISPLAY == 'true'){
         }
     
          //$featured_products_query = tep_db_query("select distinct p.products_id, p.products_image, p.products_tax_class_id, s.status as specstat, s.specials_new_products_price, p.products_price from " . TABLE_PRODUCTS . " p left join " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c using(products_id) left join " . TABLE_CATEGORIES . " c using(categories_id) left join " . TABLE_FEATURED . " f on p.products_id = f.products_id left join " . TABLE_SPECIALS . " s on p.products_id = s.products_id where c.parent_id = '" . $featured_products_category_id . "' and p.products_status = '1' and f.status = '1' order by rand() DESC limit " . MAX_DISPLAY_FEATURED_PRODUCTS);     
-         $featured_products_query = tep_db_query("select distinct p.products_id, p.products_image, p.products_mediumimage, p.products_tax_class_id, s.status as specstat, s.specials_new_products_price, p.products_price, p.hide_price from " . TABLE_PRODUCTS . " p left join " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c using(products_id) left join " . TABLE_CATEGORIES . " c using(categories_id) left join " . TABLE_FEATURED . " f on p.products_id = f.products_id left join " . TABLE_SPECIALS . " s on p.products_id = s.products_id where c.parent_id = '" . $featured_products_category_id . "' and p.products_status = '1' and f.status = '1' order by rand() DESC limit " . (!empty($max_count) ? $max_count : MAX_DISPLAY_FEATURED_PRODUCTS) );     
+         $featured_products_query = tep_db_query("select distinct p.products_id, p.products_image, p.products_mediumimage, p.products_tax_class_id, s.status as specstat, s.specials_new_products_price, p.products_price, p.hide_price from " . TABLE_PRODUCTS . " p left join " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c using(products_id) left join " . TABLE_CATEGORIES . " c using(categories_id) left join " . TABLE_FEATURED . " f on p.products_id = f.products_id left join " . TABLE_SPECIALS . " s on p.products_id = s.products_id where c.parent_id = '" . $featured_products_category_id . "' and p.products_status = '1' and f.status = '1' and f.featured_group='3' order by rand() DESC limit " . (!empty($max_count) ? $max_count : MAX_DISPLAY_FEATURED_PRODUCTS) );     
 	}
     
   $total_featured = tep_db_num_rows($featured_products_query);
+    
   if ($total_featured >= $items_per_row) {
 	if (tep_db_num_rows($featured_products_query)){
 		if (MODULE_STS_DEFAULT_STATUS=='true' && MODULE_STS_TEMPLATE_FOLDER!='' && ( ( ( !isset($on_home_page) || !$on_home_page ) && file_exists(DIR_FS_CATALOG . DIR_WS_INCLUDES . 'sts_templates/' . MODULE_STS_TEMPLATE_FOLDER . '/blocks/infobox_06.php.html') ) || ( $on_home_page && file_exists(DIR_FS_CATALOG . DIR_WS_INCLUDES . 'sts_templates/' . MODULE_STS_TEMPLATE_FOLDER . '/blocks/featured_products3.php.html')  ) ) ) {	
-			if (empty($custom)){
+			if ($custom){
 				$content = file_get_contents(DIR_FS_CATALOG . DIR_WS_INCLUDES . 'sts_templates/' . MODULE_STS_TEMPLATE_FOLDER . '/blocks/infobox_06.php.html');
 			} else {
+			    
 				$content = file_get_contents(DIR_FS_CATALOG . DIR_WS_INCLUDES . 'sts_templates/' . MODULE_STS_TEMPLATE_FOLDER . '/blocks/featured_products3.php.html');
 			}
         		
