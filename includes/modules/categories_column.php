@@ -47,7 +47,8 @@ if($selected_category_template == 0){
 					
 					if (tep_not_null($image['products_image'])){
 						$pos = stripos($image['products_image'], 'http');
-						if ($pos!==false && $pos===0){
+                        $pos2 = stripos($image['products_image'], 'https');
+						if (($pos!==false && $pos===0) || ($pos2!==false && $pos2===0)){
 							if (@file_get_contents($image['products_image'])){
 								$image_ok = true;
 							}
@@ -111,7 +112,8 @@ if($selected_category_template == 0){
 					}
 					if (tep_not_null($image['products_mediumimage'])){
 						$pos = stripos($image['products_mediumimage'], 'http');
-						if ($pos!==false && $pos===0){
+						$pos2 = stripos($image['products_mediumimage'], 'https');
+						if (($pos!==false && $pos===0) || ($pos2!==false && $pos2===0)){
 							if (@file_get_contents($image['products_mediumimage'])){
 								$image_ok = true;
 							}
@@ -194,7 +196,8 @@ if($selected_category_template == 0){
 					}
 					if (tep_not_null($image['products_mediumimage'])){
 						$pos = stripos($image['products_mediumimage'], 'http');
-						if ($pos!==false && $pos===0){
+						$pos2 = stripos($image['products_mediumimage'], 'https');
+						if (($pos!==false && $pos===0) || ($pos2!==false && $pos2===0)){
 							if (@file_get_contents($image['products_mediumimage'])){
 								$image_ok = true;
 							}
@@ -273,7 +276,8 @@ if($selected_category_template == 0){
 					
 					if (tep_not_null($image['products_image'])){
 						$pos = stripos($image['products_image'], 'http');
-						if ($pos!==false && $pos===0){
+                        $pos2 = stripos($image['products_image'], 'https');
+						if ( ($pos2!==false && $pos2===0) || ($pos!==false && $pos===0)) {
 							if (@file_get_contents($image['products_image'])){
 								$image_ok = true;
 							}
@@ -341,7 +345,8 @@ if($selected_category_template == 0){
 					}
 					if (tep_not_null($image['products_mediumimage'])){
 						$pos = stripos($image['products_mediumimage'], 'http');
-						if ($pos!==false && $pos===0){
+						$pos2 = stripos($image['products_mediumimage'], 'https');
+						if ( ($pos2!==false && $pos2===0) || ($pos!==false && $pos===0)) {
 							if (@file_get_contents($image['products_mediumimage'])){
 								$image_ok = true;
 							}

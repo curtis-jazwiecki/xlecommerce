@@ -64,7 +64,7 @@ if ( file_exists( $file_path ) ){
         $vals = array(
             tep_href_link(FILENAME_PRODUCTS_NEW), 
             tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $random_product['products_id']), 
-            tep_image(DIR_WS_IMAGES . $random_product['products_image'], $random_product['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT), 
+            tep_small_image($random_product['products_image'], $random_product['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT), 
             $whats_new_price, 
             $random_product['products_name'], 
             '#', 
@@ -85,7 +85,7 @@ if ( file_exists( $file_path ) ){
 
     $info_box_contents = array();
     $info_box_contents[] = array('align' => 'center',
-                                 'text' => '<a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $random_product['products_id']) . '">' . tep_image(DIR_WS_IMAGES . $random_product['products_image'], $random_product['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT) . '</a><br><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $random_product['products_id']) . '">' . $random_product['products_name'] . '</a><br>' . $whats_new_price);
+                                 'text' => '<a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $random_product['products_id']) . '">' . tep_small_image($random_product['products_image'], $random_product['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT) . '</a><br><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $random_product['products_id']) . '">' . $random_product['products_name'] . '</a><br>' . $whats_new_price);
 
     new infoBox($info_box_contents);
 }
