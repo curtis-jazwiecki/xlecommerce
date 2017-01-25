@@ -252,7 +252,7 @@ if ($listing_split->number_of_rows > 0)
              break;
           	case 'PRODUCT_LIST_IMAGE':
         	 $feed_status = is_xml_feed_product($listing[$x]['products_id']);
-			 if ($feed_status && stripos($listing[$x]['products_image'], 'http://')!==false){
+			 if ($feed_status && (stripos($listing[$x]['products_image'], 'https://')!==false || stripos($listing[$x]['products_image'], 'http://')!==false)  ){
 				if (@getimagesize($listing[$x]['products_image'])){
 					$image = '<img src="' . $listing[$x]['products_image'] . '" title="' . $listing[$x]['products_name'] . '" class="subcatimages" border="0">';
 				} elseif (@getimagesize($listing[$x]['products_mediumimage'])) {
@@ -408,7 +408,7 @@ if ($listing_split->number_of_rows > 0)
 		$product_listing_template_2 = file("includes/sts_templates/".$selected_template."/product_listing_large.php");
 		$text_display = '';
         $feed_status = is_xml_feed_product($listing[$x]['products_id']);
-		if ($feed_status && stripos($listing[$x]['products_image'], 'http://')!==false){
+		if ($feed_status && (stripos($listing[$x]['products_image'], 'https://')!==false || stripos($listing[$x]['products_image'], 'http://')!==false)  ){
 			if (@getimagesize($listing[$x]['products_mediumimage'])){
 				$image = '<img src="' . $listing[$x]['products_mediumimage'] . '" title="' . $listing[$x]['products_name'] . '" class="subcatimages" border="0">';
 			} elseif (@getimagesize($listing[$x]['products_image'])){
@@ -501,7 +501,7 @@ if ($listing_split->number_of_rows > 0)
 		$product_listing_template_3 = file("includes/sts_templates/".$selected_template."/product_listing_large_description.php");
 		$text_display = '';
 		$feed_status = is_xml_feed_product($listing[$x]['products_id']);
-		if ($feed_status && stripos($listing[$x]['products_image'], 'http://')!==false){
+		if ($feed_status && (stripos($listing[$x]['products_image'], 'https://')!==false || stripos($listing[$x]['products_image'], 'http://')!==false)  ){
 			if (@getimagesize($listing[$x]['products_image'])){
 				$image = '<img src="' . $listing[$x]['products_image'] . '" title="' . $listing[$x]['products_name'] . '" class="subcatimages" border="0">';
 			} elseif (@getimagesize($listing[$x]['products_mediumimage'])) {

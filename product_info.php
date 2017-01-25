@@ -694,28 +694,27 @@ $display_products_name = $product_info['products_name'];?>
 
         if ($feed_status) {
 
-            //$image = tep_medium_image($product_info['products_mediumimage'], $product_info['products_name'], '', '', 'id="pimage" class="subcatimages"');
-
             $image = tep_medium_image((tep_not_null($product_info['products_largeimage'])) ? $product_info['products_largeimage'] : ((tep_not_null($product_info['products_mediumimage'])) ? $product_info['products_mediumimage'] : $product_info['products_image']), $product_info['products_name'], '', '', 'id="pimage" class="subcatimages"');
 
         } else {
-
+            
             $image = tep_image(DIR_WS_IMAGES . ((tep_not_null($product_info['products_largeimage'])) ? $product_info['products_largeimage'] : ((tep_not_null($product_info['products_mediumimage'])) ? $product_info['products_mediumimage'] : $product_info['products_image'])), $product_info['products_name'], '', '', 'id="pimage" class="subcatimages"');
 
         }
+        
 
         $largeImg = ((tep_not_null($product_info['products_largeimage'])) ? $product_info['products_largeimage'] : ((tep_not_null($product_info['products_mediumimage'])) ? $product_info['products_mediumimage'] : $product_info['products_image']));
 
-        if (strpos($largeImg, 'http') === false) {
+        if (strpos($largeImg, 'https') === false && strpos($largeImg, 'http') === false) {
 
             $largeImg = DIR_WS_IMAGES . $largeImg;
+            
 
         }
-
+        
         // search for one child product image if main image doesn't exists #start
 
         if (empty($image)) {
-
             $child_image_query = tep_db_fetch_array(tep_db_query("select products_largeimage,products_mediumimage,products_image from products where parent_products_model='" . $check_parent_exist['products_model'] . "' limit 1"));
 
             $image = tep_image(DIR_WS_IMAGES . ((tep_not_null($child_image_query['products_largeimage'])) ? $child_image_query['products_largeimage'] : ((tep_not_null($child_image_query['products_mediumimage'])) ? $child_image_query['products_mediumimage'] : $child_image_query['products_image'])), $child_image_query['products_name'], '', '', 'id="pimage" class="subcatimages"');
@@ -1829,59 +1828,7 @@ $display_products_name = $product_info['products_name'];?>
 
 if (DISPLAY_SOCIAL_MEDIA_BUTTONS == 'true') {
 
-    //$display_product_share_link = '<div> <span class="shareText">Share this product:</span><br /><a href="' . tep_href_link('tell_a_friend.php', 'products_id=' . $product_info['products_id']) . '"><img src="images/shareicons/shareIcon_email.gif" alt="E-mail" title="Email this product" border="0"></a>&nbsp;  <a target="_blank" href="http://www.facebook.com/sharer.php?u=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;t=' . $product_info['products_name'] . '"><img  class="shareIcon" src="images/shareicons/shareIcon_Facebook.gif" alt="Facebook" title="Facebook" border="0"></a>&nbsp;  <a target="_blank" href="http://del.icio.us/post?url=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;title=' . $product_info['products_name'] . '&amp;notes="><img class="shareIcon" src="images/shareicons/shareIcon_Delicious.gif" alt="Del.icio.us" title="Del.icio.us" border="0"></a>&nbsp;  <a target="_blank" href="http://digg.com/submit/?phase=2&amp;url=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;title=' . $product_info['products_name'] . '&amp;bodytext=""><img class="shareIcon" src="images/shareicons/shareIcon_Digg.gif" alt="Digg" title="Digg" border="0"></a>&nbsp;  <a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&amp;url=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;title=' . $product_info['products_name'] . '&amp;summary="><img class="shareIcon" src="images/shareicons/shareIcon_LinkedIn.gif" alt="LinkedIn" title="LinkedIn" border="0"><img class="shareIcon" src="images/shareicons/shareIcon_LinkedIn.gif" alt="LinkedIn" title="LinkedIn" border="0"></a>&nbsp;  <a target="_blank" href="http://twitthis.com/twit?url=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;title=' . $product_info['products_name'] . '"><img class="shareIcon" src="images/shareicons/shareIcon_Twitter.gif" alt="Twitter" title="Twitter" border="0"></a> ';
-
-    
-
-  /*  $display_product_share_link = '<div> <span class="shareText">Share this product:</span><br /><a href="' . tep_href_link('tell_a_friend.php', 'products_id=' . $product_info['products_id']) . '"><img src="images/shareicons/shareIcon_email.gif" alt="E-mail" title="Email this product" border="0"></a>&nbsp;  <a target="_blank" href="http://www.facebook.com/sharer.php?u=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;t=' . $product_info['products_name'] . '"><img  class="shareIcon" src="images/shareicons/shareIcon_Facebook.gif" alt="Facebook" title="Facebook" border="0"></a>&nbsp;  <a target="_blank" href="http://del.icio.us/post?url=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;title=' . $product_info['products_name'] . '&amp;notes="><img class="shareIcon" src="images/shareicons/shareIcon_Delicious.gif" alt="Del.icio.us" title="Del.icio.us" border="0"></a>&nbsp; <a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&amp;url=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;title=' . $product_info['products_name'] . '&amp;summary="><img class="shareIcon" src="images/shareicons/shareIcon_LinkedIn.gif" alt="LinkedIn" title="LinkedIn" border="0"><img class="shareIcon" src="images/shareicons/shareIcon_LinkedIn.gif" alt="LinkedIn" title="LinkedIn" border="0"></a>&nbsp;  <a target="_blank" href="http://twitthis.com/twit?url=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;title=' . $product_info['products_name'] . '"><img class="shareIcon" src="images/shareicons/shareIcon_Twitter.gif" alt="Twitter" title="Twitter" border="0"></a> ';
-
-	
-
-	
-
-	// pin interest code #start
-
-	$display_product_share_link .= '<span class="pinterest"><a title="'.$product_info['products_name'].'" href="http://pinterest.com/pin/create/button/?url='.tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id'], 'NONSSL').'&media=' . $largeImg.'"></a> <script type="text/javascript" src="//assets.pinterest.com/js/pinit.js"></script></span>';
-
-	// pin interest code #ends
-
-	
-
-	// google plus share icon #start
-
-	$display_product_share_link .= '<span class="google_plus"><div class="g-plus" data-action="share" data-annotation="bubble" data-href="'.tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id'], 'NONSSL').'"></div> <script type="text/javascript">
-
-  (function() {
-
-    var po = document.createElement("script"); 
-
-	po.type = "text/javascript"; 
-
-	po.async = true;
-
-    po.src = "https://apis.google.com/js/platform.js";
-
-    var s = document.getElementsByTagName("script")[0]; 
-
-	s.parentNode.insertBefore(po, s);
-
-  })();
-
-</script> </div></span>';
-
-	// google plus share icon #ends
-
-	
-
-$display_product_share_link.="<style type='text/css'> .pinterest > span{background:url('images/shareicons/shareIcon_Pinterest.gif') no-repeat;border-shadow:none;width:24px; height:22px;} .google_plus > #___plus_0 {opacity:0;} .google_plus{background:url('images/shareicons/shareIcon_Googleplus.gif') no-repeat; width:24px;}  </style>";*/
-
-//$display_product_share_link = '<div> <span class="shareText">Share this product:</span><br /><a href="' . tep_href_link('tell_a_friend.php', 'products_id=' . $product_info['products_id']) . '"><img src="images/shareicons/shareIcon_email.gif" alt="E-mail" title="Email this product" border="0"></a>&nbsp;  <a target="_blank" href="http://www.facebook.com/sharer.php?u=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;t=' . $product_info['products_name'] . '"><img  class="shareIcon" src="images/shareicons/shareIcon_Facebook.gif" alt="Facebook" title="Facebook" border="0"></a>&nbsp;<a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&amp;url=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;title=' . $product_info['products_name'] . '&amp;summary="><img class="shareIcon" width="23" height="23" src="images/shareicons/shareIcon_LinkedIn.gif" alt="LinkedIn" title="LinkedIn" border="0"></a>&nbsp;  <a target="_blank" href="http://twitthis.com/twit?url=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;title=' . $product_info['products_name'] . '"><img class="shareIcon" src="images/shareicons/shareIcon_Twitter.gif" alt="Twitter" title="Twitter" border="0"></a> ';
-
 $display_product_share_link = '<div> <span class="shareText">Share this product:</span><br /><a target="_blank" href="http://www.facebook.com/sharer.php?u=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;t=' . $product_info['products_name'] . '"><img  class="shareIcon" src="images/shareicons/shareIcon_Facebook.gif" alt="Facebook" title="Facebook" border="0"><span class="shared-link" style="display:none"><i class="fa fa-facebook" aria-hidden="true"></i></span></a>&nbsp;';
-
-	
-
-	
 
 	// pin interest code #start
 
@@ -1892,9 +1839,6 @@ $display_product_share_link = '<div> <span class="shareText">Share this product:
 $display_product_share_link .='<a href="' . tep_href_link('tell_a_friend.php', 'products_id=' . $product_info['products_id']) . '"><img src="images/shareicons/shareIcon_email.gif" alt="E-mail" title="Email this product" border="0"><span class="shared-link" style="display:none"><i class="fa fa-envelope" aria-hidden="true"></i></span></a>&nbsp;<a target="_blank" href="http://twitthis.com/twit?url=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;title=' . $product_info['products_name'] . '"><img class="shareIcon" src="images/shareicons/shareIcon_Twitter.gif" alt="Twitter" title="Twitter" border="0"> <span class="shared-link" style="display:none"><i class="fa fa-twitter" aria-hidden="true"></i></span> </a>&nbsp;';
 
     
-
-	
-
 	// google plus share icon #start
 
 	$display_product_share_link .= '<span class="google_plus"><div class="g-plus" data-action="share" data-annotation="bubble" data-href="'.tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id'], 'NONSSL').'"> <span class="shared-link" style="display:none"><i class="fa fa-google-plus" aria-hidden="true"></i> </span> </div> <script type="text/javascript">
@@ -1919,15 +1863,9 @@ $display_product_share_link .='<a href="' . tep_href_link('tell_a_friend.php', '
 
 	// google plus share icon #ends
 
-$display_product_share_link .='<a target="_blank" style="margin-left:29px;" href="http://www.linkedin.com/shareArticle?mini=true&amp;url=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;title=' . $product_info['products_name'] . '&amp;summary="><img class="shareIcon" width="23" height="23" src="images/shareicons/shareIcon_LinkedIn.gif" alt="LinkedIn" title="LinkedIn" border="0"></a> </div>';
+$display_product_share_link .='<a target="_blank" style="margin-left:29px;" href="http://www.linkedin.com/shareArticle?mini=true&amp;url=' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '&amp;title=' . urlencode($product_info['products_name']) . '&amp;summary="><img class="shareIcon" width="23" height="23" src="images/shareicons/shareIcon_LinkedIn.gif" alt="LinkedIn" title="LinkedIn" border="0"></a> </div>';
 
-	
-
-$display_product_share_link.="<style type='text/css'> .pinterest > span{background:url('images/shareicons/shareIcon_Pinterest.gif') no-repeat;border-shadow:none;width:24px; height:22px;} .google_plus > #___plus_0 {opacity:0;} .google_plus{background:url('images/shareicons/shareIcon_Googleplus.gif') no-repeat;background-position:3px 1px !important;position:absolute !important;height:29px !important;width:26px !important;}  </style>";
-
-	
-
-	
+$display_product_share_link.="<style type='text/css'> .pinterest > span{background:url('images/shareicons/shareIcon_Pinterest.gif') no-repeat;border-shadow:none;width:24px; height:22px;} .google_plus > #___plus_0 {opacity:0;} .google_plus{background:url('images/shareicons/shareIcon_Googleplus.gif') no-repeat;background-position:3px 1px !important;position:absolute !important;height:29px !important;width:26px !important;overflow-x:hidden;}  </style>";
 
 } else {
 
@@ -1973,11 +1911,6 @@ if (tep_db_num_rows($q)) {
 
 }
 
-//if ($child_products_count) {
-
-//    $text_availability_n_price = '<tr><td><span style="font-size:14px;">Choose product selection below for price and availability</td></tr>';
-
-//} else {
 
 $comparison_with_msrp_map_or_other_applies = ENABLE_PRODUCTS_PRICE_COMPARISON == 'True' ? true : false;
 
@@ -1989,13 +1922,9 @@ if ($comparison_with_msrp_map_or_other_applies) {
 
 if (!empty($response[0]) && $response[0] > 0) {
 
-    //$text_availability_n_price = '<tr><td><span style="font-size:14px;">Availability: <b>DISPLAY_PRODUCT_STOCK</b></span></td></tr><tr><td>' . $response[1] . '</td></tr><tr><td class="productPrice">' . $price_text . '</td></tr><tr><td>' . $point_text . '</td></tr><tr><td class="productPrice">' . $rmsrp . '</td></tr>';
-
     $text_availability_n_price = '<tr><td><span style="font-size:14px;">Availability: <b><span id="availability_message">DISPLAY_PRODUCT_STOCK</span></b></span></td></tr><tr><td>' . $response[1] . '</td></tr><tr><td class="productPrice">' . (($product_info['hide_price'] != 1) ? $price_text : "") . '</td></tr><tr><td>' . $point_text . '</td></tr><tr><td class="productPrice">' . $rmsrp . '</td></tr>';
 
 } else {
-
-    //$text_availability_n_price = '<tr><td><span style="font-size:14px;">Availability: <b>DISPLAY_PRODUCT_STOCK</b></span></td></tr><tr><td class="productPrice">' . $price_text . '</td></tr><tr><td>' . $point_text . '</td></tr>';
 
     $text_availability_n_price = '<tr><td><span style="font-size:14px;">Availability: <b><span id="availability_message">DISPLAY_PRODUCT_STOCK &nbsp;</span></b></span></td></tr><tr><td class="productPrice">' . (($product_info['hide_price'] != 1) ? $price_text : "") . '</td></tr><tr><td>' . $point_text . '</td></tr>';
 
@@ -2123,26 +2052,6 @@ $sts->template['product_reviews'] = $display_product_reviews;
 
                                 // Modified for Related Products: dt:24July2008
 
-                                /*
-
-                                  ob_start();
-
-                                  if ((USE_CACHE == 'true') && empty($SID)) {
-
-                                  echo tep_cache_also_purchased(3600);
-
-                                  } else {
-
-                                  include (DIR_WS_MODULES . FILENAME_ALSO_PURCHASED_PRODUCTS);
-
-                                  }
-
-                                  $alsoPurchasedProducts = ob_get_contents();
-
-                                  ob_end_clean();
-
-                                 */
-
                                 ob_start();
 
                                 if ((USE_CACHE == 'true') && !SID) {
@@ -2161,153 +2070,13 @@ $sts->template['product_reviews'] = $display_product_reviews;
 
                                 ob_end_clean();
 
-                                /*
-
-                                  ob_start();
-
-                                  include (DIR_WS_MODULES . FILENAME_RECOMENDED_PRODUCTS);
-
-                                  $recommendedHtml = ob_get_contents();
-
-                                  ob_end_clean();
-
-                                  ob_start();
-
-                                  include (DIR_WS_MODULES . 'new_products.php');
-
-                                  $newProductsHtml = ob_get_contents();
-
-                                  ob_end_clean();
-
-                                  $popularHtml = '';
-
-                                  if (ENABLE_POPULAR_PRODUCTS=='True'){
-
-                                  ob_start();
-
-                                  include (DIR_WS_MODULES . 'popular_products.php');
-
-                                  $popularHtml = ob_get_contents();
-
-                                  ob_end_clean();
-
-                                  }
-
-                                  $hotProductsHtml = '';
-
-                                  if (ENABLE_HOT_PRODUCTS=='True'){
-
-                                  ob_start();
-
-                                  include (DIR_WS_MODULES . 'hot_products.php');
-
-                                  $hotProductsHtml = ob_get_contents();
-
-                                  ob_end_clean();
-
-                                  }
-
-                                 */
+                                
 
                                 $text_display = str_replace("DISPLAY_PRODUCT_RELATED_ITEMS", $related_product_contents, $text_display);
 
                                 $sts->template['product_related_items'] = $related_product_contents;
 
-                                /*
-
-                                  $text_display = str_replace("DISPLAY_RECOMMENDED_PRODUCTS", $recommendedHtml, $text_display);
-
-                                  $text_display = str_replace("DISPLAY_ALSO_PURCHASED_PRODUCTS", $alsoPurchasedProducts, $text_display);
-
-                                  $text_display = str_replace("DISPLAY_NEW_PRODUCTS", $newProductsHtml, $text_display);
-
-                                  $text_display = str_replace("DISPLAY_POPULAR_PRODUCT", $popularHtml, $text_display);
-
-                                  $text_display = str_replace("DISPLAY_HOW_PRODUCTS", $hotProductsHtml, $text_display);
-
-                                  $featuredproduct1 = '';
-
-                                  if (ENABLE_FEATURE_PRODUCTS_ONE=='True'){
-
-                                  ob_start();
-
-                                  include (DIR_WS_MODULES . 'featuredproduct1.php');
-
-                                  $featuredproduct1 = ob_get_contents();
-
-                                  ob_end_clean();
-
-                                  }
-
-                                  $featuredproduct1 = '';
-
-                                  if (ENABLE_FEATURE_PRODUCTS_TWO=='True'){
-
-                                  ob_start();
-
-                                  include (DIR_WS_MODULES . 'featuredproduct2.php');
-
-                                  $featuredproduct2 = ob_get_contents();
-
-                                  ob_end_clean();
-
-                                  }
-
-                                  $featuredproducr3 = '';
-
-                                  if (ENABLE_FEATURE_PRODUCTS_THREE=='True'){
-
-                                  ob_start();
-
-                                  include (DIR_WS_MODULES . 'featuredproduct3.php');
-
-                                  $featuredproduct3 = ob_get_contents();
-
-                                  ob_end_clean();
-
-                                  }
-
-                                  $text_display = str_replace("DISPLAY_FEATURED_PRODUCTS_1", $featuredproduct1, $text_display);
-
-                                  $text_display = str_replace("DISPLAY_FEATURED_PRODUCTS_2", $featuredproduct2, $text_display);
-
-                                  $text_display = str_replace("DISPLAY_FEATURED_PRODUCTS_3", $featuredproduct3, $text_display);
-
-                                  $featuredManufacturers = '';
-
-                                  if (ENABLE_FEATURE_MANUFACTURERS=='True'){
-
-                                  ob_start();
-
-                                  include (DIR_WS_MODULES . 'featuredManufacturers.php');
-
-                                  $featuredManufacturers = ob_get_contents();
-
-                                  ob_end_clean();
-
-                                  }
-
-                                  $text_display = str_replace("DISPLAY_FEATURED_MANUFACTUERERS", $featuredManufacturers, $text_display);
-
-                                  $featuredCategory = '';
-
-                                  if (ENABLE_FEATURE_CATEGORY=='True'){
-
-                                  ob_start();
-
-                                  include (DIR_WS_MODULES . 'featuredCategory.php');
-
-                                  $featuredCategory = ob_get_contents();
-
-                                  ob_end_clean();
-
-                                  }
-
-                                  $text_display = str_replace("DISPLAY_FEATURED_CATEGORY", $featuredCategory, $text_display); */
-
-//in order to control page loading speed, all right blocks set to blank and logic that produces the block commented
-
-//$text_display = str_replace("DISPLAY_RECOMMENDED_PRODUCTS", $recommendedHtml, $text_display);
+                                
 
                                 $text_display = str_replace("DISPLAY_RECOMMENDED_PRODUCTS", '', $text_display);
 
@@ -2483,15 +2252,8 @@ $sts->template['product_reviews'] = $display_product_reviews;
 
       
 
-    <td width="<?php
-
-                                            echo BOX_WIDTH;
-
-                                            ?>" valign="top"><table border="0" width="<?php
-
-                                            echo BOX_WIDTH;
-
-                                            ?>" cellspacing="0" cellpadding="2">
+    <td width="<?php echo BOX_WIDTH; ?>" valign="top">
+    <table border="0" width="<?php echo BOX_WIDTH; ?>" cellspacing="0" cellpadding="2">
 
         
 
@@ -2499,11 +2261,11 @@ $sts->template['product_reviews'] = $display_product_reviews;
 
         
 
-        <?php
+<?php
 
-                                            require (DIR_WS_INCLUDES . 'column_right.php');
+require (DIR_WS_INCLUDES . 'column_right.php');
 
-                                            ?>
+?>
 
         
 
@@ -2523,9 +2285,9 @@ $sts->template['product_reviews'] = $display_product_reviews;
 
 <?php
 
-                                            require (DIR_WS_INCLUDES . 'footer.php');
+require (DIR_WS_INCLUDES . 'footer.php');
 
-                                            ?>
+?>
 
 <!-- footer_eof //--> 
 
@@ -2545,11 +2307,7 @@ $sts->template['product_reviews'] = $display_product_reviews;
 
       <script type="text/javascript" src="http://app.ecwid.com/script.js?4135379" charset="utf-8"></script> 
 
-      
-
       <!-- remove layout parameter if you want to position minicart yourself --> 
-
-      
 
       <script type="text/javascript"> xMinicart("layout=attachToCategories");</script> 
 
@@ -2561,22 +2319,15 @@ $sts->template['product_reviews'] = $display_product_reviews;
 
 <?php
 
-                                            require (DIR_WS_INCLUDES . 'application_bottom.php');
+require (DIR_WS_INCLUDES . 'application_bottom.php');
 
-                                            $time_start = explode(' ', PAGE_PARSE_START_TIME);
+$time_start = explode(' ', PAGE_PARSE_START_TIME);
 
-                                            $time_end = explode(' ', microtime());
+$time_end = explode(' ', microtime());
 
-                                            $parse_time = number_format(($time_end[1] + $time_end[0] - ($time_start[1] + $time_start[0])), 3);
+$parse_time = number_format(($time_end[1] + $time_end[0] - ($time_start[1] + $time_start[0])), 3);
 
-                                            //echo '<span class="smallText">Parse Time: ' . $parse_time . 's</span>';
-
-                                            exit();
-
-                                            ?>
-
-											
-
-                                            
-
+//echo '<span class="smallText">Parse Time: ' . $parse_time . 's</span>';
+exit();
+?>
                                          

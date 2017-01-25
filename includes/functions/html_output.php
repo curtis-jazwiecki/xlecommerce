@@ -135,7 +135,7 @@ if (SEO_ENABLED == 'true') { //run chemo's code
 
 ////
 // The HTML image wrapper function
-  function tep_image($src, $alt = '', $width = '', $height = '', $parameters = '') {
+  /*function tep_image($src, $alt = '', $width = '', $height = '', $parameters = '') {
     if ( (empty($src) || ($src == DIR_WS_IMAGES)) && (IMAGE_REQUIRED == 'false') ) {
       return false;
     }
@@ -181,7 +181,7 @@ if (SEO_ENABLED == 'true') { //run chemo's code
     $image .= '>';
 
     return $image;
-  }
+  }*/
   
   // The HTML image wrapper function
   function tep_image2($src, $alt = '', $width = '', $height = '', $parameters = '') {
@@ -430,55 +430,23 @@ if (SEO_ENABLED == 'true') { //run chemo's code
     return tep_draw_pull_down_menu($name, $countries_array, $selected, $parameters);
   }
   
-  function tep_small_image($src, $alt = '', $width = '', $height = '', $parameters = '') {
-     //$src = 'http://datafeed.wildcatsoftware.net/productimages/thumbs/' . $src;
-// alt is added to the img tag even if it is null to prevent browsers from outputting
-// the image filename as default
-    if ($src == '') {
-		$src = DIR_WS_IMAGES . DEFAULT_IMAGE;
-		$image = tep_image($src, $alt, $width, $height, $parameters);	
-	} elseif (strpos($src, 'http') !== false && (!@GetImageSize($src))) {
-	    $src = DIR_WS_IMAGES . DEFAULT_IMAGE;
-		$image = tep_image($src, $alt, $width, $height, $parameters);	
-	} else {
-		if (strpos($src, 'http') === false) $src = DIR_WS_IMAGES . $src;
-		//BOF:10232013
-		/*
-		//EOF:10232013
-		$image = '<img src="' .  tep_output_string($src) . '" border="0" alt="' . tep_output_string($alt) . '"';
-		//BOF:10232013
-		*/
-		$image = '<img src="' .  tep_output_string($src) . '" border="0" alt="' . tep_output_string($alt) . '" width="' . SMALL_IMAGE_WIDTH . '" height="' . SMALL_IMAGE_HEIGHT . '" ';
-		//EOF:10232013
-
-    if (tep_not_null($alt)) {
-      $image .= ' title=" ' . tep_output_string($alt) . ' "';
-    }
-
-
-    if (tep_not_null($parameters)) $image .= ' ' . $parameters;
-
-    $image .= '>';
-    }
-    
-    return $image;
-  }
-  // The HTML image wrapper function
-  function tep_medium_image($src, $alt = '', $width = '', $height = '', $parameters = '') {
+  
+ function tep_medium_image($src, $alt = '', $width = '', $height = '', $parameters = '') {
     // $src = 'http://datafeed.wildcatsoftware.net/productimages/medium/' . $src;
 // alt is added to the img tag even if it is null to prevent browsers from outputting
 // the image filename as default
-    if (strpos($src, 'http') !== false && (!@GetImageSize($src)) || $src == '') {
-	    $src = DIR_WS_IMAGES . DEFAULT_IMAGE;
-		$image = tep_image($src, $alt, $width, $height, $parameters);		
+    if ( (strpos($src, 'https') !== false || strpos($src, 'http') !== false) && (@GetImageSize($src))) {
+	    $image = '<img src="' . tep_output_string($src) . '" border="0" alt="' . tep_output_string($alt) . '"';		
 	} else {
-		if (strpos($src, 'http') === false) $src = DIR_WS_IMAGES . $src;
-		//BOF:20131023
-		/*
-		//EOF:20131023
-		$image = '<img src="' . tep_output_string($src) . '" border="0" alt="' . tep_output_string($alt) . '"';
-		//BOF:20131023
-		*/
+		
+        if(empty($src)){
+            $src = DIR_WS_IMAGES . DEFAULT_IMAGE;
+        }
+        
+        if (strpos($src, 'https') === false || strpos($src, 'http') === false){
+            $src = DIR_WS_IMAGES . $src;
+        } 
+            
 		if (empty($width) || empty($height)){
 			$size_info = getimagesize($src);
 			$image = '<img src="' . tep_output_string($src) . '" border="0" alt="' . tep_output_string($alt) . '"' . $size_info[3] . ' ';
@@ -486,41 +454,92 @@ if (SEO_ENABLED == 'true') { //run chemo's code
 			$image = '<img src="' . tep_output_string($src) . '" border="0" alt="' . tep_output_string($alt) . '" width="' . $width . '" height="' . $height . '" ';
 		}
 
-		//EOF:20131023
-
-    if (tep_not_null($alt)) {
-      $image .= ' title=" ' . tep_output_string($alt) . ' "';
-    }
-
-
-    if (tep_not_null($parameters)) $image .= ' ' . $parameters;
-
-    $image .= '>';
+        if (tep_not_null($alt)) {
+          $image .= ' title=" ' . tep_output_string($alt) . ' "';
+        }
+    
+        if (tep_not_null($parameters)) {
+            $image .= ' ' . $parameters;   
+        }
+    
+        $image .= '>';
     }
     return $image;
   }
-   // The HTML image wrapper function
-  function tep_large_image($src, $alt = '', $width = '', $height = '', $parameters = '') {
-     //$src = 'http://datafeed.wildcatsoftware.net/productimages/large/' . $src;
+  
+  function tep_small_image($src, $alt = '', $width = '', $height = '', $parameters = '') {
+     //$src = 'http://datafeed.wildcatsoftware.net/productimages/thumbs/' . $src;
 // alt is added to the img tag even if it is null to prevent browsers from outputting
 // the image filename as default
-
-    if (strpos($src, 'http') !== false && (!@GetImageSize($src))) {
-	    $src = DIR_WS_IMAGES . DEFAULT_IMAGE;
-		$image = tep_image($src, $alt, $width, $height, $parameters);		
+    if ($src == '') {
+		$src = DIR_WS_IMAGES . DEFAULT_IMAGE;
+		$image = tep_image($src, $alt, $width, $height, $parameters);	
+	} elseif ( (strpos($src, 'http') !== false || strpos($src, 'https') !== false) && (@GetImageSize($src))) {
+	    $image = '<img src="' . tep_output_string($src) . '" border="0" alt="' . tep_output_string($alt) . '"';	
 	} else {
-		if (strpos($src, 'http') === false) $src = DIR_WS_IMAGES . $src;
+		if (strpos($src, 'http') === false && strpos($src, 'https') === false){
+		  $src = DIR_WS_IMAGES . $src;
+		} 
+            
+		$image = '<img src="' .  tep_output_string($src) . '" border="0" alt="' . tep_output_string($alt) . '" width="' . SMALL_IMAGE_WIDTH . '" height="' . SMALL_IMAGE_HEIGHT . '" ';
+		//EOF:10232013
+
+        if (tep_not_null($alt)) {
+          $image .= ' title=" ' . tep_output_string($alt) . ' "';
+        }
+    
+    
+        if (tep_not_null($parameters)) $image .= ' ' . $parameters;
+    
+        $image .= '>';
+    }
+    
+    return $image;
+  }
+  
+  function tep_image($src, $alt = '', $width = '', $height = '', $parameters = '') {
+    
+    if ( (empty($src) || ($src == DIR_WS_IMAGES)) && (IMAGE_REQUIRED == 'false') ) {
+        return false;
+    }
+    
+    if ( empty($src) || ($src == DIR_WS_IMAGES) || ($src != DIR_WS_IMAGES && (!file_exists(DIR_FS_CATALOG . $src))) ) {
+       $src = DIR_WS_IMAGES . DEFAULT_IMAGE;
+    } 
+    
+    
+// alt is added to the img tag even if it is null to prevent browsers from outputting
+// the image filename as default
     $image = '<img src="' . tep_output_string($src) . '" border="0" alt="' . tep_output_string($alt) . '"';
 
     if (tep_not_null($alt)) {
       $image .= ' title=" ' . tep_output_string($alt) . ' "';
     }
 
+    if ( (CONFIG_CALCULATE_IMAGE_SIZE == 'true') && (empty($width) || empty($height)) ) {
+      if ($image_size = @getimagesize($src)) {
+        if (empty($width) && tep_not_null($height)) {
+          $ratio = $height / $image_size[1];
+          $width = intval($image_size[0] * $ratio);
+        } elseif (tep_not_null($width) && empty($height)) {
+          $ratio = $width / $image_size[0];
+          $height = intval($image_size[1] * $ratio);
+        } elseif (empty($width) && empty($height)) {
+          $width = $image_size[0];
+          $height = $image_size[1];
+        }
+      } elseif (IMAGE_REQUIRED == 'false') {
+        return false;
+      }
+    }
+
+    if (tep_not_null($width) && tep_not_null($height)) {
+      $image .= ' width="' . tep_output_string($width) . '" height="' . tep_output_string($height) . '"';
+    }
 
     if (tep_not_null($parameters)) $image .= ' ' . $parameters;
 
     $image .= '>';
-    }
 
     return $image;
   }

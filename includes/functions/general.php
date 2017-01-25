@@ -1770,7 +1770,8 @@ function get_top_categories($limit){
 					}
 					if (tep_not_null($image['products_largeimage'])){
 						$pos = stripos($image['products_largeimage'], 'http');
-						if ($pos!==false && $pos===0){
+                        $pos_https = stripos($image['products_largeimage'], 'https'); // added on 17-01-2017
+						if ( ($pos!==false && $pos===0) || ($pos_https!==false && $pos_https===0)) { // added on 17-01-2017
 							if (@file_get_contents($image['products_largeimage'])){
 								$image_ok = true;
 							}
@@ -1848,7 +1849,7 @@ function getFeaturedProductsByGroup($featured_group){
 			
 			
 			
-            if ($feed_status && stripos($featured['products_largeimage'], 'http://')!==false){
+            if ($feed_status && (stripos($featured['products_largeimage'], 'http://')!==false || stripos($featured['products_largeimage'], 'https://')!==false) ){
 				
             
                 if (@getimagesize($featured['products_largeimage'])){

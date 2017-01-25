@@ -297,7 +297,7 @@ if (isset($_POST['action'])){
 
                 $data[0]['image'] = ((tep_not_null($info['products_largeimage'])) ? $info['products_largeimage'] : ((tep_not_null($info['products_mediumimage'])) ? $info['products_mediumimage'] : $info['products_image']));
                 
-                if (strpos($data[0]['image'], 'http://') === false) {
+                if (strpos($data[0]['image'], 'http://') === false || strpos($data[0]['image'], 'https://') === false) {
                     $data[0]['image'] = DIR_WS_IMAGES . $data[0]['image'];
                 }
 
