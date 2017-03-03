@@ -342,7 +342,7 @@ if ($listing_split->number_of_rows > 0)
 		$product_listing_template_1 = file("includes/sts_templates/".$selected_template."/product_listing_column.php");
 		$text_display = '';
 		$lc_text = implode('<br>', $product_contents);
-		$product_info_query = tep_db_query("select IF(p.products_bundle = 'no',p.products_quantity+p.store_quantity,p.products_quantity) as products_quantity from " . TABLE_PRODUCTS . " p  where p.products_id = '" . $listing[$x]['products_id'] . "'");
+		$product_info_query = tep_db_query("select (p.products_quantity+p.store_quantity) as products_quantity from " . TABLE_PRODUCTS . " p  where p.products_id = '" . $listing[$x]['products_id'] . "'");
 		$product_info_2 = tep_db_fetch_array($product_info_query);
 	
 			// Show in stock/out of stock status - OBN
@@ -436,7 +436,7 @@ if ($listing_split->number_of_rows > 0)
 		  }
 		// Begin - Descriptive Template
 		$lc_text = implode('<br>', $product_contents);
-		$product_info_query = tep_db_query("select IF(p.products_bundle = 'no',p.products_quantity+p.store_quantity,p.products_quantity) as products_quantity from " . TABLE_PRODUCTS . " p  where p.products_id = '" . $listing[$x]['products_id'] . "'");
+		$product_info_query = tep_db_query("select (p.products_quantity+p.store_quantity) as products_quantity from " . TABLE_PRODUCTS . " p  where p.products_id = '" . $listing[$x]['products_id'] . "'");
 		$product_info_2 = tep_db_fetch_array($product_info_query);
 	
 			// Show in stock/out of stock status - OBN
@@ -534,7 +534,7 @@ if ($listing_split->number_of_rows > 0)
 		$products_description = $description_result['products_description'];
 		// Begin - Descriptive Template
 		$lc_text = implode('<br>', $product_contents);
-		$product_info_query = tep_db_query("select IF(p.products_bundle = 'no',p.products_quantity+p.store_quantity,p.products_quantity) as products_quantity from " . TABLE_PRODUCTS . " p  where p.products_id = '" . $listing[$x]['products_id'] . "'");
+		$product_info_query = tep_db_query("select (p.products_quantity+p.store_quantity) as products_quantity from " . TABLE_PRODUCTS . " p  where p.products_id = '" . $listing[$x]['products_id'] . "'");
 		$product_info_2 = tep_db_fetch_array($product_info_query);
 	
 			// Show in stock/out of stock status - OBN
