@@ -51,11 +51,12 @@
         $order_total = $shipping_weight;
       }
 
-      $table_cost = explode("[:,]" , MODULE_SHIPPING_TABLE_COST);
+      $table_cost = explode("," , MODULE_SHIPPING_TABLE_COST);
       $size = sizeof($table_cost);
-      for ($i=0, $n=$size; $i<$n; $i+=2) {
-        if ($order_total <= $table_cost[$i]) {
-          $shipping = $table_cost[$i+1];
+      for ($i=0, $n=$size; $i<$n; $i++) {
+        $single_value = explode(':',$table_cost[$i]);
+        if ($order_total <= $single_value[0]) {
+          $shipping = $single_value[1];
           break;
         }
       }
