@@ -32,5 +32,5 @@ define('MY_POINTS_VIEW', 'View my Points Balance and Points received.');
 define('MY_POINTS_VIEW_HELP', 'Reward Point Program FAQ.');
 define('MY_POINTS_CURRENT_BALANCE', 'Shopping Points Balance : %s points. Valued at : %s ');
 // Points/Rewards Module V2.1rc2a EOF
-
+define('MY_ACCOUNT_WISHLIST', 'View My Wishlist.'); // added on 08-03-2017
 ?>

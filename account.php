@@ -90,6 +90,7 @@ function rowOutEffect(object) {
   $sts->template['account_notifications_url'] = tep_href_link(FILENAME_ACCOUNT_NOTIFICATIONS, '','SSL');
   $sts->template['my_points_url'] = tep_href_link(FILENAME_MY_POINTS, '', 'SSL');
   $sts->template['my_points_help_url'] = tep_href_link(FILENAME_MY_POINTS_HELP, '', 'SSL'); 
+  $sts->template['account_wishlist_url'] = tep_href_link(FILENAME_WISHLIST, '', 'SSL');
 
  /* if (tep_count_customer_orders() > 0) {
 ?>
@@ -171,6 +172,12 @@ function rowOutEffect(object) {
                   <tr>
                     <td class="main"><?php echo tep_image(DIR_WS_IMAGES . 'arrow_m.gif') . ' <a href="' . tep_href_link(FILENAME_ADDRESS_BOOK, '', 'SSL') . '">' . MY_ACCOUNT_ADDRESS_BOOK . '</a>'; ?></td>
                   </tr>
+                  <!-- added on 08-03-2017 #start -->
+                  <tr>
+                    <td class="main"><?php echo tep_image(DIR_WS_IMAGES . 'arrow_m.gif') . ' <a href="' . tep_href_link(FILENAME_WISHLIST, '', 'SSL') . '">' . MY_ACCOUNT_WISHLIST . '</a>'; ?></td>
+                  </tr>
+                  <!-- added on 08-03-2017 #ends -->
+
                   <tr>
                     <td class="main"><?php echo tep_image(DIR_WS_IMAGES . 'arrow_m.gif') . ' <a href="' . tep_href_link(FILENAME_ACCOUNT_PASSWORD, '', 'SSL') . '">' . MY_ACCOUNT_PASSWORD . '</a>'; ?></td>
                   </tr>
