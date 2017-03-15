@@ -886,10 +886,14 @@ if (is_array($_SESSION['filter_o']) && sizeof($_SESSION['filter_o'])>0) {
 
                             }
 
+                            $manufac_string = '';
                             if (isset($_SESSION['filter_m']) && !empty($_SESSION['filter_m'])){
-
-                                $where_str .= " and m.manufacturers_id in (" . implode(',', $_SESSION['filter_m']) . ") ";
-
+                                // added on 15-03-2017 #start
+                                $manufac_string = implode(',', $_SESSION['filter_m']);
+                                if(!empty($manufac_string)){
+                                    $where_str .= " and m.manufacturers_id in (" . $manufac_string . ") ";    
+                                }
+                                // added on 15-03-2017 #ends
                             }
 
 
