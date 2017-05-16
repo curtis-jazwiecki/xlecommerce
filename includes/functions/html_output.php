@@ -436,7 +436,7 @@ if (SEO_ENABLED == 'true') { //run chemo's code
 // alt is added to the img tag even if it is null to prevent browsers from outputting
 // the image filename as default
     if ( (strpos($src, 'https') !== false || strpos($src, 'http') !== false) && (@GetImageSize($src))) {
-	    $image = '<img src="' . tep_output_string($src) . '" border="0" alt="' . tep_output_string($alt) . '"';		
+	    $image = '<img src="' . tep_output_string($src) . '" border="0" alt="' . tep_output_string($alt) . '" />';		
 	} else {
 		
         if(empty($src)){
@@ -475,7 +475,7 @@ if (SEO_ENABLED == 'true') { //run chemo's code
 		$src = DIR_WS_IMAGES . DEFAULT_IMAGE;
 		$image = tep_image($src, $alt, $width, $height, $parameters);	
 	} elseif ( (strpos($src, 'http') !== false || strpos($src, 'https') !== false) && (@GetImageSize($src))) {
-	    $image = '<img src="' . tep_output_string($src) . '" border="0" alt="' . tep_output_string($alt) . '"';	
+	    $image = '<img src="' . tep_output_string($src) . '" border="0" alt="' . tep_output_string($alt) . '" />';
 	} else {
 		if (strpos($src, 'http') === false && strpos($src, 'https') === false){
 		  $src = DIR_WS_IMAGES . $src;
