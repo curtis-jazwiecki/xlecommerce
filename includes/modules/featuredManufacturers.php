@@ -13,7 +13,7 @@ $m_array = explode(",",featured_manufacturer);
 
 if(sizeof($m_array) >0){
 	
-$featuredManufacturers = tep_db_query("select p.products_id,p.products_image,p.products_price,p.products_tax_class_id, pd.products_name from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = pd.products_id and pd.language_id = '" . $languages_id . "' and p.manufacturers_id IN (".substr(featured_manufacturer,0,-1).") order by pd.products_name LIMIT 0 ,".FEATURED_MANUFACTURER); //ORDER BY p.reviews_rating DESC
+$featuredManufacturers = tep_db_query("select p.products_id,p.products_image,p.products_price,p.products_tax_class_id, pd.products_name from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = pd.products_id and pd.language_id = '" . $languages_id . "' and p.manufacturers_id IN (".featured_manufacturer.") order by pd.products_name LIMIT 0 ,".FEATURED_MANUFACTURER); //ORDER BY p.reviews_rating DESC
 
 // EOF Separate Pricing Per Customer
 $num_featuredManufacturers = tep_db_num_rows($featuredManufacturers);
